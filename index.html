@@ -990,16 +990,24 @@
             });
         }
 
-        // Load questions from JSON file
+        // Load questions - prioritize embedded data for reliability
         async function loadQuestions() {
+            // Always use embedded questions for maximum compatibility
+            console.log('✅ Loading embedded questions data...');
+            loadSampleQuestions();
+            
+            // Optionally try to load from JSON file as enhancement (don't wait for it)
             try {
                 const response = await fetch('questions.json');
-                questionsData = await response.json();
-                renderAllSections();
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    console.log('✅ Enhanced with JSON questions data');
+                    questionsData = jsonData;
+                    renderAllSections();
+                }
             } catch (error) {
-                console.error('Error loading questions:', error);
-                // Fallback to sample data if JSON file not found
-                loadSampleQuestions();
+                console.log('ℹ️ Using embedded questions (JSON not available):', error.message);
+                // Already using embedded questions, so this is fine
             }
         }
 
