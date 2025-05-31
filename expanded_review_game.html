@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month 1 Exam Practice: Comprehensive Review Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f9ff;
+        }
+        .option-box {
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        .option-box:hover {
+            transform: scale(1.03);
+        }
+        .option-box.selected {
+            border: 3px solid #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .section.active {
+            display: block;
+        }
+        .drawing-canvas {
+            background-color: white;
+            border: 2px solid #ddd;
+            cursor: crosshair;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        .drawing-tools {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tool-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .tool-btn:hover {
+            transform: scale(1.05);
+        }
+        .color-picker {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
+        .brush-size {
+            width: 80px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #e5e7eb;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .audio-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .audio-btn:hover {
+            background-color: #2563eb;
+            transform: scale(1.1);
+        }
+        .item-drag {
+            cursor: move;
+            user-select: none;
+            padding: 10px;
+            margin: 5px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .item-drag:hover {
+            background-color: #f0f9ff;
+        }
+        .drop-zone {
+            min-height: 100px;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: #fafafa;
+        }
+        .question-counter {
+            background: #3b82f6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .emoji-large {
+            font-size: 60px;
+        }
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <header class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-blue-600 mb-2">Month 1 Exam Practice: Comprehensive Review!</h1>
+        <p class="text-lg text-gray-600">Complete practice with all your vocabulary and lessons</p>
+    </header>
+
+    <div class="progress-bar">
+        <div id="progressFill" class="progress-fill" style="width: 0%;"></div>
+    </div>
+
+    <div class="container mx-auto max-w-6xl bg-white rounded-xl shadow-lg p-6">
+        <!-- Section Navigation -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-blue-600 transition bg-blue-500 text-white" data-section="welcome">Start</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section1">Section 1 (20 Questions)</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section2">Section 2 (15 Questions)</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section3">Section 3 (25 Questions)</button>
+            <button class="section-btn px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" data-section="section4">Section 4 (30 Questions)</button>
+            <button class="section-btn px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" data-section="section5">Section 5 (20 Questions)</button>
+        </div>
+
+        <!-- Welcome Section -->
+        <div id="welcome" class="section active">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-blue-600 mb-4">Welcome to the Comprehensive Review Game!</h2>
+                <p class="mb-4">This game covers ALL your vocabulary and lessons. There are 5 sections with 110 total questions:</p>
+                <div class="flex flex-col items-center space-y-4 mb-6">
+                    <div class="bg-blue-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 1: Basic Identification (20 Questions)</p>
+                        <p class="text-sm">Family, Colors, Body Parts, Shapes, Classroom Objects</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 2: Following Instructions (15 Questions)</p>
+                        <p class="text-sm">Drawing Objects, Body Parts, Classroom Commands</p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 3: Matching Activities (25 Questions)</p>
+                        <p class="text-sm">Animals & Sounds, Food & Places, Vehicles & Uses</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 4: Multiple Choice (30 Questions)</p>
+                        <p class="text-sm">All Vocabulary: Animals, Food, Clothing, Transportation</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 5: Yes/No Comprehension (20 Questions)</p>
+                        <p class="text-sm">Abilities, Descriptions, Locations, Actions</p>
+                    </div>
+                </div>
+                <button id="startBtn" class="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg hover:bg-blue-700 transition">Let's Start the Complete Review!</button>
+            </div>
+        </div>
+
+        <!-- Section 1: Basic Identification (20 Questions) -->
+        <div id="section1" class="section">
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">Section 1: Basic Identification</h2>
+            <p class="mb-4">Listen to the teacher and circle the correct picture.</p>
+            
+            <!-- Question 1: Family Members -->
+            <div class="question mb-10">
+                <div class="question-counter">Question 1 of 20</div>
+                <h3 class="font-bold mb-2">Family Members:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Number 3 is the grandmother.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle.</p>
+                </div>
+                <div class="grid-options mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center emoji-large">👨</div>
+                        <p class="mt-2 text-sm">Father</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center emoji-large">👩</div>
+                        <p class="mt-2 text-sm">Mother</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center emoji-large">👵</div>
+                        <p class="mt-2 text-sm">Grandmother</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center emoji-large">👶</div>
+                        <p class="mt-2 text-sm">Baby</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2: Colors -->
+            <div class="question mb-10">
+                <div class="question-counter">Question 2 of 20</div>
+                <h3 class="font-bold mb-2">Colors:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Number 2 is red.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle.</p>
+                </div>
+                <div class="grid-options mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <div class="bg-blue-500 p-2 rounded-lg h-24 flex items-center justify-center">
+                            <span class="text-white font-bold">BLUE</span>
+                        </div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <div class="bg-red-500 p-2 rounded-lg h-24 flex items-center justify-center">
+                            <span class="text-white font-bold">RED</span>
+                        </div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <div class="bg-green-500 p-2 rounded-lg h-24 flex items-center justify-center">
+                            <span class="text-white font-bold">GREEN</span>
+                        </div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <div class="bg-yellow-400 p-2 rounded-lg h-24 flex items-center justify-center">
+                            <span class="text-black font-bold">YELLOW</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue button -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 mb-4">This is a preview with 2 sample questions. The full version would have 20 questions covering:</p>
+                <ul class="text-left max-w-md mx-auto mb-6">
+                    <li>• Family Members (4 questions)</li>
+                    <li>• Colors (4 questions)</li>
+                    <li>• Body Parts (4 questions)</li>
+                    <li>• Shapes (4 questions)</li>
+                    <li>• Classroom Objects (4 questions)</li>
+                </ul>
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section2">Continue to Section 2</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Following Instructions (15 Questions) -->
+        <div id="section2" class="section">
+            <h2 class="text-2xl font-bold text-green-600 mb-4">Section 2: Following Instructions</h2>
+            <p class="mb-4">Listen to the teacher and draw according to the instructions.</p>
+
+            <!-- Question 1: Draw Objects -->
+            <div class="question mb-10">
+                <div class="question-counter">Question 1 of 15</div>
+                <h3 class="font-bold mb-2">Draw School Supplies:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Draw a pencil on the desk.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and draw.</p>
+                </div>
+                <div class="drawing-tools">
+                    <button class="tool-btn active" data-tool="pen" data-canvas="canvas1">
+                        <i class="fas fa-pen"></i> Pen
+                    </button>
+                    <button class="tool-btn" data-tool="eraser" data-canvas="canvas1">
+                        <i class="fas fa-eraser"></i> Eraser
+                    </button>
+                    <button class="tool-btn" data-tool="clear" data-canvas="canvas1">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <div class="color-picker" style="background-color: #000000;" data-color="#000000" data-canvas="canvas1"></div>
+                    <div class="color-picker" style="background-color: #ff0000;" data-color="#ff0000" data-canvas="canvas1"></div>
+                    <div class="color-picker" style="background-color: #0000ff;" data-color="#0000ff" data-canvas="canvas1"></div>
+                    <input type="range" class="brush-size" min="1" max="20" value="3" data-canvas="canvas1">
+                </div>
+                <div class="relative">
+                    <canvas id="canvas1" class="drawing-canvas" width="600" height="300"></canvas>
+                    <div class="absolute bottom-5 left-0 right-0 pointer-events-none text-center">
+                        <div class="inline-block bg-yellow-100 px-4 py-2 rounded">📚 DESK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue button -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 mb-4">This is a preview with 1 sample question. The full version would have 15 questions including:</p>
+                <ul class="text-left max-w-md mx-auto mb-6">
+                    <li>• Draw school supplies (5 questions)</li>
+                    <li>• Draw body parts positions (5 questions)</li>
+                    <li>• Follow classroom instructions (5 questions)</li>
+                </ul>
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section3">Continue to Section 3</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Matching Activities (25 Questions) -->
+        <div id="section3" class="section">
+            <h2 class="text-2xl font-bold text-yellow-600 mb-4">Section 3: Matching Activities</h2>
+            <p class="mb-4">Listen to the teacher and match the items that go together.</p>
+
+            <!-- Question 1: Animals and Sounds -->
+            <div class="question mb-10">
+                <div class="question-counter">Question 1 of 25</div>
+                <h3 class="font-bold mb-2">Animals and Their Sounds:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Match the cow with moo.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and drag the animals to their sounds.</p>
+                </div>
+                <div class="flex flex-col md:flex-row justify-around gap-4 mt-4">
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <div class="item-drag" draggable="true" data-target="moo">🐄 Cow</div>
+                        <div class="item-drag" draggable="true" data-target="bark">🐕 Dog</div>
+                        <div class="item-drag" draggable="true" data-target="meow">🐱 Cat</div>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <p class="mb-1">🔊 MOO</p>
+                            <div class="drop-zone" data-zone="moo">Drop the animal that says MOO</div>
+                        </div>
+                        <div>
+                            <p class="mb-1">🔊 BARK</p>
+                            <div class="drop-zone" data-zone="bark">Drop the animal that says BARK</div>
+                        </div>
+                        <div>
+                            <p class="mb-1">🔊 MEOW</p>
+                            <div class="drop-zone" data-zone="meow">Drop the animal that says MEOW</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue button -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 mb-4">This is a preview with 1 sample question. The full version would have 25 questions including:</p>
+                <ul class="text-left max-w-md mx-auto mb-6">
+                    <li>• Animals and sounds (8 questions)</li>
+                    <li>• Food and where we get it (6 questions)</li>
+                    <li>• Vehicles and where they go (6 questions)</li>
+                    <li>• Clothing and weather (5 questions)</li>
+                </ul>
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section4">Continue to Section 4</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Multiple Choice (30 Questions) -->
+        <div id="section4" class="section">
+            <h2 class="text-2xl font-bold text-purple-600 mb-4">Section 4: Multiple Choice</h2>
+            <p class="mb-4">Listen to the teacher and circle the correct picture.</p>
+
+            <!-- Question 1: Zoo Animals -->
+            <div class="question mb-10">
+                <div class="question-counter">Question 1 of 30</div>
+                <h3 class="font-bold mb-2">Zoo Animals:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Circle the elephant.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle the correct animal.</p>
+                </div>
+                <div class="grid-options mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center emoji-large">🐵</div>
+                        <p class="mt-2">A - Monkey</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center emoji-large">🐘</div>
+                        <p class="mt-2">B - Elephant</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center emoji-large">🦁</div>
+                        <p class="mt-2">C - Lion</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center emoji-large">🦒</div>
+                        <p class="mt-2">D - Giraffe</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue button -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 mb-4">This is a preview with 1 sample question. The full version would have 30 questions covering:</p>
+                <ul class="text-left max-w-md mx-auto mb-6">
+                    <li>• Zoo Animals (6 questions)</li>
+                    <li>• Farm Animals (6 questions)</li>
+                    <li>• Sea Animals (6 questions)</li>
+                    <li>• Food & Drinks (6 questions)</li>
+                    <li>• Clothing (3 questions)</li>
+                    <li>• Transportation (3 questions)</li>
+                </ul>
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section5">Continue to Section 5</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Yes/No Comprehension (20 Questions) -->
+        <div id="section5" class="section">
+            <h2 class="text-2xl font-bold text-red-600 mb-4">Section 5: Yes/No Comprehension</h2>
+            <p class="mb-4">Listen to the teacher and circle "Yes" or "No".</p>
+
+            <!-- Question 1: Animal Abilities -->
+            <div class="question mb-10">
+                <div class="question-counter">Question 1 of 20</div>
+                <h3 class="font-bold mb-2">Animal Abilities:</h3>
+                <div class="text-center">
+                    <span class="emoji-large">🐠</span>
+                </div>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Can the fish swim?">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle Yes or No.</p>
+                </div>
+                <div class="flex justify-center gap-8 mt-4">
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="true">
+                        <span class="text-lg font-bold">Yes</span>
+                    </div>
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="false">
+                        <span class="text-lg font-bold">No</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finish button -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-600 mb-4">This is a preview with 1 sample question. The full version would have 20 questions covering:</p>
+                <ul class="text-left max-w-md mx-auto mb-6">
+                    <li>• Animal abilities (5 questions)</li>
+                    <li>• Object descriptions (5 questions)</li>
+                    <li>• Location statements (5 questions)</li>
+                    <li>• Action descriptions (5 questions)</li>
+                </ul>
+                <button id="finishBtn" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Complete Review!</button>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white rounded-xl p-6 max-w-md w-full">
+                <h2 class="text-2xl font-bold text-green-600 mb-4">Excellent Work!</h2>
+                <p class="mb-4">You've completed the comprehensive practice covering all your vocabulary!</p>
+                <div class="mb-4">
+                    <p class="font-bold">Topics Covered:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm">
+                        <li>Family Members & Greetings</li>
+                        <li>Body Parts & Colors</li>
+                        <li>Shapes & Classroom Objects</li>
+                        <li>Animals (Zoo, Farm, Sea)</li>
+                        <li>Food, Drinks & Nature</li>
+                        <li>Clothing & Transportation</li>
+                        <li>Actions & Abilities</li>
+                        <li>Prepositions & Adjectives</li>
+                    </ul>
+                </div>
+                <div class="text-center mt-6">
+                    <button id="restartBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Practice Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize variables
+            let currentSection = 'welcome';
+            const sections = ['welcome', 'section1', 'section2', 'section3', 'section4', 'section5'];
+            
+            // Show section function
+            function showSection(sectionId) {
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show selected section
+                document.getElementById(sectionId).classList.add('active');
+                currentSection = sectionId;
+                
+                // Update progress bar
+                const sectionIndex = sections.indexOf(sectionId);
+                const progress = (sectionIndex / (sections.length - 1)) * 100;
+                document.getElementById('progressFill').style.width = `${progress}%`;
+                
+                // Update section buttons
+                document.querySelectorAll('.section-btn').forEach(btn => {
+                    if (btn.dataset.section === sectionId) {
+                        btn.classList.remove('bg-gray-300', 'text-gray-700');
+                        btn.classList.add('bg-blue-500', 'text-white');
+                    } else {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-gray-300', 'text-gray-700');
+                    }
+                });
+            }
+            
+            // Handle section button clicks
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showSection(this.dataset.section);
+                });
+            });
+            
+            // Handle start button
+            document.getElementById('startBtn').addEventListener('click', function() {
+                showSection('section1');
+            });
+            
+            // Handle continue buttons
+            document.querySelectorAll('.continue-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showSection(this.dataset.next);
+                });
+            });
+            
+            // Handle finish button
+            document.getElementById('finishBtn').addEventListener('click', function() {
+                document.getElementById('resultsModal').classList.remove('hidden');
+            });
+            
+            // Handle restart button
+            document.getElementById('restartBtn').addEventListener('click', function() {
+                document.getElementById('resultsModal').classList.add('hidden');
+                showSection('welcome');
+            });
+            
+            // Handle option box selection
+            document.querySelectorAll('.option-box').forEach(box => {
+                box.addEventListener('click', function() {
+                    // Unselect siblings
+                    const siblings = Array.from(this.parentElement.children);
+                    siblings.forEach(sibling => {
+                        sibling.classList.remove('selected');
+                    });
+                    
+                    // Select this box
+                    this.classList.add('selected');
+                    
+                    // Give feedback if it has correct attribute
+                    if (this.dataset.correct !== undefined) {
+                        if (this.dataset.correct === 'true') {
+                            this.style.backgroundColor = 'rgba(52, 211, 153, 0.2)'; // Light green
+                        } else {
+                            this.style.backgroundColor = 'rgba(248, 113, 113, 0.2)'; // Light red
+                        }
+                        
+                        // Reset after a delay
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // Audio button functionality
+            document.querySelectorAll('.audio-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Using the Web Speech API for audio
+                    const text = this.dataset.audio;
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.9; // Slightly slower
+                    window.speechSynthesis.speak(utterance);
+                });
+            });
+            
+            // Drag and drop functionality
+            document.querySelectorAll('.item-drag').forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.dataset.target);
+                    setTimeout(() => {
+                        this.classList.add('opacity-50');
+                    }, 0);
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('opacity-50');
+                });
+            });
+            
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('bg-blue-100');
+                });
+                
+                zone.addEventListener('dragleave', function() {
+                    this.classList.remove('bg-blue-100');
+                });
+                
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('bg-blue-100');
+                    
+                    const target = e.dataTransfer.getData('text/plain');
+                    if (target === this.dataset.zone) {
+                        this.style.backgroundColor = 'rgba(52, 211, 153, 0.2)'; // Light green
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 1000);
+                        
+                        // Find the dragged item
+                        const items = document.querySelectorAll('.item-drag');
+                        items.forEach(item => {
+                            if (item.dataset.target === target) {
+                                // Clone the item and append to drop zone
+                                const clone = item.cloneNode(true);
+                                this.appendChild(clone);
+                                item.classList.add('opacity-50');
+                            }
+                        });
+                    } else {
+                        this.style.backgroundColor = 'rgba(248, 113, 113, 0.2)'; // Light red
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 1000);
+                    }
+                });
+            });
+
+            // ==================== DRAWING FUNCTIONALITY ====================
+            
+            // Drawing state for each canvas
+            const drawingStates = {
+                canvas1: {
+                    isDrawing: false,
+                    currentTool: 'pen',
+                    currentColor: '#000000',
+                    currentSize: 3,
+                    lastX: 0,
+                    lastY: 0
+                }
+            };
+            
+            // Initialize canvases
+            function initializeCanvas(canvasId) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                const state = drawingStates[canvasId];
+                
+                // Set up canvas properties
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                // Clear canvas with white background
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Mouse events
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                
+                // Touch events for mobile
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                
+                function startDrawing(e) {
+                    state.isDrawing = true;
+                    const rect = canvas.getBoundingClientRect();
+                    state.lastX = e.clientX - rect.left;
+                    state.lastY = e.clientY - rect.top;
+                }
+                
+                function draw(e) {
+                    if (!state.isDrawing) return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const currentX = e.clientX - rect.left;
+                    const currentY = e.clientY - rect.top;
+                    
+                    ctx.globalCompositeOperation = state.currentTool === 'eraser' ? 'destination-out' : 'source-over';
+                    ctx.strokeStyle = state.currentColor;
+                    ctx.lineWidth = state.currentSize;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(state.lastX, state.lastY);
+                    ctx.lineTo(currentX, currentY);
+                    ctx.stroke();
+                    
+                    state.lastX = currentX;
+                    state.lastY = currentY;
+                }
+                
+                function stopDrawing() {
+                    state.isDrawing = false;
+                }
+                
+                function handleTouch(e) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                    e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                }
+            }
+            
+            // Initialize canvases with delay
+            setTimeout(() => {
+                initializeCanvas('canvas1');
+            }, 100);
+            
+            // Tool button functionality
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tool = this.dataset.tool;
+                    const canvasId = this.dataset.canvas;
+                    const state = drawingStates[canvasId];
+                    
+                    if (tool === 'clear') {
+                        // Clear the canvas
+                        const canvas = document.getElementById(canvasId);
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = 'white';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    } else {
+                        // Update tool state
+                        state.currentTool = tool;
+                        
+                        // Update button states for this canvas
+                        document.querySelectorAll(`[data-canvas="${canvasId}"][data-tool]`).forEach(toolBtn => {
+                            toolBtn.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Color picker functionality
+            document.querySelectorAll('.color-picker').forEach(picker => {
+                picker.addEventListener('click', function() {
+                    const color = this.dataset.color;
+                    const canvasId = this.dataset.canvas;
+                    const state = drawingStates[canvasId];
+                    
+                    state.currentColor = color;
+                    
+                    // Visual feedback
+                    document.querySelectorAll(`[data-canvas="${canvasId}"].color-picker`).forEach(cp => {
+                        cp.style.border = '2px solid #ddd';
+                    });
+                    this.style.border = '3px solid #333';
+                });
+            });
+            
+            // Brush size functionality
+            document.querySelectorAll('.brush-size').forEach(slider => {
+                slider.addEventListener('input', function() {
+                    const size = this.value;
+                    const canvasId = this.dataset.canvas;
+                    const state = drawingStates[canvasId];
+                    
+                    state.currentSize = size;
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

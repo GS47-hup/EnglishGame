@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://ljklcjrm.gensparkspace.com/ -->
+<html lang="en" class="trancy-und"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month 1 Exam Practice: Interactive Review Game</title>
+    <link href="./Month 1 Exam Practice_ Interactive Review Game_files/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./Month 1 Exam Practice_ Interactive Review Game_files/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f9ff;
+        }
+        .option-box {
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        .option-box:hover {
+            transform: scale(1.03);
+        }
+        .option-box.selected {
+            border: 3px solid #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .section.active {
+            display: block;
+        }
+        .drawing-area {
+            background-color: white;
+            border: 2px solid #ddd;
+        }
+        .drawing-canvas {
+            background-color: white;
+            border: 2px solid #ddd;
+            cursor: crosshair;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        .drawing-tools {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tool-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .tool-btn:hover {
+            transform: scale(1.05);
+        }
+        .color-picker {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
+        .brush-size {
+            width: 80px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #e5e7eb;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        .audio-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .audio-btn:hover {
+            background-color: #2563eb;
+            transform: scale(1.1);
+        }
+        .item-drag {
+            cursor: move;
+            user-select: none;
+            padding: 10px;
+            margin: 5px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .item-drag:hover {
+            background-color: #f0f9ff;
+        }
+        .drop-zone {
+            min-height: 100px;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: #fafafa;
+        }
+    </style>
+<style>
+    .genspark-notice-dialog {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10001;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .genspark-notice-content {
+      background-color: white;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 90%;
+      box-sizing: border-box;
+      padding: 10px 30px 30px 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+    }
+
+    .genspark-notice-title {
+      color: #000;
+      font-family: Arial;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; 
+    }
+
+    .genspark-notice-list {
+      margin: 24px 0;
+      
+      color: #606366;
+      font-family: Arial;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+      padding-left: 12px;
+    }
+
+    .genspark-notice-list li {
+      margin-bottom: 12px;
+      list-style-type: disc;
+    }
+
+    .genspark-notice-list li a {
+      color: #606366;
+      text-decoration: underline;
+    }
+
+    .genspark-notice-checkbox {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      gap: 10px;
+
+      color: #232425;
+
+      font-family: Arial;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .genspark-notice-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+      
+    .genspark-notice-ok {
+      color: #232425;
+
+      text-align: center;
+      font-family: Arial;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; 
+
+      cursor: pointer;
+      display: flex;
+      height: 40px;
+      padding: 6px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 8px;
+      border: 1px solid #000;
+      box-sizing: border-box;
+      width: 100%;
+    }
+  </style></head>
+<body class="p-4">
+    <header class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-blue-600 mb-2">Month 1 Exam Practice: Let's Review!</h1>
+        <p class="text-lg text-gray-600">This game will help you practice for your listening exam</p>
+    </header>
+
+    <div class="progress-bar">
+        <div id="progressFill" class="progress-fill" style="width: 60%;"></div>
+    </div>
+
+    <div class="container mx-auto max-w-4xl bg-white rounded-xl shadow-lg p-6">
+        <!-- Section Navigation -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-blue-600 transition bg-gray-300 text-gray-700" data-section="welcome">Start</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section1">Section 1</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section2">Section 2</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-blue-500 text-white" data-section="section3">Section 3</button>
+            <button class="section-btn px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" data-section="section4">Section 4</button>
+            <button class="section-btn px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" data-section="section5">Section 5</button>
+        </div>
+
+        <!-- Welcome Section -->
+        <div id="welcome" class="section">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-blue-600 mb-4">Welcome to the Review Game!</h2>
+                <p class="mb-4">This game will help you practice for your listening exam. There are 5 sections:</p>
+                <div class="flex flex-col items-center space-y-4 mb-6">
+                    <div class="bg-blue-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 1: Basic Identification</p>
+                        <p class="text-sm">Listen and circle the correct picture</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 2: Following Instructions</p>
+                        <p class="text-sm">Listen and draw according to instructions</p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 3: Matching Activities</p>
+                        <p class="text-sm">Listen and match items that go together</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 4: Multiple Choice</p>
+                        <p class="text-sm">Listen and choose the correct picture</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg w-full max-w-md">
+                        <p class="font-bold">Section 5: Yes/No Comprehension</p>
+                        <p class="text-sm">Listen and decide if statements are correct</p>
+                    </div>
+                </div>
+                <button id="startBtn" class="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg hover:bg-blue-700 transition">Let's Start!</button>
+            </div>
+        </div>
+
+        <!-- Section 1: Basic Identification -->
+        <div id="section1" class="section">
+            <h2 class="text-2xl font-bold text-blue-600 mb-4">Section 1: Basic Identification</h2>
+            <p class="mb-4">Listen to the teacher and circle the correct picture.</p>
+            
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Example:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Number 2 is a cat.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>"Number 2 is a cat."</p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                    <div class="option-box p-2 rounded-lg text-center">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">🐶</div>
+                    </div>
+                    <div class="option-box selected p-2 rounded-lg text-center">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">🐱</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">🐰</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 1:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Number 4 is a red pencil.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle.</p>
+                </div>
+                <div class="grid grid-cols-4 gap-4 mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">🖋️</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">🖊️</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">✏️</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">📍</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 2:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Number 3 is the grandmother.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle.</p>
+                </div>
+                <div class="grid grid-cols-4 gap-4 mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">1</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">👩‍🦰</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">2</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">👩‍🦱</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">3</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">👵</div>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">4</div>
+                        <div class="bg-gray-100 p-2 rounded-lg h-24 flex items-center justify-center">👧</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section2">Continue to Next Section</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Following Instructions -->
+        <div id="section2" class="section">
+            <h2 class="text-2xl font-bold text-green-600 mb-4">Section 2: Following Instructions</h2>
+            <p class="mb-4">Listen to the teacher and draw according to the instructions.</p>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Example:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Draw a circle under the table.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>"Draw a circle under the table."</p>
+                </div>
+                <div class="mb-2">
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <div class="flex justify-center">
+                            <div class="mb-6">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAOSSURBVHic7ZpNaBNBFMd/m6StbWyL+FEpHkTEkwcRFRE/8CsqXlTw4EepBz0IguJJEQQVRfCgUg9+IBbxJHgRRdGTVApWxaJIrR+1Tdqk3XXXw5tJJvtmJ2myM6nkB0uT2Zk3+//PvHkzO4GAgICAgICAgGYl5LcBAHFgChCebTzrNAyDgGV+GwggHreUcRRocUjPANPATaAKnAReBL78BvnqMObNxrORfhtiwTpghUPaVmA38B7IA13AKaConKMCo8BK4L7elgDDwDngOlABzgDfPbW8RizpvwpYA8wA91D+XcGMYD8wD9ftJXfjJC05pIeAHmAl0ANsUlyfA54C7cBJYEyv2w7kgCt6W6doYO0x3+sDZnXhmR/0lYm3wCW9vh94BkwADzF/yHAdLa6Wj0iJlpmAXQBdwC/gjt4eRwGcp/fHgLlAStIPAZ+BTTr/YFUj3kYfJb3TIa8NeK3zp/X+OmBUp1VRtaEF2KTzUkDR6yCoyl+xETgDjAAjwBngLJADPgJjhvNkPPgJPAIGUHX1HdALrELV2edAp6o9PtIPyKpQsElvBbbhPAQ2A0vd1/IRQxVIYQ5zqTBqO2az/RizYL8BO/W6DxrKrwL2+mm8hQhQVsokDZXGGYGk6PisZlnfXqgYUzaWro8poBj3yTXrveQESqN3WdLlxThsON9e4FtNlaZ+HSjw7ymtYMl/gaqTciJ8hRkJ0IsaPnO+mqYQaU/i7gB7gHniUpgB0g2GgE9YmJp2wBbgA3DPcslG6UaEHmAbKtTX1TVpp97Ol9RFXl1EGA0cAr64vHgj4upCKJswByDN/gPMR7GdDulWE1MYx+9w4Cobc5RI9QHvUFNge1NVWf+UXZRUK9Iu+roquAUmW/kI7NYrhBqK5KspYZ3+G/UKshb3pWmQdkAMWIyaJUqPX0W1MWm+qjVA0mSNlxlmK+a8YbVDnrQwamECc9z3OhRqXPi0a/NokwTKJkikSgy3AHdRawr/ajzqCJsUaF7Ze4BEQMMlCpYjLE2Q9JpsQt4adR69CJG/zrhBZhwhaU4RIG1QsqoEApKWtxQQBzQsAqTCspYocwQmrC6qJgJSmI+pxWENC6WQNxp13p2FB+gt5qNmQAsqHUJNoOxrbt3AA+AkKk6LMXUDB1CRIEFgZQMZlQPWoL4bUECtBE0CG4ALmE+UX1BrjJJfQU1nu4HnHtgaEBAQEBAQENAQ/gAUEVWPFofRJwAAAABJRU5ErkJggg==" alt="Table" class="mx-auto">
+                            </div>
+                        </div>
+                        <div class="flex justify-center">
+                            <div class="w-12 h-12 border-2 border-blue-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 1:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Draw a book on the desk.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and draw.</p>
+                </div>
+                <div class="drawing-tools">
+                    <button class="tool-btn active" data-tool="pen" data-canvas="canvas1">
+                        <i class="fas fa-pen"></i> Pen
+                    </button>
+                    <button class="tool-btn" data-tool="eraser" data-canvas="canvas1">
+                        <i class="fas fa-eraser"></i> Eraser
+                    </button>
+                    <button class="tool-btn" data-tool="clear" data-canvas="canvas1">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <div class="color-picker" style="background-color: #000000;" data-color="#000000" data-canvas="canvas1"></div>
+                    <div class="color-picker" style="background-color: #ff0000;" data-color="#ff0000" data-canvas="canvas1"></div>
+                    <div class="color-picker" style="background-color: #0000ff;" data-color="#0000ff" data-canvas="canvas1"></div>
+                    <div class="color-picker" style="background-color: #00ff00;" data-color="#00ff00" data-canvas="canvas1"></div>
+                    <input type="range" class="brush-size" min="1" max="20" value="3" data-canvas="canvas1">
+                </div>
+                <div class="relative">
+                    <canvas id="canvas1" class="drawing-canvas" width="600" height="300"></canvas>
+                    <div class="absolute bottom-5 left-0 right-0 pointer-events-none">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAFpSURBVHic7ZixTsMwFEXPU9UBFQYGNiZYGNj5LCZ+gi9i5wNY2dixsSAhMSAhUZUhhYWo0xHnHck6Q+wr2XHevfETQERERJYnKZ1A4Av4Bd6BDjiUTahEOjvJg3yUzadAujrJ63+8lU2pQPo4kM91yeTK5Kd28pvuVXnVGFN2BRyBF2DtS1+Nx3RHYAcY4A3YzKeMs3YvwA3wBLwBj8Ae2ACPwMeM9UtPYHWmzRroZxKw9/Ho/Tz0/XyNGTVTB6hlAj/AwGme0b/RA+zgPfC1oH0SqT2BnknSU+eVnkDPnfM8df7H/xOYO4FLqTnS2hPQBCzQBCzQBCzQBCzQBCzQBCzQBCzQBCzQBCywuBfoK1naAwzQ+RjGo0edj/vgeT7lPCneBnvGHeBt8Dpq8w28+jhX3X8JbIHtRJtXxk3R1L1ARP43Qb7M8Zl7dQ3+40AzDW2DiIiIiMgy/AE/C4YQ6rDFfQAAAABJRU5ErkJggg==" alt="Desk" class="mx-auto" style="width:80px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 2:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Draw a cat under the chair.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and draw.</p>
+                </div>
+                <div class="drawing-tools">
+                    <button class="tool-btn active" data-tool="pen" data-canvas="canvas2">
+                        <i class="fas fa-pen"></i> Pen
+                    </button>
+                    <button class="tool-btn" data-tool="eraser" data-canvas="canvas2">
+                        <i class="fas fa-eraser"></i> Eraser
+                    </button>
+                    <button class="tool-btn" data-tool="clear" data-canvas="canvas2">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <div class="color-picker" style="background-color: #000000;" data-color="#000000" data-canvas="canvas2"></div>
+                    <div class="color-picker" style="background-color: #ff0000;" data-color="#ff0000" data-canvas="canvas2"></div>
+                    <div class="color-picker" style="background-color: #0000ff;" data-color="#0000ff" data-canvas="canvas2"></div>
+                    <div class="color-picker" style="background-color: #00ff00;" data-color="#00ff00" data-canvas="canvas2"></div>
+                    <input type="range" class="brush-size" min="1" max="20" value="3" data-canvas="canvas2">
+                </div>
+                <div class="relative">
+                    <canvas id="canvas2" class="drawing-canvas" width="600" height="300"></canvas>
+                    <div class="absolute top-5 left-0 right-0 pointer-events-none">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAPHSURBVHic7ZpLiBxVFIa/U9XTncQYE40GXehCF4JJXOjKKIggiEYx4CIiuNGFoCIqIorEjYiuFBUVH4S4MKCCb9SFLtS4cCMGJQ8NmEzI+zGTTHdXHRc1PV3VfaqrZ7p7ZvpfNEx13Xvmnu/+59xzT50BESKVZH4fc9bOJ4FOoBnYC/w5wnpVDn8CDwGHRCAEvHXk7qc6pDM4CRgFfoOIQHPa3SXAtROo2USjE1gGEEgpBNc3AdQBlwE/AM3Aff73gURiNeAfYAYgGJJI3AR0AxuBDT7vU8T+V/Py3QZ8DDwFPAcsBm4Gvo1srweuBDbHnLnHgQexUyaU2Z1AbQXMqZTTPdOM6W4kB/yntFNjM5/8bm/kmFhixE/eR+2+1qANAAuAFbm2vgBQSmGN4Q9/8beAlcBhIqeNdfo2R+Rw7j6QmnoG8EeSzjlgJdAGbPV1JwGbgEziKN2F9cL0Wft1QEaE3VGoJJ8DM4G2nHVhhTHvRTQuBeb7+138vQ74JVJvXpziP999b/n7l/1VTrKdQNYHb4ww5yVgoytvjdkM3BFZ19QDfzhrHgJes9Zcja0GH0fG3QJsjOneLYr8JJa2/XdDzj+WjwCvYgtTrYy4iMKGjTLXsvLgZ+ADYEvOug7sRLolL6vF+NO/OuS9ly2yMiBRCMaKZWj3MExBFJRV1jlrjvjwB+D+HLkxZoF/74s+2AWh2hx9OR5+9s/LgGXAtfnTIf4mfXcmRe0sk6BJanOewP+KQCBwtDEGiICL9xUKIl+rDQtMAmvZ8QRqBCoClQQBU42TQCoRagQqAjkCL2JPV48TraQTmUngXf+MoCpDQBRpYlSJEJD8JafAaacaQyAOU42AqokvganuAxy1xq8I1YZxVYNKhkD8TlAXo+MWkHFLiOlnqu/SRMbF6ER3g3IQViYilduUJW0naCbfACQxMuw4aa9UGjwttALro/K0pnAKPAI8B1weZ9cq9/EMpx41j+My/0fgbh/fZwOdwpWH40O4mpIrQJXGtoAQyFqDulDRLMyLtrxRoxFgGrgN+Bp4FegBQqCe4+dKPYM9Xh/LEUjdglUbcyvBnwCrxA6aZEhKOkPzse86k1CI4Kw0eglnSbobtM4nlqoHcWlXYlfg/I+k2hCIPfCCz4B7/Ts3Ud4TEdQ8UZw1BhHwGRt++yfi2BlLzVeBcTsx8oeC8QTGx9QZsKM98nL/pEdkPPe0r8WlbIIRMCp3JyZ5mxnbEc5/H/fhY9j1LSrPGENGBBURBBKHgg9p4F1gNnYY/BpgXsXGVnFoB+YCX5QSLkrxd39FAYuJX9jUKB+H+J+OxJ8B/wK09jzMGQAlGwAAAABJRU5ErkJggg==" alt="Chair" class="mx-auto" style="width:80px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section3">Continue to Next Section</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Matching Activities -->
+        <div id="section3" class="section active">
+            <h2 class="text-2xl font-bold text-yellow-600 mb-4">Section 3: Matching Activities</h2>
+            <p class="mb-4">Listen to the teacher and match the items that go together.</p>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Example:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="The dog says woof">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>"The dog says woof"</p>
+                </div>
+                <div class="flex justify-center items-center gap-8 mt-4">
+                    <div class="text-center">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 w-24 flex items-center justify-center">🐕</div>
+                    </div>
+                    <div>
+                        <hr class="border-2 border-blue-500 w-16">
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 w-24 flex items-center justify-center">
+                            <span class="text-lg font-bold">WOOF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 1:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Connect the pencil with the pencil case.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and draw a line to match.</p>
+                </div>
+                <div class="flex justify-around items-center mt-4">
+                    <div class="left-col flex flex-col space-y-6">
+                        <div class="option-match bg-gray-100 p-4 rounded-lg h-20 w-20 flex items-center justify-center" data-id="A">✏️</div>
+                        <div class="option-match bg-gray-100 p-4 rounded-lg h-20 w-20 flex items-center justify-center" data-id="B">📚</div>
+                        <div class="option-match bg-gray-100 p-4 rounded-lg h-20 w-20 flex items-center justify-center" data-id="C">🧢</div>
+                    </div>
+                    <div class="right-col flex flex-col space-y-6 ml-32">
+                        <div class="option-match bg-gray-100 p-4 rounded-lg h-20 w-20 flex items-center justify-center" data-id="1">🎒</div>
+                        <div class="option-match bg-gray-100 p-4 rounded-lg h-20 w-20 flex items-center justify-center" data-id="2">🖍️</div>
+                        <div class="option-match bg-gray-100 p-4 rounded-lg h-20 w-20 flex items-center justify-center" data-id="3">👦</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 2:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Match the animals with their homes.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and drag the animals to their homes.</p>
+                </div>
+                <div class="flex flex-col md:flex-row justify-around gap-4 mt-4">
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <div class="item-drag" draggable="true" data-target="water">🐟 Fish</div>
+                        <div class="item-drag" draggable="true" data-target="tree">🐦 Bird</div>
+                        <div class="item-drag" draggable="true" data-target="farm">🐄 Cow</div>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <p class="mb-1">Farm</p>
+                            <div class="drop-zone" data-zone="farm">Drop farm animals here</div>
+                        </div>
+                        <div>
+                            <p class="mb-1">Water</p>
+                            <div class="drop-zone" data-zone="water">Drop water animals here</div>
+                        </div>
+                        <div>
+                            <p class="mb-1">Tree</p>
+                            <div class="drop-zone" data-zone="tree">Drop tree animals here</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section4">Continue to Next Section</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Multiple Choice -->
+        <div id="section4" class="section">
+            <h2 class="text-2xl font-bold text-purple-600 mb-4">Section 4: Multiple Choice</h2>
+            <p class="mb-4">Listen to the teacher and circle the correct picture.</p>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Example:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Circle the big blue ball.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>"Circle the big blue ball."</p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                    <div class="option-box p-2 rounded-lg text-center">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <span style="font-size:40px">🔴</span>
+                        </div>
+                        <p class="mt-2">A</p>
+                    </div>
+                    <div class="option-box selected p-2 rounded-lg text-center">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <span style="font-size:50px">🔵</span>
+                        </div>
+                        <p class="mt-2">B</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <span style="font-size:30px">🔵</span>
+                        </div>
+                        <p class="mt-2">C</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 1:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="Circle the girl wearing a red dress.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle the correct picture.</p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <span style="font-size:40px">👚</span>
+                        </div>
+                        <p class="mt-2">A</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <span style="font-size:40px">👗</span>
+                        </div>
+                        <p class="mt-2">B</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <span style="font-size:40px">👖</span>
+                        </div>
+                        <p class="mt-2">C</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 2:</h3>
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="The dog is under the table.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle the correct picture.</p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mt-4">
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <div class="relative">
+                                <span style="font-size:30px">🐕</span>
+                                <span style="font-size:30px; position:absolute; bottom:-20px; left:0">🪑</span>
+                            </div>
+                        </div>
+                        <p class="mt-2">A</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="false">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <div class="relative">
+                                <span style="font-size:30px">🪑</span>
+                                <span style="font-size:30px; position:absolute; bottom:-20px; left:0">🐕</span>
+                            </div>
+                        </div>
+                        <p class="mt-2">B</p>
+                    </div>
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="true">
+                        <div class="bg-gray-100 p-4 rounded-lg h-24 flex items-center justify-center">
+                            <div class="relative">
+                                <span style="font-size:30px">🪑</span>
+                                <span style="font-size:30px; position:absolute; top:-10px; left:0">🐕</span>
+                            </div>
+                        </div>
+                        <p class="mt-2">C</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="section5">Continue to Next Section</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Yes/No Comprehension -->
+        <div id="section5" class="section">
+            <h2 class="text-2xl font-bold text-red-600 mb-4">Section 5: Yes/No Comprehension</h2>
+            <p class="mb-4">Listen to the teacher and circle "Yes" or "No".</p>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Example:</h3>
+                <div class="text-center">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAMQSURBVHic7ZpNaBNBFMd/m9SkJqkWI1oQD4IHL4IKIl7qRQRBqQfxo1Dwekavngoe9FyKIF5E8FzFkyii4kHwUlERQbSCVVONJk1ik+7jsJPdTbKbTTa7s2n2B8Owb968N//3PmbeTAosFovFYrGMM8KwKooBCeBgGVkVKIaSjnZhCLPWa4ECMAt8B74CHf2NbYEP6n9e9r8A80AeJ2epauXGNICYen0KfANWcDJx3afORuCyev8A5/etwHHgIfBNXZsNJLUAdbZA3gU+EC5D8sBh4DPwFZgCHgMngXtquUX1+SGQAw4BZ4F5YAa4ChTaSWCzGRBPRZdxB18qG7ijvu8BTgHngT1AErirZBmcFXgBpHCy5q5ftsxVoZUMiKsLZ4F7JffWATuBw8At4D3OYKeBT+r7PNBTwsYysFVd26LuvQLOADP00alMKwE4DuwDrqjPBWCf+v5SLZe3RlqQ84BBnDJ4gyMDZIGHwGslazoTmgmAn71F4BTwFXgLXMQZ+CSmA1BibxlnlXdL0n5gd5k+TQVgFGezmywp59QtI+wE7gJLSliL6QCkmgjZosVeywHQyZ+GuKrcXwCWgI4a7ZoLgObecIJwH3MDFbuVTs+aprL+dzE3AM8CulYlGwwWiDDFYAC6AQXgjbpv3M5PVA/AVXWOA1mfNoHonAkkA+jTnvPA66DG6i2BNHBMvd8HPCA8TJfAko8eHTrGgAB3eiYzQOM5E2RSTdP5QXgD3Cy554t2OoGP6nzCp07LmK4CbVvdrFdMl4DFYrFYLJYQieoR+R/bkb8LzKp6C0AGp0MsAS9bsRv1ABSBz+p4q/4v4sT0nrrXNONU+yTIawECGm+nDuC425qm3Rqga34OYDBrs6nNKNCAOOVdbtbeZmCTbgOmpg0Dy8BDnF3nE4r/AFvxmQV9OAFwt8vHFFngIfASiOMc2LxS+pzE6UABWPhvr1qmD0c6+gJnD69pKgABpVMb1jaZ8RrREYDtOI9ct7jdNE0FcBBHxuaAF5r7j3oJeFnEaXSM7RPmMXW8o/J0QntnlMVisVgjb4A5QiUCPKIXKgAAAAAElFTkSuQmCC" alt="Three apples" class="mx-auto mb-4" style="width:100px">
+                </div>
+                
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="There are three apples.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>"There are three apples."</p>
+                </div>
+                <div class="flex justify-center gap-8 mt-4">
+                    <div class="option-box selected p-3 rounded-lg text-center px-8">
+                        <span class="text-lg font-bold">Yes</span>
+                    </div>
+                    <div class="option-box p-3 rounded-lg text-center px-8">
+                        <span class="text-lg font-bold">No</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 1:</h3>
+                <div class="text-center">
+                    <span style="font-size:60px">🐘</span>
+                </div>
+                
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="The elephant is small.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle Yes or No.</p>
+                </div>
+                <div class="flex justify-center gap-8 mt-4">
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="false">
+                        <span class="text-lg font-bold">Yes</span>
+                    </div>
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="true">
+                        <span class="text-lg font-bold">No</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question mb-10">
+                <h3 class="font-bold mb-2">Question 2:</h3>
+                <div class="text-center">
+                    <span style="font-size:60px">👕</span>
+                </div>
+                
+                <div class="flex items-center mb-2">
+                    <div class="audio-btn mr-3" data-audio="This is a shirt.">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                    <p>Listen and circle Yes or No.</p>
+                </div>
+                <div class="flex justify-center gap-8 mt-4">
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="true">
+                        <span class="text-lg font-bold">Yes</span>
+                    </div>
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="false">
+                        <span class="text-lg font-bold">No</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button id="finishBtn" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Finish Practice!</button>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white rounded-xl p-6 max-w-md w-full">
+                <h2 class="text-2xl font-bold text-green-600 mb-4">Great Job!</h2>
+                <p class="mb-4">You've completed the practice for your listening exam!</p>
+                <div class="mb-4">
+                    <p>Remember these sections for your real exam:</p>
+                    <ul class="list-disc pl-5 mt-2">
+                        <li>Basic Identification</li>
+                        <li>Following Instructions</li>
+                        <li>Matching Activities</li>
+                        <li>Multiple Choice</li>
+                        <li>Yes/No Comprehension</li>
+                    </ul>
+                </div>
+                <div class="text-center mt-6">
+                    <button id="restartBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Practice Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize variables
+            let currentSection = 'welcome';
+            const sections = ['welcome', 'section1', 'section2', 'section3', 'section4', 'section5'];
+            
+            // Show section function
+            function showSection(sectionId) {
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show selected section
+                document.getElementById(sectionId).classList.add('active');
+                currentSection = sectionId;
+                
+                // Update progress bar
+                const sectionIndex = sections.indexOf(sectionId);
+                const progress = (sectionIndex / (sections.length - 1)) * 100;
+                document.getElementById('progressFill').style.width = `${progress}%`;
+                
+                // Update section buttons
+                document.querySelectorAll('.section-btn').forEach(btn => {
+                    if (btn.dataset.section === sectionId) {
+                        btn.classList.remove('bg-gray-300', 'text-gray-700');
+                        btn.classList.add('bg-blue-500', 'text-white');
+                    } else {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-gray-300', 'text-gray-700');
+                    }
+                });
+            }
+            
+            // Handle section button clicks
+            document.querySelectorAll('.section-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showSection(this.dataset.section);
+                });
+            });
+            
+            // Handle start button
+            document.getElementById('startBtn').addEventListener('click', function() {
+                showSection('section1');
+            });
+            
+            // Handle continue buttons
+            document.querySelectorAll('.continue-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showSection(this.dataset.next);
+                });
+            });
+            
+            // Handle finish button
+            document.getElementById('finishBtn').addEventListener('click', function() {
+                document.getElementById('resultsModal').classList.remove('hidden');
+            });
+            
+            // Handle restart button
+            document.getElementById('restartBtn').addEventListener('click', function() {
+                document.getElementById('resultsModal').classList.add('hidden');
+                showSection('welcome');
+            });
+            
+            // Handle option box selection
+            document.querySelectorAll('.option-box').forEach(box => {
+                box.addEventListener('click', function() {
+                    // Unselect siblings
+                    const siblings = Array.from(this.parentElement.children);
+                    siblings.forEach(sibling => {
+                        sibling.classList.remove('selected');
+                    });
+                    
+                    // Select this box
+                    this.classList.add('selected');
+                    
+                    // Give feedback if it has correct attribute
+                    if (this.dataset.correct !== undefined) {
+                        if (this.dataset.correct === 'true') {
+                            this.style.backgroundColor = 'rgba(52, 211, 153, 0.2)'; // Light green
+                        } else {
+                            this.style.backgroundColor = 'rgba(248, 113, 113, 0.2)'; // Light red
+                        }
+                        
+                        // Reset after a delay
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // Audio button functionality
+            document.querySelectorAll('.audio-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Using the Web Speech API for audio
+                    const text = this.dataset.audio;
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.9; // Slightly slower
+                    window.speechSynthesis.speak(utterance);
+                });
+            });
+            
+            // Drag and drop functionality
+            document.querySelectorAll('.item-drag').forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.dataset.target);
+                    setTimeout(() => {
+                        this.classList.add('opacity-50');
+                    }, 0);
+                });
+                
+                item.addEventListener('dragend', function() {
+                    this.classList.remove('opacity-50');
+                });
+            });
+            
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('bg-blue-100');
+                });
+                
+                zone.addEventListener('dragleave', function() {
+                    this.classList.remove('bg-blue-100');
+                });
+                
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('bg-blue-100');
+                    
+                    const target = e.dataTransfer.getData('text/plain');
+                    if (target === this.dataset.zone) {
+                        this.style.backgroundColor = 'rgba(52, 211, 153, 0.2)'; // Light green
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 1000);
+                        
+                        // Find the dragged item
+                        const items = document.querySelectorAll('.item-drag');
+                        items.forEach(item => {
+                            if (item.dataset.target === target) {
+                                // Clone the item and append to drop zone
+                                const clone = item.cloneNode(true);
+                                this.appendChild(clone);
+                                item.classList.add('opacity-50');
+                            }
+                        });
+                    } else {
+                        this.style.backgroundColor = 'rgba(248, 113, 113, 0.2)'; // Light red
+                        setTimeout(() => {
+                            this.style.backgroundColor = '';
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // ==================== DRAWING FUNCTIONALITY ====================
+            
+            // Drawing state for each canvas
+            const drawingStates = {
+                canvas1: {
+                    isDrawing: false,
+                    currentTool: 'pen',
+                    currentColor: '#000000',
+                    currentSize: 3,
+                    lastX: 0,
+                    lastY: 0
+                },
+                canvas2: {
+                    isDrawing: false,
+                    currentTool: 'pen',
+                    currentColor: '#000000',
+                    currentSize: 3,
+                    lastX: 0,
+                    lastY: 0
+                }
+            };
+            
+            // Initialize canvases
+            function initializeCanvas(canvasId) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                const state = drawingStates[canvasId];
+                
+                // Set up canvas properties
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                // Clear canvas with white background
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Mouse events
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                
+                // Touch events for mobile
+                canvas.addEventListener('touchstart', handleTouch);
+                canvas.addEventListener('touchmove', handleTouch);
+                canvas.addEventListener('touchend', stopDrawing);
+                
+                function startDrawing(e) {
+                    state.isDrawing = true;
+                    const rect = canvas.getBoundingClientRect();
+                    state.lastX = e.clientX - rect.left;
+                    state.lastY = e.clientY - rect.top;
+                }
+                
+                function draw(e) {
+                    if (!state.isDrawing) return;
+                    
+                    const rect = canvas.getBoundingClientRect();
+                    const currentX = e.clientX - rect.left;
+                    const currentY = e.clientY - rect.top;
+                    
+                    ctx.globalCompositeOperation = state.currentTool === 'eraser' ? 'destination-out' : 'source-over';
+                    ctx.strokeStyle = state.currentColor;
+                    ctx.lineWidth = state.currentSize;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(state.lastX, state.lastY);
+                    ctx.lineTo(currentX, currentY);
+                    ctx.stroke();
+                    
+                    state.lastX = currentX;
+                    state.lastY = currentY;
+                }
+                
+                function stopDrawing() {
+                    state.isDrawing = false;
+                }
+                
+                function handleTouch(e) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                    e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                }
+            }
+            
+            // Initialize both canvases
+            setTimeout(() => {
+                initializeCanvas('canvas1');
+                initializeCanvas('canvas2');
+            }, 100);
+            
+            // Tool button functionality
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tool = this.dataset.tool;
+                    const canvasId = this.dataset.canvas;
+                    const state = drawingStates[canvasId];
+                    
+                    if (tool === 'clear') {
+                        // Clear the canvas
+                        const canvas = document.getElementById(canvasId);
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = 'white';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    } else {
+                        // Update tool state
+                        state.currentTool = tool;
+                        
+                        // Update button states for this canvas
+                        document.querySelectorAll(`[data-canvas="${canvasId}"][data-tool]`).forEach(toolBtn => {
+                            toolBtn.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Color picker functionality
+            document.querySelectorAll('.color-picker').forEach(picker => {
+                picker.addEventListener('click', function() {
+                    const color = this.dataset.color;
+                    const canvasId = this.dataset.canvas;
+                    const state = drawingStates[canvasId];
+                    
+                    state.currentColor = color;
+                    
+                    // Visual feedback
+                    document.querySelectorAll(`[data-canvas="${canvasId}"].color-picker`).forEach(cp => {
+                        cp.style.border = '2px solid #ddd';
+                    });
+                    this.style.border = '3px solid #333';
+                });
+            });
+            
+            // Brush size functionality
+            document.querySelectorAll('.brush-size').forEach(slider => {
+                slider.addEventListener('input', function() {
+                    const size = this.value;
+                    const canvasId = this.dataset.canvas;
+                    const state = drawingStates[canvasId];
+                    
+                    state.currentSize = size;
+                });
+            });
+            
+            // ==================== END DRAWING FUNCTIONALITY ====================
+        });
+    </script>
+
+
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDmNzz7tFY%2FPN8eCQ2LoY23wxF1kjiayEyovmDLGEl2Y6flrkryFsB4rXCiptZ5Dw6iFg67Q0bEIAzkA8%2B8iT9OmvTlJZVPFpBCvsOzbUcz7zHrOmkqD6Ylu7LWIMyuymKztgWfGzdKsT4F3iZdTuzh3y8ylPEZxK3%2FDiro645n3KUgL%2BYuOkhLEAcND3p%2FULdRL4cbFalLurNK3t7oRrqq5ghgH4sXXO3Dm8fkirXcs8SzZGKgX%2Bbk5edkxC0SrwsViebPuZqnxYVx5Mv9EmpkwxNK4oqDbizHx88cdL%2BieA%2BxvgB9YDFA4zdfpbWKilwVE02%2Bz%2BsWyrml4OdHy5MKE%2FmZGew%2BAFhiNvITPCHVm81KuzZQXw9JhIxozfZTD%2FYoqUAZjiwwIWpT3AQW99x51RnHsaTvVGJKA8gQpMkMuX%2FKEYh7T4aME5FwtWGEgQ%2FcbS%2FIMWXKLocve3vML%2FhFxc8V94Vg455nO5RL0nOcqf8cmecUXdQvV8khSfCZhsbA%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDmNzz7tFY/PN8eCQ2LoY23wxF1kjiayEyovmDLGEl2Y6flrkryFsB4rXCiptZ5Dw6iFg67Q0bEIAzkA8+8iT9OmvTlJZVPFpBCvsOzbUcz7zHrOmkqD6Ylu7LWIMyuymKztgWfGzdKsT4F3iZdTuzh3y8ylPEZxK3/Diro645n3KUgL+YuOkhLEAcND3p/ULdRL4cbFalLurNK3t7oRrqq5ghgH4sXXO3Dm8fkirXcs8SzZGKgX+bk5edkxC0SrwsViebPuZqnxYVx5Mv9EmpkwxNK4oqDbizHx88cdL+ieA+xvgB9YDFA4zdfpbWKilwVE02+z+sWyrml4OdHy5MKE/mZGew+AFhiNvITPCHVm81KuzZQXw9JhIxozfZTD/YoqUAZjiwwIWpT3AQW99x51RnHsaTvVGJKA8gQpMkMuX/KEYh7T4aME5FwtWGEgQ/cbS/IMWXKLocve3vML/hFxc8V94Vg455nO5RL0nOcqf8cmecUXdQvV8khSfCZhsbA==";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="./Month 1 Exam Practice_ Interactive Review Game_files/notice_dialog.js.download"></script>
+    <div class="genspark-notice-dialog" style="display: none;">
+      <div class="genspark-notice-content">
+        <h2 class="genspark-notice-title">This site was created by a user, please note:</h2>
+        <ul class="genspark-notice-list">
+          <li>Content may contain inaccuracies, double-check information before use.</li>
+          <li>If you notice any inappropriate content on this site, please contact us at <a href="mailto:support@genspark.ai">support@genspark.ai</a>.</li>
+        </ul>
+        <div class="genspark-notice-checkbox">
+          <input type="checkbox" id="genspark-dont-show">
+          <label for="genspark-dont-show">Don't show this message again.</label>
+        </div>
+        <div class="genspark-notice-actions">
+          <button class="genspark-notice-ok">OK</button>
+        </div>
+      </div>
+    </div></body><link rel="stylesheet" asset="eduser.css" href="chrome-extension://mjdbhokoopacimoekfgkcoogikbfgngb/assets/eduser.css"></html> 

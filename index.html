@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Month 1 Exam Practice - All 110 Questions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f9ff;
+        }
+        .option-box {
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        .option-box:hover {
+            transform: scale(1.03);
+        }
+        .option-box.selected {
+            border: 3px solid #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .section.active {
+            display: block;
+        }
+        .drawing-canvas {
+            background-color: white;
+            border: 2px solid #ddd;
+            cursor: crosshair;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+        .drawing-tools {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tool-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .color-picker {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
+        .item-drag {
+            cursor: move;
+            user-select: none;
+            padding: 10px;
+            margin: 5px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .drop-zone {
+            min-height: 80px;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            background-color: #fafafa;
+        }
+        .question-counter {
+            background: #3b82f6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .emoji-large {
+            font-size: 60px;
+        }
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        .audio-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .question-container {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .shape-box {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+        .color-box {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        /* Bonus Games Styles */
+        .family-slot {
+            width: 120px;
+            height: 100px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px;
+        }
+        
+        .family-member {
+            background-color: #e0f2fe;
+            border: 2px solid #0284c7;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: move;
+        }
+        
+        .color-bin {
+            min-height: 150px;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .sortable-object {
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: move;
+            transition: all 0.3s;
+        }
+        
+        .sortable-object:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .number-option {
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .number-option:hover {
+            transform: scale(1.05);
+            border-color: #3b82f6;
+        }
+        
+        .number-card {
+            width: 80px;
+            height: 80px;
+            background-color: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: move;
+            color: #92400e;
+        }
+        
+        .quantity-slot {
+            min-height: 80px;
+            background-color: #f3f4f6;
+            border: 2px dashed #9ca3af;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            padding: 10px;
+        }
+        
+        .number-word-card {
+            width: 120px;
+            height: 60px;
+            background-color: #fdf2f8;
+            border: 2px solid #ec4899;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: move;
+            color: #be185d;
+        }
+        
+        .quantity-label {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .count-text {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .drag-over {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .correct-match {
+            background-color: rgba(52, 211, 153, 0.2);
+            border-color: #10b981;
+        }
+        
+        .incorrect-match {
+            background-color: rgba(248, 113, 113, 0.2);
+            border-color: #ef4444;
+        }
+        
+        .color-bin.active-target {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
+</head>
+<body class="p-4">
+    <header class="text-center mb-6">
+        <h1 class="text-3xl font-bold text-blue-600 mb-2">Complete Month 1 Exam Practice - All 110 Questions!</h1>
+        <p class="text-lg text-gray-600">Every vocabulary word from your curriculum</p>
+    </header>
+
+    <div class="container mx-auto max-w-6xl bg-white rounded-xl shadow-lg p-6">
+        <!-- Section Navigation -->
+        <div class="flex flex-wrap justify-center gap-2 mb-6">
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-blue-600 transition bg-blue-500 text-white" data-section="welcome">Start</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section1">Section 1 (20)</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section2">Section 2 (15)</button>
+            <button class="section-btn px-4 py-2 rounded-lg hover:bg-gray-400 transition bg-gray-300 text-gray-700" data-section="section3">Section 3 (25)</button>
+            <button class="section-btn px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" data-section="section4">Section 4 (30)</button>
+            <button class="section-btn px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition" data-section="section5">Section 5 (20)</button>
+            <div class="w-full my-2"></div>
+            <div class="text-center text-sm text-gray-600 w-full mb-2">🎮 Bonus Games:</div>
+            <button class="section-btn px-3 py-2 rounded-lg hover:bg-green-600 transition bg-green-500 text-white text-sm" data-section="familyTree">Family Tree</button>
+            <button class="section-btn px-3 py-2 rounded-lg hover:bg-purple-600 transition bg-purple-500 text-white text-sm" data-section="colorSort">Color Sort</button>
+            <button class="section-btn px-3 py-2 rounded-lg hover:bg-orange-600 transition bg-orange-500 text-white text-sm" data-section="counting">Counting</button>
+            <button class="section-btn px-3 py-2 rounded-lg hover:bg-red-600 transition bg-red-500 text-white text-sm" data-section="numberGame">Numbers</button>
+            <button class="section-btn px-3 py-2 rounded-lg hover:bg-pink-600 transition bg-pink-500 text-white text-sm" data-section="numberMatch">Number Match</button>
+        </div>
+
+        <!-- Welcome Section -->
+        <div id="welcome" class="section active">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold text-blue-600 mb-4">Ready for Complete Practice?</h2>
+                <p class="mb-4">This is the FULL version with all 110 questions covering every vocabulary word from your Month 1 curriculum!</p>
+                <p class="mb-6">🎮 <strong>Plus Bonus Games:</strong> Family Tree, Color Sorting, Counting, and Number Recognition activities!</p>
+                <button id="startBtn" class="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg hover:bg-blue-700 transition">Start Complete Review!</button>
+            </div>
+        </div>
+
+        <!-- Dynamic Sections (will be populated by JavaScript) -->
+        <div id="section1" class="section">
+            <div class="loading">Loading Section 1 questions...</div>
+        </div>
+        <div id="section2" class="section">
+            <div class="loading">Loading Section 2 questions...</div>
+        </div>
+        <div id="section3" class="section">
+            <div class="loading">Loading Section 3 questions...</div>
+        </div>
+        <div id="section4" class="section">
+            <div class="loading">Loading Section 4 questions...</div>
+        </div>
+        <div id="section5" class="section">
+            <div class="loading">Loading Section 5 questions...</div>
+        </div>
+
+        <!-- Bonus Game Sections -->
+        <div id="familyTree" class="section">
+            <h2 class="text-2xl font-bold mb-4 text-green-600">🌳 Family Tree Matching Game</h2>
+            <p class="mb-4">Drag family members to their correct positions on the family tree!</p>
+            
+            <div class="family-tree-container bg-green-50 p-6 rounded-lg">
+                <div class="tree-structure text-center">
+                    <!-- Grandparents Level -->
+                    <div class="grandparents-level mb-8">
+                        <h3 class="text-lg font-bold mb-4">Grandparents</h3>
+                        <div class="flex justify-center gap-8">
+                            <div class="family-slot drop-zone" data-family="grandmother">
+                                <div class="placeholder">👵<br>Grandmother</div>
+                            </div>
+                            <div class="family-slot drop-zone" data-family="grandfather">
+                                <div class="placeholder">👴<br>Grandfather</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Parents Level -->
+                    <div class="parents-level mb-8">
+                        <h3 class="text-lg font-bold mb-4">Parents</h3>
+                        <div class="flex justify-center gap-8">
+                            <div class="family-slot drop-zone" data-family="father">
+                                <div class="placeholder">👨<br>Father</div>
+                            </div>
+                            <div class="family-slot drop-zone" data-family="mother">
+                                <div class="placeholder">👩<br>Mother</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Children Level -->
+                    <div class="children-level">
+                        <h3 class="text-lg font-bold mb-4">Children</h3>
+                        <div class="flex justify-center gap-4">
+                            <div class="family-slot drop-zone" data-family="brother">
+                                <div class="placeholder">👦<br>Brother</div>
+                            </div>
+                            <div class="family-slot drop-zone" data-family="sister">
+                                <div class="placeholder">👧<br>Sister</div>
+                            </div>
+                            <div class="family-slot drop-zone" data-family="baby">
+                                <div class="placeholder">👶<br>Baby</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Family Members to Drag -->
+                <div class="family-members mt-8">
+                    <h3 class="text-lg font-bold mb-4 text-center">Drag these family members to the tree:</h3>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <div class="family-member item-drag" draggable="true" data-family="grandmother">👵 Grandmother</div>
+                        <div class="family-member item-drag" draggable="true" data-family="grandfather">👴 Grandfather</div>
+                        <div class="family-member item-drag" draggable="true" data-family="father">👨 Father</div>
+                        <div class="family-member item-drag" draggable="true" data-family="mother">👩 Mother</div>
+                        <div class="family-member item-drag" draggable="true" data-family="brother">👦 Brother</div>
+                        <div class="family-member item-drag" draggable="true" data-family="sister">👧 Sister</div>
+                        <div class="family-member item-drag" draggable="true" data-family="baby">👶 Baby</div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="resetFamilyTree" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Reset Tree</button>
+                    <button id="checkFamilyTree" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition ml-2">Check Answers</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="colorSort" class="section">
+            <h2 class="text-2xl font-bold mb-4 text-purple-600">🎨 Color Sorting Game</h2>
+            <p class="mb-4">Listen to the color word and drag objects to the correct color bins!</p>
+            
+            <div class="color-sort-container">
+                <!-- Audio Instruction -->
+                <div class="audio-controls text-center mb-6">
+                    <button id="playColorAudio" class="audio-btn text-2xl mr-4">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <span class="text-lg">Listen and drag the <span id="targetColorText" class="font-bold">RED</span> objects!</span>
+                </div>
+                
+                <!-- Color Bins with English Labels -->
+                <div class="color-bins grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="color-bin drop-zone" data-color="red" style="background-color: #fee2e2; border: 3px dashed #ef4444;">
+                        <div class="text-center p-4">
+                            <div style="width: 60px; height: 60px; background-color: #ef4444; margin: 0 auto; border-radius: 8px; margin-bottom: 10px;"></div>
+                            <p class="font-bold text-red-700 text-xl">RED</p>
+                        </div>
+                    </div>
+                    <div class="color-bin drop-zone" data-color="blue" style="background-color: #dbeafe; border: 3px dashed #3b82f6;">
+                        <div class="text-center p-4">
+                            <div style="width: 60px; height: 60px; background-color: #3b82f6; margin: 0 auto; border-radius: 8px; margin-bottom: 10px;"></div>
+                            <p class="font-bold text-blue-700 text-xl">BLUE</p>
+                        </div>
+                    </div>
+                    <div class="color-bin drop-zone" data-color="green" style="background-color: #d1fae5; border: 3px dashed #10b981;">
+                        <div class="text-center p-4">
+                            <div style="width: 60px; height: 60px; background-color: #10b981; margin: 0 auto; border-radius: 8px; margin-bottom: 10px;"></div>
+                            <p class="font-bold text-green-700 text-xl">GREEN</p>
+                        </div>
+                    </div>
+                    <div class="color-bin drop-zone" data-color="yellow" style="background-color: #fef3c7; border: 3px dashed #f59e0b;">
+                        <div class="text-center p-4">
+                            <div style="width: 60px; height: 60px; background-color: #f59e0b; margin: 0 auto; border-radius: 8px; margin-bottom: 10px;"></div>
+                            <p class="font-bold text-yellow-700 text-xl">YELLOW</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Objects to Sort -->
+                <div class="objects-to-sort">
+                    <h3 class="text-lg font-bold mb-4 text-center">Drag the objects to match the color you hear:</h3>
+                    <div class="flex flex-wrap justify-center gap-4" id="colorSortObjects">
+                        <div class="sortable-object item-drag" draggable="true" data-color="red">🍎 Red Apple</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="blue">🐋 Blue Whale</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="green">🐸 Green Frog</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="yellow">🌻 Yellow Sun</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="red">🚗 Red Car</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="blue">🐦 Blue Bird</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="green">🥬 Green Lettuce</div>
+                        <div class="sortable-object item-drag" draggable="true" data-color="yellow">🧀 Yellow Cheese</div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="nextColorInstruction" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">Next Color</button>
+                    <button id="resetColorSort" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition ml-2">Reset Game</button>
+                    <div class="score-display mt-4">
+                        <p class="text-lg">Score: <span id="colorSortScore">0</span> / <span id="colorSortTotal">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="counting" class="section">
+            <h2 class="text-2xl font-bold mb-4 text-orange-600">🔢 Counting Objects Game</h2>
+            <p class="mb-4">Count the objects in each group and choose the correct number!</p>
+            
+            <div class="counting-game">
+                <div id="countingQuestion" class="question-container">
+                    <!-- Dynamic counting questions will be inserted here -->
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="nextCountingQuestion" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition">Next Question</button>
+                    <button id="resetCounting" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition ml-2">Start Over</button>
+                </div>
+                
+                <div class="score-display text-center mt-4">
+                    <p class="text-lg">Score: <span id="countingScore">0</span> / <span id="countingTotal">0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="numberGame" class="section">
+            <h2 class="text-2xl font-bold mb-4 text-red-600">🎯 Number Recognition Game</h2>
+            <p class="mb-4">Listen to the number and click on the correct one!</p>
+            
+            <div class="number-recognition-game">
+                <div class="audio-controls text-center mb-6">
+                    <button id="playNumberAudio" class="audio-btn text-2xl mr-4">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <span class="text-lg">Click the number you hear!</span>
+                </div>
+                
+                <div class="number-options grid grid-cols-5 gap-4 max-w-md mx-auto">
+                    <div class="number-option option-box text-center p-4" data-number="1">
+                        <div class="text-4xl font-bold">1</div>
+                        <div class="text-sm">ONE</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="2">
+                        <div class="text-4xl font-bold">2</div>
+                        <div class="text-sm">TWO</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="3">
+                        <div class="text-4xl font-bold">3</div>
+                        <div class="text-sm">THREE</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="4">
+                        <div class="text-4xl font-bold">4</div>
+                        <div class="text-sm">FOUR</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="5">
+                        <div class="text-4xl font-bold">5</div>
+                        <div class="text-sm">FIVE</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="6">
+                        <div class="text-4xl font-bold">6</div>
+                        <div class="text-sm">SIX</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="7">
+                        <div class="text-4xl font-bold">7</div>
+                        <div class="text-sm">SEVEN</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="8">
+                        <div class="text-4xl font-bold">8</div>
+                        <div class="text-sm">EIGHT</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="9">
+                        <div class="text-4xl font-bold">9</div>
+                        <div class="text-sm">NINE</div>
+                    </div>
+                    <div class="number-option option-box text-center p-4" data-number="10">
+                        <div class="text-4xl font-bold">10</div>
+                        <div class="text-sm">TEN</div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="nextNumber" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">Next Number</button>
+                    <div class="score-display mt-4">
+                        <p class="text-lg">Score: <span id="numberScore">0</span> / <span id="numberTotal">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="numberMatch" class="section">
+            <h2 class="text-2xl font-bold mb-4 text-pink-600">🎲 English Number Matching</h2>
+            <p class="mb-4">Listen to the English number word and match it to the correct quantity!</p>
+            
+            <div class="number-matching-game">
+                <!-- Audio Instruction -->
+                <div class="audio-controls text-center mb-6">
+                    <button id="playNumberWordAudio" class="audio-btn text-2xl mr-4">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <span class="text-lg">Listen and drag the number word <span id="targetNumberWord" class="font-bold">ONE</span> to the correct quantity!</span>
+                </div>
+                
+                <div class="matching-pairs flex flex-col md:flex-row justify-around gap-8">
+                    <!-- English Number Words Column -->
+                    <div class="numbers-column">
+                        <h3 class="text-lg font-bold mb-4 text-center">English Number Words</h3>
+                        <div class="flex flex-col gap-4" id="numberWordsContainer">
+                            <div class="number-word-card item-drag" draggable="true" data-number="1">ONE</div>
+                            <div class="number-word-card item-drag" draggable="true" data-number="2">TWO</div>
+                            <div class="number-word-card item-drag" draggable="true" data-number="3">THREE</div>
+                            <div class="number-word-card item-drag" draggable="true" data-number="4">FOUR</div>
+                            <div class="number-word-card item-drag" draggable="true" data-number="5">FIVE</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quantities Column -->
+                    <div class="quantities-column">
+                        <h3 class="text-lg font-bold mb-4 text-center">Count the Objects</h3>
+                        <div class="flex flex-col gap-4">
+                            <div class="quantity-slot drop-zone" data-quantity="3">
+                                <span class="quantity-label">🐱 🐱 🐱</span>
+                                <span class="count-text">(How many cats?)</span>
+                            </div>
+                            <div class="quantity-slot drop-zone" data-quantity="1">
+                                <span class="quantity-label">🐶</span>
+                                <span class="count-text">(How many dogs?)</span>
+                            </div>
+                            <div class="quantity-slot drop-zone" data-quantity="5">
+                                <span class="quantity-label">⭐ ⭐ ⭐ ⭐ ⭐</span>
+                                <span class="count-text">(How many stars?)</span>
+                            </div>
+                            <div class="quantity-slot drop-zone" data-quantity="2">
+                                <span class="quantity-label">🎈 🎈</span>
+                                <span class="count-text">(How many balloons?)</span>
+                            </div>
+                            <div class="quantity-slot drop-zone" data-quantity="4">
+                                <span class="quantity-label">🍎 🍎 🍎 🍎</span>
+                                <span class="count-text">(How many apples?)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button id="nextNumberWord" class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition">Next Number</button>
+                    <button id="resetNumberMatch" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition ml-2">Reset Game</button>
+                    <div class="score-display mt-4">
+                        <p class="text-lg">Score: <span id="numberMatchScore">0</span> / <span id="numberMatchTotal">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white rounded-xl p-6 max-w-md w-full">
+                <h2 class="text-2xl font-bold text-green-600 mb-4">Excellent Work!</h2>
+                <p class="mb-4">You've completed all 110 questions covering every vocabulary word!</p>
+                <div class="text-center mt-6">
+                    <button id="restartBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Practice Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let questionsData = null;
+        let currentSection = 'welcome';
+        const sections = ['welcome', 'section1', 'section2', 'section3', 'section4', 'section5', 'familyTree', 'colorSort', 'counting', 'numberGame', 'numberMatch'];
+        
+        // Bonus Games Variables
+        let countingQuestions = [];
+        let currentCountingQuestion = 0;
+        let countingScore = 0;
+        let numberRecognitionScore = 0;
+        let numberRecognitionTotal = 0;
+        let currentTargetNumber = 1;
+        
+        // Color Sort Game Variables
+        let colorSortScore = 0;
+        let colorSortTotal = 0;
+        let currentTargetColor = 'red';
+        let colorSortColors = ['red', 'blue', 'green', 'yellow'];
+        let currentColorIndex = 0;
+        
+        // Number Match Game Variables
+        let numberMatchScore = 0;
+        let numberMatchTotal = 0;
+        let currentTargetNumberWord = 'ONE';
+        let numberWords = ['ONE', 'TWO', 'THREE', 'FOUR', 'FIVE'];
+        let currentNumberWordIndex = 0;
+        
+        // Initialize counting questions
+        function initCountingQuestions() {
+            const objects = ['🐱', '🐶', '🐸', '🦋', '🌸', '⭐', '🍎', '🎈'];
+            countingQuestions = [];
+            
+            for (let i = 1; i <= 10; i++) {
+                const objectType = objects[Math.floor(Math.random() * objects.length)];
+                const count = Math.floor(Math.random() * 10) + 1;
+                countingQuestions.push({
+                    object: objectType,
+                    count: count,
+                    question: `How many ${objectType} do you see?`
+                });
+            }
+        }
+        
+        // Color Sort Game Functions
+        function playColorInstruction() {
+            currentTargetColor = colorSortColors[currentColorIndex];
+            document.getElementById('targetColorText').textContent = currentTargetColor.toUpperCase();
+            
+            // Remove previous highlights
+            document.querySelectorAll('.color-bin').forEach(bin => {
+                bin.classList.remove('active-target');
+            });
+            
+            // Highlight target bin
+            document.querySelector(`[data-color="${currentTargetColor}"]`).classList.add('active-target');
+            
+            const utterance = new SpeechSynthesisUtterance(`Find all the ${currentTargetColor} objects`);
+            utterance.rate = 0.8;
+            window.speechSynthesis.speak(utterance);
+        }
+        
+        function nextColorInstruction() {
+            currentColorIndex = (currentColorIndex + 1) % colorSortColors.length;
+            playColorInstruction();
+        }
+        
+        function checkColorDrop(droppedItem, targetBin) {
+            const itemColor = droppedItem.dataset.color;
+            const binColor = targetBin.dataset.color;
+            colorSortTotal++;
+            
+            if (itemColor === binColor) {
+                colorSortScore++;
+                droppedItem.style.backgroundColor = 'rgba(52, 211, 153, 0.3)';
+                droppedItem.style.border = '2px solid #10b981';
+            } else {
+                droppedItem.style.backgroundColor = 'rgba(248, 113, 113, 0.3)';
+                droppedItem.style.border = '2px solid #ef4444';
+            }
+            
+            document.getElementById('colorSortScore').textContent = colorSortScore;
+            document.getElementById('colorSortTotal').textContent = colorSortTotal;
+        }
+        
+        // Number Match Game Functions
+        function playNumberWordInstruction() {
+            currentTargetNumberWord = numberWords[currentNumberWordIndex];
+            document.getElementById('targetNumberWord').textContent = currentTargetNumberWord;
+            
+            const utterance = new SpeechSynthesisUtterance(`Find the number word ${currentTargetNumberWord}`);
+            utterance.rate = 0.8;
+            window.speechSynthesis.speak(utterance);
+        }
+        
+        function nextNumberWord() {
+            currentNumberWordIndex = (currentNumberWordIndex + 1) % numberWords.length;
+            playNumberWordInstruction();
+        }
+        
+        function checkNumberWordDrop(droppedItem, targetSlot) {
+            const itemNumber = droppedItem.dataset.number;
+            const slotQuantity = targetSlot.dataset.quantity;
+            numberMatchTotal++;
+            
+            if (itemNumber === slotQuantity) {
+                numberMatchScore++;
+                targetSlot.style.backgroundColor = 'rgba(52, 211, 153, 0.3)';
+                targetSlot.style.border = '2px solid #10b981';
+            } else {
+                targetSlot.style.backgroundColor = 'rgba(248, 113, 113, 0.3)';
+                targetSlot.style.border = '2px solid #ef4444';
+            }
+            
+            document.getElementById('numberMatchScore').textContent = numberMatchScore;
+            document.getElementById('numberMatchTotal').textContent = numberMatchTotal;
+        }
+        
+        // Render counting question
+        function renderCountingQuestion() {
+            if (currentCountingQuestion >= countingQuestions.length) {
+                document.getElementById('countingQuestion').innerHTML = `
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-green-600">Great Job!</h3>
+                        <p class="text-lg">Final Score: ${countingScore} / ${countingQuestions.length}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const question = countingQuestions[currentCountingQuestion];
+            const objects = Array(question.count).fill(question.object).join(' ');
+            
+            document.getElementById('countingQuestion').innerHTML = `
+                <div class="text-center">
+                    <div class="audio-controls mb-4">
+                        <button class="audio-btn mr-3" data-audio="${question.question}">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <span class="text-lg">${question.question}</span>
+                    </div>
+                    <div class="objects-display text-6xl mb-6 p-4 bg-gray-50 rounded-lg">
+                        ${objects}
+                    </div>
+                    <div class="number-choices grid grid-cols-5 gap-2 max-w-md mx-auto">
+                        ${[1,2,3,4,5,6,7,8,9,10].map(num => `
+                            <button class="count-choice px-4 py-2 bg-white border-2 border-gray-300 rounded-lg hover:bg-blue-100 text-lg font-bold" data-count="${num}">
+                                ${num}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('countingTotal').textContent = countingQuestions.length;
+        }
+        
+        // Initialize drag and drop for all games
+        function initDragAndDrop() {
+            let draggedElement = null;
+            
+            // Drag start
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.classList.contains('item-drag')) {
+                    draggedElement = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+            
+            // Drag end
+            document.addEventListener('dragend', function(e) {
+                if (e.target.classList.contains('item-drag')) {
+                    e.target.style.opacity = '1';
+                }
+            });
+            
+            // Drag over
+            document.addEventListener('dragover', function(e) {
+                if (e.target.classList.contains('drop-zone') || e.target.closest('.drop-zone')) {
+                    e.preventDefault();
+                    const dropZone = e.target.classList.contains('drop-zone') ? e.target : e.target.closest('.drop-zone');
+                    dropZone.classList.add('drag-over');
+                }
+            });
+            
+            // Drag leave
+            document.addEventListener('dragleave', function(e) {
+                if (e.target.classList.contains('drop-zone')) {
+                    e.target.classList.remove('drag-over');
+                }
+            });
+            
+            // Drop
+            document.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const dropZone = e.target.classList.contains('drop-zone') ? e.target : e.target.closest('.drop-zone');
+                
+                if (dropZone && draggedElement) {
+                    dropZone.classList.remove('drag-over');
+                    
+                    // Handle different game types
+                    if (dropZone.classList.contains('color-bin')) {
+                        checkColorDrop(draggedElement, dropZone);
+                        dropZone.appendChild(draggedElement);
+                    } else if (dropZone.classList.contains('quantity-slot')) {
+                        checkNumberWordDrop(draggedElement, dropZone);
+                        dropZone.appendChild(draggedElement);
+                    } else if (dropZone.classList.contains('family-slot')) {
+                        // Family tree logic (keep existing)
+                        if (dropZone.children.length === 0 || dropZone.querySelector('.placeholder')) {
+                            const placeholder = dropZone.querySelector('.placeholder');
+                            if (placeholder) placeholder.remove();
+                            dropZone.appendChild(draggedElement);
+                        }
+                    } else if (dropZone.dataset.accepts) {
+                        // Section 3 matching activities
+                        const itemMatch = draggedElement.dataset.match;
+                        const zoneAccepts = dropZone.dataset.accepts;
+                        
+                        // Check if it's the correct match
+                        if (itemMatch === zoneAccepts) {
+                            dropZone.style.backgroundColor = 'rgba(52, 211, 153, 0.3)';
+                            dropZone.style.border = '2px solid #10b981';
+                            draggedElement.style.backgroundColor = 'rgba(52, 211, 153, 0.3)';
+                        } else {
+                            dropZone.style.backgroundColor = 'rgba(248, 113, 113, 0.3)';
+                            dropZone.style.border = '2px solid #ef4444';
+                            draggedElement.style.backgroundColor = 'rgba(248, 113, 113, 0.3)';
+                        }
+                        
+                        // Move the item to the drop zone
+                        dropZone.appendChild(draggedElement);
+                        
+                        // Reset colors after 2 seconds
+                        setTimeout(() => {
+                            dropZone.style.backgroundColor = '';
+                            dropZone.style.border = '';
+                            draggedElement.style.backgroundColor = '';
+                        }, 2000);
+                    }
+                    
+                    draggedElement = null;
+                }
+            });
+        }
+        
+        // Number recognition game - fix scoring
+        function playNumberRecognition() {
+            const numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+            currentTargetNumber = Math.floor(Math.random() * 10) + 1;
+            
+            const utterance = new SpeechSynthesisUtterance(`Click on the number ${numbers[currentTargetNumber - 1]}`);
+            utterance.rate = 0.8;
+            window.speechSynthesis.speak(utterance);
+            
+            // Reset all options
+            document.querySelectorAll('.number-option').forEach(option => {
+                option.classList.remove('selected', 'correct-match', 'incorrect-match');
+            });
+        }
+        
+        // Reset functions with proper scoring reset
+        function resetColorSort() {
+            const objectsContainer = document.querySelector('#colorSort .objects-to-sort .flex');
+            const bins = document.querySelectorAll('#colorSort .color-bin');
+            
+            bins.forEach(bin => {
+                const objects = bin.querySelectorAll('.sortable-object');
+                objects.forEach(obj => {
+                    objectsContainer.appendChild(obj);
+                    obj.style.backgroundColor = '';
+                    obj.style.border = '';
+                });
+            });
+            
+            colorSortScore = 0;
+            colorSortTotal = 0;
+            currentColorIndex = 0;
+            document.getElementById('colorSortScore').textContent = colorSortScore;
+            document.getElementById('colorSortTotal').textContent = colorSortTotal;
+            playColorInstruction();
+        }
+        
+        function resetNumberMatch() {
+            const numbersContainer = document.querySelector('#numberMatch .numbers-column .flex');
+            const slots = document.querySelectorAll('#numberMatch .quantity-slot');
+            
+            slots.forEach(slot => {
+                const numberCard = slot.querySelector('.number-word-card');
+                if (numberCard) {
+                    numbersContainer.appendChild(numberCard);
+                }
+                slot.style.backgroundColor = '';
+                slot.style.border = '';
+            });
+            
+            numberMatchScore = 0;
+            numberMatchTotal = 0;
+            currentNumberWordIndex = 0;
+            document.getElementById('numberMatchScore').textContent = numberMatchScore;
+            document.getElementById('numberMatchTotal').textContent = numberMatchTotal;
+            playNumberWordInstruction();
+        }
+        
+        // Keep existing family tree functions unchanged
+        function checkFamilyTree() {
+            const slots = document.querySelectorAll('#familyTree .family-slot');
+            let correct = 0;
+            let total = 0;
+            
+            slots.forEach(slot => {
+                const expectedFamily = slot.dataset.family;
+                const placedMember = slot.querySelector('.family-member');
+                total++;
+                
+                if (placedMember && placedMember.dataset.family === expectedFamily) {
+                    slot.classList.add('correct-match');
+                    correct++;
+                } else {
+                    slot.classList.add('incorrect-match');
+                }
+            });
+            
+            setTimeout(() => {
+                alert(`Family Tree: ${correct}/${total} correct!`);
+                slots.forEach(slot => {
+                    slot.classList.remove('correct-match', 'incorrect-match');
+                });
+            }, 1000);
+        }
+        
+        function resetFamilyTree() {
+            const membersContainer = document.querySelector('#familyTree .family-members .flex');
+            const slots = document.querySelectorAll('#familyTree .family-slot');
+            
+            slots.forEach(slot => {
+                const member = slot.querySelector('.family-member');
+                if (member) {
+                    membersContainer.appendChild(member);
+                }
+                if (!slot.querySelector('.placeholder')) {
+                    const family = slot.dataset.family;
+                    const emojis = {
+                        grandmother: '👵', grandfather: '👴', father: '👨', 
+                        mother: '👩', brother: '👦', sister: '👧', baby: '👶'
+                    };
+                    slot.innerHTML = `<div class="placeholder">${emojis[family]}<br>${family.charAt(0).toUpperCase() + family.slice(1)}</div>`;
+                }
+            });
+        }
+
+        // Load questions from JSON file
+        async function loadQuestions() {
+            try {
+                const response = await fetch('questions.json');
+                questionsData = await response.json();
+                renderAllSections();
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                // Fallback to sample data if JSON file not found
+                loadSampleQuestions();
+            }
+        }
+
+        // Fallback sample questions
+        function loadSampleQuestions() {
+            questionsData = {
+                section1: {
+                    title: "Basic Identification",
+                    subtitle: "Listen and circle the correct picture",
+                    total: 20,
+                    questions: [
+                        {
+                            id: 1,
+                            category: "Family Members",
+                            audio: "Number 2 is the father.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👵", text: "", correct: false},
+                                {number: 2, emoji: "👨", text: "", correct: true},
+                                {number: 3, emoji: "👩", text: "", correct: false},
+                                {number: 4, emoji: "👶", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 2,
+                            category: "Family Members",
+                            audio: "Number 1 is the grandmother.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👵", text: "", correct: true},
+                                {number: 2, emoji: "👨", text: "", correct: false},
+                                {number: 3, emoji: "👩", text: "", correct: false},
+                                {number: 4, emoji: "👧", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 3,
+                            category: "Family Members",
+                            audio: "Number 3 is the sister.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👦", text: "", correct: false},
+                                {number: 2, emoji: "👨", text: "", correct: false},
+                                {number: 3, emoji: "👧", text: "", correct: true},
+                                {number: 4, emoji: "👵", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 4,
+                            category: "Family Members",
+                            audio: "Number 4 is the baby.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👵", text: "", correct: false},
+                                {number: 2, emoji: "👩", text: "", correct: false},
+                                {number: 3, emoji: "👨", text: "", correct: false},
+                                {number: 4, emoji: "👶", text: "", correct: true}
+                            ]
+                        },
+                        {
+                            id: 5,
+                            category: "Colors",
+                            audio: "Number 1 is red.",
+                            type: "color_choice",
+                            options: [
+                                {number: 1, color: "red", text: "", correct: true},
+                                {number: 2, color: "blue", text: "", correct: false},
+                                {number: 3, color: "green", text: "", correct: false},
+                                {number: 4, color: "yellow", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 6,
+                            category: "Colors",
+                            audio: "Number 3 is purple.",
+                            type: "color_choice",
+                            options: [
+                                {number: 1, color: "orange", text: "", correct: false},
+                                {number: 2, color: "blue", text: "", correct: false},
+                                {number: 3, color: "purple", text: "", correct: true},
+                                {number: 4, color: "pink", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 7,
+                            category: "Colors",
+                            audio: "Number 2 is brown.",
+                            type: "color_choice",
+                            options: [
+                                {number: 1, color: "green", text: "", correct: false},
+                                {number: 2, color: "brown", text: "", correct: true},
+                                {number: 3, color: "pink", text: "", correct: false},
+                                {number: 4, color: "orange", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 8,
+                            category: "Colors",
+                            audio: "Number 4 is pink.",
+                            type: "color_choice",
+                            options: [
+                                {number: 1, color: "yellow", text: "", correct: false},
+                                {number: 2, color: "purple", text: "", correct: false},
+                                {number: 3, color: "red", text: "", correct: false},
+                                {number: 4, color: "pink", text: "", correct: true}
+                            ]
+                        },
+                        {
+                            id: 9,
+                            category: "Body Parts",
+                            audio: "Number 3 is the nose.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👁️", text: "", correct: false},
+                                {number: 2, emoji: "👂", text: "", correct: false},
+                                {number: 3, emoji: "👃", text: "", correct: true},
+                                {number: 4, emoji: "👄", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 10,
+                            category: "Body Parts",
+                            audio: "Number 1 is the hand.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "✋", text: "", correct: true},
+                                {number: 2, emoji: "🦵", text: "", correct: false},
+                                {number: 3, emoji: "👁️", text: "", correct: false},
+                                {number: 4, emoji: "👂", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 11,
+                            category: "Body Parts",
+                            audio: "Number 4 is the foot.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👂", text: "", correct: false},
+                                {number: 2, emoji: "✋", text: "", correct: false},
+                                {number: 3, emoji: "👁️", text: "", correct: false},
+                                {number: 4, emoji: "🦶", text: "", correct: true}
+                            ]
+                        },
+                        {
+                            id: 12,
+                            category: "Body Parts",
+                            audio: "Number 2 is the hair.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "👃", text: "", correct: false},
+                                {number: 2, emoji: "💇", text: "", correct: true},
+                                {number: 3, emoji: "👁️", text: "", correct: false},
+                                {number: 4, emoji: "👂", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 13,
+                            category: "Shapes",
+                            audio: "Number 2 is a circle.",
+                            type: "shape_choice",
+                            options: [
+                                {number: 1, shape: "square", text: "", correct: false},
+                                {number: 2, shape: "circle", text: "", correct: true},
+                                {number: 3, shape: "triangle", text: "", correct: false},
+                                {number: 4, shape: "rectangle", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 14,
+                            category: "Shapes",
+                            audio: "Number 1 is a triangle.",
+                            type: "shape_choice",
+                            options: [
+                                {number: 1, shape: "triangle", text: "", correct: true},
+                                {number: 2, shape: "square", text: "", correct: false},
+                                {number: 3, shape: "circle", text: "", correct: false},
+                                {number: 4, shape: "rectangle", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 15,
+                            category: "Shapes",
+                            audio: "Number 4 is a rectangle.",
+                            type: "shape_choice",
+                            options: [
+                                {number: 1, shape: "square", text: "", correct: false},
+                                {number: 2, shape: "circle", text: "", correct: false},
+                                {number: 3, shape: "triangle", text: "", correct: false},
+                                {number: 4, shape: "rectangle", text: "", correct: true}
+                            ]
+                        },
+                        {
+                            id: 16,
+                            category: "Shapes",
+                            audio: "Number 3 is a square.",
+                            type: "shape_choice",
+                            options: [
+                                {number: 1, shape: "circle", text: "", correct: false},
+                                {number: 2, shape: "triangle", text: "", correct: false},
+                                {number: 3, shape: "square", text: "", correct: true},
+                                {number: 4, shape: "rectangle", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 17,
+                            category: "Classroom Objects",
+                            audio: "Number 4 is the door.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "🪑", text: "", correct: false},
+                                {number: 2, emoji: "🪟", text: "", correct: false},
+                                {number: 3, emoji: "📚", text: "", correct: false},
+                                {number: 4, emoji: "🚪", text: "", correct: true}
+                            ]
+                        },
+                        {
+                            id: 18,
+                            category: "Classroom Objects",
+                            audio: "Number 1 is the desk.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "🗂️", text: "", correct: true},
+                                {number: 2, emoji: "🪟", text: "", correct: false},
+                                {number: 3, emoji: "🚪", text: "", correct: false},
+                                {number: 4, emoji: "📚", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 19,
+                            category: "Classroom Objects",
+                            audio: "Number 3 is the clock.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "📚", text: "", correct: false},
+                                {number: 2, emoji: "🪟", text: "", correct: false},
+                                {number: 3, emoji: "🕐", text: "", correct: true},
+                                {number: 4, emoji: "🚪", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 20,
+                            category: "Classroom Objects",
+                            audio: "Number 2 is the bookshelf.",
+                            type: "multiple_choice",
+                            options: [
+                                {number: 1, emoji: "🪑", text: "", correct: false},
+                                {number: 2, emoji: "📚", text: "", correct: true},
+                                {number: 3, emoji: "🪟", text: "", correct: false},
+                                {number: 4, emoji: "🚪", text: "", correct: false}
+                            ]
+                        }
+                    ]
+                },
+                section2: {
+                    title: "Following Instructions",
+                    subtitle: "Listen and draw according to the instructions", 
+                    total: 15,
+                    questions: [
+                        {id: 1, category: "School Supplies Drawing", audio: "Draw a pencil on the desk.", type: "drawing", background: "desk", instruction: "Draw a pencil on the desk"},
+                        {id: 2, category: "School Supplies Drawing", audio: "Draw a book under the chair.", type: "drawing", background: "chair", instruction: "Draw a book under the chair"},
+                        {id: 3, category: "School Supplies Drawing", audio: "Draw an eraser next to the pen.", type: "drawing", background: "pen", instruction: "Draw an eraser next to the pen"},
+                        {id: 4, category: "School Supplies Drawing", audio: "Draw scissors on the paper.", type: "drawing", background: "paper", instruction: "Draw scissors on the paper"},
+                        {id: 5, category: "School Supplies Drawing", audio: "Draw a ruler behind the book.", type: "drawing", background: "book", instruction: "Draw a ruler behind the book"},
+                        {id: 6, category: "Body Parts Positions", audio: "Touch your head and draw a circle.", type: "drawing", background: "blank", instruction: "Touch your head and draw a circle"},
+                        {id: 7, category: "Body Parts Positions", audio: "Point to your eyes and draw two dots.", type: "drawing", background: "blank", instruction: "Point to your eyes and draw two dots"},
+                        {id: 8, category: "Body Parts Positions", audio: "Show your hands and draw lines.", type: "drawing", background: "blank", instruction: "Show your hands and draw lines"},
+                        {id: 9, category: "Body Parts Positions", audio: "Touch your nose and draw a triangle.", type: "drawing", background: "blank", instruction: "Touch your nose and draw a triangle"},
+                        {id: 10, category: "Body Parts Positions", audio: "Point to your ears and draw squares.", type: "drawing", background: "blank", instruction: "Point to your ears and draw squares"},
+                        {id: 11, category: "Classroom Commands", audio: "Sit down and draw a chair.", type: "drawing", background: "blank", instruction: "Sit down and draw a chair"},
+                        {id: 12, category: "Classroom Commands", audio: "Stand up and draw yourself.", type: "drawing", background: "blank", instruction: "Stand up and draw yourself"},
+                        {id: 13, category: "Classroom Commands", audio: "Open the door and draw it.", type: "drawing", background: "blank", instruction: "Open the door and draw it"},
+                        {id: 14, category: "Classroom Commands", audio: "Close the window and draw it.", type: "drawing", background: "blank", instruction: "Close the window and draw it"},
+                        {id: 15, category: "Classroom Commands", audio: "Take a pencil and draw it.", type: "drawing", background: "blank", instruction: "Take a pencil and draw it"}
+                    ]
+                },
+                section3: {
+                    title: "Matching Activities",
+                    subtitle: "Listen and match the items that go together",
+                    total: 25,
+                    questions: [
+                        {
+                            id: 1, category: "Animals & Sounds", audio: "Match the animals with their sounds.", type: "matching",
+                            items: [
+                                {id: "cow", emoji: "🐄", text: ""},
+                                {id: "dog", emoji: "🐕", text: ""},
+                                {id: "cat", emoji: "🐱", text: ""}
+                            ],
+                            targets: [
+                                {id: "moo", sound: "🔊 MOO", text: "Drop the animal that says MOO", match: "cow"},
+                                {id: "bark", sound: "🔊 BARK", text: "Drop the animal that says BARK", match: "dog"},
+                                {id: "meow", sound: "🔊 MEOW", text: "Drop the animal that says MEOW", match: "cat"}
+                            ]
+                        },
+                        {
+                            id: 2, category: "Farm Animals & Sounds", audio: "Match the farm animals with their sounds.", type: "matching",
+                            items: [
+                                {id: "pig", emoji: "🐷", text: ""},
+                                {id: "sheep", emoji: "🐑", text: ""},
+                                {id: "duck", emoji: "🦆", text: ""}
+                            ],
+                            targets: [
+                                {id: "oink", sound: "🔊 OINK", text: "Drop the animal that says OINK", match: "pig"},
+                                {id: "baa", sound: "🔊 BAA", text: "Drop the animal that says BAA", match: "sheep"},
+                                {id: "quack", sound: "🔊 QUACK", text: "Drop the animal that says QUACK", match: "duck"}
+                            ]
+                        },
+                        {
+                            id: 3, category: "Family & Roles", audio: "Match family members with their roles.", type: "matching",
+                            items: [
+                                {id: "mother", emoji: "👩", text: ""},
+                                {id: "father", emoji: "👨", text: ""},
+                                {id: "baby", emoji: "👶", text: ""}
+                            ],
+                            targets: [
+                                {id: "cooks", sound: "🍳 COOKS", text: "Who cooks dinner?", match: "mother"},
+                                {id: "works", sound: "💼 WORKS", text: "Who goes to work?", match: "father"},
+                                {id: "sleeps", sound: "😴 SLEEPS", text: "Who sleeps a lot?", match: "baby"}
+                            ]
+                        },
+                        {
+                            id: 4, category: "Colors & Objects", audio: "Match colors with objects.", type: "matching",
+                            items: [
+                                {id: "red", emoji: "🟥", text: ""},
+                                {id: "green", emoji: "🟩", text: ""},
+                                {id: "yellow", emoji: "🟨", text: ""}
+                            ],
+                            targets: [
+                                {id: "apple", sound: "🍎", text: "Red fruit", match: "red"},
+                                {id: "grass", sound: "🌱", text: "Green plant", match: "green"},
+                                {id: "sun", sound: "☀️", text: "Yellow in sky", match: "yellow"}
+                            ]
+                        },
+                        {
+                            id: 5, category: "Body Parts & Actions", audio: "Match body parts with actions.", type: "matching",
+                            items: [
+                                {id: "eyes", emoji: "👀", text: ""},
+                                {id: "ears", emoji: "👂", text: ""},
+                                {id: "mouth", emoji: "👄", text: ""}
+                            ],
+                            targets: [
+                                {id: "see", sound: "👁️ SEE", text: "What do you use to see?", match: "eyes"},
+                                {id: "hear", sound: "🔊 HEAR", text: "What do you use to hear?", match: "ears"},
+                                {id: "eat", sound: "🍽️ EAT", text: "What do you use to eat?", match: "mouth"}
+                            ]
+                        },
+                        {
+                            id: 6, category: "Numbers & Quantities", audio: "Match numbers with quantities.", type: "matching",
+                            items: [
+                                {id: "one", emoji: "1️⃣", text: ""},
+                                {id: "two", emoji: "2️⃣", text: ""},
+                                {id: "three", emoji: "3️⃣", text: ""}
+                            ],
+                            targets: [
+                                {id: "onecat", sound: "🐱", text: "One cat", match: "one"},
+                                {id: "twodogs", sound: "🐶🐶", text: "Two dogs", match: "two"},
+                                {id: "threebirds", sound: "🐦🐦🐦", text: "Three birds", match: "three"}
+                            ]
+                        },
+                        {
+                            id: 7, category: "Food & Colors", audio: "Match food with their colors.", type: "matching",
+                            items: [
+                                {id: "banana", emoji: "🍌", text: ""},
+                                {id: "tomato", emoji: "🍅", text: ""},
+                                {id: "lettuce", emoji: "🥬", text: ""}
+                            ],
+                            targets: [
+                                {id: "yellow", sound: "🟨 YELLOW", text: "Yellow color", match: "banana"},
+                                {id: "red", sound: "🟥 RED", text: "Red color", match: "tomato"},
+                                {id: "green", sound: "🟩 GREEN", text: "Green color", match: "lettuce"}
+                            ]
+                        },
+                        {
+                            id: 8, category: "Shapes & Objects", audio: "Match shapes with objects.", type: "matching",
+                            items: [
+                                {id: "circle", emoji: "⭕", text: ""},
+                                {id: "square", emoji: "⬜", text: ""},
+                                {id: "triangle", emoji: "🔺", text: ""}
+                            ],
+                            targets: [
+                                {id: "ball", sound: "⚽ BALL", text: "Round ball", match: "circle"},
+                                {id: "box", sound: "📦 BOX", text: "Square box", match: "square"},
+                                {id: "roof", sound: "🏠 ROOF", text: "Triangle roof", match: "triangle"}
+                            ]
+                        },
+                        {
+                            id: 9, category: "Weather & Clothes", audio: "Match weather with clothes.", type: "matching",
+                            items: [
+                                {id: "sun", emoji: "☀️", text: ""},
+                                {id: "rain", emoji: "🌧️", text: ""},
+                                {id: "snow", emoji: "❄️", text: ""}
+                            ],
+                            targets: [
+                                {id: "tshirt", sound: "👕 T-SHIRT", text: "Hot weather clothes", match: "sun"},
+                                {id: "umbrella", sound: "☂️ UMBRELLA", text: "Rainy weather tool", match: "rain"},
+                                {id: "coat", sound: "🧥 COAT", text: "Cold weather clothes", match: "snow"}
+                            ]
+                        },
+                        {
+                            id: 10, category: "Transportation & Places", audio: "Match vehicles with places.", type: "matching",
+                            items: [
+                                {id: "car", emoji: "🚗", text: ""},
+                                {id: "boat", emoji: "🚤", text: ""},
+                                {id: "plane", emoji: "✈️", text: ""}
+                            ],
+                            targets: [
+                                {id: "road", sound: "🛣️ ROAD", text: "Cars drive here", match: "car"},
+                                {id: "water", sound: "🌊 WATER", text: "Boats sail here", match: "boat"},
+                                {id: "sky", sound: "☁️ SKY", text: "Planes fly here", match: "plane"}
+                            ]
+                        },
+                        {
+                            id: 11, category: "Big & Small Animals", audio: "Match animals by size.", type: "matching",
+                            items: [
+                                {id: "elephant", emoji: "🐘", text: ""},
+                                {id: "mouse", emoji: "🐭", text: ""},
+                                {id: "dog", emoji: "🐕", text: ""}
+                            ],
+                            targets: [
+                                {id: "big", sound: "📏 BIG", text: "Big size", match: "elephant"},
+                                {id: "small", sound: "📐 SMALL", text: "Small size", match: "mouse"},
+                                {id: "medium", sound: "📋 MEDIUM", text: "Medium size", match: "dog"}
+                            ]
+                        },
+                        {
+                            id: 12, category: "Day & Night", audio: "Match time with activities.", type: "matching",
+                            items: [
+                                {id: "sun", emoji: "☀️", text: ""},
+                                {id: "moon", emoji: "🌙", text: ""},
+                                {id: "breakfast", emoji: "🍳", text: ""}
+                            ],
+                            targets: [
+                                {id: "play", sound: "⚽ PLAY", text: "Daytime activity", match: "sun"},
+                                {id: "sleep", sound: "😴 SLEEP", text: "Nighttime activity", match: "moon"},
+                                {id: "morning", sound: "🌅 MORNING", text: "Morning meal", match: "breakfast"}
+                            ]
+                        },
+                        {
+                            id: 13, category: "Fast & Slow", audio: "Match animals by speed.", type: "matching",
+                            items: [
+                                {id: "rabbit", emoji: "🐰", text: ""},
+                                {id: "turtle", emoji: "🐢", text: ""},
+                                {id: "horse", emoji: "🐴", text: ""}
+                            ],
+                            targets: [
+                                {id: "fast", sound: "💨 FAST", text: "Very fast", match: "rabbit"},
+                                {id: "slow", sound: "🐌 SLOW", text: "Very slow", match: "turtle"},
+                                {id: "running", sound: "🏃 RUNNING", text: "Fast running", match: "horse"}
+                            ]
+                        },
+                        {
+                            id: 14, category: "Hot & Cold", audio: "Match items by temperature.", type: "matching",
+                            items: [
+                                {id: "fire", emoji: "🔥", text: ""},
+                                {id: "ice", emoji: "🧊", text: ""},
+                                {id: "soup", emoji: "🍲", text: ""}
+                            ],
+                            targets: [
+                                {id: "hot", sound: "🌡️ HOT", text: "Very hot", match: "fire"},
+                                {id: "cold", sound: "❄️ COLD", text: "Very cold", match: "ice"},
+                                {id: "warm", sound: "☕ WARM", text: "Nice and warm", match: "soup"}
+                            ]
+                        },
+                        {
+                            id: 15, category: "School & Home", audio: "Match objects with places.", type: "matching",
+                            items: [
+                                {id: "book", emoji: "📚", text: ""},
+                                {id: "bed", emoji: "🛏️", text: ""},
+                                {id: "pencil", emoji: "✏️", text: ""}
+                            ],
+                            targets: [
+                                {id: "school", sound: "🏫 SCHOOL", text: "Used at school", match: "book"},
+                                {id: "home", sound: "🏠 HOME", text: "Used at home", match: "bed"},
+                                {id: "classroom", sound: "📝 CLASSROOM", text: "For writing", match: "pencil"}
+                            ]
+                        },
+                        {
+                            id: 16, category: "Happy & Sad", audio: "Match faces with feelings.", type: "matching",
+                            items: [
+                                {id: "smile", emoji: "😊", text: ""},
+                                {id: "cry", emoji: "😢", text: ""},
+                                {id: "angry", emoji: "😠", text: ""}
+                            ],
+                            targets: [
+                                {id: "happy", sound: "🎉 HAPPY", text: "Happy feeling", match: "smile"},
+                                {id: "sad", sound: "💔 SAD", text: "Sad feeling", match: "cry"},
+                                {id: "mad", sound: "💢 MAD", text: "Angry feeling", match: "angry"}
+                            ]
+                        },
+                        {
+                            id: 17, category: "Baby Animals", audio: "Match animals with their babies.", type: "matching",
+                            items: [
+                                {id: "cat", emoji: "🐱", text: ""},
+                                {id: "dog", emoji: "🐕", text: ""},
+                                {id: "duck", emoji: "🦆", text: ""}
+                            ],
+                            targets: [
+                                {id: "kitten", sound: "🐾 KITTEN", text: "Baby cat", match: "cat"},
+                                {id: "puppy", sound: "🐾 PUPPY", text: "Baby dog", match: "dog"},
+                                {id: "duckling", sound: "🐣 DUCKLING", text: "Baby duck", match: "duck"}
+                            ]
+                        },
+                        {
+                            id: 18, category: "Tools & Jobs", audio: "Match tools with jobs.", type: "matching",
+                            items: [
+                                {id: "stethoscope", emoji: "🩺", text: ""},
+                                {id: "hammer", emoji: "🔨", text: ""},
+                                {id: "book", emoji: "📖", text: ""}
+                            ],
+                            targets: [
+                                {id: "doctor", sound: "👩‍⚕️ DOCTOR", text: "Doctor uses this", match: "stethoscope"},
+                                {id: "builder", sound: "👷 BUILDER", text: "Builder uses this", match: "hammer"},
+                                {id: "teacher", sound: "👩‍🏫 TEACHER", text: "Teacher uses this", match: "book"}
+                            ]
+                        },
+                        {
+                            id: 19, category: "Fruits & Trees", audio: "Match fruits with trees.", type: "matching",
+                            items: [
+                                {id: "apple", emoji: "🍎", text: ""},
+                                {id: "orange", emoji: "🍊", text: ""},
+                                {id: "coconut", emoji: "🥥", text: ""}
+                            ],
+                            targets: [
+                                {id: "appletree", sound: "🌳 APPLE TREE", text: "Apples grow here", match: "apple"},
+                                {id: "orangetree", sound: "🌳 ORANGE TREE", text: "Oranges grow here", match: "orange"},
+                                {id: "palmtree", sound: "🌴 PALM TREE", text: "Coconuts grow here", match: "coconut"}
+                            ]
+                        },
+                        {
+                            id: 20, category: "Clothes & Body", audio: "Match clothes with body parts.", type: "matching",
+                            items: [
+                                {id: "hat", emoji: "🎩", text: ""},
+                                {id: "shoe", emoji: "👟", text: ""},
+                                {id: "glove", emoji: "🧤", text: ""}
+                            ],
+                            targets: [
+                                {id: "head", sound: "👤 HEAD", text: "Wear on head", match: "hat"},
+                                {id: "feet", sound: "🦶 FEET", text: "Wear on feet", match: "shoe"},
+                                {id: "hands", sound: "✋ HANDS", text: "Wear on hands", match: "glove"}
+                            ]
+                        },
+                        {
+                            id: 21, category: "Insects & Flowers", audio: "Match insects with flowers.", type: "matching",
+                            items: [
+                                {id: "bee", emoji: "🐝", text: ""},
+                                {id: "butterfly", emoji: "🦋", text: ""},
+                                {id: "ladybug", emoji: "🐞", text: ""}
+                            ],
+                            targets: [
+                                {id: "sunflower", sound: "🌻 SUNFLOWER", text: "Bees love this", match: "bee"},
+                                {id: "rose", sound: "🌹 ROSE", text: "Butterflies visit this", match: "butterfly"},
+                                {id: "daisy", sound: "🌼 DAISY", text: "Ladybugs sit here", match: "ladybug"}
+                            ]
+                        },
+                        {
+                            id: 22, category: "Sounds & Places", audio: "Match sounds with places.", type: "matching",
+                            items: [
+                                {id: "bell", emoji: "🔔", text: ""},
+                                {id: "siren", emoji: "🚨", text: ""},
+                                {id: "whistle", emoji: "💨", text: ""}
+                            ],
+                            targets: [
+                                {id: "school", sound: "🏫 SCHOOL", text: "School bell rings", match: "bell"},
+                                {id: "emergency", sound: "🚑 EMERGENCY", text: "Emergency siren", match: "siren"},
+                                {id: "sports", sound: "⚽ SPORTS", text: "Sports whistle", match: "whistle"}
+                            ]
+                        },
+                        {
+                            id: 23, category: "Musical Instruments", audio: "Match instruments with sounds.", type: "matching",
+                            items: [
+                                {id: "piano", emoji: "🎹", text: ""},
+                                {id: "drum", emoji: "🥁", text: ""},
+                                {id: "guitar", emoji: "🎸", text: ""}
+                            ],
+                            targets: [
+                                {id: "keys", sound: "🎵 KEYS", text: "Press the keys", match: "piano"},
+                                {id: "beat", sound: "🥁 BEAT", text: "Make a beat", match: "drum"},
+                                {id: "strum", sound: "🎶 STRUM", text: "Strum the strings", match: "guitar"}
+                            ]
+                        },
+                        {
+                            id: 24, category: "Sports & Equipment", audio: "Match sports with equipment.", type: "matching",
+                            items: [
+                                {id: "soccer", emoji: "⚽", text: ""},
+                                {id: "basketball", emoji: "🏀", text: ""},
+                                {id: "tennis", emoji: "🎾", text: ""}
+                            ],
+                            targets: [
+                                {id: "goal", sound: "🥅 GOAL", text: "Soccer goal", match: "soccer"},
+                                {id: "hoop", sound: "🏀 HOOP", text: "Basketball hoop", match: "basketball"},
+                                {id: "racket", sound: "🎾 RACKET", text: "Tennis racket", match: "tennis"}
+                            ]
+                        },
+                        {
+                            id: 25, category: "Seasons & Activities", audio: "Match seasons with activities.", type: "matching",
+                            items: [
+                                {id: "summer", emoji: "☀️", text: ""},
+                                {id: "winter", emoji: "❄️", text: ""},
+                                {id: "spring", emoji: "🌸", text: ""}
+                            ],
+                            targets: [
+                                {id: "swimming", sound: "🏊 SWIMMING", text: "Summer activity", match: "summer"},
+                                {id: "skiing", sound: "⛷️ SKIING", text: "Winter activity", match: "winter"},
+                                {id: "planting", sound: "🌱 PLANTING", text: "Spring activity", match: "spring"}
+                            ]
+                        }
+                    ]
+                },
+                section4: {
+                    title: "Multiple Choice",
+                    subtitle: "Listen and circle the correct picture",
+                    total: 30,
+                    questions: [
+                        {
+                            id: 1, category: "Zoo Animals", audio: "Circle the elephant.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐵", text: "", correct: false},
+                                {letter: "B", emoji: "🐘", text: "", correct: true},
+                                {letter: "C", emoji: "🦁", text: "", correct: false},
+                                {letter: "D", emoji: "🦒", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 2, category: "Zoo Animals", audio: "Circle the monkey.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐘", text: "", correct: false},
+                                {letter: "B", emoji: "🐵", text: "", correct: true},
+                                {letter: "C", emoji: "🦁", text: "", correct: false},
+                                {letter: "D", emoji: "🐅", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 3, category: "Zoo Animals", audio: "Circle the lion.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐅", text: "", correct: false},
+                                {letter: "B", emoji: "🦒", text: "", correct: false},
+                                {letter: "C", emoji: "🦁", text: "", correct: true},
+                                {letter: "D", emoji: "🐻", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 4, category: "Zoo Animals", audio: "Circle the giraffe.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🦒", text: "", correct: true},
+                                {letter: "B", emoji: "🐘", text: "", correct: false},
+                                {letter: "C", emoji: "🦏", text: "", correct: false},
+                                {letter: "D", emoji: "🦓", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 5, category: "Zoo Animals", audio: "Circle the tiger.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🦁", text: "", correct: false},
+                                {letter: "B", emoji: "🐆", text: "", correct: false},
+                                {letter: "C", emoji: "🐅", text: "", correct: true},
+                                {letter: "D", emoji: "🐻", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 6, category: "Farm Animals", audio: "Circle the cow.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐄", text: "", correct: true},
+                                {letter: "B", emoji: "🐷", text: "", correct: false},
+                                {letter: "C", emoji: "🐑", text: "", correct: false},
+                                {letter: "D", emoji: "🐴", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 7, category: "Farm Animals", audio: "Circle the pig.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐑", text: "", correct: false},
+                                {letter: "B", emoji: "🐷", text: "", correct: true},
+                                {letter: "C", emoji: "🐄", text: "", correct: false},
+                                {letter: "D", emoji: "🐓", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 8, category: "Farm Animals", audio: "Circle the sheep.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐐", text: "", correct: false},
+                                {letter: "B", emoji: "🐴", text: "", correct: false},
+                                {letter: "C", emoji: "🐑", text: "", correct: true},
+                                {letter: "D", emoji: "🐄", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 9, category: "Farm Animals", audio: "Circle the horse.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐴", text: "", correct: true},
+                                {letter: "B", emoji: "🦓", text: "", correct: false},
+                                {letter: "C", emoji: "🐄", text: "", correct: false},
+                                {letter: "D", emoji: "🐑", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 10, category: "Farm Animals", audio: "Circle the chicken.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🦆", text: "", correct: false},
+                                {letter: "B", emoji: "🐓", text: "", correct: true},
+                                {letter: "C", emoji: "🐷", text: "", correct: false},
+                                {letter: "D", emoji: "🐑", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 11, category: "Sea Animals", audio: "Circle the fish.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐠", text: "", correct: true},
+                                {letter: "B", emoji: "🐙", text: "", correct: false},
+                                {letter: "C", emoji: "🦈", text: "", correct: false},
+                                {letter: "D", emoji: "🐢", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 12, category: "Sea Animals", audio: "Circle the whale.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🦈", text: "", correct: false},
+                                {letter: "B", emoji: "🐙", text: "", correct: false},
+                                {letter: "C", emoji: "🐋", text: "", correct: true},
+                                {letter: "D", emoji: "🐠", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 13, category: "Sea Animals", audio: "Circle the octopus.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🐙", text: "", correct: true},
+                                {letter: "B", emoji: "🦈", text: "", correct: false},
+                                {letter: "C", emoji: "🐢", text: "", correct: false},
+                                {letter: "D", emoji: "🐠", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 14, category: "Family Members", audio: "Circle the grandmother.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "👵", text: "", correct: true},
+                                {letter: "B", emoji: "👩", text: "", correct: false},
+                                {letter: "C", emoji: "👧", text: "", correct: false},
+                                {letter: "D", emoji: "👶", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 15, category: "Family Members", audio: "Circle the brother.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "👨", text: "", correct: false},
+                                {letter: "B", emoji: "👦", text: "", correct: true},
+                                {letter: "C", emoji: "👴", text: "", correct: false},
+                                {letter: "D", emoji: "👶", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 16, category: "School Supplies", audio: "Circle the book.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "📚", text: "", correct: true},
+                                {letter: "B", emoji: "✏️", text: "", correct: false},
+                                {letter: "C", emoji: "📏", text: "", correct: false},
+                                {letter: "D", emoji: "✂️", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 17, category: "School Supplies", audio: "Circle the pencil.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🖊️", text: "", correct: false},
+                                {letter: "B", emoji: "✏️", text: "", correct: true},
+                                {letter: "C", emoji: "📏", text: "", correct: false},
+                                {letter: "D", emoji: "📚", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 18, category: "School Supplies", audio: "Circle the scissors.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "📏", text: "", correct: false},
+                                {letter: "B", emoji: "📐", text: "", correct: false},
+                                {letter: "C", emoji: "✂️", text: "", correct: true},
+                                {letter: "D", emoji: "🖍️", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 19, category: "School Supplies", audio: "Circle the ruler.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "📏", text: "", correct: true},
+                                {letter: "B", emoji: "✏️", text: "", correct: false},
+                                {letter: "C", emoji: "🖊️", text: "", correct: false},
+                                {letter: "D", emoji: "📚", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 20, category: "School Supplies", audio: "Circle the eraser.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "📝", text: "", correct: false},
+                                {letter: "B", emoji: "🧽", text: "", correct: true},
+                                {letter: "C", emoji: "✏️", text: "", correct: false},
+                                {letter: "D", emoji: "📏", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 21, category: "Food Items", audio: "Circle the apple.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🍎", text: "", correct: true},
+                                {letter: "B", emoji: "🍌", text: "", correct: false},
+                                {letter: "C", emoji: "🍊", text: "", correct: false},
+                                {letter: "D", emoji: "🍇", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 22, category: "Food Items", audio: "Circle the banana.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🍊", text: "", correct: false},
+                                {letter: "B", emoji: "🍌", text: "", correct: true},
+                                {letter: "C", emoji: "🍎", text: "", correct: false},
+                                {letter: "D", emoji: "🥕", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 23, category: "Food Items", audio: "Circle the orange.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🍑", text: "", correct: false},
+                                {letter: "B", emoji: "🍎", text: "", correct: false},
+                                {letter: "C", emoji: "🍊", text: "", correct: true},
+                                {letter: "D", emoji: "🍌", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 24, category: "Food Items", audio: "Circle the grapes.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🍇", text: "", correct: true},
+                                {letter: "B", emoji: "🍓", text: "", correct: false},
+                                {letter: "C", emoji: "🥝", text: "", correct: false},
+                                {letter: "D", emoji: "🍒", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 25, category: "Food Items", audio: "Circle the carrot.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🥒", text: "", correct: false},
+                                {letter: "B", emoji: "🥕", text: "", correct: true},
+                                {letter: "C", emoji: "🌽", text: "", correct: false},
+                                {letter: "D", emoji: "🥬", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 26, category: "Transportation", audio: "Circle the car.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🚗", text: "", correct: true},
+                                {letter: "B", emoji: "🚌", text: "", correct: false},
+                                {letter: "C", emoji: "🚲", text: "", correct: false},
+                                {letter: "D", emoji: "✈️", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 27, category: "Transportation", audio: "Circle the bus.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🚗", text: "", correct: false},
+                                {letter: "B", emoji: "🚌", text: "", correct: true},
+                                {letter: "C", emoji: "🚲", text: "", correct: false},
+                                {letter: "D", emoji: "🚁", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 28, category: "Transportation", audio: "Circle the bicycle.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🛴", text: "", correct: false},
+                                {letter: "B", emoji: "🏍️", text: "", correct: false},
+                                {letter: "C", emoji: "🚲", text: "", correct: true},
+                                {letter: "D", emoji: "🚗", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 29, category: "Transportation", audio: "Circle the airplane.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🚁", text: "", correct: false},
+                                {letter: "B", emoji: "✈️", text: "", correct: true},
+                                {letter: "C", emoji: "🚀", text: "", correct: false},
+                                {letter: "D", emoji: "🛸", text: "", correct: false}
+                            ]
+                        },
+                        {
+                            id: 30, category: "Transportation", audio: "Circle the boat.", type: "multiple_choice",
+                            options: [
+                                {letter: "A", emoji: "🚤", text: "", correct: true},
+                                {letter: "B", emoji: "⛵", text: "", correct: false},
+                                {letter: "C", emoji: "🚢", text: "", correct: false},
+                                {letter: "D", emoji: "🛥️", text: "", correct: false}
+                            ]
+                        }
+                    ]
+                },
+                section5: {
+                    title: "Yes/No Comprehension",
+                    subtitle: "Listen and circle Yes or No",
+                    total: 20,
+                    questions: [
+                        {id: 1, category: "Animal Abilities", audio: "Can the fish swim?", type: "yes_no", image: "🐠", correct: "yes"},
+                        {id: 2, category: "Animal Abilities", audio: "Can the bird fly?", type: "yes_no", image: "🐦", correct: "yes"},
+                        {id: 3, category: "Animal Abilities", audio: "Can the elephant fly?", type: "yes_no", image: "🐘", correct: "no"},
+                        {id: 4, category: "Animal Abilities", audio: "Can the horse run?", type: "yes_no", image: "🐴", correct: "yes"},
+                        {id: 5, category: "Animal Abilities", audio: "Can the octopus climb trees?", type: "yes_no", image: "🐙", correct: "no"},
+                        {id: 6, category: "Animal Abilities", audio: "Can the monkey climb?", type: "yes_no", image: "🐵", correct: "yes"},
+                        {id: 7, category: "Animal Abilities", audio: "Can the cow fly?", type: "yes_no", image: "🐄", correct: "no"},
+                        {id: 8, category: "Animal Abilities", audio: "Can the duck swim?", type: "yes_no", image: "🦆", correct: "yes"},
+                        {id: 9, category: "Animal Abilities", audio: "Can the pig sing?", type: "yes_no", image: "🐷", correct: "no"},
+                        {id: 10, category: "Animal Abilities", audio: "Can the dog bark?", type: "yes_no", image: "🐕", correct: "yes"},
+                        {id: 11, category: "Family Questions", audio: "Is the grandmother old?", type: "yes_no", image: "👵", correct: "yes"},
+                        {id: 12, category: "Family Questions", audio: "Is the baby big?", type: "yes_no", image: "👶", correct: "no"},
+                        {id: 13, category: "Family Questions", audio: "Does the father work?", type: "yes_no", image: "👨", correct: "yes"},
+                        {id: 14, category: "Family Questions", audio: "Does the mother cook?", type: "yes_no", image: "👩", correct: "yes"},
+                        {id: 15, category: "Family Questions", audio: "Is the brother small?", type: "yes_no", image: "👦", correct: "yes"},
+                        {id: 16, category: "Object Properties", audio: "Is the sun hot?", type: "yes_no", image: "☀️", correct: "yes"},
+                        {id: 17, category: "Object Properties", audio: "Is the snow cold?", type: "yes_no", image: "❄️", correct: "yes"},
+                        {id: 18, category: "Object Properties", audio: "Is the book heavy?", type: "yes_no", image: "📚", correct: "no"},
+                        {id: 19, category: "Object Properties", audio: "Is the apple red?", type: "yes_no", image: "🍎", correct: "yes"},
+                        {id: 20, category: "Object Properties", audio: "Is the grass blue?", type: "yes_no", image: "🌱", correct: "no"}
+                    ]
+                }
+            };
+            console.log('✅ Using embedded questions data');
+            renderAllSections();
+        }
+
+        // Render all sections with questions
+        function renderAllSections() {
+            Object.keys(questionsData).forEach(sectionKey => {
+                renderSection(sectionKey, questionsData[sectionKey]);
+            });
+        }
+
+        // Render a single section
+        function renderSection(sectionKey, sectionData) {
+            const sectionElement = document.getElementById(sectionKey);
+            if (!sectionElement) return;
+
+            const sectionNumber = sectionKey.replace('section', '');
+            const nextSection = sectionNumber < 5 ? `section${parseInt(sectionNumber) + 1}` : null;
+
+            let html = `
+                <h2 class="text-2xl font-bold mb-4">${sectionData.title} (${sectionData.total} Questions)</h2>
+                <p class="mb-4">${sectionData.subtitle}</p>
+            `;
+
+            sectionData.questions.forEach((question, index) => {
+                html += renderQuestion(question, index + 1, sectionData.total, sectionKey);
+            });
+
+            // Add navigation
+            html += `
+                <div class="mt-6 text-center">
+                    ${nextSection ? 
+                        `<button class="continue-btn px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" data-next="${nextSection}">Continue to ${nextSection === 'section2' ? 'Section 2' : nextSection === 'section3' ? 'Section 3' : nextSection === 'section4' ? 'Section 4' : 'Section 5'}</button>` :
+                        `<button id="finishBtn" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Complete Review!</button>`
+                    }
+                </div>
+            `;
+
+            sectionElement.innerHTML = html;
+        }
+
+        // Render individual question based on type
+        function renderQuestion(question, questionNum, totalQuestions, sectionKey) {
+            let html = `
+                <div class="question-container">
+                    <div class="question-counter">Question ${questionNum} of ${totalQuestions}</div>
+                    <h3 class="font-bold mb-2">${question.category}:</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="audio-btn mr-3" data-audio="${question.audio}">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <p>Listen and ${question.type === 'drawing' ? 'draw' : 'circle'}.</p>
+                    </div>
+            `;
+
+            if (question.type === 'multiple_choice') {
+                html += renderMultipleChoice(question);
+            } else if (question.type === 'color_choice') {
+                html += renderColorChoice(question);
+            } else if (question.type === 'shape_choice') {
+                html += renderShapeChoice(question);
+            } else if (question.type === 'drawing') {
+                html += renderDrawing(question, sectionKey, questionNum);
+            } else if (question.type === 'matching') {
+                html += renderMatching(question);
+            } else if (question.type === 'yes_no') {
+                html += renderYesNo(question);
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // Render multiple choice options
+        function renderMultipleChoice(question) {
+            let html = '<div class="grid-options mt-4">';
+            question.options.forEach(option => {
+                html += `
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="${option.correct}">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">${option.number || option.letter}</div>
+                        <div class="emoji-large">${option.emoji}</div>
+                        <p class="mt-2 text-sm">${option.text}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // Render color choice options
+        function renderColorChoice(question) {
+            const colorMap = {
+                red: '#ef4444', blue: '#3b82f6', green: '#10b981', yellow: '#f59e0b',
+                purple: '#8b5cf6', orange: '#f97316', pink: '#ec4899', brown: '#a3a3a3'
+            };
+            
+            let html = '<div class="grid-options mt-4">';
+            question.options.forEach(option => {
+                html += `
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="${option.correct}">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">${option.number}</div>
+                        <div class="color-box" style="background-color: ${colorMap[option.color]}">${option.text}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // Render shape choice options
+        function renderShapeChoice(question) {
+            const shapeMap = {
+                circle: '●',
+                square: '■',
+                triangle: '▲',
+                rectangle: '▬'
+            };
+            
+            let html = '<div class="grid-options mt-4">';
+            question.options.forEach(option => {
+                html += `
+                    <div class="option-box p-2 rounded-lg text-center" data-correct="${option.correct}">
+                        <div class="bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center mx-auto mb-2">${option.number}</div>
+                        <div class="shape-box text-6xl text-blue-600">${shapeMap[option.shape] || '■'}</div>
+                        <p class="mt-2 text-sm">${option.text}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // Render drawing canvas
+        function renderDrawing(question, sectionKey, questionNum) {
+            const canvasId = `canvas-${sectionKey}-${questionNum}`;
+            return `
+                <div class="drawing-tools">
+                    <button class="tool-btn active" data-tool="pen" data-canvas="${canvasId}">
+                        <i class="fas fa-pen"></i> Pen
+                    </button>
+                    <button class="tool-btn" data-tool="eraser" data-canvas="${canvasId}">
+                        <i class="fas fa-eraser"></i> Eraser
+                    </button>
+                    <button class="tool-btn" data-tool="clear" data-canvas="${canvasId}">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <div class="color-picker" style="background-color: #000000;" data-color="#000000" data-canvas="${canvasId}"></div>
+                    <div class="color-picker" style="background-color: #ff0000;" data-color="#ff0000" data-canvas="${canvasId}"></div>
+                    <div class="color-picker" style="background-color: #0000ff;" data-color="#0000ff" data-canvas="${canvasId}"></div>
+                    <input type="range" class="brush-size" min="1" max="20" value="3" data-canvas="${canvasId}">
+                </div>
+                <canvas id="${canvasId}" class="drawing-canvas" width="600" height="300"></canvas>
+                <p class="text-center mt-2 text-gray-600">${question.instruction}</p>
+            `;
+        }
+
+        // Render matching activity
+        function renderMatching(question) {
+            let html = '<div class="flex flex-col md:flex-row justify-around gap-4 mt-4">';
+            
+            // Items to drag
+            html += '<div class="flex flex-wrap justify-center gap-2">';
+            question.items.forEach(item => {
+                html += `<div class="item-drag" draggable="true" data-match="${item.id}">${item.emoji} ${item.text}</div>`;
+            });
+            html += '</div>';
+            
+            // Drop zones
+            html += '<div class="flex flex-col gap-4">';
+            question.targets.forEach(target => {
+                html += `
+                    <div>
+                        <p class="mb-1">${target.sound}</p>
+                        <div class="drop-zone" data-accepts="${target.match}">${target.text}</div>
+                    </div>
+                `;
+            });
+            html += '</div></div>';
+            
+            return html;
+        }
+
+        // Render yes/no question
+        function renderYesNo(question) {
+            return `
+                <div class="text-center">
+                    <span class="emoji-large">${question.image}</span>
+                </div>
+                <div class="flex justify-center gap-8 mt-4">
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="${question.correct === 'yes'}">
+                        <span class="text-lg font-bold">Yes</span>
+                    </div>
+                    <div class="option-box p-3 rounded-lg text-center px-8" data-correct="${question.correct === 'no'}">
+                        <span class="text-lg font-bold">No</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuestions();
+            initDragAndDrop();
+            initCountingQuestions();
+            
+            // Show section function
+            function showSection(sectionId) {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(sectionId).classList.add('active');
+                currentSection = sectionId;
+                
+                // Initialize specific games when shown
+                if (sectionId === 'counting') {
+                    currentCountingQuestion = 0;
+                    countingScore = 0;
+                    renderCountingQuestion();
+                    document.getElementById('countingScore').textContent = countingScore;
+                } else if (sectionId === 'numberGame') {
+                    numberRecognitionScore = 0;
+                    numberRecognitionTotal = 0;
+                    document.getElementById('numberScore').textContent = numberRecognitionScore;
+                    document.getElementById('numberTotal').textContent = numberRecognitionTotal;
+                } else if (sectionId === 'colorSort') {
+                    colorSortScore = 0;
+                    colorSortTotal = 0;
+                    currentColorIndex = 0;
+                    document.getElementById('colorSortScore').textContent = colorSortScore;
+                    document.getElementById('colorSortTotal').textContent = colorSortTotal;
+                    playColorInstruction();
+                } else if (sectionId === 'numberMatch') {
+                    numberMatchScore = 0;
+                    numberMatchTotal = 0;
+                    currentNumberWordIndex = 0;
+                    document.getElementById('numberMatchScore').textContent = numberMatchScore;
+                    document.getElementById('numberMatchTotal').textContent = numberMatchTotal;
+                    playNumberWordInstruction();
+                }
+                
+                // Update section buttons
+                document.querySelectorAll('.section-btn').forEach(btn => {
+                    if (btn.dataset.section === sectionId) {
+                        btn.classList.remove('bg-gray-300', 'text-gray-700', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-red-500', 'bg-pink-500');
+                        if (sectionId === 'familyTree') btn.classList.add('bg-green-600', 'text-white');
+                        else if (sectionId === 'colorSort') btn.classList.add('bg-purple-600', 'text-white');
+                        else if (sectionId === 'counting') btn.classList.add('bg-orange-600', 'text-white');
+                        else if (sectionId === 'numberGame') btn.classList.add('bg-red-600', 'text-white');
+                        else if (sectionId === 'numberMatch') btn.classList.add('bg-pink-600', 'text-white');
+                        else btn.classList.add('bg-blue-500', 'text-white');
+                    } else {
+                        btn.classList.remove('bg-blue-500', 'text-white', 'bg-green-600', 'bg-purple-600', 'bg-orange-600', 'bg-red-600', 'bg-pink-600');
+                        if (btn.dataset.section.startsWith('section') || btn.dataset.section === 'welcome') {
+                            btn.classList.add('bg-gray-300', 'text-gray-700');
+                        } else {
+                            // Bonus game buttons
+                            if (btn.dataset.section === 'familyTree') btn.classList.add('bg-green-500', 'text-white');
+                            else if (btn.dataset.section === 'colorSort') btn.classList.add('bg-purple-500', 'text-white');
+                            else if (btn.dataset.section === 'counting') btn.classList.add('bg-orange-500', 'text-white');
+                            else if (btn.dataset.section === 'numberGame') btn.classList.add('bg-red-500', 'text-white');
+                            else if (btn.dataset.section === 'numberMatch') btn.classList.add('bg-pink-500', 'text-white');
+                        }
+                    }
+                });
+            }
+            
+            // Event delegation for dynamic content
+            document.addEventListener('click', function(e) {
+                // Section button clicks
+                if (e.target.classList.contains('section-btn')) {
+                    showSection(e.target.dataset.section);
+                }
+                
+                // Start button
+                if (e.target.id === 'startBtn') {
+                    showSection('section1');
+                }
+                
+                // Continue buttons
+                if (e.target.classList.contains('continue-btn')) {
+                    showSection(e.target.dataset.next);
+                }
+                
+                // Finish button
+                if (e.target.id === 'finishBtn') {
+                    document.getElementById('resultsModal').classList.remove('hidden');
+                }
+                
+                // Restart button
+                if (e.target.id === 'restartBtn') {
+                    document.getElementById('resultsModal').classList.add('hidden');
+                    showSection('welcome');
+                }
+                
+                // Family Tree buttons
+                if (e.target.id === 'resetFamilyTree') {
+                    resetFamilyTree();
+                }
+                if (e.target.id === 'checkFamilyTree') {
+                    checkFamilyTree();
+                }
+                
+                // Color Sort buttons
+                if (e.target.id === 'resetColorSort') {
+                    resetColorSort();
+                }
+                if (e.target.id === 'playColorAudio' || e.target.closest('#playColorAudio')) {
+                    playColorInstruction();
+                }
+                if (e.target.id === 'nextColorInstruction') {
+                    nextColorInstruction();
+                }
+                
+                // Counting game buttons
+                if (e.target.classList.contains('count-choice')) {
+                    const selectedCount = parseInt(e.target.dataset.count);
+                    const correctCount = countingQuestions[currentCountingQuestion].count;
+                    
+                    // Highlight the choice
+                    document.querySelectorAll('.count-choice').forEach(choice => {
+                        choice.classList.remove('bg-green-200', 'bg-red-200');
+                    });
+                    
+                    if (selectedCount === correctCount) {
+                        e.target.classList.add('bg-green-200');
+                        countingScore++;
+                    } else {
+                        e.target.classList.add('bg-red-200');
+                        // Highlight correct answer
+                        document.querySelector(`[data-count="${correctCount}"]`).classList.add('bg-green-200');
+                    }
+                    
+                    document.getElementById('countingScore').textContent = countingScore;
+                    
+                    setTimeout(() => {
+                        currentCountingQuestion++;
+                        renderCountingQuestion();
+                    }, 1500);
+                }
+                
+                if (e.target.id === 'nextCountingQuestion') {
+                    currentCountingQuestion++;
+                    renderCountingQuestion();
+                }
+                
+                if (e.target.id === 'resetCounting') {
+                    currentCountingQuestion = 0;
+                    countingScore = 0;
+                    initCountingQuestions();
+                    renderCountingQuestion();
+                    document.getElementById('countingScore').textContent = countingScore;
+                }
+                
+                // Number Recognition buttons
+                if (e.target.id === 'playNumberAudio' || e.target.closest('#playNumberAudio')) {
+                    playNumberRecognition();
+                }
+                
+                if (e.target.classList.contains('number-option')) {
+                    const selectedNumber = parseInt(e.target.dataset.number);
+                    numberRecognitionTotal++;
+                    
+                    // Reset all options
+                    document.querySelectorAll('.number-option').forEach(option => {
+                        option.classList.remove('correct-match', 'incorrect-match', 'selected');
+                    });
+                    
+                    e.target.classList.add('selected');
+                    
+                    if (selectedNumber === currentTargetNumber) {
+                        e.target.classList.add('correct-match');
+                        numberRecognitionScore++;
+                    } else {
+                        e.target.classList.add('incorrect-match');
+                        document.querySelector(`[data-number="${currentTargetNumber}"]`).classList.add('correct-match');
+                    }
+                    
+                    document.getElementById('numberScore').textContent = numberRecognitionScore;
+                    document.getElementById('numberTotal').textContent = numberRecognitionTotal;
+                }
+                
+                if (e.target.id === 'nextNumber') {
+                    playNumberRecognition();
+                }
+                
+                // Number Match buttons
+                if (e.target.id === 'resetNumberMatch') {
+                    resetNumberMatch();
+                }
+                if (e.target.id === 'playNumberWordAudio' || e.target.closest('#playNumberWordAudio')) {
+                    playNumberWordInstruction();
+                }
+                if (e.target.id === 'nextNumberWord') {
+                    nextNumberWord();
+                }
+                
+                // Option box selection
+                if (e.target.closest('.option-box')) {
+                    const box = e.target.closest('.option-box');
+                    const siblings = Array.from(box.parentElement.children);
+                    siblings.forEach(sibling => {
+                        sibling.classList.remove('selected');
+                    });
+                    
+                    box.classList.add('selected');
+                    
+                    if (box.dataset.correct !== undefined) {
+                        if (box.dataset.correct === 'true') {
+                            box.style.backgroundColor = 'rgba(52, 211, 153, 0.2)';
+                        } else {
+                            box.style.backgroundColor = 'rgba(248, 113, 113, 0.2)';
+                        }
+                        
+                        setTimeout(() => {
+                            box.style.backgroundColor = '';
+                        }, 1000);
+                    }
+                }
+                
+                // Audio button clicks
+                if (e.target.closest('.audio-btn')) {
+                    const btn = e.target.closest('.audio-btn');
+                    const text = btn.dataset.audio;
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
+                }
+                
+                // Drawing tool clicks
+                if (e.target.classList.contains('tool-btn')) {
+                    const canvasId = e.target.dataset.canvas;
+                    const tool = e.target.dataset.tool;
+                    
+                    // Remove active from all tool buttons for this canvas
+                    document.querySelectorAll(`[data-canvas="${canvasId}"]`).forEach(btn => {
+                        if (btn.classList.contains('tool-btn')) {
+                            btn.classList.remove('active');
+                        }
+                    });
+                    
+                    // Add active to clicked button
+                    e.target.classList.add('active');
+                    
+                    // Handle tool actions
+                    if (tool === 'clear') {
+                        const canvas = document.getElementById(canvasId);
+                        if (canvas) {
+                            const ctx = canvas.getContext('2d');
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        }
+                    }
+                }
+                
+                // Color picker clicks
+                if (e.target.classList.contains('color-picker')) {
+                    const canvasId = e.target.dataset.canvas;
+                    const color = e.target.dataset.color;
+                    
+                    // Store current color for this canvas
+                    if (!window.canvasColors) window.canvasColors = {};
+                    window.canvasColors[canvasId] = color;
+                    
+                    // Update visual indication
+                    document.querySelectorAll(`[data-canvas="${canvasId}"].color-picker`).forEach(picker => {
+                        picker.style.border = '2px solid #ddd';
+                    });
+                    e.target.style.border = '3px solid #333';
+                }
+            });
+            
+            // Canvas drawing functionality
+            document.addEventListener('mousedown', function(e) {
+                if (e.target.classList.contains('drawing-canvas')) {
+                    const canvas = e.target;
+                    const canvasId = canvas.id;
+                    const ctx = canvas.getContext('2d');
+                    const rect = canvas.getBoundingClientRect();
+                    
+                    // Initialize drawing state
+                    if (!window.canvasStates) window.canvasStates = {};
+                    if (!window.canvasColors) window.canvasColors = {};
+                    
+                    window.canvasStates[canvasId] = {
+                        isDrawing: true,
+                        lastX: e.clientX - rect.left,
+                        lastY: e.clientY - rect.top
+                    };
+                    
+                    // Set drawing properties
+                    const activeTool = document.querySelector(`[data-canvas="${canvasId}"].tool-btn.active`);
+                    const tool = activeTool ? activeTool.dataset.tool : 'pen';
+                    const color = window.canvasColors[canvasId] || '#000000';
+                    const brushSize = document.querySelector(`[data-canvas="${canvasId}"].brush-size`);
+                    const size = brushSize ? brushSize.value : 3;
+                    
+                    ctx.lineWidth = size;
+                    ctx.lineCap = 'round';
+                    ctx.strokeStyle = tool === 'eraser' ? '#ffffff' : color;
+                    ctx.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over';
+                }
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (e.target.classList.contains('drawing-canvas')) {
+                    const canvas = e.target;
+                    const canvasId = canvas.id;
+                    const state = window.canvasStates && window.canvasStates[canvasId];
+                    
+                    if (state && state.isDrawing) {
+                        const ctx = canvas.getContext('2d');
+                        const rect = canvas.getBoundingClientRect();
+                        const currentX = e.clientX - rect.left;
+                        const currentY = e.clientY - rect.top;
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(state.lastX, state.lastY);
+                        ctx.lineTo(currentX, currentY);
+                        ctx.stroke();
+                        
+                        state.lastX = currentX;
+                        state.lastY = currentY;
+                    }
+                }
+            });
+            
+            document.addEventListener('mouseup', function(e) {
+                if (e.target.classList.contains('drawing-canvas')) {
+                    const canvas = e.target;
+                    const canvasId = canvas.id;
+                    const state = window.canvasStates && window.canvasStates[canvasId];
+                    
+                    if (state) {
+                        state.isDrawing = false;
+                    }
+                }
+            });
+            
+            // Brush size change
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('brush-size')) {
+                    // Brush size is handled in the drawing logic above
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
