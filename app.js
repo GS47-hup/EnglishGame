@@ -2831,3 +2831,286 @@ function checkListenAndCircleAnswers(sectionId, questionIndex) {
         nextQuestion(sectionId);
     }, 4000);
 }
+
+// ================================
+// FLASHCARDS SYSTEM
+// ================================
+
+class FlashcardsGame {
+    constructor() {
+        this.currentCards = [];
+        this.currentIndex = 0;
+        this.isFlipped = false;
+        this.mode = 'all';
+        this.style = 'emoji';
+        this.autoFlipTime = 0;
+        this.autoFlipInterval = null;
+        this.initializeEventListeners();
+    }
+
+    initializeEventListeners() {
+        const startBtn = document.getElementById('startFlashcards');
+        const flipBtn = document.getElementById('flipCardBtn');
+        const prevBtn = document.getElementById('prevCardBtn');
+        const nextBtn = document.getElementById('nextCardBtn');
+        const shuffleBtn = document.getElementById('shuffleCardsBtn');
+        const resetBtn = document.getElementById('resetFlashcards');
+
+        if (startBtn) startBtn.addEventListener('click', () => this.startFlashcards());
+        if (flipBtn) flipBtn.addEventListener('click', () => this.flipCard());
+        if (prevBtn) prevBtn.addEventListener('click', () => this.previousCard());
+        if (nextBtn) nextBtn.addEventListener('click', () => this.nextCard());
+        if (shuffleBtn) shuffleBtn.addEventListener('click', () => this.shuffleCards());
+        if (resetBtn) resetBtn.addEventListener('click', () => this.resetFlashcards());
+
+        // Add click listener to the card itself
+        const flashcard = document.getElementById('flashcard');
+        if (flashcard) {
+            flashcard.addEventListener('click', () => this.flipCard());
+        }
+    }
+
+    getVocabularyByCategory(category) {
+        if (!AppState.questionsData || !AppState.questionsData.section1 || !AppState.questionsData.section1.vocabulary_bank) {
+            return [];
+        }
+
+        const vocabulary = AppState.questionsData.section1.vocabulary_bank;
+        
+        if (category === 'all') {
+            return vocabulary;
+        }
+        
+        return vocabulary.filter(item => item.category === category);
+    }
+
+    startFlashcards() {
+        const mode = document.getElementById('flashcardMode').value;
+        const style = document.getElementById('flashcardStyle').value;
+        const autoFlip = document.getElementById('flashcardAuto').value;
+
+        this.mode = mode;
+        this.style = style;
+        this.autoFlipTime = autoFlip === 'manual' ? 0 : parseInt(autoFlip) * 1000;
+
+        // Get vocabulary for selected mode
+        this.currentCards = this.getVocabularyByCategory(mode);
+        
+        if (this.currentCards.length === 0) {
+            showToast('No vocabulary available for this category', 'error');
+            return;
+        }
+
+        // Reset state
+        this.currentIndex = 0;
+        this.isFlipped = false;
+
+        // Show flashcard display
+        document.querySelector('.flashcard-settings').style.display = 'none';
+        document.getElementById('flashcardDisplay').classList.remove('hidden');
+
+        // Update mode display
+        const modeNames = {
+            'all': 'All Vocabulary',
+            'family': 'Family Members',
+            'colors': 'Colors',
+            'body': 'Body Parts',
+            'animals': 'Animals',
+            'food': 'Food & Drinks',
+            'school': 'School Items',
+            'actions': 'Action Verbs',
+            'transport': 'Transportation',
+            'clothing': 'Clothing'
+        };
+        document.getElementById('currentMode').textContent = modeNames[mode] || mode;
+
+        // Display first card
+        this.displayCard();
+        this.updateProgress();
+
+        showToast(`Started studying ${this.currentCards.length} flashcards!`, 'success');
+        debugLog('Flashcards started', { 
+            mode: mode, 
+            style: style, 
+            cards: this.currentCards.length,
+            autoFlip: this.autoFlipTime
+        });
+    }
+
+    displayCard() {
+        if (this.currentCards.length === 0) return;
+
+        const card = this.currentCards[this.currentIndex];
+        const cardEmoji = document.getElementById('cardEmoji');
+        const cardText = document.getElementById('cardText');
+        const cardAnswer = document.getElementById('cardAnswer');
+        const cardExample = document.getElementById('cardExample');
+        const cardFront = document.getElementById('cardFront');
+        const cardBack = document.getElementById('cardBack');
+
+        // Reset card state
+        this.isFlipped = false;
+        cardFront.classList.remove('hidden');
+        cardBack.classList.add('hidden');
+
+        // Set content based on style
+        switch (this.style) {
+            case 'emoji':
+                cardEmoji.textContent = card.emoji;
+                cardText.textContent = '?';
+                cardAnswer.textContent = card.name.toUpperCase();
+                break;
+            case 'word':
+                cardEmoji.textContent = '?';
+                cardText.textContent = card.name.toUpperCase();
+                cardAnswer.textContent = card.emoji;
+                break;
+            case 'audio':
+                cardEmoji.textContent = '🔊';
+                cardText.textContent = 'Listen & Answer';
+                cardAnswer.textContent = card.name.toUpperCase();
+                // Play audio
+                audioSystem.speak(card.name);
+                break;
+        }
+
+        // Set example sentence
+        cardExample.textContent = `"This is a ${card.name}"`;
+
+        // Start auto-flip timer if enabled
+        if (this.autoFlipTime > 0) {
+            this.clearAutoFlip();
+            this.autoFlipInterval = setTimeout(() => {
+                this.flipCard();
+            }, this.autoFlipTime);
+        }
+
+        debugLog('Card displayed', { 
+            index: this.currentIndex, 
+            card: card.name, 
+            style: this.style 
+        });
+    }
+
+    flipCard() {
+        const cardFront = document.getElementById('cardFront');
+        const cardBack = document.getElementById('cardBack');
+
+        if (this.isFlipped) {
+            // Show front
+            cardFront.classList.remove('hidden');
+            cardBack.classList.add('hidden');
+            this.isFlipped = false;
+        } else {
+            // Show back
+            cardFront.classList.add('hidden');
+            cardBack.classList.remove('hidden');
+            this.isFlipped = true;
+        }
+
+        this.clearAutoFlip();
+        debugLog('Card flipped', { isFlipped: this.isFlipped });
+    }
+
+    nextCard() {
+        this.clearAutoFlip();
+        this.currentIndex = (this.currentIndex + 1) % this.currentCards.length;
+        this.displayCard();
+        this.updateProgress();
+        debugLog('Next card', { index: this.currentIndex });
+    }
+
+    previousCard() {
+        this.clearAutoFlip();
+        this.currentIndex = this.currentIndex === 0 ? this.currentCards.length - 1 : this.currentIndex - 1;
+        this.displayCard();
+        this.updateProgress();
+        debugLog('Previous card', { index: this.currentIndex });
+    }
+
+    shuffleCards() {
+        this.clearAutoFlip();
+        
+        // Fisher-Yates shuffle algorithm
+        for (let i = this.currentCards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.currentCards[i], this.currentCards[j]] = [this.currentCards[j], this.currentCards[i]];
+        }
+        
+        this.currentIndex = 0;
+        this.displayCard();
+        this.updateProgress();
+        showToast('Cards shuffled!', 'info');
+        debugLog('Cards shuffled');
+    }
+
+    updateProgress() {
+        const currentNum = document.getElementById('currentCardNum');
+        const totalCards = document.getElementById('totalCards');
+        const progressFill = document.querySelector('#flashcardDisplay .progress-fill');
+
+        if (currentNum) currentNum.textContent = this.currentIndex + 1;
+        if (totalCards) totalCards.textContent = this.currentCards.length;
+        
+        if (progressFill) {
+            const percentage = ((this.currentIndex + 1) / this.currentCards.length) * 100;
+            progressFill.style.width = `${percentage}%`;
+        }
+    }
+
+    resetFlashcards() {
+        this.clearAutoFlip();
+        
+        // Hide flashcard display
+        document.getElementById('flashcardDisplay').classList.add('hidden');
+        
+        // Show settings
+        document.querySelector('.flashcard-settings').style.display = 'block';
+        
+        // Reset state
+        this.currentCards = [];
+        this.currentIndex = 0;
+        this.isFlipped = false;
+        
+        debugLog('Flashcards reset');
+    }
+
+    clearAutoFlip() {
+        if (this.autoFlipInterval) {
+            clearTimeout(this.autoFlipInterval);
+            this.autoFlipInterval = null;
+        }
+    }
+}
+
+// Initialize flashcards when the page loads
+let flashcardsGame;
+
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', () => {
+    flashcardsGame = new FlashcardsGame();
+});
+
+// Global function for onclick in HTML
+function flipCard() {
+    if (flashcardsGame) {
+        flashcardsGame.flipCard();
+    }
+}
+
+debugLog('Flashcards system loaded');
+
+// Add exam preview to game buttons
+gameButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const section = button.getAttribute('data-section');
+        if (section === 'examPreview') {
+            showSection('examPreview');
+        } else if (sections[section] && typeof sections[section] === 'function') {
+            showSection(section);
+            sections[section]();
+        } else {
+            console.log(`Section ${section} not yet implemented`);
+        }
+    });
+});

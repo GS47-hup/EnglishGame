@@ -330,6 +330,73 @@
         .instruction-progress {
             transition: width 0.5s ease;
         }
+        .listening-answer.selected {
+            background-color: #60a5fa;
+            color: white;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        /* Exam Preview Styles */
+        .exam-preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .exam-section {
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .number-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 24px;
+        }
+        .emoji {
+            font-size: 1.5em;
+            display: inline-block;
+            width: 32px;
+            text-align: center;
+        }
+        .option {
+            min-width: 120px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .example-question {
+            background: white;
+        }
+        .yes-no-options span {
+            min-width: 60px;
+            text-align: center;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .exam-preview-container {
+                padding: 10px;
+            }
+            .options {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .example-question {
+                flex-direction: column;
+                align-items: start;
+            }
+            .yes-no-options {
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body class="p-4">
@@ -460,6 +527,11 @@
                     <div class="text-2xl mb-2">🃏</div>
                     <div class="font-semibold text-rose-700">Flashcards</div>
                     <div class="text-xs text-rose-600">Study & Review</div>
+                </button>
+                <button class="game-btn bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 px-4 py-4 rounded-lg transition text-center" data-section="examPreview">
+                    <div class="text-2xl mb-2">📄</div>
+                    <div class="font-semibold text-purple-700">Exam Preview</div>
+                    <div class="text-xs text-purple-600">60 Questions Demo</div>
                 </button>
             </div>
         </div>
@@ -1580,6 +1652,385 @@
                         <div class="text-sm text-blue-700 mt-1">Start with HIGH priority</div>
                         <button class="bg-blue-600 text-white px-3 py-1 rounded text-xs mt-2 hover:bg-blue-700" onclick="window.open('words_needing_images.md')">Open Guide</button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam Preview Section -->
+        <div id="examPreview" class="section">
+            <div class="exam-preview-container">
+                <h2 class="text-3xl font-bold text-purple-600 mb-6 text-center">📄 Month 1 Exam Preview</h2>
+                <p class="text-center text-gray-600 mb-8">This is a digital preview of the actual exam (60 questions total). Use this to show other teachers the structure and format.</p>
+                
+                <!-- Section 1: Line Matching -->
+                <div class="exam-section bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-blue-600 mb-4">📋 Section 1: Line Matching (20 questions)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Instructions: Listen and draw lines from numbers to the correct images.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="column-a">
+                            <h4 class="font-semibold mb-3">Column A (Numbers 1-10):</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3"><span class="number-circle">1</span> <span class="emoji">✋</span> hands</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">2</span> <span class="emoji">🚂</span> train</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">3</span> <span class="emoji">👩</span> mother</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">4</span> <span class="emoji">⭕</span> circle</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">5</span> <span class="emoji">🐟</span> fish</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">6</span> <span class="emoji">👖</span> pants</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">7</span> <span class="emoji">👦</span> brother</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">8</span> <span class="emoji">🍎</span> apple</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">9</span> <span class="emoji">👃</span> nose</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">10</span> <span class="emoji">📚</span> book</div>
+                            </div>
+                        </div>
+                        <div class="column-b">
+                            <h4 class="font-semibold mb-3">Column B (Numbers 11-20):</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3"><span class="number-circle">11</span> <span class="emoji">✏️</span> pencil</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">12</span> <span class="emoji">👒</span> hat</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">13</span> <span class="emoji">👧</span> sister</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">14</span> <span class="emoji">⬜</span> square</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">15</span> <span class="emoji">🥛</span> milk</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">16</span> <span class="emoji">🪟</span> window</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">17</span> <span class="emoji">👀</span> eyes</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">18</span> <span class="emoji">🐱</span> cat</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">19</span> <span class="emoji">👨</span> father</div>
+                                <div class="flex items-center gap-3"><span class="number-circle">20</span> <span class="emoji">🐕</span> dog</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Action Matching -->
+                <div class="exam-section bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-green-600 mb-4">🎭 Section 2: Action Matching (10 questions)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Instructions: Listen and draw lines matching subjects to actions.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="subjects">
+                            <h4 class="font-semibold mb-3">Subjects:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3"><span class="emoji">👩</span> Mother</div>
+                                <div class="flex items-center gap-3"><span class="emoji">👨</span> Father</div>
+                                <div class="flex items-center gap-3"><span class="emoji">👧</span> Sister</div>
+                                <div class="flex items-center gap-3"><span class="emoji">👦</span> Brother</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🐟</span> Fish</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🐵</span> Monkey</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🦁</span> Lion</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🐘</span> Elephant</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🐦</span> Bird</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🐴</span> Horse</div>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <h4 class="font-semibold mb-3">Actions:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-3"><span class="emoji">📖</span> reading</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🏃‍♂️</span> running</div>
+                                <div class="flex items-center gap-3"><span class="emoji">💃</span> dancing</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🎮</span> playing</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🏊‍♂️</span> swimming</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🦘</span> jumping</div>
+                                <div class="flex items-center gap-3"><span class="emoji">😴</span> sleeping</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🚶‍♂️</span> walking</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🕊️</span> flying</div>
+                                <div class="flex items-center gap-3"><span class="emoji">🍽️</span> eating</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="example-audio mt-4 p-3 bg-green-100 rounded">
+                        <p class="text-sm"><strong>Audio Examples:</strong> "The mother is reading", "The father is running", "The sister is dancing"...</p>
+                    </div>
+                </div>
+
+                <!-- Section 3: Multiple Choice -->
+                <div class="exam-section bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-yellow-600 mb-4">🎯 Section 3: Listen & Select (10 questions)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Instructions: Listen and choose the correct image from 3 options.</p>
+                    
+                    <div class="question-examples space-y-4">
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 1: "It is a circle. It is big."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">⭕</span> Small circle</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">⬜</span> Big square</div>
+                                <div class="option p-2 border rounded bg-green-100">C) <span class="emoji">⭕</span> Big circle ✅</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 2: "It is sweet."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded bg-green-100">A) <span class="emoji">🎂</span> Sweet cake ✅</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">🥛</span> Sour milk</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">✏️</span> Sweet pencil</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 3: "It can fly."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐟</span> Fish swimming</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐦</span> Bird flying ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🐘</span> Elephant walking</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 4: "It is big. It can walk."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐱</span> Small cat</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐘</span> Big elephant ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">⭕</span> Big circle</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 5: "It is sleeping."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded bg-green-100">A) <span class="emoji">😴</span> Cat sleeping ✅</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">🏃‍♂️</span> Dog running</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">📚</span> Book sleeping</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 6: "It is sweet."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded bg-green-100">A) <span class="emoji">🍎</span> Sweet apple ✅</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">🍋</span> Sour lemon</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">📚</span> Sweet book</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 7: "It can swim."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐦</span> Bird flying</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐟</span> Fish swimming ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🐱</span> Cat walking</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 8: "It is small."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐘</span> Big elephant</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐭</span> Small mouse ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🏠</span> Small house</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 9: "It is sour."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🎂</span> Sweet cake</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🍋</span> Sour lemon ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">📚</span> Sour book</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-yellow-300 rounded">
+                            <p class="font-semibold">🔊 Question 10: "It can jump."</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐟</span> Fish swimming</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐵</span> Monkey jumping ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">📚</span> Book jumping</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Yes/No Questions -->
+                <div class="exam-section bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-red-600 mb-4">❓ Section 4: Yes/No Questions (10 questions)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Instructions: Listen and circle YES or NO.</p>
+                    
+                    <div class="question-examples space-y-3">
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 1: "Can the fish swim?"</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="bg-green-100 px-3 py-1 rounded">✅ YES</span>
+                                <span class="px-3 py-1 border rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 2: "Are there three books?" (showing 4 books)</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="px-3 py-1 border rounded">✅ YES</span>
+                                <span class="bg-red-100 px-3 py-1 rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 3: "Is this a chair?" (showing table)</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="px-3 py-1 border rounded">✅ YES</span>
+                                <span class="bg-red-100 px-3 py-1 rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 4: "Can the elephant fly?"</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="px-3 py-1 border rounded">✅ YES</span>
+                                <span class="bg-red-100 px-3 py-1 rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 5: "Are there five pencils?" (showing 5 pencils)</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="bg-green-100 px-3 py-1 rounded">✅ YES</span>
+                                <span class="px-3 py-1 border rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 6: "Is this a book?" (showing book)</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="bg-green-100 px-3 py-1 rounded">✅ YES</span>
+                                <span class="px-3 py-1 border rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 7: "Can the bird fly?"</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="bg-green-100 px-3 py-1 rounded">✅ YES</span>
+                                <span class="px-3 py-1 border rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 8: "Do people have two eyes?"</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="bg-green-100 px-3 py-1 rounded">✅ YES</span>
+                                <span class="px-3 py-1 border rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 9: "Do people have three hands?"</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="px-3 py-1 border rounded">✅ YES</span>
+                                <span class="bg-red-100 px-3 py-1 rounded">❌ NO</span>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-red-300 rounded flex justify-between items-center">
+                            <span class="font-semibold">🔊 Question 10: "Can the horse swim?"</span>
+                            <div class="yes-no-options flex gap-4">
+                                <span class="px-3 py-1 border rounded">✅ YES</span>
+                                <span class="bg-red-100 px-3 py-1 rounded">❌ NO</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Prepositions -->
+                <div class="exam-section bg-purple-50 border border-purple-200 rounded-lg p-6 mb-6">
+                    <h3 class="text-xl font-bold text-purple-600 mb-4">📍 Section 5: Prepositions (10 questions)</h3>
+                    <p class="text-sm text-gray-600 mb-4">Instructions: Listen and choose the correct position from 3 options.</p>
+                    
+                    <div class="question-examples space-y-4">
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 1: "The apple is IN the box"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🍎📦</span> Apple ON box</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">📦🍎📦</span> Apple IN box ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">📦<br>🍎</span> Apple UNDER box</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 2: "The book is ON the table"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">📚<br>📋</span> Book UNDER table</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">📚<br>📋</span> Book ON table ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">📚 📋</span> Book NEXT TO table</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 3: "The ball is UNDER the chair"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded bg-green-100">A) <span class="emoji">🪑<br>⚽</span> Ball UNDER chair ✅</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">⚽<br>🪑</span> Ball ON chair</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🪑⚽</span> Ball BEHIND chair</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 4: "The pencil is NEXT TO the book"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">📚📝</span> Pencil IN book</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">📝<br>📚</span> Pencil ON book</div>
+                                <div class="option p-2 border rounded bg-green-100">C) <span class="emoji">📚 📝</span> Pencil NEXT TO book ✅</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 5: "The cat is BEHIND the tree"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐱🌳</span> Cat IN FRONT OF tree</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🌳🐱</span> Cat BEHIND tree ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🌳<br>🐱</span> Cat UNDER tree</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 6: "The dog is IN FRONT OF the house"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🏠🐕</span> Dog BEHIND house</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐕🏠</span> Dog IN FRONT OF house ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🐕<br>🏠</span> Dog ON house</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 7: "The bird is ON the window"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🪟<br>🐦</span> Bird UNDER window</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🐦<br>🪟</span> Bird ON window ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🪟🐦</span> Bird BEHIND window</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 8: "The fish is IN the water"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🐟<br>💧</span> Fish ON water</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">💧🐟💧</span> Fish IN water ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🐟 💧</span> Fish NEXT TO water</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 9: "The bag is UNDER the desk"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🎒<br>🗃️</span> Bag ON desk</div>
+                                <div class="option p-2 border rounded">B) <span class="emoji">🗃️🎒</span> Bag BEHIND desk</div>
+                                <div class="option p-2 border rounded bg-green-100">C) <span class="emoji">🗃️<br>🎒</span> Bag UNDER desk ✅</div>
+                            </div>
+                        </div>
+                        <div class="example-question p-3 border border-purple-300 rounded">
+                            <p class="font-semibold">🔊 Question 10: "The elephant is BETWEEN the trees"</p>
+                            <div class="options flex gap-4 mt-2">
+                                <div class="option p-2 border rounded">A) <span class="emoji">🌳🌳🐘</span> Elephant BEHIND trees</div>
+                                <div class="option p-2 border rounded bg-green-100">B) <span class="emoji">🌳🐘🌳</span> Elephant BETWEEN trees ✅</div>
+                                <div class="option p-2 border rounded">C) <span class="emoji">🐘🌳🌳</span> Elephant IN FRONT OF trees</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="exam-summary bg-gray-50 border border-gray-200 rounded-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4">📊 Exam Summary</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">Question Breakdown:</h4>
+                            <ul class="space-y-1 text-sm">
+                                <li>• Section 1: 20 Line Matching questions</li>
+                                <li>• Section 2: 10 Action Matching questions</li>
+                                <li>• Section 3: 10 Multiple Choice questions</li>
+                                <li>• Section 4: 10 Yes/No questions</li>
+                                <li>• Section 5: 10 Preposition questions</li>
+                                <li class="font-bold">• Total: 60 questions</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Key Features:</h4>
+                            <ul class="space-y-1 text-sm">
+                                <li>✅ All vocabulary from Month 1 curriculum</li>
+                                <li>✅ No colors (suitable for B&W printing)</li>
+                                <li>✅ Clear audio instructions</li>
+                                <li>✅ Age-appropriate content</li>
+                                <li>✅ Balanced difficulty progression</li>
+                                <li>✅ Multiple skill assessment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <button onclick="showSection('welcome')" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">Back to Main Menu</button>
                 </div>
             </div>
         </div>
