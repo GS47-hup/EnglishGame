@@ -465,6 +465,8 @@ function renderQuestion(sectionId, questionIndex) {
             questionHTML += renderLineMatchingColumnsQuestion(question, sectionId, questionIndex);
         } else if (question.type === 'subject_action_matching') {
             questionHTML += renderSubjectActionMatchingQuestion(question, sectionId, questionIndex);
+        } else if (question.type === 'listen_and_circle') {
+            questionHTML += renderListenAndCircleQuestion(question, sectionId, questionIndex);
         }
         
         // Navigation buttons
@@ -495,6 +497,10 @@ function renderQuestion(sectionId, questionIndex) {
         } else if (question.type === 'subject_action_matching') {
             setTimeout(() => {
                 initializeSubjectActionMatching(question);
+            }, 100);
+        } else if (question.type === 'listen_and_circle') {
+            setTimeout(() => {
+                initializeListenAndCircle(question);
             }, 100);
         }
         
@@ -2053,6 +2059,11 @@ window.clearAllLinesColumns = clearAllLinesColumns;
 window.checkLineMatchingColumns = checkLineMatchingColumns;
 window.generateNewImages = generateNewImages;
 window.shuffleSubjectActionImages = shuffleSubjectActionImages;
+window.playListenAndCircleAudio = playListenAndCircleAudio;
+window.selectListenAndCircleOption = selectListenAndCircleOption;
+window.playAllListenAndCircleQuestions = playAllListenAndCircleQuestions;
+window.shuffleListenAndCircleQuestions = shuffleListenAndCircleQuestions;
+window.checkListenAndCircleAnswers = checkListenAndCircleAnswers;
 
 debugLog('App.js loaded successfully - All critical systems ready!'); 
 
@@ -2483,4 +2494,340 @@ function shuffleSubjectActionImages(sectionId, questionIndex) {
     
     showToast('New images shuffled! 🎲', 'success');
     audioSystem.speak('New images are ready! Listen to the sentences again.');
+}
+
+function renderListenAndCircleQuestion(question, sectionId, questionIndex) {
+    // Use current questions (5 at a time) with shuffled display
+    const currentQuestions = question.current_questions || [];
+    const displayOrder = question.shuffled_order || [1, 2, 3, 4, 5];
+    
+    return `
+        <div class="question-container bg-white rounded-xl shadow-lg p-8">
+            <div class="question-header text-center mb-8">
+                <div class="question-emoji text-8xl mb-4">${question.emoji || '👂'}</div>
+                <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
+                <p class="instructions text-gray-600 text-lg mb-4">${question.instructions}</p>
+            </div>
+            
+            <div class="listen-circle-container bg-gray-50 rounded-xl p-6">
+                ${currentQuestions.map((q, qIndex) => `
+                    <div class="question-item mb-8 p-6 bg-white rounded-lg border-2 border-gray-200" data-question-id="${q.id}">
+                        <!-- Audio Control for this specific question -->
+                        <div class="audio-section text-center mb-6">
+                            <button onclick="playListenAndCircleAudio('${q.audio}', ${q.id})" 
+                                    class="bg-blue-600 text-white px-6 py-4 rounded-lg hover:bg-blue-700 transition text-lg">
+                                🔊 Listen to Question ${qIndex + 1}
+                            </button>
+                            <div class="audio-feedback mt-2 text-sm text-gray-600" id="audio-feedback-${q.id}">
+                                Click to hear the question
+                            </div>
+                        </div>
+                        
+                        <!-- Pure Image Options - NO TEXT -->
+                        <div class="options-grid grid grid-cols-3 gap-6">
+                            ${q.options.map((option, optIndex) => `
+                                <div class="option-item bg-blue-50 border-3 border-blue-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-100 transition-all hover:transform hover:scale-105"
+                                     onclick="selectListenAndCircleOption('${sectionId}', ${questionIndex}, ${q.id}, '${option.id}', '${q.correct_answer}')"
+                                     data-option-id="${option.id}" data-question-id="${q.id}">
+                                    <div class="text-8xl mb-2">${option.emoji}</div>
+                                    <div class="option-letter text-lg font-bold text-blue-600">${String.fromCharCode(65 + optIndex)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <!-- Section Controls -->
+            <div class="section-controls mt-8 text-center">
+                <div class="mb-6 space-x-4">
+                    <button onclick="playAllListenAndCircleQuestions('${sectionId}', ${questionIndex})" 
+                            class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition text-lg">
+                        🔊 Play All Questions
+                    </button>
+                    <button onclick="shuffleListenAndCircleQuestions('${sectionId}', ${questionIndex})" 
+                            class="bg-yellow-600 text-white px-6 py-3 rounded-lg hover:bg-yellow-700 transition text-lg">
+                        🎲 Shuffle Questions
+                    </button>
+                </div>
+                
+                <div class="progress-info mb-4">
+                    <div class="text-lg font-semibold text-gray-700 mb-2">
+                        Section Progress: <span id="listen-progress">0</span> of ${currentQuestions.length} answered
+                    </div>
+                    <div class="progress-bar bg-gray-200 rounded-full h-4 max-w-md mx-auto">
+                        <div id="listen-progress-bar" class="bg-green-500 h-4 rounded-full transition-all" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <button onclick="checkListenAndCircleAnswers('${sectionId}', ${questionIndex})" 
+                        class="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition text-lg font-semibold">
+                    ✅ Check All Answers
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// ================================
+// LISTEN AND CIRCLE SYSTEM
+// ================================
+
+let listenAndCircleState = {
+    selectedAnswers: {},
+    currentQuestionAudio: null,
+    completedQuestions: 0
+};
+
+function initializeListenAndCircle(question) {
+    debugLog('Initializing Listen and Circle:', question);
+    
+    // Reset state
+    listenAndCircleState.selectedAnswers = {};
+    listenAndCircleState.currentQuestionAudio = null;
+    listenAndCircleState.completedQuestions = 0;
+    
+    // Update progress display
+    updateListenAndCircleProgress();
+    
+    debugLog('Listen and Circle initialized successfully');
+}
+
+function playListenAndCircleAudio(audioText, questionId) {
+    debugLog(`Playing audio for question ${questionId}: "${audioText}"`);
+    
+    // Update feedback
+    const feedbackElement = document.getElementById(`audio-feedback-${questionId}`);
+    if (feedbackElement) {
+        feedbackElement.textContent = `Playing: "${audioText}"`;
+        feedbackElement.classList.add('text-blue-600', 'font-semibold');
+    }
+    
+    // Play audio
+    audioSystem.speak(audioText);
+    
+    // Reset feedback after audio
+    setTimeout(() => {
+        if (feedbackElement) {
+            feedbackElement.textContent = 'Click to hear again';
+            feedbackElement.classList.remove('text-blue-600', 'font-semibold');
+        }
+    }, 3000);
+}
+
+function selectListenAndCircleOption(sectionId, questionIndex, questionId, selectedOption, correctAnswer) {
+    debugLog('Option selected:', {
+        questionId,
+        selectedOption,
+        correctAnswer,
+        isCorrect: selectedOption === correctAnswer
+    });
+    
+    // Store the answer
+    listenAndCircleState.selectedAnswers[questionId] = {
+        selected: selectedOption,
+        correct: correctAnswer,
+        isCorrect: selectedOption === correctAnswer
+    };
+    
+    // Visual feedback for the specific question
+    const questionElement = document.querySelector(`[data-question-id="${questionId}"]`);
+    if (questionElement) {
+        // Remove previous selections
+        questionElement.querySelectorAll('.option-item').forEach(option => {
+            option.classList.remove('bg-green-200', 'border-green-500', 'bg-red-200', 'border-red-500', 'bg-yellow-200', 'border-yellow-500');
+        });
+        
+        // Mark selected option
+        const selectedElement = questionElement.querySelector(`[data-option-id="${selectedOption}"]`);
+        if (selectedElement) {
+            selectedElement.classList.add('bg-yellow-200', 'border-yellow-500');
+            selectedElement.style.borderWidth = '4px';
+        }
+    }
+    
+    // Update progress
+    updateListenAndCircleProgress();
+    
+    // Provide audio feedback
+    if (selectedOption === correctAnswer) {
+        showToast(`Question ${questionId}: Correct! 🎉`, 'success');
+    } else {
+        showToast(`Question ${questionId}: Selected`, 'info');
+    }
+}
+
+function playAllListenAndCircleQuestions(sectionId, questionIndex) {
+    const question = AppState.questionsData[sectionId].questions[questionIndex];
+    const currentQuestions = question.current_questions || [];
+    
+    let currentIndex = 0;
+    
+    function playNext() {
+        if (currentIndex < currentQuestions.length) {
+            const q = currentQuestions[currentIndex];
+            const feedbackElement = document.getElementById(`audio-feedback-${q.id}`);
+            
+            if (feedbackElement) {
+                feedbackElement.textContent = `Playing question ${currentIndex + 1}: "${q.audio}"`;
+                feedbackElement.classList.add('text-purple-600', 'font-semibold');
+            }
+            
+            audioSystem.speak(`Question ${currentIndex + 1}. ${q.audio}`);
+            
+            currentIndex++;
+            setTimeout(playNext, 4000); // 4 second delay between questions
+        } else {
+            // All questions played
+            showToast('All questions played! Now select your answers.', 'info');
+            document.querySelectorAll('[id^="audio-feedback-"]').forEach(element => {
+                element.textContent = 'All questions played - select your answers';
+                element.classList.remove('text-purple-600', 'font-semibold');
+            });
+        }
+    }
+    
+    playNext();
+}
+
+function shuffleListenAndCircleQuestions(sectionId, questionIndex) {
+    const sectionData = AppState.questionsData[sectionId];
+    const questionBank = sectionData.question_bank;
+    
+    if (!questionBank || questionBank.length < 5) {
+        showToast('Not enough questions in the bank!', 'error');
+        return;
+    }
+    
+    // Shuffle and select 5 questions from the bank
+    const shuffledQuestions = [...questionBank].sort(() => Math.random() - 0.5).slice(0, 5);
+    
+    // Update the question data
+    const question = sectionData.questions[questionIndex];
+    
+    // Assign new IDs 1-5 for easier tracking
+    question.current_questions = shuffledQuestions.map((q, index) => ({
+        id: index + 1,
+        audio: q.audio,
+        type: q.type,
+        correct_answer: q.correct_answer,
+        options: q.options.map(opt => ({...opt})) // Deep copy options
+    }));
+    
+    // Create new shuffled display order
+    question.shuffled_order = [3, 1, 5, 2, 4];
+    
+    debugLog('New Listen and Circle questions generated', {
+        questions: question.current_questions.map(q => q.audio),
+        types: question.current_questions.map(q => q.type)
+    });
+    
+    // Reset state
+    listenAndCircleState.selectedAnswers = {};
+    listenAndCircleState.completedQuestions = 0;
+    
+    // Re-render the question with new content
+    renderQuestion(sectionId, questionIndex);
+    
+    showToast('New questions shuffled! 🎲', 'success');
+    audioSystem.speak('New questions are ready! Listen carefully to each one.');
+}
+
+function updateListenAndCircleProgress() {
+    const answeredCount = Object.keys(listenAndCircleState.selectedAnswers).length;
+    const totalQuestions = document.querySelectorAll('.question-item').length;
+    
+    // Update progress display
+    const progressElement = document.getElementById('listen-progress');
+    const progressBarElement = document.getElementById('listen-progress-bar');
+    
+    if (progressElement) {
+        progressElement.textContent = answeredCount;
+    }
+    
+    if (progressBarElement && totalQuestions > 0) {
+        const percentage = (answeredCount / totalQuestions) * 100;
+        progressBarElement.style.width = percentage + '%';
+    }
+    
+    listenAndCircleState.completedQuestions = answeredCount;
+}
+
+function checkListenAndCircleAnswers(sectionId, questionIndex) {
+    const question = AppState.questionsData[sectionId].questions[questionIndex];
+    const currentQuestions = question.current_questions || [];
+    const answers = listenAndCircleState.selectedAnswers;
+    
+    let correctCount = 0;
+    let totalQuestions = currentQuestions.length;
+    
+    debugLog('Checking Listen and Circle answers:', {
+        answers: answers,
+        totalQuestions: totalQuestions
+    });
+    
+    // Check if all questions are answered
+    if (Object.keys(answers).length < totalQuestions) {
+        showToast('Please answer all questions before checking!', 'error');
+        return;
+    }
+    
+    // Check each answer and provide visual feedback
+    currentQuestions.forEach(q => {
+        const answer = answers[q.id];
+        const questionElement = document.querySelector(`[data-question-id="${q.id}"]`);
+        
+        if (questionElement && answer) {
+            // Clear previous feedback
+            questionElement.querySelectorAll('.option-item').forEach(option => {
+                option.classList.remove('bg-green-200', 'border-green-500', 'bg-red-200', 'border-red-500', 'bg-yellow-200', 'border-yellow-500');
+            });
+            
+            // Show correct answer
+            const correctElement = questionElement.querySelector(`[data-option-id="${q.correct_answer}"]`);
+            if (correctElement) {
+                correctElement.classList.add('bg-green-200', 'border-green-500');
+                correctElement.style.borderWidth = '4px';
+            }
+            
+            // Show incorrect selection if different
+            if (answer.selected !== q.correct_answer) {
+                const selectedElement = questionElement.querySelector(`[data-option-id="${answer.selected}"]`);
+                if (selectedElement) {
+                    selectedElement.classList.add('bg-red-200', 'border-red-500');
+                    selectedElement.style.borderWidth = '4px';
+                }
+            } else {
+                correctCount++;
+            }
+        }
+    });
+    
+    const percentage = Math.round((correctCount / totalQuestions) * 100);
+    AppState.score += correctCount;
+    
+    // Results message
+    let resultMessage = '';
+    if (percentage >= 90) {
+        resultMessage = `🎉 Excellent! ${correctCount}/${totalQuestions} correct (${percentage}%)!`;
+    } else if (percentage >= 70) {
+        resultMessage = `👍 Good job! ${correctCount}/${totalQuestions} correct (${percentage}%)!`;
+    } else if (percentage >= 50) {
+        resultMessage = `😊 Not bad! ${correctCount}/${totalQuestions} correct (${percentage}%)!`;
+    } else {
+        resultMessage = `🤔 Keep practicing! ${correctCount}/${totalQuestions} correct (${percentage}%)!`;
+    }
+    
+    showToast(resultMessage, percentage >= 70 ? 'success' : 'warning');
+    
+    // Audio feedback
+    if (percentage >= 80) {
+        audioSystem.speak(`Great listening! You got ${correctCount} out of ${totalQuestions} correct!`);
+    } else {
+        audioSystem.speak(`You got ${correctCount} out of ${totalQuestions} correct. Keep practicing your listening skills!`);
+    }
+    
+    setTimeout(() => {
+        nextQuestion(sectionId);
+    }, 4000);
 }

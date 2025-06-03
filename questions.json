@@ -336,278 +336,295 @@
     ]
   },
   "section4": {
-    "title": "Multiple Choice Challenges",
-    "description": "Advanced vocabulary and sentence structure practice",
+    "title": "Listen and Circle - Visual Comprehension",
+    "description": "Listen to the audio and circle the correct image",
+    "question_bank": [
+      {
+        "id": 1,
+        "audio": "The circle is red",
+        "type": "color_shape",
+        "correct_answer": "red_circle",
+        "options": [
+          {"id": "blue_circle", "emoji": "🔵", "description": "blue circle", "color": "blue"},
+          {"id": "red_circle", "emoji": "🔴", "description": "red circle", "color": "red"}, 
+          {"id": "yellow_circle", "emoji": "🟡", "description": "yellow circle", "color": "yellow"}
+        ]
+      },
+      {
+        "id": 2,
+        "audio": "The heart is blue",
+        "type": "color_shape",
+        "correct_answer": "blue_heart",
+        "options": [
+          {"id": "red_heart", "emoji": "❤️", "description": "red heart", "color": "red"},
+          {"id": "blue_heart", "emoji": "💙", "description": "blue heart", "color": "blue"},
+          {"id": "yellow_heart", "emoji": "💛", "description": "yellow heart", "color": "yellow"}
+        ]
+      },
+      {
+        "id": 3,
+        "audio": "The ant is very small",
+        "type": "size_single",
+        "correct_answer": "tiny_ant",
+        "options": [
+          {"id": "big_elephant", "emoji": "🐘", "description": "big elephant", "size": "big"},
+          {"id": "tiny_ant", "emoji": "🐜", "description": "tiny ant", "size": "tiny"},
+          {"id": "medium_cat", "emoji": "🐱", "description": "medium cat", "size": "medium"}
+        ]
+      },
+      {
+        "id": 4,
+        "audio": "The apple is red",
+        "type": "color_food",
+        "correct_answer": "red_apple",
+        "options": [
+          {"id": "green_apple", "emoji": "🍏", "description": "green apple", "color": "green"},
+          {"id": "red_apple", "emoji": "🍎", "description": "red apple", "color": "red"},
+          {"id": "orange_orange", "emoji": "🍊", "description": "orange orange", "color": "orange"}
+        ]
+      },
+      {
+        "id": 5,
+        "audio": "The cat is sleeping",
+        "type": "action_animal",
+        "correct_answer": "sleeping_cat",
+        "options": [
+          {"id": "running_dog", "emoji": "🐕‍🦺", "description": "running dog", "action": "running"},
+          {"id": "sleeping_cat", "emoji": "😴", "description": "sleeping cat", "action": "sleeping"},
+          {"id": "flying_bird", "emoji": "🕊️", "description": "flying bird", "action": "flying"}
+        ]
+      },
+      {
+        "id": 6,
+        "audio": "The elephant is very big",
+        "type": "size_single",
+        "correct_answer": "big_elephant",
+        "options": [
+          {"id": "tiny_ant", "emoji": "🐜", "description": "tiny ant", "size": "tiny"},
+          {"id": "big_elephant", "emoji": "🐘", "description": "big elephant", "size": "big"},
+          {"id": "small_mouse", "emoji": "🐭", "description": "small mouse", "size": "small"}
+        ]
+      },
+      {
+        "id": 7,
+        "audio": "The square is green",
+        "type": "color_shape",
+        "correct_answer": "green_square",
+        "options": [
+          {"id": "red_square", "emoji": "🟥", "description": "red square", "color": "red"},
+          {"id": "blue_square", "emoji": "🟦", "description": "blue square", "color": "blue"},
+          {"id": "green_square", "emoji": "🟢", "description": "green square", "color": "green"}
+        ]
+      },
+      {
+        "id": 8,
+        "audio": "The mouse is very small",
+        "type": "size_single",
+        "correct_answer": "small_mouse",
+        "options": [
+          {"id": "big_elephant", "emoji": "🐘", "description": "big elephant", "size": "big"},
+          {"id": "small_mouse", "emoji": "🐭", "description": "small mouse", "size": "small"},
+          {"id": "medium_dog", "emoji": "🐕", "description": "medium dog", "size": "medium"}
+        ]
+      },
+      {
+        "id": 9,
+        "audio": "The sun is yellow",
+        "type": "color_nature",
+        "correct_answer": "yellow_sun",
+        "options": [
+          {"id": "blue_water", "emoji": "💧", "description": "blue water", "color": "blue"},
+          {"id": "yellow_sun", "emoji": "☀️", "description": "yellow sun", "color": "yellow"},
+          {"id": "green_tree", "emoji": "🌳", "description": "green tree", "color": "green"}
+        ]
+      },
+      {
+        "id": 10,
+        "audio": "The girl is happy",
+        "type": "emotion_person",
+        "correct_answer": "happy_girl",
+        "options": [
+          {"id": "sad_person", "emoji": "😢", "description": "sad person", "emotion": "sad"},
+          {"id": "happy_girl", "emoji": "😊", "description": "happy girl", "emotion": "happy"},
+          {"id": "angry_person", "emoji": "😠", "description": "angry person", "emotion": "angry"}
+        ]
+      },
+      {
+        "id": 11,
+        "audio": "The person is sleeping",
+        "type": "action_person",
+        "correct_answer": "sleeping_person",
+        "options": [
+          {"id": "running_person", "emoji": "🏃‍♂️", "description": "running person", "action": "running"},
+          {"id": "sleeping_person", "emoji": "😴", "description": "sleeping person", "action": "sleeping"},
+          {"id": "eating_person", "emoji": "🍽️", "description": "eating person", "action": "eating"}
+        ]
+      },
+      {
+        "id": 12,
+        "audio": "The banana is yellow",
+        "type": "color_food",
+        "correct_answer": "yellow_banana",
+        "options": [
+          {"id": "red_apple", "emoji": "🍎", "description": "red apple", "color": "red"},
+          {"id": "green_apple", "emoji": "🍏", "description": "green apple", "color": "green"},
+          {"id": "yellow_banana", "emoji": "🍌", "description": "yellow banana", "color": "yellow"}
+        ]
+      },
+      {
+        "id": 13,
+        "audio": "The bird is flying",
+        "type": "action_animal",
+        "correct_answer": "flying_bird",
+        "options": [
+          {"id": "swimming_fish", "emoji": "🐟", "description": "swimming fish", "action": "swimming"},
+          {"id": "flying_bird", "emoji": "🕊️", "description": "flying bird", "action": "flying"},
+          {"id": "walking_person", "emoji": "🚶‍♂️", "description": "walking person", "action": "walking"}
+        ]
+      },
+      {
+        "id": 14,
+        "audio": "The whale is very big",
+        "type": "size_single",
+        "correct_answer": "big_whale",
+        "options": [
+          {"id": "tiny_ant", "emoji": "🐜", "description": "tiny ant", "size": "tiny"},
+          {"id": "big_whale", "emoji": "🐋", "description": "big whale", "size": "big"},
+          {"id": "small_fish", "emoji": "🐠", "description": "small fish", "size": "small"}
+        ]
+      },
+      {
+        "id": 15,
+        "audio": "The water is blue",
+        "type": "color_nature",
+        "correct_answer": "blue_water",
+        "options": [
+          {"id": "yellow_sun", "emoji": "☀️", "description": "yellow sun", "color": "yellow"},
+          {"id": "blue_water", "emoji": "💧", "description": "blue water", "color": "blue"},
+          {"id": "green_tree", "emoji": "🌳", "description": "green tree", "color": "green"}
+        ]
+      },
+      {
+        "id": 16,
+        "audio": "The person is running",
+        "type": "action_person",
+        "correct_answer": "running_person",
+        "options": [
+          {"id": "sleeping_person", "emoji": "😴", "description": "sleeping person", "action": "sleeping"},
+          {"id": "running_person", "emoji": "🏃‍♂️", "description": "running person", "action": "running"},
+          {"id": "sitting_person", "emoji": "🪑", "description": "sitting person", "action": "sitting"}
+        ]
+      },
+      {
+        "id": 17,
+        "audio": "The orange is orange",
+        "type": "color_food",
+        "correct_answer": "orange_orange",
+        "options": [
+          {"id": "red_apple", "emoji": "🍎", "description": "red apple", "color": "red"},
+          {"id": "yellow_banana", "emoji": "🍌", "description": "yellow banana", "color": "yellow"},
+          {"id": "orange_orange", "emoji": "🍊", "description": "orange orange", "color": "orange"}
+        ]
+      },
+      {
+        "id": 18,
+        "audio": "The fish is swimming",
+        "type": "action_animal",
+        "correct_answer": "swimming_fish",
+        "options": [
+          {"id": "flying_bird", "emoji": "🕊️", "description": "flying bird", "action": "flying"},
+          {"id": "swimming_fish", "emoji": "🐟", "description": "swimming fish", "action": "swimming"},
+          {"id": "running_dog", "emoji": "🐕‍🦺", "description": "running dog", "action": "running"}
+        ]
+      },
+      {
+        "id": 19,
+        "audio": "The person is sad",
+        "type": "emotion_person",
+        "correct_answer": "sad_person",
+        "options": [
+          {"id": "happy_person", "emoji": "😊", "description": "happy person", "emotion": "happy"},
+          {"id": "sad_person", "emoji": "😢", "description": "sad person", "emotion": "sad"},
+          {"id": "angry_person", "emoji": "😠", "description": "angry person", "emotion": "angry"}
+        ]
+      },
+      {
+        "id": 20,
+        "audio": "The tree is green",
+        "type": "color_nature",
+        "correct_answer": "green_tree",
+        "options": [
+          {"id": "yellow_sun", "emoji": "☀️", "description": "yellow sun", "color": "yellow"},
+          {"id": "blue_water", "emoji": "💧", "description": "blue water", "color": "blue"},
+          {"id": "green_tree", "emoji": "🌳", "description": "green tree", "color": "green"}
+        ]
+      }
+    ],
     "questions": [
       {
         "id": 51,
-        "type": "multiple_choice",
-        "question": "I _____ to school every day.",
-        "options": ["go", "goes", "going", "went"],
-        "correct": 0,
-        "emoji": "🏫",
-        "audio": "I go to school every day"
-      },
-      {
-        "id": 52,
-        "type": "multiple_choice",
-        "question": "The cat _____ on the chair.",
-        "options": ["sit", "sits", "sitting", "sat"],
-        "correct": 1,
-        "emoji": "🐱",
-        "audio": "The cat sits on the chair"
-      },
-      {
-        "id": 53,
-        "type": "multiple_choice",
-        "question": "What do you wear on your feet?",
-        "options": ["Hat", "Gloves", "Shoes", "Jacket"],
-        "correct": 2,
-        "emoji": "👟",
-        "audio": "Shoes"
-      },
-      {
-        "id": 54,
-        "type": "multiple_choice",
-        "question": "How many legs does a cat have?",
-        "options": ["Two", "Three", "Four", "Five"],
-        "correct": 2,
-        "emoji": "🐱",
-        "audio": "Four"
-      },
-      {
-        "id": 55,
-        "type": "multiple_choice",
-        "question": "What do you use to write?",
-        "options": ["Spoon", "Pen", "Shoe", "Cup"],
-        "correct": 1,
-        "emoji": "✏️",
-        "audio": "Pen"
-      },
-      {
-        "id": 56,
-        "type": "multiple_choice",
-        "question": "The apple is _____ the table.",
-        "options": ["under", "on", "in", "next"],
-        "correct": 1,
-        "emoji": "🍎",
-        "audio": "The apple is on the table"
-      },
-      {
-        "id": 57,
-        "type": "multiple_choice",
-        "question": "I am _____ years old.",
-        "options": ["six", "book", "red", "happy"],
-        "correct": 0,
-        "emoji": "🎂",
-        "audio": "I am six years old"
-      },
-      {
-        "id": 58,
-        "type": "multiple_choice",
-        "question": "The dog is _____ the house.",
-        "options": ["on", "in", "under", "over"],
-        "correct": 1,
-        "emoji": "🐕",
-        "audio": "The dog is in the house"
-      },
-      {
-        "id": 59,
-        "type": "multiple_choice",
-        "question": "What color do you get when you mix red and yellow?",
-        "options": ["Green", "Blue", "Orange", "Purple"],
-        "correct": 2,
-        "emoji": "🎨",
-        "audio": "Orange"
-      },
-      {
-        "id": 60,
-        "type": "multiple_choice",
-        "question": "Birds can _____.",
-        "options": ["swim", "fly", "drive", "cook"],
-        "correct": 1,
-        "emoji": "🐦",
-        "audio": "Birds can fly"
-      },
-      {
-        "id": 61,
-        "type": "multiple_choice",
-        "question": "We eat with a _____ and _____.",
-        "options": ["pen, pencil", "fork, spoon", "book, bag", "hat, shoe"],
-        "correct": 1,
-        "emoji": "🍽️",
-        "audio": "Fork and spoon"
-      },
-      {
-        "id": 62,
-        "type": "multiple_choice",
-        "question": "The sun is _____.",
-        "options": ["cold", "hot", "small", "blue"],
-        "correct": 1,
-        "emoji": "☀️",
-        "audio": "Hot"
-      },
-      {
-        "id": 63,
-        "type": "multiple_choice",
-        "question": "Fish live in _____.",
-        "options": ["trees", "sky", "water", "cars"],
-        "correct": 2,
-        "emoji": "🐟",
-        "audio": "Water"
-      },
-      {
-        "id": 64,
-        "type": "multiple_choice",
-        "question": "At night, we can see the _____.",
-        "options": ["sun", "moon", "rainbow", "snow"],
-        "correct": 1,
-        "emoji": "🌙",
-        "audio": "Moon"
-      },
-      {
-        "id": 65,
-        "type": "multiple_choice",
-        "question": "Ice cream is _____.",
-        "options": ["hot", "cold", "sour", "salty"],
-        "correct": 1,
-        "emoji": "🍦",
-        "audio": "Cold"
-      },
-      {
-        "id": 66,
-        "type": "multiple_choice",
-        "question": "A lemon tastes _____.",
-        "options": ["sweet", "sour", "hot", "cold"],
-        "correct": 1,
-        "emoji": "🍋",
-        "audio": "Sour"
-      },
-      {
-        "id": 67,
-        "type": "multiple_choice",
-        "question": "Elephants are very _____.",
-        "options": ["small", "big", "fast", "short"],
-        "correct": 1,
-        "emoji": "🐘",
-        "audio": "Big"
-      },
-      {
-        "id": 68,
-        "type": "multiple_choice",
-        "question": "We use our _____ to think.",
-        "options": ["feet", "hands", "brain", "stomach"],
-        "correct": 2,
-        "emoji": "🧠",
-        "audio": "Brain"
-      },
-      {
-        "id": 69,
-        "type": "multiple_choice",
-        "question": "Honey is _____.",
-        "options": ["sour", "bitter", "sweet", "salty"],
-        "correct": 2,
-        "emoji": "🍯",
-        "audio": "Sweet"
-      },
-      {
-        "id": 70,
-        "type": "multiple_choice",
-        "question": "When it rains, we use an _____.",
-        "options": ["umbrella", "apple", "elephant", "orange"],
-        "correct": 0,
-        "emoji": "☂️",
-        "audio": "Umbrella"
-      },
-      {
-        "id": 71,
-        "type": "multiple_choice",
-        "question": "Flowers grow in a _____.",
-        "options": ["car", "garden", "book", "shoe"],
-        "correct": 1,
-        "emoji": "🌸",
-        "audio": "Garden"
-      },
-      {
-        "id": 72,
-        "type": "multiple_choice",
-        "question": "We sleep in a _____.",
-        "options": ["kitchen", "bathroom", "bedroom", "garden"],
-        "correct": 2,
-        "emoji": "🛏️",
-        "audio": "Bedroom"
-      },
-      {
-        "id": 73,
-        "type": "multiple_choice",
-        "question": "A baby cow is called a _____.",
-        "options": ["puppy", "kitten", "calf", "chick"],
-        "correct": 2,
-        "emoji": "🐄",
-        "audio": "Calf"
-      },
-      {
-        "id": 74,
-        "type": "multiple_choice",
-        "question": "We brush our _____ every day.",
-        "options": ["hair", "teeth", "shoes", "books"],
-        "correct": 1,
-        "emoji": "🦷",
-        "audio": "Teeth"
-      },
-      {
-        "id": 75,
-        "type": "multiple_choice",
-        "question": "Christmas comes in _____.",
-        "options": ["summer", "spring", "winter", "fall"],
-        "correct": 2,
-        "emoji": "🎄",
-        "audio": "Winter"
-      },
-      {
-        "id": 76,
-        "type": "multiple_choice",
-        "question": "We can _____ a book.",
-        "options": ["eat", "read", "drink", "wear"],
-        "correct": 1,
-        "emoji": "📖",
-        "audio": "Read"
-      },
-      {
-        "id": 77,
-        "type": "multiple_choice",
-        "question": "Spiders have _____ legs.",
-        "options": ["six", "four", "eight", "ten"],
-        "correct": 2,
-        "emoji": "🕷️",
-        "audio": "Eight"
-      },
-      {
-        "id": 78,
-        "type": "multiple_choice",
-        "question": "We cook food in the _____.",
-        "options": ["bedroom", "bathroom", "kitchen", "garage"],
-        "correct": 2,
-        "emoji": "🍳",
-        "audio": "Kitchen"
-      },
-      {
-        "id": 79,
-        "type": "multiple_choice",
-        "question": "A group of lions is called a _____.",
-        "options": ["herd", "flock", "pride", "pack"],
-        "correct": 2,
-        "emoji": "🦁",
-        "audio": "Pride"
-      },
-      {
-        "id": 80,
-        "type": "multiple_choice",
-        "question": "The opposite of 'big' is _____.",
-        "options": ["large", "huge", "small", "tall"],
-        "correct": 2,
-        "emoji": "📏",
-        "audio": "Small"
+        "type": "listen_and_circle",
+        "question": "Listen and circle the correct image",
+        "instructions": "Listen carefully to the audio and click the correct image. No text - only listen and look!",
+        "current_questions": [
+          {
+            "id": 1,
+            "audio": "The circle is red",
+            "type": "color_shape",
+            "correct_answer": "red_circle",
+            "options": [
+              {"id": "blue_circle", "emoji": "🔵", "description": "blue circle", "color": "blue"},
+              {"id": "red_circle", "emoji": "🔴", "description": "red circle", "color": "red"}, 
+              {"id": "yellow_circle", "emoji": "🟡", "description": "yellow circle", "color": "yellow"}
+            ]
+          },
+          {
+            "id": 2,
+            "audio": "The heart is blue",
+            "type": "color_shape",
+            "correct_answer": "blue_heart",
+            "options": [
+              {"id": "red_heart", "emoji": "❤️", "description": "red heart", "color": "red"},
+              {"id": "blue_heart", "emoji": "💙", "description": "blue heart", "color": "blue"},
+              {"id": "yellow_heart", "emoji": "💛", "description": "yellow heart", "color": "yellow"}
+            ]
+          },
+          {
+            "id": 3,
+            "audio": "The ant is very small",
+            "type": "size_single",
+            "correct_answer": "tiny_ant",
+            "options": [
+              {"id": "big_elephant", "emoji": "🐘", "description": "big elephant", "size": "big"},
+              {"id": "tiny_ant", "emoji": "🐜", "description": "tiny ant", "size": "tiny"},
+              {"id": "medium_cat", "emoji": "🐱", "description": "medium cat", "size": "medium"}
+            ]
+          },
+          {
+            "id": 4,
+            "audio": "The apple is red",
+            "type": "color_food",
+            "correct_answer": "red_apple",
+            "options": [
+              {"id": "green_apple", "emoji": "🍏", "description": "green apple", "color": "green"},
+              {"id": "red_apple", "emoji": "🍎", "description": "red apple", "color": "red"},
+              {"id": "orange_orange", "emoji": "🍊", "description": "orange orange", "color": "orange"}
+            ]
+          },
+          {
+            "id": 5,
+            "audio": "The cat is sleeping",
+            "type": "action_animal",
+            "correct_answer": "sleeping_cat",
+            "options": [
+              {"id": "running_dog", "emoji": "🐕‍🦺", "description": "running dog", "action": "running"},
+              {"id": "sleeping_cat", "emoji": "😴", "description": "sleeping cat", "action": "sleeping"},
+              {"id": "flying_bird", "emoji": "🕊️", "description": "flying bird", "action": "flying"}
+            ]
+          }
+        ],
+        "shuffled_order": [3, 1, 5, 2, 4],
+        "emoji": "👂"
       }
     ]
   },
