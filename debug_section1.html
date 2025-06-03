@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 1 Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+        .debug-container { background: white; padding: 20px; border-radius: 8px; margin: 10px 0; }
+        .debug-output { background: #f8f8f8; padding: 15px; border-left: 4px solid #007acc; margin: 10px 0; font-family: monospace; }
+        .error { border-left-color: #cc0000; background: #fff5f5; }
+        .success { border-left-color: #00aa00; background: #f5fff5; }
+        button { background: #007acc; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #005a99; }
+    </style>
+</head>
+<body>
+    <h1>Section 1 Debug Test</h1>
+    
+    <div class="debug-container">
+        <h3>Test Controls</h3>
+        <button onclick="testLoadQuestions()">Test Load Questions</button>
+        <button onclick="testSection1Data()">Test Section 1 Data</button>
+        <button onclick="testSection1DOM()">Test Section 1 DOM</button>
+        <button onclick="testStartSection1()">Test Start Section 1</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+    
+    <div class="debug-container">
+        <h3>Debug Output</h3>
+        <div id="debugOutput"></div>
+    </div>
+
+    <script>
+        let debugOutput = document.getElementById('debugOutput');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `debug-output ${type}`;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            debugOutput.appendChild(div);
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+        }
+        
+        function clearLog() {
+            debugOutput.innerHTML = '';
+        }
+        
+        async function testLoadQuestions() {
+            log('Testing questions.json loading...');
+            try {
+                const response = await fetch('questions.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                log(`✓ Questions loaded: ${Object.keys(data).length} sections`, 'success');
+                
+                if (data.section1) {
+                    log(`✓ Section1 found: ${data.section1.questions.length} questions`, 'success');
+                    log(`✓ Section1 title: ${data.section1.title}`, 'success');
+                } else {
+                    log('✗ Section1 not found in data', 'error');
+                }
+                
+                window.testData = data;
+            } catch (error) {
+                log(`✗ Failed to load questions: ${error.message}`, 'error');
+            }
+        }
+        
+        function testSection1Data() {
+            log('Testing Section 1 data structure...');
+            if (window.testData && window.testData.section1) {
+                const section1 = window.testData.section1;
+                log(`✓ Section1 title: ${section1.title}`, 'success');
+                log(`✓ Section1 description: ${section1.description}`, 'success');
+                log(`✓ Section1 questions count: ${section1.questions.length}`, 'success');
+                
+                if (section1.questions.length > 0) {
+                    log(`✓ First question: ${section1.questions[0].question}`, 'success');
+                    log(`✓ First question type: ${section1.questions[0].type}`, 'success');
+                    log(`✓ First question options: ${section1.questions[0].options.length}`, 'success');
+                }
+            } else {
+                log('✗ No Section1 data available. Run "Test Load Questions" first.', 'error');
+            }
+        }
+        
+        function testSection1DOM() {
+            log('Testing Section 1 DOM elements...');
+            const section1Element = document.getElementById('section1');
+            if (section1Element) {
+                log('✗ Section1 element found, but this is a debug page', 'error');
+                log('Please test this on the main index.html page', 'error');
+            } else {
+                log('✗ Section1 element not found (expected on debug page)', 'info');
+                log('This test should be run on the main application', 'info');
+            }
+        }
+        
+        function testStartSection1() {
+            log('Testing Section 1 start function...');
+            log('This test requires the full application context', 'info');
+            log('Please run this test from the main application console', 'info');
+            log('Commands to try in browser console:', 'info');
+            log('1. console.log(AppState.questionsData)', 'info');
+            log('2. startSection("section1")', 'info');
+            log('3. showSection("section1")', 'info');
+        }
+        
+        // Auto-run basic test
+        window.addEventListener('load', () => {
+            log('Debug page loaded. Click buttons to run tests.');
+            testLoadQuestions();
+        });
+    </script>
+</body>
+</html> 

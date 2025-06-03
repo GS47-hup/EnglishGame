@@ -1,943 +1,779 @@
 {
   "section1": {
-    "title": "Basic Identification",
-    "subtitle": "Listen and circle the correct picture",
-    "total": 20,
+    "title": "Number-to-Image Matching - Two Sections",
+    "description": "Listen to the audio and draw lines from numbers to images you have studied",
+    "vocabulary_bank": [
+      { "id": 1, "emoji": "👩", "name": "mother", "category": "family" },
+      { "id": 2, "emoji": "👨", "name": "father", "category": "family" },
+      { "id": 3, "emoji": "👧", "name": "sister", "category": "family" },
+      { "id": 4, "emoji": "👦", "name": "brother", "category": "family" },
+      { "id": 5, "emoji": "👴", "name": "grandfather", "category": "family" },
+      { "id": 6, "emoji": "👵", "name": "grandmother", "category": "family" },
+      { "id": 7, "emoji": "🔴", "name": "red", "category": "colors" },
+      { "id": 8, "emoji": "🔵", "name": "blue", "category": "colors" },
+      { "id": 9, "emoji": "🟢", "name": "green", "category": "colors" },
+      { "id": 10, "emoji": "🟡", "name": "yellow", "category": "colors" },
+      { "id": 11, "emoji": "🟠", "name": "orange", "category": "colors" },
+      { "id": 12, "emoji": "🟣", "name": "purple", "category": "colors" },
+      { "id": 13, "emoji": "⚫", "name": "black", "category": "colors" },
+      { "id": 14, "emoji": "⚪", "name": "white", "category": "colors" },
+      { "id": 15, "emoji": "👀", "name": "eyes", "category": "body" },
+      { "id": 16, "emoji": "👃", "name": "nose", "category": "body" },
+      { "id": 17, "emoji": "👄", "name": "mouth", "category": "body" },
+      { "id": 18, "emoji": "👂", "name": "ears", "category": "body" },
+      { "id": 19, "emoji": "✋", "name": "hands", "category": "body" },
+      { "id": 20, "emoji": "🦶", "name": "feet", "category": "body" },
+      { "id": 21, "emoji": "🐱", "name": "cat", "category": "animals" },
+      { "id": 22, "emoji": "🐕", "name": "dog", "category": "animals" },
+      { "id": 23, "emoji": "🐦", "name": "bird", "category": "animals" },
+      { "id": 24, "emoji": "🐟", "name": "fish", "category": "animals" },
+      { "id": 25, "emoji": "🐘", "name": "elephant", "category": "animals" },
+      { "id": 26, "emoji": "🐸", "name": "frog", "category": "animals" },
+      { "id": 27, "emoji": "🐷", "name": "pig", "category": "animals" },
+      { "id": 28, "emoji": "🐄", "name": "cow", "category": "animals" },
+      { "id": 29, "emoji": "⭕", "name": "circle", "category": "shapes" },
+      { "id": 30, "emoji": "⬜", "name": "square", "category": "shapes" },
+      { "id": 31, "emoji": "🔺", "name": "triangle", "category": "shapes" },
+      { "id": 32, "emoji": "⬛", "name": "rectangle", "category": "shapes" },
+      { "id": 33, "emoji": "📚", "name": "book", "category": "school" },
+      { "id": 34, "emoji": "🖊️", "name": "pen", "category": "school" },
+      { "id": 35, "emoji": "✏️", "name": "pencil", "category": "school" },
+      { "id": 36, "emoji": "📏", "name": "ruler", "category": "school" },
+      { "id": 37, "emoji": "🎒", "name": "bag", "category": "school" },
+      { "id": 38, "emoji": "🍎", "name": "apple", "category": "food" },
+      { "id": 39, "emoji": "🍌", "name": "banana", "category": "food" },
+      { "id": 40, "emoji": "🍊", "name": "orange", "category": "food" },
+      { "id": 41, "emoji": "🍞", "name": "bread", "category": "food" },
+      { "id": 42, "emoji": "🥛", "name": "milk", "category": "food" },
+      { "id": 43, "emoji": "🧀", "name": "cheese", "category": "food" },
+      { "id": 44, "emoji": "🏃‍♂️", "name": "run", "category": "actions" },
+      { "id": 45, "emoji": "🦘", "name": "jump", "category": "actions" },
+      { "id": 46, "emoji": "🚶‍♂️", "name": "walk", "category": "actions" },
+      { "id": 47, "emoji": "😴", "name": "sleep", "category": "actions" },
+      { "id": 48, "emoji": "🍽️", "name": "eat", "category": "actions" },
+      { "id": 49, "emoji": "👕", "name": "shirt", "category": "clothing" },
+      { "id": 50, "emoji": "👖", "name": "pants", "category": "clothing" },
+      { "id": 51, "emoji": "👗", "name": "dress", "category": "clothing" },
+      { "id": 52, "emoji": "👟", "name": "shoes", "category": "clothing" },
+      { "id": 53, "emoji": "👒", "name": "hat", "category": "clothing" },
+      { "id": 54, "emoji": "🚗", "name": "car", "category": "transport" },
+      { "id": 55, "emoji": "🚌", "name": "bus", "category": "transport" },
+      { "id": 56, "emoji": "🚂", "name": "train", "category": "transport" },
+      { "id": 57, "emoji": "✈️", "name": "airplane", "category": "transport" },
+      { "id": 58, "emoji": "🚲", "name": "bike", "category": "transport" }
+    ],
     "questions": [
       {
         "id": 1,
-        "category": "Family Members",
-        "audio": "Number 2 is the father.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👵",
-            "text": "Grandmother",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "👨",
-            "text": "Father",
-            "correct": true
-          },
-          {
-            "number": 3,
-            "emoji": "👩",
-            "text": "Mother",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "👶",
-            "text": "Baby",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "category": "Family Members",
-        "audio": "Number 1 is the grandmother.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👵",
-            "text": "Grandmother",
-            "correct": true
-          },
-          {
-            "number": 2,
-            "emoji": "👨",
-            "text": "Father",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "👩",
-            "text": "Mother",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "👧",
-            "text": "Sister",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "category": "Family Members",
-        "audio": "Number 3 is the sister.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👦",
-            "text": "Brother",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "👨",
-            "text": "Father",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "👧",
-            "text": "Sister",
-            "correct": true
-          },
-          {
-            "number": 4,
-            "emoji": "👵",
-            "text": "Grandmother",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "category": "Family Members",
-        "audio": "Number 4 is the baby.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👵",
-            "text": "Grandmother",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "👩",
-            "text": "Mother",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "👨",
-            "text": "Father",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "👶",
-            "text": "Baby",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": 5,
-        "category": "Colors",
-        "audio": "Number 1 is red.",
-        "type": "color_choice",
-        "options": [
-          {
-            "number": 1,
-            "color": "red",
-            "text": "RED",
-            "correct": true
-          },
-          {
-            "number": 2,
-            "color": "blue",
-            "text": "BLUE",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "color": "green",
-            "text": "GREEN",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "color": "yellow",
-            "text": "YELLOW",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 6,
-        "category": "Colors",
-        "audio": "Number 3 is purple.",
-        "type": "color_choice",
-        "options": [
-          {
-            "number": 1,
-            "color": "orange",
-            "text": "ORANGE",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "color": "blue",
-            "text": "BLUE",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "color": "purple",
-            "text": "PURPLE",
-            "correct": true
-          },
-          {
-            "number": 4,
-            "color": "pink",
-            "text": "PINK",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 7,
-        "category": "Colors",
-        "audio": "Number 2 is brown.",
-        "type": "color_choice",
-        "options": [
-          {
-            "number": 1,
-            "color": "green",
-            "text": "GREEN",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "color": "brown",
-            "text": "BROWN",
-            "correct": true
-          },
-          {
-            "number": 3,
-            "color": "pink",
-            "text": "PINK",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "color": "orange",
-            "text": "ORANGE",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 8,
-        "category": "Colors",
-        "audio": "Number 4 is pink.",
-        "type": "color_choice",
-        "options": [
-          {
-            "number": 1,
-            "color": "yellow",
-            "text": "YELLOW",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "color": "purple",
-            "text": "PURPLE",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "color": "red",
-            "text": "RED",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "color": "pink",
-            "text": "PINK",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": 9,
-        "category": "Body Parts",
-        "audio": "Number 3 is the nose.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👁️",
-            "text": "Eye",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "👂",
-            "text": "Ear",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "👃",
-            "text": "Nose",
-            "correct": true
-          },
-          {
-            "number": 4,
-            "emoji": "👄",
-            "text": "Mouth",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 10,
-        "category": "Body Parts",
-        "audio": "Number 1 is the hand.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "✋",
-            "text": "Hand",
-            "correct": true
-          },
-          {
-            "number": 2,
-            "emoji": "🦵",
-            "text": "Leg",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "👁️",
-            "text": "Eye",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "👂",
-            "text": "Ear",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 11,
-        "category": "Body Parts",
-        "audio": "Number 4 is the foot.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👂",
-            "text": "Ear",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "✋",
-            "text": "Hand",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "👁️",
-            "text": "Eye",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "🦶",
-            "text": "Foot",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": 12,
-        "category": "Body Parts",
-        "audio": "Number 2 is the hair.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "👃",
-            "text": "Nose",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "💇",
-            "text": "Hair",
-            "correct": true
-          },
-          {
-            "number": 3,
-            "emoji": "👁️",
-            "text": "Eye",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "👂",
-            "text": "Ear",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 13,
-        "category": "Shapes",
-        "audio": "Number 2 is a circle.",
-        "type": "shape_choice",
-        "options": [
-          {
-            "number": 1,
-            "shape": "square",
-            "text": "Square",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "shape": "circle",
-            "text": "Circle",
-            "correct": true
-          },
-          {
-            "number": 3,
-            "shape": "triangle",
-            "text": "Triangle",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "shape": "rectangle",
-            "text": "Rectangle",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 14,
-        "category": "Shapes",
-        "audio": "Number 1 is a triangle.",
-        "type": "shape_choice",
-        "options": [
-          {
-            "number": 1,
-            "shape": "triangle",
-            "text": "Triangle",
-            "correct": true
-          },
-          {
-            "number": 2,
-            "shape": "square",
-            "text": "Square",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "shape": "circle",
-            "text": "Circle",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "shape": "rectangle",
-            "text": "Rectangle",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 15,
-        "category": "Shapes",
-        "audio": "Number 4 is a rectangle.",
-        "type": "shape_choice",
-        "options": [
-          {
-            "number": 1,
-            "shape": "square",
-            "text": "Square",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "shape": "circle",
-            "text": "Circle",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "shape": "triangle",
-            "text": "Triangle",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "shape": "rectangle",
-            "text": "Rectangle",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": 16,
-        "category": "Shapes",
-        "audio": "Number 3 is a square.",
-        "type": "shape_choice",
-        "options": [
-          {
-            "number": 1,
-            "shape": "circle",
-            "text": "Circle",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "shape": "triangle",
-            "text": "Triangle",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "shape": "square",
-            "text": "Square",
-            "correct": true
-          },
-          {
-            "number": 4,
-            "shape": "rectangle",
-            "text": "Rectangle",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 17,
-        "category": "Classroom Objects",
-        "audio": "Number 4 is the door.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "🪑",
-            "text": "Chair",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "🪟",
-            "text": "Window",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "📚",
-            "text": "Book",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "🚪",
-            "text": "Door",
-            "correct": true
-          }
-        ]
-      },
-      {
-        "id": 18,
-        "category": "Classroom Objects",
-        "audio": "Number 1 is the desk.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "🗂️",
-            "text": "Desk",
-            "correct": true
-          },
-          {
-            "number": 2,
-            "emoji": "🪟",
-            "text": "Window",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "🚪",
-            "text": "Door",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "📚",
-            "text": "Book",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 19,
-        "category": "Classroom Objects",
-        "audio": "Number 3 is the clock.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "📚",
-            "text": "Book",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "🪟",
-            "text": "Window",
-            "correct": false
-          },
-          {
-            "number": 3,
-            "emoji": "🕐",
-            "text": "Clock",
-            "correct": true
-          },
-          {
-            "number": 4,
-            "emoji": "🚪",
-            "text": "Door",
-            "correct": false
-          }
-        ]
-      },
-      {
-        "id": 20,
-        "category": "Classroom Objects",
-        "audio": "Number 2 is the bookshelf.",
-        "type": "multiple_choice",
-        "options": [
-          {
-            "number": 1,
-            "emoji": "🪑",
-            "text": "Chair",
-            "correct": false
-          },
-          {
-            "number": 2,
-            "emoji": "📚",
-            "text": "Bookshelf",
-            "correct": true
-          },
-          {
-            "number": 3,
-            "emoji": "🪟",
-            "text": "Window",
-            "correct": false
-          },
-          {
-            "number": 4,
-            "emoji": "🚪",
-            "text": "Door",
-            "correct": false
-          }
-        ]
+        "type": "line_matching_columns", 
+        "question": "Section A & B: Draw lines from numbers to the correct images",
+        "instructions": "Listen to each instruction and draw lines from numbers to the matching images. Both sections are active at the same time! Click 'New Images' for a different set.",
+        "section_a": {
+          "title": "Section A: Numbers 1-10",
+          "audio_instructions": [
+            "Number 1 is mother",
+            "Number 2 is red", 
+            "Number 3 is eyes",
+            "Number 4 is cat",
+            "Number 5 is circle",
+            "Number 6 is book",
+            "Number 7 is apple",
+            "Number 8 is run",
+            "Number 9 is shirt",
+            "Number 10 is car"
+          ],
+          "number_range": { "start": 1, "end": 10 },
+          "images": [
+            { "id": 1, "emoji": "👩", "name": "mother", "category": "family" },
+            { "id": 2, "emoji": "🔴", "name": "red", "category": "colors" },
+            { "id": 3, "emoji": "👀", "name": "eyes", "category": "body" },
+            { "id": 4, "emoji": "🐱", "name": "cat", "category": "animals" },
+            { "id": 5, "emoji": "⭕", "name": "circle", "category": "shapes" },
+            { "id": 6, "emoji": "📚", "name": "book", "category": "school" },
+            { "id": 7, "emoji": "🍎", "name": "apple", "category": "food" },
+            { "id": 8, "emoji": "🏃‍♂️", "name": "run", "category": "actions" },
+            { "id": 9, "emoji": "👕", "name": "shirt", "category": "clothing" },
+            { "id": 10, "emoji": "🚗", "name": "car", "category": "transport" }
+          ],
+          "shuffled_order": [3, 7, 1, 9, 5, 10, 2, 6, 4, 8]
+        },
+        "section_b": {
+          "title": "Section B: Numbers 11-20",
+          "audio_instructions": [
+            "Number 11 is father",
+            "Number 12 is blue", 
+            "Number 13 is nose",
+            "Number 14 is dog",
+            "Number 15 is square",
+            "Number 16 is pen",
+            "Number 17 is banana",
+            "Number 18 is jump",
+            "Number 19 is shoes",
+            "Number 20 is bus"
+          ],
+          "number_range": { "start": 11, "end": 20 },
+          "images": [
+            { "id": 11, "emoji": "👨", "name": "father", "category": "family" },
+            { "id": 12, "emoji": "🔵", "name": "blue", "category": "colors" },
+            { "id": 13, "emoji": "👃", "name": "nose", "category": "body" },
+            { "id": 14, "emoji": "🐕", "name": "dog", "category": "animals" },
+            { "id": 15, "emoji": "⬜", "name": "square", "category": "shapes" },
+            { "id": 16, "emoji": "🖊️", "name": "pen", "category": "school" },
+            { "id": 17, "emoji": "🍌", "name": "banana", "category": "food" },
+            { "id": 18, "emoji": "🦘", "name": "jump", "category": "actions" },
+            { "id": 19, "emoji": "👟", "name": "shoes", "category": "clothing" },
+            { "id": 20, "emoji": "🚌", "name": "bus", "category": "transport" }
+          ],
+          "shuffled_order": [15, 19, 12, 17, 11, 20, 14, 18, 13, 16]
+        },
+        "emoji": "🔗"
       }
     ]
   },
   "section2": {
-    "title": "Following Instructions",
-    "subtitle": "Listen and draw according to the instructions",
-    "total": 15,
+    "title": "Drawing & Creative Expression",
+    "description": "Drawing activities and creative vocabulary practice",
     "questions": [
       {
-        "id": 1,
-        "category": "School Supplies Drawing",
-        "audio": "Draw a pencil on the desk.",
+        "id": 21,
         "type": "drawing",
-        "background": "desk",
-        "instruction": "Draw a pencil on the desk"
+        "question": "Draw a circle and color it red",
+        "instructions": "Use the drawing tools to draw a circle. Then use the red color to fill it.",
+        "target": "red_circle",
+        "emoji": "🔴"
       },
       {
-        "id": 2,
-        "category": "School Supplies Drawing",
-        "audio": "Draw a book under the chair.",
+        "id": 22,
         "type": "drawing",
-        "background": "chair",
-        "instruction": "Draw a book under the chair"
+        "question": "Draw your family",
+        "instructions": "Draw stick figures representing your family members.",
+        "target": "family_drawing",
+        "emoji": "👨‍👩‍👧‍👦"
       },
       {
-        "id": 3,
-        "category": "School Supplies Drawing",
-        "audio": "Draw an eraser next to the pen.",
+        "id": 23,
         "type": "drawing",
-        "background": "pen",
-        "instruction": "Draw an eraser next to the pen"
+        "question": "Draw a house with a red roof",
+        "instructions": "Draw a simple house and color the roof red.",
+        "target": "house_red_roof",
+        "emoji": "🏠"
       },
       {
-        "id": 4,
-        "category": "School Supplies Drawing",
-        "audio": "Draw scissors on the paper.",
+        "id": 24,
         "type": "drawing",
-        "background": "paper",
-        "instruction": "Draw scissors on the paper"
+        "question": "Draw a blue square",
+        "instructions": "Draw a square shape and color it blue.",
+        "target": "blue_square",
+        "emoji": "🔵"
       },
       {
-        "id": 5,
-        "category": "School Supplies Drawing",
-        "audio": "Draw a ruler behind the book.",
+        "id": 25,
         "type": "drawing",
-        "background": "book",
-        "instruction": "Draw a ruler behind the book"
+        "question": "Draw a yellow sun",
+        "instructions": "Draw the sun with rays and color it yellow.",
+        "target": "yellow_sun",
+        "emoji": "☀️"
       },
       {
-        "id": 6,
-        "category": "Body Parts Positions",
-        "audio": "Touch your head and draw a circle.",
+        "id": 26,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Touch your head and draw a circle"
+        "question": "Draw green grass",
+        "instructions": "Draw grass at the bottom and color it green.",
+        "target": "green_grass",
+        "emoji": "🌱"
       },
       {
-        "id": 7,
-        "category": "Body Parts Positions",
-        "audio": "Point to your eyes and draw two dots.",
+        "id": 27,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Point to your eyes and draw two dots"
+        "question": "Draw a triangle",
+        "instructions": "Draw a triangle shape.",
+        "target": "triangle",
+        "emoji": "🔺"
       },
       {
-        "id": 8,
-        "category": "Body Parts Positions",
-        "audio": "Show your hands and draw lines.",
+        "id": 28,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Show your hands and draw lines"
+        "question": "Draw a happy face",
+        "instructions": "Draw a circle face with eyes and a smile.",
+        "target": "happy_face",
+        "emoji": "😊"
       },
       {
-        "id": 9,
-        "category": "Body Parts Positions",
-        "audio": "Touch your nose and draw a triangle.",
+        "id": 29,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Touch your nose and draw a triangle"
+        "question": "Draw a cat",
+        "instructions": "Draw a simple cat with ears and tail.",
+        "target": "cat_drawing",
+        "emoji": "🐱"
       },
       {
-        "id": 10,
-        "category": "Body Parts Positions",
-        "audio": "Point to your ears and draw squares.",
+        "id": 30,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Point to your ears and draw squares"
+        "question": "Draw a tree",
+        "instructions": "Draw a tree with trunk and leaves.",
+        "target": "tree_drawing",
+        "emoji": "🌳"
       },
       {
-        "id": 11,
-        "category": "Classroom Commands",
-        "audio": "Sit down and draw a chair.",
+        "id": 31,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Sit down and draw a chair"
+        "question": "Draw your classroom",
+        "instructions": "Draw tables, chairs, and a blackboard.",
+        "target": "classroom",
+        "emoji": "🏫"
       },
       {
-        "id": 12,
-        "category": "Classroom Commands",
-        "audio": "Stand up and draw yourself.",
+        "id": 32,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Stand up and draw yourself"
+        "question": "Draw a flower",
+        "instructions": "Draw a flower with petals and stem.",
+        "target": "flower",
+        "emoji": "🌸"
       },
       {
-        "id": 13,
-        "category": "Classroom Commands",
-        "audio": "Open the door and draw it.",
+        "id": 33,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Open the door and draw it"
+        "question": "Draw a car",
+        "instructions": "Draw a simple car with wheels.",
+        "target": "car_drawing",
+        "emoji": "🚗"
       },
       {
-        "id": 14,
-        "category": "Classroom Commands",
-        "audio": "Close the window and draw it.",
+        "id": 34,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Close the window and draw it"
+        "question": "Draw a book",
+        "instructions": "Draw a book with pages.",
+        "target": "book_drawing",
+        "emoji": "📚"
       },
       {
-        "id": 15,
-        "category": "Classroom Commands",
-        "audio": "Take a pencil and draw it.",
+        "id": 35,
         "type": "drawing",
-        "background": "blank",
-        "instruction": "Take a pencil and draw it"
+        "question": "Draw an apple",
+        "instructions": "Draw an apple and color it red.",
+        "target": "red_apple",
+        "emoji": "🍎"
       }
     ]
   },
   "section3": {
-    "title": "Matching Activities",
-    "subtitle": "Listen and match the items that go together",
-    "total": 25,
+    "title": "Subject-Action Matching",
+    "description": "Listen to sentences and match subjects with their actions",
+    "subject_bank": [
+      {"id": 1, "emoji": "🐕", "name": "dog", "category": "animals"},
+      {"id": 2, "emoji": "👩‍🏫", "name": "teacher", "category": "people"},
+      {"id": 3, "emoji": "🐱", "name": "cat", "category": "animals"},
+      {"id": 4, "emoji": "👧", "name": "girl", "category": "people"},
+      {"id": 5, "emoji": "🐴", "name": "horse", "category": "animals"},
+      {"id": 6, "emoji": "👦", "name": "boy", "category": "people"},
+      {"id": 7, "emoji": "🐦", "name": "bird", "category": "animals"},
+      {"id": 8, "emoji": "👩", "name": "mother", "category": "people"},
+      {"id": 9, "emoji": "🐟", "name": "fish", "category": "animals"},
+      {"id": 10, "emoji": "👨", "name": "father", "category": "people"},
+      {"id": 11, "emoji": "🐘", "name": "elephant", "category": "animals"},
+      {"id": 12, "emoji": "👨‍🎓", "name": "student", "category": "people"},
+      {"id": 13, "emoji": "🐄", "name": "cow", "category": "animals"},
+      {"id": 14, "emoji": "👧", "name": "sister", "category": "people"},
+      {"id": 15, "emoji": "🐷", "name": "pig", "category": "animals"},
+      {"id": 16, "emoji": "🦅", "name": "eagle", "category": "animals"},
+      {"id": 17, "emoji": "👶", "name": "baby", "category": "people"},
+      {"id": 18, "emoji": "🐸", "name": "frog", "category": "animals"}
+    ],
+    "action_bank": [
+      {"id": 1, "emoji": "🏃‍♂️", "name": "running", "base_form": "run"},
+      {"id": 2, "emoji": "🍽️", "name": "eating", "base_form": "eat"},
+      {"id": 3, "emoji": "🦘", "name": "jumping", "base_form": "jump"},
+      {"id": 4, "emoji": "🏊‍♀️", "name": "swimming", "base_form": "swim"},
+      {"id": 5, "emoji": "🚶‍♂️", "name": "walking", "base_form": "walk"},
+      {"id": 6, "emoji": "😴", "name": "sleeping", "base_form": "sleep"},
+      {"id": 7, "emoji": "🦅", "name": "flying", "base_form": "fly"},
+      {"id": 8, "emoji": "📖", "name": "reading", "base_form": "read"},
+      {"id": 9, "emoji": "✍️", "name": "writing", "base_form": "write"},
+      {"id": 10, "emoji": "🎨", "name": "drawing", "base_form": "draw"},
+      {"id": 11, "emoji": "💃", "name": "dancing", "base_form": "dance"},
+      {"id": 12, "emoji": "🎵", "name": "singing", "base_form": "sing"},
+      {"id": 13, "emoji": "🛌", "name": "lying", "base_form": "lie"},
+      {"id": 14, "emoji": "🤸", "name": "playing", "base_form": "play"}
+    ],
     "questions": [
       {
-        "id": 1,
-        "category": "Animals & Sounds",
-        "audio": "Match the animals with their sounds.",
-        "type": "matching",
-        "items": [
-          {
-            "id": "cow",
-            "emoji": "🐄",
-            "text": "Cow"
-          },
-          {
-            "id": "dog",
-            "emoji": "🐕",
-            "text": "Dog"
-          },
-          {
-            "id": "cat",
-            "emoji": "🐱",
-            "text": "Cat"
-          }
+        "id": 36,
+        "type": "subject_action_matching",
+        "question": "Match subjects with their actions",
+        "instructions": "Listen to each sentence and draw lines connecting the subject (person/animal) to the correct action. Only images - no text!",
+        "current_subjects": [
+          {"id": 1, "emoji": "🐕", "name": "dog", "category": "animals"},
+          {"id": 2, "emoji": "👩‍🏫", "name": "teacher", "category": "people"},
+          {"id": 3, "emoji": "🐱", "name": "cat", "category": "animals"},
+          {"id": 4, "emoji": "👧", "name": "girl", "category": "people"},
+          {"id": 5, "emoji": "🐴", "name": "horse", "category": "animals"}
         ],
-        "targets": [
-          {
-            "id": "moo",
-            "sound": "🔊 MOO",
-            "text": "Drop the animal that says MOO",
-            "match": "cow"
-          },
-          {
-            "id": "bark",
-            "sound": "🔊 BARK",
-            "text": "Drop the animal that says BARK",
-            "match": "dog"
-          },
-          {
-            "id": "meow",
-            "sound": "🔊 MEOW",
-            "text": "Drop the animal that says MEOW",
-            "match": "cat"
-          }
-        ]
+        "current_actions": [
+          {"id": 1, "emoji": "🏃‍♂️", "name": "running", "base_form": "run"},
+          {"id": 2, "emoji": "🍽️", "name": "eating", "base_form": "eat"},
+          {"id": 3, "emoji": "🦘", "name": "jumping", "base_form": "jump"},
+          {"id": 4, "emoji": "🏊‍♀️", "name": "swimming", "base_form": "swim"},
+          {"id": 5, "emoji": "🚶‍♂️", "name": "walking", "base_form": "walk"}
+        ],
+        "audio_instructions": [
+          "The dog is running",
+          "The teacher is eating", 
+          "The cat is jumping",
+          "The girl is swimming",
+          "The horse is walking"
+        ],
+        "correct_matches": [
+          {"subject_id": 1, "action_id": 1, "sentence": "The dog is running"},
+          {"subject_id": 2, "action_id": 2, "sentence": "The teacher is eating"},
+          {"subject_id": 3, "action_id": 3, "sentence": "The cat is jumping"},
+          {"subject_id": 4, "action_id": 4, "sentence": "The girl is swimming"},
+          {"subject_id": 5, "action_id": 5, "sentence": "The horse is walking"}
+        ],
+        "shuffled_subjects": [3, 1, 5, 2, 4],
+        "shuffled_actions": [2, 5, 1, 4, 3],
+        "emoji": "🔗"
       }
     ]
   },
   "section4": {
-    "title": "Multiple Choice",
-    "subtitle": "Listen and circle the correct picture",
-    "total": 30,
+    "title": "Multiple Choice Challenges",
+    "description": "Advanced vocabulary and sentence structure practice",
     "questions": [
       {
-        "id": 1,
-        "category": "Zoo Animals",
-        "audio": "Circle the elephant.",
+        "id": 51,
         "type": "multiple_choice",
-        "options": [
-          {
-            "letter": "A",
-            "emoji": "🐵",
-            "text": "Monkey",
-            "correct": false
-          },
-          {
-            "letter": "B",
-            "emoji": "🐘",
-            "text": "Elephant",
-            "correct": true
-          },
-          {
-            "letter": "C",
-            "emoji": "🦁",
-            "text": "Lion",
-            "correct": false
-          },
-          {
-            "letter": "D",
-            "emoji": "🦒",
-            "text": "Giraffe",
-            "correct": false
-          }
-        ]
+        "question": "I _____ to school every day.",
+        "options": ["go", "goes", "going", "went"],
+        "correct": 0,
+        "emoji": "🏫",
+        "audio": "I go to school every day"
       },
       {
-        "id": 2,
-        "category": "Zoo Animals",
-        "audio": "Circle the monkey.",
+        "id": 52,
         "type": "multiple_choice",
-        "options": [
-          {
-            "letter": "A",
-            "emoji": "🐘",
-            "text": "Elephant",
-            "correct": false
-          },
-          {
-            "letter": "B",
-            "emoji": "🐵",
-            "text": "Monkey",
-            "correct": true
-          },
-          {
-            "letter": "C",
-            "emoji": "🦁",
-            "text": "Lion",
-            "correct": false
-          },
-          {
-            "letter": "D",
-            "emoji": "🐅",
-            "text": "Tiger",
-            "correct": false
-          }
-        ]
+        "question": "The cat _____ on the chair.",
+        "options": ["sit", "sits", "sitting", "sat"],
+        "correct": 1,
+        "emoji": "🐱",
+        "audio": "The cat sits on the chair"
+      },
+      {
+        "id": 53,
+        "type": "multiple_choice",
+        "question": "What do you wear on your feet?",
+        "options": ["Hat", "Gloves", "Shoes", "Jacket"],
+        "correct": 2,
+        "emoji": "👟",
+        "audio": "Shoes"
+      },
+      {
+        "id": 54,
+        "type": "multiple_choice",
+        "question": "How many legs does a cat have?",
+        "options": ["Two", "Three", "Four", "Five"],
+        "correct": 2,
+        "emoji": "🐱",
+        "audio": "Four"
+      },
+      {
+        "id": 55,
+        "type": "multiple_choice",
+        "question": "What do you use to write?",
+        "options": ["Spoon", "Pen", "Shoe", "Cup"],
+        "correct": 1,
+        "emoji": "✏️",
+        "audio": "Pen"
+      },
+      {
+        "id": 56,
+        "type": "multiple_choice",
+        "question": "The apple is _____ the table.",
+        "options": ["under", "on", "in", "next"],
+        "correct": 1,
+        "emoji": "🍎",
+        "audio": "The apple is on the table"
+      },
+      {
+        "id": 57,
+        "type": "multiple_choice",
+        "question": "I am _____ years old.",
+        "options": ["six", "book", "red", "happy"],
+        "correct": 0,
+        "emoji": "🎂",
+        "audio": "I am six years old"
+      },
+      {
+        "id": 58,
+        "type": "multiple_choice",
+        "question": "The dog is _____ the house.",
+        "options": ["on", "in", "under", "over"],
+        "correct": 1,
+        "emoji": "🐕",
+        "audio": "The dog is in the house"
+      },
+      {
+        "id": 59,
+        "type": "multiple_choice",
+        "question": "What color do you get when you mix red and yellow?",
+        "options": ["Green", "Blue", "Orange", "Purple"],
+        "correct": 2,
+        "emoji": "🎨",
+        "audio": "Orange"
+      },
+      {
+        "id": 60,
+        "type": "multiple_choice",
+        "question": "Birds can _____.",
+        "options": ["swim", "fly", "drive", "cook"],
+        "correct": 1,
+        "emoji": "🐦",
+        "audio": "Birds can fly"
+      },
+      {
+        "id": 61,
+        "type": "multiple_choice",
+        "question": "We eat with a _____ and _____.",
+        "options": ["pen, pencil", "fork, spoon", "book, bag", "hat, shoe"],
+        "correct": 1,
+        "emoji": "🍽️",
+        "audio": "Fork and spoon"
+      },
+      {
+        "id": 62,
+        "type": "multiple_choice",
+        "question": "The sun is _____.",
+        "options": ["cold", "hot", "small", "blue"],
+        "correct": 1,
+        "emoji": "☀️",
+        "audio": "Hot"
+      },
+      {
+        "id": 63,
+        "type": "multiple_choice",
+        "question": "Fish live in _____.",
+        "options": ["trees", "sky", "water", "cars"],
+        "correct": 2,
+        "emoji": "🐟",
+        "audio": "Water"
+      },
+      {
+        "id": 64,
+        "type": "multiple_choice",
+        "question": "At night, we can see the _____.",
+        "options": ["sun", "moon", "rainbow", "snow"],
+        "correct": 1,
+        "emoji": "🌙",
+        "audio": "Moon"
+      },
+      {
+        "id": 65,
+        "type": "multiple_choice",
+        "question": "Ice cream is _____.",
+        "options": ["hot", "cold", "sour", "salty"],
+        "correct": 1,
+        "emoji": "🍦",
+        "audio": "Cold"
+      },
+      {
+        "id": 66,
+        "type": "multiple_choice",
+        "question": "A lemon tastes _____.",
+        "options": ["sweet", "sour", "hot", "cold"],
+        "correct": 1,
+        "emoji": "🍋",
+        "audio": "Sour"
+      },
+      {
+        "id": 67,
+        "type": "multiple_choice",
+        "question": "Elephants are very _____.",
+        "options": ["small", "big", "fast", "short"],
+        "correct": 1,
+        "emoji": "🐘",
+        "audio": "Big"
+      },
+      {
+        "id": 68,
+        "type": "multiple_choice",
+        "question": "We use our _____ to think.",
+        "options": ["feet", "hands", "brain", "stomach"],
+        "correct": 2,
+        "emoji": "🧠",
+        "audio": "Brain"
+      },
+      {
+        "id": 69,
+        "type": "multiple_choice",
+        "question": "Honey is _____.",
+        "options": ["sour", "bitter", "sweet", "salty"],
+        "correct": 2,
+        "emoji": "🍯",
+        "audio": "Sweet"
+      },
+      {
+        "id": 70,
+        "type": "multiple_choice",
+        "question": "When it rains, we use an _____.",
+        "options": ["umbrella", "apple", "elephant", "orange"],
+        "correct": 0,
+        "emoji": "☂️",
+        "audio": "Umbrella"
+      },
+      {
+        "id": 71,
+        "type": "multiple_choice",
+        "question": "Flowers grow in a _____.",
+        "options": ["car", "garden", "book", "shoe"],
+        "correct": 1,
+        "emoji": "🌸",
+        "audio": "Garden"
+      },
+      {
+        "id": 72,
+        "type": "multiple_choice",
+        "question": "We sleep in a _____.",
+        "options": ["kitchen", "bathroom", "bedroom", "garden"],
+        "correct": 2,
+        "emoji": "🛏️",
+        "audio": "Bedroom"
+      },
+      {
+        "id": 73,
+        "type": "multiple_choice",
+        "question": "A baby cow is called a _____.",
+        "options": ["puppy", "kitten", "calf", "chick"],
+        "correct": 2,
+        "emoji": "🐄",
+        "audio": "Calf"
+      },
+      {
+        "id": 74,
+        "type": "multiple_choice",
+        "question": "We brush our _____ every day.",
+        "options": ["hair", "teeth", "shoes", "books"],
+        "correct": 1,
+        "emoji": "🦷",
+        "audio": "Teeth"
+      },
+      {
+        "id": 75,
+        "type": "multiple_choice",
+        "question": "Christmas comes in _____.",
+        "options": ["summer", "spring", "winter", "fall"],
+        "correct": 2,
+        "emoji": "🎄",
+        "audio": "Winter"
+      },
+      {
+        "id": 76,
+        "type": "multiple_choice",
+        "question": "We can _____ a book.",
+        "options": ["eat", "read", "drink", "wear"],
+        "correct": 1,
+        "emoji": "📖",
+        "audio": "Read"
+      },
+      {
+        "id": 77,
+        "type": "multiple_choice",
+        "question": "Spiders have _____ legs.",
+        "options": ["six", "four", "eight", "ten"],
+        "correct": 2,
+        "emoji": "🕷️",
+        "audio": "Eight"
+      },
+      {
+        "id": 78,
+        "type": "multiple_choice",
+        "question": "We cook food in the _____.",
+        "options": ["bedroom", "bathroom", "kitchen", "garage"],
+        "correct": 2,
+        "emoji": "🍳",
+        "audio": "Kitchen"
+      },
+      {
+        "id": 79,
+        "type": "multiple_choice",
+        "question": "A group of lions is called a _____.",
+        "options": ["herd", "flock", "pride", "pack"],
+        "correct": 2,
+        "emoji": "🦁",
+        "audio": "Pride"
+      },
+      {
+        "id": 80,
+        "type": "multiple_choice",
+        "question": "The opposite of 'big' is _____.",
+        "options": ["large", "huge", "small", "tall"],
+        "correct": 2,
+        "emoji": "📏",
+        "audio": "Small"
       }
     ]
   },
   "section5": {
-    "title": "Yes/No Comprehension",
-    "subtitle": "Listen and circle Yes or No",
-    "total": 20,
+    "title": "Yes/No Questions",
+    "description": "Simple yes/no questions about everyday topics",
     "questions": [
       {
-        "id": 1,
-        "category": "Animal Abilities",
-        "audio": "Can the fish swim?",
+        "id": 81,
         "type": "yes_no",
-        "image": "🐠",
-        "correct": "yes"
+        "question": "Is the sun yellow?",
+        "correct": true,
+        "emoji": "☀️",
+        "audio": "Is the sun yellow?"
       },
       {
-        "id": 2,
-        "category": "Animal Abilities",
-        "audio": "Can the bird fly?",
+        "id": 82,
         "type": "yes_no",
-        "image": "🐦",
-        "correct": "yes"
+        "question": "Do cats bark?",
+        "correct": false,
+        "emoji": "🐱",
+        "audio": "Do cats bark?"
       },
       {
-        "id": 3,
-        "category": "Animal Abilities",
-        "audio": "Can the elephant fly?",
+        "id": 83,
         "type": "yes_no",
-        "image": "🐘",
-        "correct": "no"
+        "question": "Do you have two eyes?",
+        "correct": true,
+        "emoji": "👀",
+        "audio": "Do you have two eyes?"
       },
       {
-        "id": 4,
-        "category": "Animal Abilities",
-        "audio": "Can the horse run?",
+        "id": 84,
         "type": "yes_no",
-        "image": "🐴",
-        "correct": "yes"
+        "question": "Is ice cold?",
+        "correct": true,
+        "emoji": "🧊",
+        "audio": "Is ice cold?"
       },
       {
-        "id": 5,
-        "category": "Animal Abilities",
-        "audio": "Can the octopus climb trees?",
+        "id": 85,
         "type": "yes_no",
-        "image": "🐙",
-        "correct": "no"
+        "question": "Can fish fly?",
+        "correct": false,
+        "emoji": "🐟",
+        "audio": "Can fish fly?"
+      },
+      {
+        "id": 86,
+        "type": "yes_no",
+        "question": "Do birds have wings?",
+        "correct": true,
+        "emoji": "🐦",
+        "audio": "Do birds have wings?"
+      },
+      {
+        "id": 87,
+        "type": "yes_no",
+        "question": "Is grass red?",
+        "correct": false,
+        "emoji": "🌱",
+        "audio": "Is grass red?"
+      },
+      {
+        "id": 88,
+        "type": "yes_no",
+        "question": "Do elephants have trunks?",
+        "correct": true,
+        "emoji": "🐘",
+        "audio": "Do elephants have trunks?"
+      },
+      {
+        "id": 89,
+        "type": "yes_no",
+        "question": "Is fire hot?",
+        "correct": true,
+        "emoji": "🔥",
+        "audio": "Is fire hot?"
+      },
+      {
+        "id": 90,
+        "type": "yes_no",
+        "question": "Can you eat books?",
+        "correct": false,
+        "emoji": "📚",
+        "audio": "Can you eat books?"
+      },
+      {
+        "id": 91,
+        "type": "yes_no",
+        "question": "Do you sleep at night?",
+        "correct": true,
+        "emoji": "🌙",
+        "audio": "Do you sleep at night?"
+      },
+      {
+        "id": 92,
+        "type": "yes_no",
+        "question": "Is the moon square?",
+        "correct": false,
+        "emoji": "🌙",
+        "audio": "Is the moon square?"
+      },
+      {
+        "id": 93,
+        "type": "yes_no",
+        "question": "Do you wear shoes on your hands?",
+        "correct": false,
+        "emoji": "👟",
+        "audio": "Do you wear shoes on your hands?"
+      },
+      {
+        "id": 94,
+        "type": "yes_no",
+        "question": "Is milk white?",
+        "correct": true,
+        "emoji": "🥛",
+        "audio": "Is milk white?"
+      },
+      {
+        "id": 95,
+        "type": "yes_no",
+        "question": "Can cars swim?",
+        "correct": false,
+        "emoji": "🚗",
+        "audio": "Can cars swim?"
+      },
+      {
+        "id": 96,
+        "type": "yes_no",
+        "question": "Do flowers smell good?",
+        "correct": true,
+        "emoji": "🌸",
+        "audio": "Do flowers smell good?"
+      },
+      {
+        "id": 97,
+        "type": "yes_no",
+        "question": "Is snow cold?",
+        "correct": true,
+        "emoji": "❄️",
+        "audio": "Is snow cold?"
+      },
+      {
+        "id": 98,
+        "type": "yes_no",
+        "question": "Do trees grow upside down?",
+        "correct": false,
+        "emoji": "🌳",
+        "audio": "Do trees grow upside down?"
+      },
+      {
+        "id": 99,
+        "type": "yes_no",
+        "question": "Can you ride a bicycle?",
+        "correct": true,
+        "emoji": "🚲",
+        "audio": "Can you ride a bicycle?"
+      },
+      {
+        "id": 100,
+        "type": "yes_no",
+        "question": "Is chocolate sweet?",
+        "correct": true,
+        "emoji": "🍫",
+        "audio": "Is chocolate sweet?"
       }
     ]
   }
