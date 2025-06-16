@@ -103,6 +103,20 @@ class TeacherSelectionSystem {
         if (!window.questionsLoader) {
             debugLog('Initializing questions loader for Other Games...');
             window.questionsLoader = new QuestionsLoader();
+            
+            // Add verification for Section1 after questions are loaded
+            setTimeout(() => {
+                if (AppState.questionsData && AppState.questionsData.section1) {
+                    debugLog('Section1 verification: PASSED', {
+                        title: AppState.questionsData.section1.title,
+                        questions: AppState.questionsData.section1.questions.length
+                    });
+                    showToast('All sections loaded successfully! 🎉', 'success');
+                } else {
+                    console.warn('Section1 verification: FAILED - using fallback');
+                    showToast('Using fallback questions', 'info');
+                }
+            }, 2000);
         }
         
         // Initialize the main navigation system for other games
@@ -1971,32 +1985,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Don't initialize main navigation here - it will be done when "Other Games" is selected
         // Don't show welcome section - teacher selection will handle initial display
         
-        // Add a check for section1 after a brief delay to ensure it's loaded
-        setTimeout(() => {
-            if (AppState.questionsData && AppState.questionsData.section1) {
-                debugLog('Section1 verification: PASSED', {
-                    title: AppState.questionsData.section1.title,
-                    questions: AppState.questionsData.section1.questions.length
-                });
-                
-                // Verify section1 DOM element exists and has content
-                const section1Element = document.getElementById('section1');
-                if (section1Element && section1Element.innerHTML.trim() !== '<div class="loading">Loading Section 1 questions...</div>') {
-                    debugLog('Section1 DOM verification: PASSED');
-                } else {
-                    console.warn('Section1 DOM not properly initialized, forcing re-render...');
-                    if (questionsLoader) {
-                        questionsLoader.renderSection('section1');
-                    }
-                }
-            } else {
-                console.error('Section1 verification: FAILED');
-                showToast('Section 1 failed to load', 'error');
-            }
-        }, 2000);
-        
         debugLog('Application initialized successfully');
-        showToast('English Review Game loaded! 🎉', 'success');
+        showToast('Teacher Selection System Ready! 🎉', 'success');
         
     } catch (error) {
         console.error('Application initialization failed', error);
@@ -2103,6 +2093,8 @@ function initializeGameNavigation() {
                 
                 if (targetSection === 'random') {
                     showRandomGame();
+                } else if (targetSection === 'examPreview') {
+                    showSection('examPreview');
                 } else if (targetSection) {
                     showSection(targetSection);
                 }
@@ -3190,21 +3182,6 @@ function flipCard() {
 }
 
 debugLog('Flashcards system loaded');
-
-// Add exam preview to game buttons
-gameButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const section = button.getAttribute('data-section');
-        if (section === 'examPreview') {
-            showSection('examPreview');
-        } else if (sections[section] && typeof sections[section] === 'function') {
-            showSection(section);
-            sections[section]();
-        } else {
-            console.log(`Section ${section} not yet implemented`);
-        }
-    });
-});
 
 // ================================
 // INITIALIZE TEACHER SELECTION SYSTEM
