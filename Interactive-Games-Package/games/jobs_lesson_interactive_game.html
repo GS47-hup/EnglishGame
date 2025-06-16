@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What People Do - Interactive Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .navigation {
+            background: #f8f9fa;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        }
+
+        .game-section {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .game-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .job-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .job-card.correct {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .job-card.incorrect {
+            background: linear-gradient(135deg, #f44336 0%, #da190b 100%);
+        }
+
+        .job-emoji {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .job-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .job-action {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .input-section {
+            margin: 20px 0;
+        }
+
+        .spelling-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .spelling-input.correct {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+        }
+
+        .spelling-input.incorrect {
+            border-color: #f44336;
+            background: #ffeaea;
+        }
+
+        .question-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border-left: 5px solid #4ECDC4;
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .option-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .option-btn.correct {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .option-btn.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            color: #333;
+            border: 2px solid #4ECDC4;
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .basket-container {
+            display: flex;
+            gap: 30px;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .basket {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f9fa;
+            border: 3px dashed #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .basket.correct {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+        }
+
+        .basket-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .draggable-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin: 5px;
+            cursor: move;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .draggable-item:hover {
+            transform: scale(1.05);
+        }
+
+        .score-display {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .audio-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .job-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .basket-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🧑‍💼 What People Do</h1>
+            <p>Everybody Up Level 3 - Unit 3 Lesson 2 - Interactive Game</p>
+            <div style="margin-top: 15px;">
+                <button class="btn" onclick="showSection('audio'); document.querySelector('.nav-btn.active').classList.remove('active'); document.querySelectorAll('.nav-btn')[7].classList.add('active');" 
+                        style="background: linear-gradient(45deg, #FF6B6B, #4ECDC4); padding: 10px 20px; font-size: 14px;">
+                    🎧 Listen to Official Audio
+                </button>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('vocabulary')">1. Vocabulary</button>
+            <button class="nav-btn" onclick="showSection('spelling')">2. Spelling</button>
+            <button class="nav-btn" onclick="showSection('grammar')">3. Grammar</button>
+            <button class="nav-btn" onclick="showSection('memory')">4. Memory</button>
+            <button class="nav-btn" onclick="showSection('basket')">5. Basket</button>
+            <button class="nav-btn" onclick="showSection('speaking')">6. Speaking</button>
+            <button class="nav-btn" onclick="showSection('quiz')">7. Quiz</button>
+            <button class="nav-btn" onclick="showSection('audio')">8. Audio</button>
+        </div>
+
+        <!-- Vocabulary Section -->
+        <div id="vocabulary" class="game-section active">
+            <h2 class="section-title">🧑‍💼 Learn About Jobs</h2>
+            <div class="job-grid" id="vocabularyGrid">
+                <!-- Jobs will be populated by JavaScript -->
+            </div>
+            <div class="score-display">
+                Click on each job to learn what they do! 📖
+            </div>
+        </div>
+
+        <!-- Spelling Section -->
+        <div id="spelling" class="game-section">
+            <h2 class="section-title">✏️ Spell the Jobs</h2>
+            <div id="spellingContainer">
+                <!-- Spelling challenges will be populated by JavaScript -->
+            </div>
+            <div class="score-display" id="spellingScore">
+                Score: 0/6
+            </div>
+            <button class="btn" onclick="checkSpelling()">Check Spelling</button>
+            <button class="btn" onclick="resetSpelling()">Try Again</button>
+        </div>
+
+        <!-- Grammar Section -->
+        <div id="grammar" class="game-section">
+            <h2 class="section-title">📝 Grammar Practice</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                Practice asking "Does he/she...?" questions!
+            </p>
+            <div id="grammarContainer">
+                <!-- Grammar questions will be populated by JavaScript -->
+            </div>
+            <div class="score-display" id="grammarScore">
+                Score: 0/10
+            </div>
+        </div>
+
+        <!-- Memory Section -->
+        <div id="memory" class="game-section">
+            <h2 class="section-title">🧠 Memory Game</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                Match jobs with what they do!
+            </p>
+            <div class="memory-grid" id="memoryGrid">
+                <!-- Memory cards will be populated by JavaScript -->
+            </div>
+            <div class="score-display" id="memoryScore">
+                Matches: 0/6 | Tries: 0
+            </div>
+            <button class="btn" onclick="resetMemory()">New Game</button>
+        </div>
+
+        <!-- Basket Section -->
+        <div id="basket" class="game-section">
+            <h2 class="section-title">🏀 Sort the Jobs</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                Drag jobs to the correct category!
+            </p>
+            <div class="basket-container">
+                <div class="basket" id="helperBasket">
+                    <div class="basket-title">👨‍⚕️ People Who Help</div>
+                </div>
+                <div class="basket" id="serviceBasket">
+                    <div class="basket-title">🛍️ Service Workers</div>
+                </div>
+                <div class="basket" id="transportBasket">
+                    <div class="basket-title">🚗 Transportation</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin: 20px 0;">
+                <div id="basketItems">
+                    <!-- Draggable items will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="score-display" id="basketScore">
+                Score: 0/6
+            </div>
+            <button class="btn" onclick="checkBasket()">Check Answers</button>
+            <button class="btn" onclick="resetBasket()">Try Again</button>
+        </div>
+
+        <!-- Speaking Section -->
+        <div id="speaking" class="game-section">
+            <h2 class="section-title">🎤 Speaking Practice</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                Practice the dialogue patterns!
+            </p>
+            <div id="speakingContainer">
+                <!-- Speaking exercises will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="game-section">
+            <h2 class="section-title">🏆 Final Quiz</h2>
+            <p style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                Test everything you've learned!
+            </p>
+            <div id="quizContainer">
+                <!-- Quiz questions will be populated by JavaScript -->
+            </div>
+            <div class="score-display" id="quizScore">
+                Score: 0/15
+            </div>
+            <button class="btn" onclick="submitQuiz()">Submit Quiz</button>
+            <button class="btn" onclick="resetQuiz()">Try Again</button>
+        </div>
+
+        <!-- Audio Section -->
+        <div id="audio" class="game-section">
+            <h2 class="section-title">🎵 Listen and Practice</h2>
+            <div class="audio-controls">
+                <p style="font-size: 1.2em; margin-bottom: 20px;">
+                    Listen to the official audio from your coursebook!
+                </p>
+                
+                <!-- Track 43: Listen, Point, and Say -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin: 15px 0;">
+                    <h3 style="color: #333; margin-bottom: 10px;">🎧 Track 43: Listen, Point, and Say</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Practice the vocabulary: cook, salesperson, vet, bus driver, pilot, firefighter</p>
+                    <audio class="audio-player" controls>
+                        <source src="EU3e_3_Student_Book_043.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                
+                <!-- Track 44: Listen, Ask, and Answer -->
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 15px; margin: 15px 0;">
+                    <h3 style="color: #333; margin-bottom: 10px;">🎧 Track 44: Listen, Ask, and Answer</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Practice the dialogue: "What does the cook do? The cook makes food."</p>
+                    <audio class="audio-player" controls>
+                        <source src="EU3e_3_Student_Book_044.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                
+                <!-- Track 45: Listen, Ask, and Answer -->
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 15px; margin: 15px 0;">
+                    <h3 style="color: #333; margin-bottom: 10px;">🎧 Track 45: Grammar Practice</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Practice "Does he/she...?" questions and answers</p>
+                    <audio class="audio-player" controls>
+                        <source src="EU3e_3_Student_Book_045.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                    <h3>🎯 Audio Practice Tips</h3>
+                    <p style="margin: 10px 0;">1. 🎧 Put on your headphones</p>
+                    <p style="margin: 10px 0;">2. 👂 Listen to each track carefully</p>
+                    <p style="margin: 10px 0;">3. 🗣️ Repeat what you hear</p>
+                    <p style="margin: 10px 0;">4. 📖 Follow along with your coursebook</p>
+                    <p style="margin: 10px 0;">5. 🔄 Play the tracks multiple times</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Job data
+        const jobs = [
+            { name: 'cook', action: 'make food', emoji: '👨‍🍳', category: 'service' },
+            { name: 'salesperson', action: 'sell things', emoji: '🛍️', category: 'service' },
+            { name: 'vet', action: 'help sick animals', emoji: '👨‍⚕️', category: 'helper' },
+            { name: 'bus driver', action: 'drive buses', emoji: '🚌', category: 'transport' },
+            { name: 'pilot', action: 'fly planes', emoji: '✈️', category: 'transport' },
+            { name: 'firefighter', action: 'fight fires', emoji: '🚒', category: 'helper' }
+        ];
+
+        // Game state
+        let currentSection = 'vocabulary';
+        let spellingScore = 0;
+        let grammarScore = 0;
+        let memoryScore = 0;
+        let memoryTries = 0;
+        let basketScore = 0;
+        let quizScore = 0;
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        // Initialize game
+        function initGame() {
+            initVocabulary();
+            initSpelling();
+            initGrammar();
+            initMemory();
+            initBasket();
+            initSpeaking();
+            initQuiz();
+        }
+
+        // Navigation
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.game-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(section).classList.add('active');
+            event.target.classList.add('active');
+            
+            currentSection = section;
+        }
+
+        // Vocabulary Section
+        function initVocabulary() {
+            const grid = document.getElementById('vocabularyGrid');
+            grid.innerHTML = '';
+            
+            jobs.forEach(job => {
+                const card = document.createElement('div');
+                card.className = 'job-card';
+                card.innerHTML = `
+                    <span class="job-emoji">${job.emoji}</span>
+                    <div class="job-name">${job.name}</div>
+                    <div class="job-action">${job.action}</div>
+                `;
+                card.onclick = () => playJobSound(job);
+                grid.appendChild(card);
+            });
+        }
+
+        function playJobSound(job) {
+            // Visual feedback
+            const cards = document.querySelectorAll('.job-card');
+            cards.forEach(card => {
+                if (card.querySelector('.job-name').textContent === job.name) {
+                    card.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            });
+            
+            // Audio feedback
+            speak(`${job.name}. The ${job.name} ${job.action}.`);
+            
+            // Show audio tip
+            if (!window.audioTipShown) {
+                const tip = document.createElement('div');
+                tip.style.cssText = `
+                    position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white; 
+                    padding: 15px; border-radius: 10px; z-index: 1000; max-width: 300px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                `;
+                tip.innerHTML = `
+                    <strong>🎧 Audio Tip:</strong><br>
+                    Go to the Audio section (step 8) to listen to the official coursebook recordings!
+                    <button onclick="this.parentElement.remove()" style="float: right; background: none; border: none; color: white; font-size: 18px; cursor: pointer;">×</button>
+                `;
+                document.body.appendChild(tip);
+                setTimeout(() => tip.remove(), 5000);
+                window.audioTipShown = true;
+            }
+        }
+
+        // Spelling Section
+        function initSpelling() {
+            const container = document.getElementById('spellingContainer');
+            container.innerHTML = '';
+            
+            jobs.forEach((job, index) => {
+                const div = document.createElement('div');
+                div.className = 'input-section';
+                div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
+                        <span style="font-size: 2em;">${job.emoji}</span>
+                        <span style="font-size: 1.2em; flex: 1;">${job.action}</span>
+                        <input type="text" class="spelling-input" id="spelling${index}" 
+                               placeholder="Spell the job..." data-answer="${job.name}">
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function checkSpelling() {
+            let correct = 0;
+            jobs.forEach((job, index) => {
+                const input = document.getElementById(`spelling${index}`);
+                const userAnswer = input.value.toLowerCase().trim();
+                
+                if (userAnswer === job.name) {
+                    input.className = 'spelling-input correct';
+                    correct++;
+                } else {
+                    input.className = 'spelling-input incorrect';
+                }
+            });
+            
+            spellingScore = correct;
+            document.getElementById('spellingScore').textContent = `Score: ${correct}/6`;
+            
+            if (correct === 6) {
+                speak('Excellent! Perfect spelling!');
+            }
+        }
+
+        function resetSpelling() {
+            jobs.forEach((job, index) => {
+                const input = document.getElementById(`spelling${index}`);
+                input.value = '';
+                input.className = 'spelling-input';
+            });
+            spellingScore = 0;
+            document.getElementById('spellingScore').textContent = 'Score: 0/6';
+        }
+
+        // Grammar Section
+        function initGrammar() {
+            const container = document.getElementById('grammarContainer');
+            container.innerHTML = '';
+            
+            const grammarQuestions = [
+                { question: 'Does the cook make food?', answer: 'yes', job: 'cook', action: 'make food' },
+                { question: 'Does the pilot sell things?', answer: 'no', job: 'pilot', action: 'sell things' },
+                { question: 'Does the vet help sick animals?', answer: 'yes', job: 'vet', action: 'help sick animals' },
+                { question: 'Does the firefighter drive buses?', answer: 'no', job: 'firefighter', action: 'drive buses' },
+                { question: 'Does the bus driver fly planes?', answer: 'no', job: 'bus driver', action: 'fly planes' },
+                { question: 'Does the salesperson sell things?', answer: 'yes', job: 'salesperson', action: 'sell things' },
+                { question: 'Does the pilot fly planes?', answer: 'yes', job: 'pilot', action: 'fly planes' },
+                { question: 'Does the cook fight fires?', answer: 'no', job: 'cook', action: 'fight fires' },
+                { question: 'Does the firefighter fight fires?', answer: 'yes', job: 'firefighter', action: 'fight fires' },
+                { question: 'Does the bus driver drive buses?', answer: 'yes', job: 'bus driver', action: 'drive buses' }
+            ];
+            
+            grammarQuestions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.className = 'question-container';
+                div.innerHTML = `
+                    <div class="question">${q.question}</div>
+                    <div class="options">
+                        <button class="option-btn" onclick="answerGrammar(${index}, 'yes')">
+                            Yes, he/she does.
+                        </button>
+                        <button class="option-btn" onclick="answerGrammar(${index}, 'no')">
+                            No, he/she doesn't.
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            
+            window.grammarQuestions = grammarQuestions;
+        }
+
+        function answerGrammar(questionIndex, answer) {
+            const question = window.grammarQuestions[questionIndex];
+            const container = document.querySelectorAll('.question-container')[questionIndex];
+            const buttons = container.querySelectorAll('.option-btn');
+            
+            buttons.forEach(btn => {
+                btn.onclick = null; // Disable further clicks
+                if (btn.textContent.includes('Yes') && answer === 'yes') {
+                    if (question.answer === 'yes') {
+                        btn.className = 'option-btn correct';
+                        grammarScore++;
+                    } else {
+                        btn.className = 'option-btn incorrect';
+                    }
+                } else if (btn.textContent.includes('No') && answer === 'no') {
+                    if (question.answer === 'no') {
+                        btn.className = 'option-btn correct';
+                        grammarScore++;
+                    } else {
+                        btn.className = 'option-btn incorrect';
+                    }
+                }
+            });
+            
+            document.getElementById('grammarScore').textContent = `Score: ${grammarScore}/10`;
+        }
+
+        // Memory Section
+        function initMemory() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            
+            // Create pairs of cards
+            const memoryPairs = [];
+            jobs.forEach(job => {
+                memoryPairs.push({ type: 'job', content: job.name, emoji: job.emoji, id: job.name });
+                memoryPairs.push({ type: 'action', content: job.action, emoji: '🔧', id: job.name });
+            });
+            
+            // Shuffle cards
+            const shuffled = memoryPairs.sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach((card, index) => {
+                const div = document.createElement('div');
+                div.className = 'memory-card';
+                div.innerHTML = '❓';
+                div.onclick = () => flipCard(index, card);
+                grid.appendChild(div);
+            });
+            
+            window.memoryCards = shuffled;
+            flippedCards = [];
+            matchedPairs = 0;
+            memoryTries = 0;
+        }
+
+        function flipCard(index, card) {
+            const cardElement = document.querySelectorAll('.memory-card')[index];
+            
+            if (cardElement.classList.contains('flipped') || cardElement.classList.contains('matched')) {
+                return; // Already flipped or matched
+            }
+            
+            if (flippedCards.length >= 2) {
+                return; // Wait for reset
+            }
+            
+            cardElement.classList.add('flipped');
+            cardElement.innerHTML = `${card.emoji}<br><small>${card.content}</small>`;
+            flippedCards.push({ index, card, element: cardElement });
+            
+            if (flippedCards.length === 2) {
+                memoryTries++;
+                setTimeout(checkMemoryMatch, 1000);
+            }
+        }
+
+        function checkMemoryMatch() {
+            const [first, second] = flippedCards;
+            
+            if (first.card.id === second.card.id) {
+                // Match!
+                first.element.classList.add('matched');
+                second.element.classList.add('matched');
+                matchedPairs++;
+                
+                if (matchedPairs === 6) {
+                    speak('Congratulations! You matched all the jobs!');
+                }
+            } else {
+                // No match
+                first.element.classList.remove('flipped');
+                second.element.classList.remove('flipped');
+                first.element.innerHTML = '❓';
+                second.element.innerHTML = '❓';
+            }
+            
+            flippedCards = [];
+            document.getElementById('memoryScore').textContent = `Matches: ${matchedPairs}/6 | Tries: ${memoryTries}`;
+        }
+
+        function resetMemory() {
+            flippedCards = [];
+            matchedPairs = 0;
+            memoryTries = 0;
+            document.getElementById('memoryScore').textContent = 'Matches: 0/6 | Tries: 0';
+            initMemory();
+        }
+
+        // Basket Section
+        function initBasket() {
+            const container = document.getElementById('basketItems');
+            container.innerHTML = '';
+            
+            jobs.forEach(job => {
+                const item = document.createElement('div');
+                item.className = 'draggable-item';
+                item.draggable = true;
+                item.textContent = `${job.emoji} ${job.name}`;
+                item.dataset.category = job.category;
+                item.dataset.job = job.name;
+                
+                item.ondragstart = (e) => {
+                    e.dataTransfer.setData('text/plain', job.name);
+                    e.dataTransfer.setData('category', job.category);
+                };
+                
+                container.appendChild(item);
+            });
+            
+            // Setup drop zones
+            setupDropZones();
+        }
+
+        function setupDropZones() {
+            const baskets = document.querySelectorAll('.basket');
+            
+            baskets.forEach(basket => {
+                basket.ondragover = (e) => e.preventDefault();
+                basket.ondrop = (e) => {
+                    e.preventDefault();
+                    const jobName = e.dataTransfer.getData('text/plain');
+                    const category = e.dataTransfer.getData('category');
+                    const basketId = basket.id;
+                    
+                    // Find the draggable item
+                    const item = document.querySelector(`[data-job="${jobName}"]`);
+                    
+                    if (item && !basket.querySelector(`[data-job="${jobName}"]`)) {
+                        basket.appendChild(item);
+                        checkBasketItem(basket, category, basketId);
+                    }
+                };
+            });
+        }
+
+        function checkBasketItem(basket, category, basketId) {
+            const correctCategories = {
+                'helperBasket': 'helper',
+                'serviceBasket': 'service',
+                'transportBasket': 'transport'
+            };
+            
+            if (correctCategories[basketId] === category) {
+                basket.classList.add('correct');
+            }
+        }
+
+        function checkBasket() {
+            let correct = 0;
+            const baskets = document.querySelectorAll('.basket');
+            
+            baskets.forEach(basket => {
+                if (basket.classList.contains('correct')) {
+                    correct++;
+                }
+            });
+            
+            basketScore = correct;
+            document.getElementById('basketScore').textContent = `Score: ${correct}/6`;
+            
+            if (correct === 6) {
+                speak('Perfect! You sorted all the jobs correctly!');
+            }
+        }
+
+        function resetBasket() {
+            basketScore = 0;
+            document.getElementById('basketScore').textContent = 'Score: 0/6';
+            document.querySelectorAll('.basket').forEach(basket => {
+                basket.classList.remove('correct');
+            });
+            initBasket();
+        }
+
+        // Speaking Section
+        function initSpeaking() {
+            const container = document.getElementById('speakingContainer');
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="question-container">
+                        <h3>Practice These Dialogues:</h3>
+                        
+                        <div style="margin: 20px 0; padding: 20px; background: #e3f2fd; border-radius: 10px;">
+                            <p><strong>A:</strong> Does the cook make food?</p>
+                            <p><strong>B:</strong> Yes, he does.</p>
+                            <button class="btn" onclick="speak('Does the cook make food? Yes, he does.')">🔊 Listen</button>
+                        </div>
+                        
+                        <div style="margin: 20px 0; padding: 20px; background: #fce4ec; border-radius: 10px;">
+                            <p><strong>A:</strong> Does the pilot sell things?</p>
+                            <p><strong>B:</strong> No, she doesn't.</p>
+                            <button class="btn" onclick="speak('Does the pilot sell things? No, she does not.')">🔊 Listen</button>
+                        </div>
+                        
+                        <div style="margin: 20px 0; padding: 20px; background: #e8f5e8; border-radius: 10px;">
+                            <h4>Practice with your partner:</h4>
+                            <p>👫 Take turns asking about different jobs!</p>
+                            <p>🎯 Use: "Does the [job] [action]?"</p>
+                            <p>💬 Answer: "Yes, he/she does." or "No, he/she doesn't."</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Quiz Section
+        function initQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            
+            const quizQuestions = [
+                { question: 'What does a cook do?', options: ['make food', 'sell things', 'drive buses', 'fight fires'], answer: 0 },
+                { question: 'What does a pilot do?', options: ['help animals', 'fly planes', 'make food', 'sell things'], answer: 1 },
+                { question: 'What does a vet do?', options: ['drive buses', 'fight fires', 'help sick animals', 'sell things'], answer: 2 },
+                { question: 'Does a firefighter fight fires?', options: ['Yes, he does', 'No, he doesn\'t', 'Yes, she sells', 'No, she flies'], answer: 0 },
+                { question: 'Does a salesperson drive buses?', options: ['Yes, she does', 'No, she doesn\'t', 'Yes, he flies', 'No, he cooks'], answer: 1 },
+                { question: 'Who makes food?', options: ['pilot', 'cook', 'driver', 'vet'], answer: 1 },
+                { question: 'Who helps sick animals?', options: ['cook', 'pilot', 'vet', 'salesperson'], answer: 2 },
+                { question: 'Who flies planes?', options: ['bus driver', 'firefighter', 'cook', 'pilot'], answer: 3 },
+                { question: 'Does the bus driver sell things?', options: ['Yes, he does', 'No, he doesn\'t', 'Yes, she cooks', 'No, she flies'], answer: 1 },
+                { question: 'What does a firefighter do?', options: ['sell things', 'make food', 'fight fires', 'help animals'], answer: 2 },
+                { question: 'Who drives buses?', options: ['bus driver', 'pilot', 'cook', 'vet'], answer: 0 },
+                { question: 'Does a vet make food?', options: ['Yes, she does', 'No, she doesn\'t', 'Yes, he drives', 'No, he sells'], answer: 1 },
+                { question: 'What does a salesperson do?', options: ['fly planes', 'fight fires', 'drive buses', 'sell things'], answer: 3 },
+                { question: 'Does a cook help sick animals?', options: ['Yes, he does', 'No, he doesn\'t', 'Yes, she flies', 'No, she drives'], answer: 1 },
+                { question: 'Who sells things?', options: ['firefighter', 'salesperson', 'pilot', 'bus driver'], answer: 1 }
+            ];
+            
+            quizQuestions.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.className = 'question-container';
+                div.innerHTML = `
+                    <div class="question">${index + 1}. ${q.question}</div>
+                    <div class="options">
+                        ${q.options.map((option, optIndex) => 
+                            `<button class="option-btn" onclick="answerQuiz(${index}, ${optIndex})">${option}</button>`
+                        ).join('')}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            
+            window.quizQuestions = quizQuestions;
+            window.quizAnswers = new Array(quizQuestions.length).fill(-1);
+        }
+
+        function answerQuiz(questionIndex, optionIndex) {
+            window.quizAnswers[questionIndex] = optionIndex;
+            
+            const container = document.querySelectorAll('.question-container')[questionIndex];
+            const buttons = container.querySelectorAll('.option-btn');
+            
+            buttons.forEach((btn, idx) => {
+                btn.classList.remove('correct', 'incorrect');
+                if (idx === optionIndex) {
+                    btn.style.background = '#e3f2fd';
+                    btn.style.borderColor = '#2196F3';
+                } else {
+                    btn.style.background = 'white';
+                    btn.style.borderColor = '#ddd';
+                }
+            });
+        }
+
+        function submitQuiz() {
+            let correct = 0;
+            
+            window.quizQuestions.forEach((q, index) => {
+                const container = document.querySelectorAll('.question-container')[index];
+                const buttons = container.querySelectorAll('.option-btn');
+                
+                buttons.forEach((btn, optIndex) => {
+                    if (optIndex === q.answer) {
+                        btn.classList.add('correct');
+                    } else if (optIndex === window.quizAnswers[index] && optIndex !== q.answer) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+                
+                if (window.quizAnswers[index] === q.answer) {
+                    correct++;
+                }
+            });
+            
+            quizScore = correct;
+            document.getElementById('quizScore').textContent = `Score: ${correct}/15`;
+            
+            if (correct >= 12) {
+                speak('Excellent work! You mastered the lesson!');
+                showCompletionMessage();
+            } else if (correct >= 9) {
+                speak('Good job! Keep practicing!');
+            } else {
+                speak('Keep trying! Review the vocabulary and try again.');
+            }
+        }
+
+        function resetQuiz() {
+            quizScore = 0;
+            window.quizAnswers = new Array(window.quizQuestions.length).fill(-1);
+            document.getElementById('quizScore').textContent = 'Score: 0/15';
+            initQuiz();
+        }
+
+        function showCompletionMessage() {
+            const message = document.createElement('div');
+            message.className = 'completion-message';
+            message.innerHTML = `
+                <h3>🎉 Congratulations!</h3>
+                <p>You've completed the "What People Do" lesson!</p>
+                <p>You learned about 6 different jobs and what they do.</p>
+                <p>Keep up the great work! 🌟</p>
+            `;
+            document.getElementById('quiz').appendChild(message);
+        }
+
+        // Text-to-speech function
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Initialize the game when page loads
+        window.onload = initGame;
+    </script>
+</body>
+</html> 

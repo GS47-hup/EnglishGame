@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍎 Fruit Adventure - Unit 3 Lesson 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #FF6B6B;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            color: #4ECDC4;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #4ECDC4, #45B7D1);
+            transform: scale(1.05);
+        }
+
+        .game-section {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .game-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fruit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .fruit-card {
+            background: linear-gradient(135deg, #FFE5E5, #E5F9FF);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .fruit-card:hover {
+            transform: scale(1.05);
+            border-color: #4ECDC4;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .fruit-emoji {
+            font-size: 4em;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .fruit-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .fruit-audio {
+            background: #4ECDC4;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .grammar-challenge {
+            background: #F0F8FF;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid #4ECDC4;
+        }
+
+        .question-area {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .character {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            background: linear-gradient(135deg, #FFE5E5, #E5F9FF);
+        }
+
+        .answer-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .answer-btn {
+            background: linear-gradient(45deg, #FF6B6B, #FFB347);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .answer-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .answer-btn.correct {
+            background: linear-gradient(45deg, #32CD32, #90EE90);
+            animation: celebrate 0.6s ease-in-out;
+        }
+
+        .answer-btn.incorrect {
+            background: linear-gradient(45deg, #FF4444, #FF6B6B);
+            animation: shake 0.6s ease-in-out;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(5deg); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #FFE5E5, #E5F9FF);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #ddd;
+        }
+
+        .memory-card.flipped {
+            background: linear-gradient(135deg, #4ECDC4, #45B7D1);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(135deg, #32CD32, #90EE90);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .basket-area {
+            min-height: 200px;
+            background: linear-gradient(135deg, #FFE5B4, #FFEAA7);
+            border-radius: 20px;
+            border: 3px dashed #D4B06A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .basket-emoji {
+            font-size: 3em;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .draggable-fruit {
+            font-size: 2.5em;
+            margin: 10px;
+            cursor: move;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .draggable-fruit:hover {
+            transform: scale(1.2);
+        }
+
+        .fruit-counter {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #32CD32, #90EE90);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+            animation: celebrate 0.6s ease-in-out;
+        }
+
+        .instructions {
+            background: #E3F2FD;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2196F3;
+        }
+
+        .instructions h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .fruit-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .memory-game {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .navigation {
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🍎 Fruit Adventure Game</h1>
+            <p>Unit 3 Lesson 2 - "Does he/she have...?" | Ages 5-13</p>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn active" onclick="showSection('vocabulary')">🍌 Learn Fruits</button>
+            <button class="nav-btn" onclick="showSection('spelling')">✏️ Spelling</button>
+            <button class="nav-btn" onclick="showSection('grammar')">❓ Grammar Game</button>
+            <!-- <button class="nav-btn" onclick="showSection('story')">📖 Fruit Story</button> -->
+            <button class="nav-btn" onclick="showSection('memory')">🧠 Memory Match</button>
+            <button class="nav-btn" onclick="showSection('basket')">🧺 Fruit Basket</button>
+            <button class="nav-btn" onclick="showSection('speaking')">🗣️ Speaking Practice</button>
+            <button class="nav-btn" onclick="showSection('quiz')">🎯 Final Quiz</button>
+            <button class="nav-btn" onclick="showSection('song')">🎵 Fruit Song</button>
+        </div>
+
+        <!-- Vocabulary Learning Section -->
+        <div id="vocabulary" class="game-section active">
+            <div class="instructions">
+                <h3>🍎 Learn the Fruits!</h3>
+                <p>Click on each fruit to hear its name. Practice saying it out loud!</p>
+            </div>
+            
+            <div class="fruit-grid">
+                <div class="fruit-card" onclick="playFruitSound('apple')">
+                    <span class="fruit-emoji">🍎</span>
+                    <div class="fruit-name">APPLE</div>
+                    <button class="fruit-audio">🔊 Listen</button>
+                </div>
+                
+                <div class="fruit-card" onclick="playFruitSound('banana')">
+                    <span class="fruit-emoji">🍌</span>
+                    <div class="fruit-name">BANANA</div>
+                    <button class="fruit-audio">🔊 Listen</button>
+                </div>
+                
+                <div class="fruit-card" onclick="playFruitSound('orange')">
+                    <span class="fruit-emoji">🍊</span>
+                    <div class="fruit-name">ORANGE</div>
+                    <button class="fruit-audio">🔊 Listen</button>
+                </div>
+                
+                <div class="fruit-card" onclick="playFruitSound('peach')">
+                    <span class="fruit-emoji">🍑</span>
+                    <div class="fruit-name">PEACH</div>
+                    <button class="fruit-audio">🔊 Listen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spelling Practice Section -->
+        <div id="spelling" class="game-section">
+            <div class="instructions">
+                <h3>✏️ Spelling Practice!</h3>
+                <p>Look at the fruit and spell its name correctly. Type the missing letters!</p>
+            </div>
+            
+            <div style="background: #F0F8FF; border-radius: 15px; padding: 25px; margin: 20px 0; text-align: center;">
+                <div style="font-size: 4em; margin-bottom: 20px;" id="spelling-fruit">🍎</div>
+                <div style="font-size: 2em; margin-bottom: 20px; font-family: monospace; letter-spacing: 0.2em;" id="spelling-word">A _ _ L E</div>
+                
+                <input type="text" id="spelling-input" placeholder="Type the missing letters..." style="padding: 15px; font-size: 1.2em; border: 2px solid #4ECDC4; border-radius: 25px; width: 300px; text-align: center; margin: 10px;">
+                
+                <div style="margin: 20px 0;">
+                    <button onclick="checkSpelling()" style="background: linear-gradient(45deg, #32CD32, #90EE90); color: white; border: none; border-radius: 25px; padding: 15px 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 5px;">✓ Check</button>
+                    <button onclick="nextSpelling()" style="background: linear-gradient(45deg, #4ECDC4, #45B7D1); color: white; border: none; border-radius: 25px; padding: 15px 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 5px;">➡️ Next</button>
+                </div>
+                
+                <div class="score" id="spelling-score">Spelling Score: 0/20</div>
+            </div>
+        </div>
+
+        <!-- Grammar Challenge Section -->
+        <div id="grammar" class="game-section">
+            <div class="instructions">
+                <h3>❓ Grammar Challenge!</h3>
+                <p>Look at each person and answer: "Does he/she have [fruit]?"</p>
+            </div>
+            
+            <div class="grammar-challenge">
+                <div class="question-area">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 20px; flex-wrap: wrap;">
+                        <div class="character" id="character">👦</div>
+                        <div style="font-size: 3em;" id="fruit-display">🍎</div>
+                    </div>
+                    
+                    <!-- Visual indicator area -->
+                    <div style="background: #F5F5F5; border-radius: 15px; padding: 20px; margin: 15px 0; text-align: center;">
+                        <div style="font-size: 1.2em; color: #666; margin-bottom: 10px;">Look carefully:</div>
+                        <div id="visual-indicator" style="font-size: 2em; min-height: 60px; display: flex; align-items: center; justify-content: center;">
+                            <!-- Visual clue will appear here -->
+                        </div>
+                    </div>
+                    <div class="question-text" id="question">Does he have apples?</div>
+                    <div class="score" id="grammar-score">Score: 0/20</div>
+                </div>
+                
+                <div class="answer-options">
+                    <button class="answer-btn" onclick="answerQuestion(true)">Yes, he does! 👍</button>
+                    <button class="answer-btn" onclick="answerQuestion(false)">No, he doesn't! 👎</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Story Section - COMMENTED OUT FOR LATER DEVELOPMENT -->
+        <!--
+        <div id="story" class="game-section">
+            <div class="instructions">
+                <h3>📖 Interactive Fruit Story!</h3>
+                <p>Read the story and help make choices. Click on the fruits as they appear in the story!</p>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #FFF8E1, #F3E5F5); border-radius: 15px; padding: 30px; margin: 20px 0;">
+                <h3 style="color: #6A1B9A; text-align: center; margin-bottom: 20px;">🌟 The Magic Fruit Garden 🌟</h3>
+                
+                <div id="story-content" style="font-size: 1.3em; line-height: 1.8; color: #333; text-align: center; min-height: 200px;">
+                    <p>Once upon a time, there was a magical garden where fruits could talk! 🏰</p>
+                    <p>Click <strong style="color: #FF6B6B; cursor: pointer;" onclick="storyChoice('start')">START ADVENTURE</strong> to begin!</p>
+                </div>
+                
+                <div id="story-choices" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0;">
+                    <!-- Story choices will appear here -->
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div class="score" id="story-score">Story Progress: 0/10 scenes</div>
+                </div>
+            </div>
+        </div>
+        -->
+
+        <!-- Memory Game Section -->
+        <div id="memory" class="game-section">
+            <div class="instructions">
+                <h3>🧠 Fruit Memory Match!</h3>
+                <p>Find matching pairs of fruits. Click two cards to flip them!</p>
+            </div>
+            
+            <div class="score" id="memory-score">Matches: 0/4 | Tries: 0</div>
+            
+            <div class="memory-game" id="memory-game">
+                <!-- Memory cards will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Fruit Basket Section -->
+        <div id="basket" class="game-section">
+            <div class="instructions">
+                <h3>🧺 Build Your Fruit Basket!</h3>
+                <p>Drag and drop fruits into the basket. Count how many of each fruit you have!</p>
+            </div>
+            
+            <div class="fruit-grid">
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="apple">🍎</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="banana">🍌</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="orange">🍊</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="peach">🍑</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="apple">🍎</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="banana">🍌</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="orange">🍊</div>
+                <div class="draggable-fruit" draggable="true" ondragstart="drag(event)" data-fruit="peach">🍑</div>
+            </div>
+            
+            <div class="basket-area" ondrop="drop(event)" ondragover="allowDrop(event)" id="basket-area">
+                <div class="basket-emoji">🧺</div>
+                <p style="color: #D4B06A; font-weight: bold; margin-top: 50px;">Drop fruits here!</p>
+            </div>
+            
+            <div class="fruit-counter" id="fruit-counter">
+                <h3>My Fruit Count:</h3>
+                <p>🍎 Apples: <span id="apple-count">0</span></p>
+                <p>🍌 Bananas: <span id="banana-count">0</span></p>
+                <p>🍊 Oranges: <span id="orange-count">0</span></p>
+                <p>🍑 Peaches: <span id="peach-count">0</span></p>
+            </div>
+        </div>
+
+        <!-- Speaking Practice Section -->
+        <div id="speaking" class="game-section">
+            <div class="instructions">
+                <h3>🗣️ Speaking Practice!</h3>
+                <p>Practice speaking English! Read the sentences out loud and record yourself (optional).</p>
+            </div>
+            
+            <div style="background: #E8F5E8; border-radius: 15px; padding: 25px; margin: 20px 0;">
+                <h4 style="color: #2E7D2E; text-align: center; margin-bottom: 20px;">🎤 Speaking Challenge</h4>
+                
+                <div id="speaking-prompt" style="background: white; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: center;">
+                    <div style="font-size: 3em; margin-bottom: 15px;" id="speaking-visual">👦🍎</div>
+                    <div style="font-size: 1.5em; color: #333; font-weight: bold;" id="speaking-text">
+                        "I have an apple. Do you have an apple?"
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <button onclick="nextSpeaking()" style="background: linear-gradient(45deg, #FF6B6B, #FFB347); color: white; border: none; border-radius: 25px; padding: 15px 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 5px;">🎯 Next Sentence</button>
+                    <button onclick="repeatSpeaking()" style="background: linear-gradient(45deg, #4ECDC4, #45B7D1); color: white; border: none; border-radius: 25px; padding: 15px 30px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin: 5px;">🔄 Repeat</button>
+                </div>
+                
+                <div class="score" id="speaking-score">Speaking Practice: 0/15 sentences</div>
+                
+                <div style="background: #F0F8FF; border-radius: 10px; padding: 15px; margin: 20px 0;">
+                    <h5 style="color: #1976D2;">📝 Speaking Tips:</h5>
+                    <ul style="text-align: left; color: #333;">
+                        <li>Speak clearly and slowly</li>
+                        <li>Practice the pronunciation</li>
+                        <li>Use gestures to help meaning</li>
+                        <li>Don't worry about mistakes!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Quiz Section -->
+        <div id="quiz" class="game-section">
+            <div class="instructions">
+                <h3>🎯 Final Assessment Quiz!</h3>
+                <p>Test everything you've learned! This is your final challenge!</p>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #E3F2FD, #FCE4EC); border-radius: 15px; padding: 25px; margin: 20px 0;">
+                <h4 style="color: #1976D2; text-align: center; margin-bottom: 20px;">🏆 Comprehensive Quiz</h4>
+                
+                <div id="quiz-question" style="background: white; border-radius: 15px; padding: 20px; margin: 20px 0; text-align: center; min-height: 150px;">
+                    <div style="font-size: 2em; margin-bottom: 15px;">🍎🍌🍊🍑</div>
+                    <div style="font-size: 1.3em; color: #333;">
+                        Ready to test your fruit knowledge?
+                    </div>
+                </div>
+                
+                <div id="quiz-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                    <!-- Quiz options will appear here -->
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <button onclick="startQuiz()" style="background: linear-gradient(45deg, #9C27B0, #E91E63); color: white; border: none; border-radius: 25px; padding: 15px 30px; font-size: 1.2em; font-weight: bold; cursor: pointer;">🚀 Start Final Quiz</button>
+                </div>
+                
+                <div class="score" id="quiz-score">Quiz Score: 0/25 questions</div>
+            </div>
+        </div>
+
+        <!-- Song Section -->
+        <div id="song" class="game-section">
+            <div class="instructions">
+                <h3>🎵 Listen to the Fruit Song!</h3>
+                <p>Play the official audio from your book! Perfect for listening practice and singing along.</p>
+            </div>
+            
+            <div style="background: #F0F8FF; border-radius: 15px; padding: 25px; text-align: center; margin: 20px 0;">
+                <h3 style="color: #4ECDC4; margin-bottom: 20px;">🎵 Unit 3 Lesson 2 - Official Audio</h3>
+                
+                <!-- Audio Player -->
+                <div style="background: white; border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <audio id="fruitAudio" controls style="width: 100%; max-width: 500px;">
+                        <source src="EU3e_2_Student_Book_051.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                
+                <!-- Interactive Controls -->
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0;">
+                    <button onclick="playAudio()" style="background: linear-gradient(45deg, #32CD32, #90EE90); color: white; border: none; border-radius: 25px; padding: 12px 25px; font-size: 1.1em; font-weight: bold; cursor: pointer;">▶️ Play</button>
+                    <button onclick="pauseAudio()" style="background: linear-gradient(45deg, #FF6B6B, #FFB347); color: white; border: none; border-radius: 25px; padding: 12px 25px; font-size: 1.1em; font-weight: bold; cursor: pointer;">⏸️ Pause</button>
+                    <button onclick="restartAudio()" style="background: linear-gradient(45deg, #4ECDC4, #45B7D1); color: white; border: none; border-radius: 25px; padding: 12px 25px; font-size: 1.1em; font-weight: bold; cursor: pointer;">🔄 Restart</button>
+                </div>
+                
+                <!-- Practice Activity -->
+                <div style="background: #E8F5E8; border-radius: 15px; padding: 20px; margin: 20px 0;">
+                    <h4 style="color: #2E7D2E; margin-bottom: 15px;">🎤 Listening Practice</h4>
+                    <div style="font-size: 1.1em; line-height: 1.8; color: #333;">
+                        <p><strong>Instructions for Students:</strong></p>
+                        <p>1. 👂 Listen carefully to the audio</p>
+                        <p>2. 🗣️ Repeat what you hear</p>
+                        <p>3. 🍎 Point to the fruits when you hear them</p>
+                        <p>4. 💬 Practice the "Does he/she have...?" questions</p>
+                    </div>
+                </div>
+                
+                <!-- Interactive Fruit Display -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; margin: 20px 0; max-width: 400px; margin: 20px auto;">
+                    <div onclick="highlightFruit('apple')" style="cursor: pointer; text-align: center; padding: 10px; border-radius: 10px; transition: all 0.3s ease;" id="fruit-apple">
+                        <div style="font-size: 2.5em;">🍎</div>
+                        <div style="font-weight: bold; color: #333;">Apple</div>
+                    </div>
+                    <div onclick="highlightFruit('banana')" style="cursor: pointer; text-align: center; padding: 10px; border-radius: 10px; transition: all 0.3s ease;" id="fruit-banana">
+                        <div style="font-size: 2.5em;">🍌</div>
+                        <div style="font-weight: bold; color: #333;">Banana</div>
+                    </div>
+                    <div onclick="highlightFruit('orange')" style="cursor: pointer; text-align: center; padding: 10px; border-radius: 10px; transition: all 0.3s ease;" id="fruit-orange">
+                        <div style="font-size: 2.5em;">🍊</div>
+                        <div style="font-weight: bold; color: #333;">Orange</div>
+                    </div>
+                    <div onclick="highlightFruit('peach')" style="cursor: pointer; text-align: center; padding: 10px; border-radius: 10px; transition: all 0.3s ease;" id="fruit-peach">
+                        <div style="font-size: 2.5em;">🍑</div>
+                        <div style="font-weight: bold; color: #333;">Peach</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game state variables
+        let grammarScore = 0;
+        let grammarTotal = 0;
+        let memoryFlipped = [];
+        let memoryMatches = 0;
+        let memoryTries = 0;
+        let basketCounts = { apple: 0, banana: 0, orange: 0, peach: 0 };
+        
+        // Current grammar question
+        let currentQuestion = {};
+
+        // Show section function
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.game-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Initialize section-specific content
+            if (sectionId === 'memory') {
+                initMemoryGame();
+            } else if (sectionId === 'grammar') {
+                generateGrammarQuestion();
+            }
+        }
+
+        // Fruit sound simulation
+        function playFruitSound(fruit) {
+            // Visual feedback
+            event.target.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Text-to-speech simulation (teacher can say it)
+            const pronunciation = {
+                'apple': 'AP-PLE',
+                'banana': 'BA-NA-NA',
+                'orange': 'OR-ANGE',
+                'peach': 'PEACH'
+            };
+            
+            alert(`🔊 "${fruit.toUpperCase()}" - Say: "${pronunciation[fruit]}"`);
+        }
+
+        // Grammar game functions
+        function generateGrammarQuestion() {
+            const fruits = [
+                { name: 'apples', emoji: '🍎' },
+                { name: 'bananas', emoji: '🍌' },
+                { name: 'oranges', emoji: '🍊' },
+                { name: 'peaches', emoji: '🍑' }
+            ];
+            const characters = [
+                { emoji: '👦', pronoun: 'he', name: 'boy' },
+                { emoji: '👧', pronoun: 'she', name: 'girl' },
+                { emoji: '👨', pronoun: 'he', name: 'man' },
+                { emoji: '👩', pronoun: 'she', name: 'woman' },
+                { emoji: '🧑', pronoun: 'they', name: 'person' },
+                { emoji: '👶', pronoun: 'he', name: 'baby' }
+            ];
+            
+            const fruit = fruits[Math.floor(Math.random() * fruits.length)];
+            const character = characters[Math.floor(Math.random() * characters.length)];
+            const hasStuff = Math.random() > 0.5;
+            
+            currentQuestion = {
+                fruit: fruit.name,
+                fruitEmoji: fruit.emoji,
+                character: character,
+                hasStuff: hasStuff
+            };
+            
+            // Display character(s) - multiple emojis for "they"
+            if (character.pronoun === 'they') {
+                document.getElementById('character').textContent = character.emoji + character.emoji + character.emoji;
+            } else {
+                document.getElementById('character').textContent = character.emoji;
+            }
+            
+            document.getElementById('fruit-display').textContent = fruit.emoji;
+            
+            // Show visual indicator of whether they have the fruit or not
+            const visualIndicator = document.getElementById('visual-indicator');
+            if (currentQuestion.hasStuff) {
+                // Show character holding/having the fruit
+                visualIndicator.innerHTML = `${character.emoji} 🤲 ${fruit.emoji} ✅`;
+                visualIndicator.style.color = '#32CD32';
+            } else {
+                // Show character without the fruit
+                visualIndicator.innerHTML = `${character.emoji} 🚫 ${fruit.emoji} ❌`;
+                visualIndicator.style.color = '#FF6B6B';
+            }
+            
+            document.getElementById('question').textContent = `Do ${character.pronoun} have ${fruit.name}?`;
+            
+            // Update answer buttons with correct pronouns
+            const yesBtn = document.querySelector('.answer-btn[onclick="answerQuestion(true)"]');
+            const noBtn = document.querySelector('.answer-btn[onclick="answerQuestion(false)"]');
+            
+            if (character.pronoun === 'they') {
+                yesBtn.textContent = 'Yes, they do! 👍';
+                noBtn.textContent = 'No, they don\'t! 👎';
+            } else {
+                yesBtn.textContent = `Yes, ${character.pronoun} does! 👍`;
+                noBtn.textContent = `No, ${character.pronoun} doesn't! 👎`;
+            }
+            
+            // Reset button colors
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.className = 'answer-btn';
+            });
+        }
+
+        function answerQuestion(userAnswer) {
+            grammarTotal++;
+            const correct = userAnswer === currentQuestion.hasStuff;
+            
+            if (correct) {
+                grammarScore++;
+                event.target.classList.add('correct');
+                const pronoun = currentQuestion.character.pronoun;
+                const pronounCap = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
+                const verb = pronoun === 'they' ? 'do' : 'does';
+                const negVerb = pronoun === 'they' ? "don't" : "doesn't";
+                
+                setTimeout(() => {
+                    showSuccessMessage(`🎉 Correct! ${pronounCap} ${currentQuestion.hasStuff ? verb : negVerb} have ${currentQuestion.fruit}! ${currentQuestion.fruitEmoji}`);
+                }, 500);
+            } else {
+                event.target.classList.add('incorrect');
+                const pronoun = currentQuestion.character.pronoun;
+                const pronounCap = pronoun.charAt(0).toUpperCase() + pronoun.slice(1);
+                const verb = pronoun === 'they' ? 'do' : 'does';
+                const negVerb = pronoun === 'they' ? "don't" : "doesn't";
+                
+                setTimeout(() => {
+                    showSuccessMessage(`💪 Try again! ${pronounCap} ${currentQuestion.hasStuff ? verb : negVerb} have ${currentQuestion.fruit}! ${currentQuestion.fruitEmoji}`);
+                }, 500);
+            }
+            
+            document.getElementById('grammar-score').textContent = `Score: ${grammarScore}/${grammarTotal}`;
+            
+            // Check if game is complete
+            if (grammarTotal >= 20) {
+                setTimeout(() => {
+                    const percentage = Math.round((grammarScore / grammarTotal) * 100);
+                    showSuccessMessage(`🏆 AMAZING! You completed 20 questions! Final Score: ${grammarScore}/20 (${percentage}%) 🎉`);
+                    
+                    // Reset after showing final score
+                    setTimeout(() => {
+                        grammarScore = 0;
+                        grammarTotal = 0;
+                        document.getElementById('grammar-score').textContent = `Score: 0/20`;
+                        generateGrammarQuestion();
+                    }, 4000);
+                }, 2000);
+            } else {
+                setTimeout(() => {
+                    generateGrammarQuestion();
+                }, 2000);
+            }
+        }
+
+        // Memory game functions
+        function initMemoryGame() {
+            const fruits = ['🍎', '🍌', '🍊', '🍑', '🍎', '🍌', '🍊', '🍑'];
+            const shuffled = fruits.sort(() => Math.random() - 0.5);
+            
+            const gameArea = document.getElementById('memory-game');
+            gameArea.innerHTML = '';
+            
+            shuffled.forEach((fruit, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.textContent = '?';
+                card.dataset.fruit = fruit;
+                card.dataset.index = index;
+                card.onclick = () => flipCard(card);
+                gameArea.appendChild(card);
+            });
+            
+            memoryFlipped = [];
+            memoryMatches = 0;
+            memoryTries = 0;
+            updateMemoryScore();
+        }
+
+        function flipCard(card) {
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || memoryFlipped.length >= 2) {
+                return;
+            }
+            
+            card.classList.add('flipped');
+            card.textContent = card.dataset.fruit;
+            memoryFlipped.push(card);
+            
+            if (memoryFlipped.length === 2) {
+                memoryTries++;
+                setTimeout(() => {
+                    checkMemoryMatch();
+                }, 1000);
+            }
+        }
+
+        function checkMemoryMatch() {
+            const [card1, card2] = memoryFlipped;
+            
+            if (card1.dataset.fruit === card2.dataset.fruit) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                memoryMatches++;
+                
+                if (memoryMatches === 4) {
+                    setTimeout(() => {
+                        showSuccessMessage('🎉 Congratulations! You found all the fruit pairs!');
+                    }, 500);
+                }
+            } else {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+                card1.textContent = '?';
+                card2.textContent = '?';
+            }
+            
+            memoryFlipped = [];
+            updateMemoryScore();
+        }
+
+        function updateMemoryScore() {
+            document.getElementById('memory-score').textContent = `Matches: ${memoryMatches}/4 | Tries: ${memoryTries}`;
+        }
+
+        // Drag and drop functions
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.dataset.fruit);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const fruit = ev.dataTransfer.getData("text");
+            
+            basketCounts[fruit]++;
+            document.getElementById(`${fruit}-count`).textContent = basketCounts[fruit];
+            
+            // Add fruit to basket visually
+            const fruitEmoji = document.createElement('div');
+            fruitEmoji.style.fontSize = '2em';
+            fruitEmoji.style.margin = '5px';
+            fruitEmoji.textContent = {
+                'apple': '🍎',
+                'banana': '🍌',
+                'orange': '🍊',
+                'peach': '🍑'
+            }[fruit];
+            
+            const basketArea = document.getElementById('basket-area');
+            basketArea.appendChild(fruitEmoji);
+            
+            // Success animation
+            fruitEmoji.style.animation = 'bounce 0.6s ease-in-out';
+        }
+
+        // Audio functions
+        function playAudio() {
+            const audio = document.getElementById('fruitAudio');
+            audio.play();
+            showSuccessMessage('🎵 Playing the official lesson audio! Listen carefully!');
+        }
+
+        function pauseAudio() {
+            const audio = document.getElementById('fruitAudio');
+            audio.pause();
+            showSuccessMessage('⏸️ Audio paused. Ready to continue when you are!');
+        }
+
+        function restartAudio() {
+            const audio = document.getElementById('fruitAudio');
+            audio.currentTime = 0;
+            audio.play();
+            showSuccessMessage('🔄 Restarting audio from the beginning!');
+        }
+
+        function highlightFruit(fruit) {
+            // Reset all fruits
+            ['apple', 'banana', 'orange', 'peach'].forEach(f => {
+                const element = document.getElementById(`fruit-${f}`);
+                element.style.background = 'transparent';
+                element.style.transform = 'scale(1)';
+            });
+            
+            // Highlight selected fruit
+            const selected = document.getElementById(`fruit-${fruit}`);
+            selected.style.background = 'linear-gradient(135deg, #FFE5E5, #E5F9FF)';
+            selected.style.transform = 'scale(1.1)';
+            selected.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+            
+            // Show message
+            const fruitNames = {
+                'apple': '🍎 Apple',
+                'banana': '🍌 Banana', 
+                'orange': '🍊 Orange',
+                'peach': '🍑 Peach'
+            };
+            
+            showSuccessMessage(`Great! You selected ${fruitNames[fruit]}! Listen for this fruit in the audio.`);
+        }
+
+        // Utility function
+        function showSuccessMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'success-message';
+            messageDiv.textContent = message;
+            
+            document.querySelector('.game-section.active').appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+
+        // Spelling game variables and functions
+        let spellingScore = 0;
+        let spellingTotal = 0;
+        let currentSpelling = {};
+        
+        const spellingWords = [
+            { word: 'APPLE', pattern: 'A _ _ L E', missing: 'PP', emoji: '🍎' },
+            { word: 'BANANA', pattern: 'B A _ A _ A', missing: 'NN', emoji: '🍌' },
+            { word: 'ORANGE', pattern: 'O R _ N G _', missing: 'AE', emoji: '🍊' },
+            { word: 'PEACH', pattern: 'P E _ C _', missing: 'AH', emoji: '🍑' },
+            { word: 'APPLE', pattern: '_ P P L E', missing: 'A', emoji: '🍎' },
+            { word: 'BANANA', pattern: '_ A N A N A', missing: 'B', emoji: '🍌' }
+        ];
+        
+        function generateSpelling() {
+            const spelling = spellingWords[Math.floor(Math.random() * spellingWords.length)];
+            currentSpelling = spelling;
+            
+            document.getElementById('spelling-fruit').textContent = spelling.emoji;
+            document.getElementById('spelling-word').textContent = spelling.pattern;
+            document.getElementById('spelling-input').value = '';
+            document.getElementById('spelling-input').focus();
+        }
+        
+        function checkSpelling() {
+            const userInput = document.getElementById('spelling-input').value.toUpperCase();
+            const correct = userInput === currentSpelling.missing;
+            
+            if (correct) {
+                spellingScore++;
+                showSuccessMessage(`🎉 Correct! The word is ${currentSpelling.word}! ${currentSpelling.emoji}`);
+            } else {
+                showSuccessMessage(`💪 Try again! The missing letters are: ${currentSpelling.missing}`);
+            }
+            
+            spellingTotal++;
+            document.getElementById('spelling-score').textContent = `Spelling Score: ${spellingScore}/${spellingTotal}`;
+        }
+        
+        function nextSpelling() {
+            generateSpelling();
+        }
+        
+        /* STORY GAME - COMMENTED OUT FOR LATER DEVELOPMENT
+        // Story game variables and functions
+        let storyProgress = 0;
+        const storyScenes = [
+            {
+                content: "🍎 Apple says: 'Hello! I'm red and sweet! Do you want to be my friend?' 🍎",
+                choices: ['Yes! 😊', 'Maybe... 🤔'],
+                next: ['scene2', 'scene2']
+            },
+            {
+                content: "🍌 Banana appears: 'I'm yellow and long! Let's play together!' What do you say? 🍌",
+                choices: ['Great idea! 🎉', 'What game? 🎮'],
+                next: ['scene3', 'scene3']
+            }
+        ];
+        
+        function storyChoice(choice) {
+            storyProgress++;
+            
+            if (choice === 'start') {
+                document.getElementById('story-content').innerHTML = `
+                    <p>🍎 Apple says: "Hello! I'm red and sweet! Do you want to be my friend?" 🍎</p>
+                `;
+                document.getElementById('story-choices').innerHTML = `
+                    <button onclick="storyChoice('friend')" style="background: #4CAF50; color: white; border: none; border-radius: 15px; padding: 10px 20px; font-size: 1.1em; cursor: pointer;">Yes! 😊</button>
+                    <button onclick="storyChoice('maybe')" style="background: #FF9800; color: white; border: none; border-radius: 15px; padding: 10px 20px; font-size: 1.1em; cursor: pointer;">Maybe... 🤔</button>
+                `;
+            } else if (storyProgress <= 10) {
+                const responses = [
+                    "🍌 Banana joins: 'Let's play hide and seek!' 🍌",
+                    "🍊 Orange rolls in: 'I can help you count!' 🍊",
+                    "🍑 Peach whispers: 'I know a secret garden!' 🍑",
+                    "🌟 All fruits together: 'You're our best friend!' 🌟"
+                ];
+                
+                document.getElementById('story-content').innerHTML = `<p>${responses[Math.floor(Math.random() * responses.length)]}</p>`;
+                
+                if (storyProgress < 10) {
+                    document.getElementById('story-choices').innerHTML = `
+                        <button onclick="storyChoice('continue')" style="background: #2196F3; color: white; border: none; border-radius: 15px; padding: 10px 20px; font-size: 1.1em; cursor: pointer;">Continue! ➡️</button>
+                    `;
+                } else {
+                    document.getElementById('story-choices').innerHTML = `
+                        <button onclick="storyChoice('restart')" style="background: #9C27B0; color: white; border: none; border-radius: 15px; padding: 10px 20px; font-size: 1.1em; cursor: pointer;">Start New Story! 🔄</button>
+                    `;
+                }
+            }
+            
+            if (choice === 'restart') {
+                storyProgress = 0;
+                document.getElementById('story-content').innerHTML = `
+                    <p>Once upon a time, there was a magical garden where fruits could talk! 🏰</p>
+                    <p>Click <strong style="color: #FF6B6B; cursor: pointer;" onclick="storyChoice('start')">START ADVENTURE</strong> to begin!</p>
+                `;
+                document.getElementById('story-choices').innerHTML = '';
+            }
+            
+            document.getElementById('story-score').textContent = `Story Progress: ${storyProgress}/10 scenes`;
+        }
+        END OF STORY GAME CODE */
+        
+        // Speaking practice variables and functions
+        let speakingProgress = 0;
+        const speakingSentences = [
+            { text: "I have an apple. Do you have an apple?", visual: "👦🍎" },
+            { text: "She has bananas. Does she have oranges?", visual: "👧🍌" },
+            { text: "They have peaches. Do they have apples?", visual: "🧑🧑🧑🍑" },
+            { text: "I don't have oranges. Do you have oranges?", visual: "👦🚫🍊" },
+            { text: "We like all fruits! Do you like fruits?", visual: "👥🍎🍌🍊🍑" }
+        ];
+        
+        function generateSpeaking() {
+            const sentence = speakingSentences[speakingProgress % speakingSentences.length];
+            document.getElementById('speaking-visual').textContent = sentence.visual;
+            document.getElementById('speaking-text').textContent = `"${sentence.text}"`;
+        }
+        
+        function nextSpeaking() {
+            speakingProgress++;
+            generateSpeaking();
+            document.getElementById('speaking-score').textContent = `Speaking Practice: ${speakingProgress}/15 sentences`;
+            showSuccessMessage('🗣️ Great speaking! Try the next sentence!');
+        }
+        
+        function repeatSpeaking() {
+            showSuccessMessage('🔄 Practice this sentence again! Speak clearly!');
+        }
+        
+        // Quiz variables and functions
+        let quizScore = 0;
+        let quizTotal = 0;
+        const quizQuestions = [
+            // Fruit Identification Questions
+            {
+                question: "Which fruit is red?",
+                visual: "🍎🍌🍊🍑",
+                options: ["Apple", "Banana", "Orange", "Peach"],
+                correct: 0
+            },
+            {
+                question: "Which fruit is yellow?",
+                visual: "🍎🍌🍊🍑",
+                options: ["Apple", "Banana", "Orange", "Peach"],
+                correct: 1
+            },
+            {
+                question: "Which fruit is orange?",
+                visual: "🍎🍌🍊🍑",
+                options: ["Apple", "Banana", "Orange", "Peach"],
+                correct: 2
+            },
+            {
+                question: "Which fruit is pink/red?",
+                visual: "🍎🍌🍊🍑",
+                options: ["Apple", "Banana", "Orange", "Peach"],
+                correct: 3
+            },
+            // Grammar Questions - Do/Does
+            {
+                question: "Complete: 'Do you ___ apples?'",
+                visual: "❓🍎",
+                options: ["has", "have", "had", "having"],
+                correct: 1
+            },
+            {
+                question: "Complete: '___ he have bananas?'",
+                visual: "👦🍌",
+                options: ["Do", "Does", "Did", "Done"],
+                correct: 1
+            },
+            {
+                question: "Complete: '___ they have oranges?'",
+                visual: "🧑🧑🧑🍊",
+                options: ["Do", "Does", "Did", "Done"],
+                correct: 0
+            },
+            {
+                question: "Complete: 'She ___ peaches.'",
+                visual: "👧🍑",
+                options: ["have", "has", "had", "having"],
+                correct: 1
+            },
+            // Spelling Questions
+            {
+                question: "How do you spell the red fruit?",
+                visual: "🍎",
+                options: ["APLE", "APPLE", "APLLE", "APPEL"],
+                correct: 1
+            },
+            {
+                question: "How do you spell the yellow fruit?",
+                visual: "🍌",
+                options: ["BANANA", "BANANNA", "BANAN", "BANNANA"],
+                correct: 0
+            },
+            {
+                question: "How do you spell the orange fruit?",
+                visual: "🍊",
+                options: ["ORNGE", "ORANGE", "ORANG", "ORENGE"],
+                correct: 1
+            },
+            {
+                question: "How do you spell the pink fruit?",
+                visual: "🍑",
+                options: ["PEACH", "PEECH", "PECH", "PEACH"],
+                correct: 0
+            },
+            // Yes/No Questions
+            {
+                question: "Answer: 'Do you have apples?' (Say YES)",
+                visual: "👦🤲🍎✅",
+                options: ["Yes, I do", "No, I don't", "Yes, I have", "No, I hasn't"],
+                correct: 0
+            },
+            {
+                question: "Answer: 'Does she have bananas?' (Say NO)",
+                visual: "👧🚫🍌❌",
+                options: ["Yes, she does", "No, she doesn't", "Yes, she have", "No, she don't"],
+                correct: 1
+            },
+            {
+                question: "Answer: 'Do they have oranges?' (Say YES)",
+                visual: "🧑🧑🧑🤲🍊✅",
+                options: ["Yes, they do", "No, they don't", "Yes, they does", "No, they doesn't"],
+                correct: 0
+            },
+            // Counting Questions
+            {
+                question: "How many fruits do you see?",
+                visual: "🍎🍌🍊",
+                options: ["Two", "Three", "Four", "Five"],
+                correct: 1
+            },
+            {
+                question: "How many apples are there?",
+                visual: "🍎🍎🍌🍊",
+                options: ["One", "Two", "Three", "Four"],
+                correct: 1
+            },
+            {
+                question: "How many different types of fruits?",
+                visual: "🍎🍎🍌🍌🍊🍊🍑🍑",
+                options: ["Two", "Three", "Four", "Eight"],
+                correct: 2
+            },
+            // Listening/Audio Questions
+            {
+                question: "What do you hear in the song?",
+                visual: "🎵🍎🍌🍊🍑",
+                options: ["Animals", "Fruits", "Colors", "Numbers"],
+                correct: 1
+            },
+            // Memory Questions
+            {
+                question: "Which fruits were in the story?",
+                visual: "📖🌟",
+                options: ["Only apple", "Apple and banana", "All four fruits", "No fruits"],
+                correct: 2
+            },
+            // Advanced Grammar
+            {
+                question: "Which is correct?",
+                visual: "👦🍎",
+                options: ["He have apple", "He has apple", "He has an apple", "He have an apple"],
+                correct: 2
+            },
+            {
+                question: "Which is correct for many people?",
+                visual: "🧑🧑🧑🍌",
+                options: ["They has bananas", "They have bananas", "They does have bananas", "They do has bananas"],
+                correct: 1
+            },
+            // Vocabulary Questions
+            {
+                question: "What color is a banana?",
+                visual: "🍌",
+                options: ["Red", "Yellow", "Green", "Purple"],
+                correct: 1
+            },
+            {
+                question: "What shape is an orange?",
+                visual: "🍊",
+                options: ["Square", "Triangle", "Round", "Long"],
+                correct: 2
+            },
+            {
+                question: "Which fruit is longest?",
+                visual: "🍎🍌🍊🍑",
+                options: ["Apple", "Banana", "Orange", "Peach"],
+                correct: 1
+            },
+            // Final Challenge Questions
+            {
+                question: "Complete the sentence: 'I ___ all fruits!'",
+                visual: "😊🍎🍌🍊🍑",
+                options: ["hate", "like", "eat", "want"],
+                correct: 1
+            }
+        ];
+        
+        function startQuiz() {
+            quizScore = 0;
+            quizTotal = 0;
+            generateQuizQuestion();
+        }
+        
+        function generateQuizQuestion() {
+            const question = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
+            
+            document.getElementById('quiz-question').innerHTML = `
+                <div style="font-size: 2em; margin-bottom: 15px;">${question.visual}</div>
+                <div style="font-size: 1.3em; color: #333;">${question.question}</div>
+            `;
+            
+            let optionsHTML = '';
+            question.options.forEach((option, index) => {
+                optionsHTML += `
+                    <button onclick="answerQuiz(${index}, ${question.correct})" 
+                            style="background: linear-gradient(45deg, #E3F2FD, #F3E5F5); 
+                                   border: 2px solid #2196F3; border-radius: 15px; 
+                                   padding: 15px; font-size: 1.1em; cursor: pointer; 
+                                   transition: all 0.3s ease;">
+                        ${option}
+                    </button>
+                `;
+            });
+            
+            document.getElementById('quiz-options').innerHTML = optionsHTML;
+        }
+        
+        function answerQuiz(selected, correct) {
+            quizTotal++;
+            
+            if (selected === correct) {
+                quizScore++;
+                showSuccessMessage('🎉 Excellent! Correct answer!');
+            } else {
+                showSuccessMessage('💪 Good try! Keep learning!');
+            }
+            
+            document.getElementById('quiz-score').textContent = `Quiz Score: ${quizScore}/${quizTotal}`;
+            
+            setTimeout(() => {
+                if (quizTotal < 25) {
+                    generateQuizQuestion();
+                } else {
+                    const percentage = Math.round((quizScore / quizTotal) * 100);
+                    showSuccessMessage(`🏆 Quiz Complete! Final Score: ${quizScore}/25 (${percentage}%) Amazing work!`);
+                }
+            }, 2000);
+        }
+
+        // Initialize the game
+        window.onload = function() {
+            generateGrammarQuestion();
+            generateSpelling();
+            generateSpeaking();
+        };
+    </script>
+</body>
+</html> 

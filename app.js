@@ -23,6 +23,102 @@ const sections = ['welcome', 'section1', 'section2', 'section3', 'section4', 'se
                  'foodGame', 'transportGame', 'actionGame', 'comprehensiveGame', 'flashcards', 'contentBank'];
 
 // ================================
+// TEACHER SELECTION SYSTEM
+// ================================
+
+class TeacherSelectionSystem {
+    constructor() {
+        this.currentTeacher = null;
+        this.init();
+    }
+    
+    init() {
+        this.attachEventListeners();
+        this.showTeacherSelection();
+    }
+    
+    attachEventListeners() {
+        // Teacher selection buttons
+        document.querySelectorAll('.teacher-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                const teacher = e.currentTarget.dataset.teacher;
+                this.selectTeacher(teacher);
+            });
+        });
+        
+        // Back to teacher selection buttons
+        document.getElementById('back-to-teacher-selection')?.addEventListener('click', () => {
+            this.showTeacherSelection();
+        });
+        
+        document.getElementById('back-to-teacher-selection-2')?.addEventListener('click', () => {
+            this.showTeacherSelection();
+        });
+    }
+    
+    selectTeacher(teacher) {
+        this.currentTeacher = teacher;
+        debugLog(`Teacher selected: ${teacher}`);
+        
+        if (teacher === 'barry') {
+            this.showTeacherBarryGames();
+        } else if (teacher === 'other') {
+            this.showOtherGames();
+        }
+    }
+    
+    showTeacherSelection() {
+        // Hide all containers
+        document.getElementById('teacher-selection').style.display = 'block';
+        document.getElementById('teacher-barry-container').style.display = 'none';
+        document.getElementById('other-games-container').style.display = 'none';
+        
+        // Update current teacher
+        this.currentTeacher = null;
+        debugLog('Showing teacher selection screen');
+    }
+    
+    showTeacherBarryGames() {
+        // Hide teacher selection and other games
+        document.getElementById('teacher-selection').style.display = 'none';
+        document.getElementById('other-games-container').style.display = 'none';
+        
+        // Show Teacher Barry container
+        document.getElementById('teacher-barry-container').style.display = 'block';
+        
+        debugLog('Showing Teacher Barry games');
+    }
+    
+    showOtherGames() {
+        // Hide teacher selection and Teacher Barry games
+        document.getElementById('teacher-selection').style.display = 'none';
+        document.getElementById('teacher-barry-container').style.display = 'none';
+        
+        // Show other games container
+        document.getElementById('other-games-container').style.display = 'block';
+        
+        debugLog('Showing other games');
+        
+        // Initialize the questions loader if not already done
+        if (!window.questionsLoader) {
+            debugLog('Initializing questions loader for Other Games...');
+            window.questionsLoader = new QuestionsLoader();
+        }
+        
+        // Initialize the main navigation system for other games
+        initializeMainNavigation();
+        initializeGameNavigation();
+        
+        // Show welcome section
+        showSection('welcome');
+    }
+    
+    getCurrentTeacher() {
+        return this.currentTeacher;
+    }
+}
+
+// ================================
 // UTILITY FUNCTIONS
 // ================================
 
@@ -1869,16 +1965,11 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
         debugLog('Application starting...');
         
-        // Initialize core systems
-        const questionsLoader = new QuestionsLoader();
+        // Initialize core systems that don't depend on teacher selection
         initializeDragAndDrop();
         
-        // Initialize navigation
-        initializeMainNavigation();
-        initializeGameNavigation();
-        
-        // Show welcome section
-        showSection('welcome');
+        // Don't initialize main navigation here - it will be done when "Other Games" is selected
+        // Don't show welcome section - teacher selection will handle initial display
         
         // Add a check for section1 after a brief delay to ensure it's loaded
         setTimeout(() => {
@@ -3113,4 +3204,18 @@ gameButtons.forEach(button => {
             console.log(`Section ${section} not yet implemented`);
         }
     });
+});
+
+// ================================
+// INITIALIZE TEACHER SELECTION SYSTEM
+// ================================
+
+let teacherSelectionSystem;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    debugLog('Initializing Teacher Selection System...');
+    teacherSelectionSystem = new TeacherSelectionSystem();
+    
+    // Questions loader will be initialized when needed (when "Other Games" is selected)
 });

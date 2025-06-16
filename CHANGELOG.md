@@ -7,6 +7,52 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.6.0] - 2025-06-16
+
+### 🔄 **MAJOR UPDATE: Multi-Teacher Support System**
+
+#### **NEW FEATURES:**
+- **👨‍🏫 Teacher Selection Interface**: Added comprehensive teacher selection screen with visual cards
+- **🎯 Teacher Barry Section**: Dedicated section for Everybody Up curriculum games
+  - **🍎 Fruit Lesson Game**: Level 2, Unit 3 Lesson 2 - Interactive fruit vocabulary with "Does he/she have" grammar
+  - **👨‍💼 Jobs Lesson Game**: Level 3, Unit 3 Lesson 2 - Interactive jobs vocabulary with "Does he/she do" grammar
+  - **🎵 Official Audio Integration**: All 4 MP3 files from Everybody Up coursebook
+  - **📊 8-Section Learning System**: Vocabulary, Spelling, Grammar, Memory, Basket, Speaking, Quiz, Audio
+- **🎮 Other Games Section**: Contains all existing review system functionality
+- **🔄 Dynamic Navigation**: Intelligent initialization based on teacher selection
+
+#### **TECHNICAL IMPROVEMENTS:**
+- **📁 File Organization**: Copied interactive games to main directory for seamless integration
+- **🎛️ Modular Initialization**: Teacher-specific system loading for optimal performance
+- **🔗 Cross-Navigation**: Easy switching between teacher sections with breadcrumb navigation
+- **📱 Responsive Design**: Professional teacher selection cards with hover effects and animations
+
+#### **USER EXPERIENCE:**
+- **🌟 Professional Interface**: Gradient backgrounds, shadows, and smooth transitions
+- **📋 Clear Feature Lists**: Each teacher section displays available content and features
+- **🔄 Seamless Switching**: Back buttons and navigation preserve user context
+- **🎯 Targeted Content**: Each teacher gets relevant games for their curriculum
+
+#### **FILES ADDED:**
+- `fruit_lesson_interactive_game.html` (58KB) - Complete Level 2 fruit lesson
+- `jobs_lesson_interactive_game.html` (42KB) - Complete Level 3 jobs lesson
+- `EU3e_2_Student_Book_051.mp3` (1.7MB) - Official fruit lesson audio
+- `EU3e_3_Student_Book_043.mp3` (600KB) - Jobs vocabulary audio
+- `EU3e_3_Student_Book_044.mp3` (1.1MB) - Jobs dialogue audio
+- `EU3e_3_Student_Book_045.mp3` (1.3MB) - Jobs grammar audio
+
+#### **FILES MODIFIED:**
+- `index.html` - Added teacher selection interface and containers
+- `app.js` - Implemented TeacherSelectionSystem class and navigation logic
+
+#### **EDUCATIONAL IMPACT:**
+- **🎓 Multi-Curriculum Support**: System now supports different educational approaches
+- **📚 Everybody Up Integration**: Official coursebook materials with authentic content
+- **🔄 Scalable Architecture**: Framework ready for additional teachers and curricula
+- **📱 Cross-Platform Compatibility**: Works on all devices with responsive design
+
+---
+
 ## [Version 2.5.0] - 2025-06-16
 
 ### 🎮 Major Flashcards System Implementation
