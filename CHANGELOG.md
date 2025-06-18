@@ -7,6 +7,36 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.14.1] - 2025-06-18
+
+### 📚 **EXPANDED: Comprehensive Preposition Question Bank**
+
+#### **MASSIVE QUESTION EXPANSION:**
+- **🔢 30 Total Questions**: Expanded from 8 to 30 comprehensive preposition scenarios
+- **📊 Balanced Categories**: Equal distribution across all preposition types
+- **🎯 Four Preposition Types**: Behind (6), Under (6), Next To (8), In Front Of (6), Plus Creative (4)
+
+#### **NEW QUESTION CATEGORIES:**
+- **🔙 BEHIND Scenarios**: Dog/cow, sheep/horse, rabbit/bear, mouse/lion, monkey/elephant relationships
+- **⬇️ UNDER Scenarios**: Cat under box/bus, dog under house/bed, mouse under car, rabbit under tree
+- **👥 NEXT TO Scenarios**: Animals with trees, houses, water, other animals, plants, flowers, ice, moon
+- **▶️ IN FRONT OF Scenarios**: Clear z-index positioning showing animals in front of objects
+- **🌟 CREATIVE Scenarios**: Penguin+ice, frog+umbrella, monkey+zebra, owl+moon for variety
+
+#### **VISUAL IMPROVEMENTS:**
+- **🎨 Clear CSS Positioning**: Better z-index and spacing for "behind" and "in front of" relationships
+- **📏 Consistent Sizing**: Standardized emoji sizes for clear visual hierarchy
+- **🔄 Diverse Animals**: 15+ different animals (cat, dog, rabbit, bird, mouse, horse, cow, bear, lion, elephant, monkey, sheep, frog, duck, penguin, owl, zebra)
+- **🏠 Various Objects**: Houses, trees, boxes, cars, beds, buses, umbrellas, flowers, ice, moon
+
+#### **EDUCATIONAL VALUE:**
+- **🗣️ Language Patterns**: Complete sentence structures for all 30 scenarios
+- **🔁 Repetition Learning**: Multiple examples of each preposition type
+- **🎮 Extended Practice**: Longer quiz session for better retention
+- **🏆 Comprehensive Assessment**: True test of preposition understanding
+
+---
+
 ## [Version 2.14.0] - 2025-06-18
 
 ### 🎓 **CORRECTED: Midschool Section & Redesigned Preposition Game**
