@@ -993,185 +993,119 @@
         let quizScore = 0;
         
         const prepositionQuestions = [
-            // BEHIND scenarios
+            // BEHIND scenarios - Using depth perspective and clear layering
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐄</span><span style="font-size: 40px; position: absolute; left: 45px; top: 20px; z-index: 1;">🐶</span></div>',
+                scene: '<div style="background: linear-gradient(45deg, #e3f2fd, #f3e5f5); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 40px; left: 30px; font-size: 70px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">🐄</div><div style="position: absolute; bottom: 50px; left: 90px; font-size: 45px; opacity: 0.7; filter: blur(1px);">🐶</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the dog?',
                 answer: 'behind',
                 description: 'The dog is behind the cow'
             },
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐶</span><span style="font-size: 40px; position: absolute; left: 45px; top: 20px; z-index: 1;">🐄</span></div>',
-                question: 'Where is the cow?',
-                answer: 'behind',
-                description: 'The cow is behind the dog'
-            },
-            {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐴</span><span style="font-size: 40px; position: absolute; left: 50px; top: 15px; z-index: 1;">🐑</span></div>',
+                scene: '<div style="background: linear-gradient(45deg, #fff3e0, #fce4ec); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 40px; left: 30px; font-size: 70px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">🐴</div><div style="position: absolute; bottom: 50px; left: 90px; font-size: 45px; opacity: 0.6; filter: blur(1px);">🐑</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the sheep?',
                 answer: 'behind',
                 description: 'The sheep is behind the horse'
             },
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐻</span><span style="font-size: 35px; position: absolute; left: 48px; top: 25px; z-index: 1;">🐰</span></div>',
-                question: 'Where is the rabbit?',
-                answer: 'behind',
-                description: 'The rabbit is behind the bear'
-            },
-            {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🦁</span><span style="font-size: 35px; position: absolute; left: 48px; top: 25px; z-index: 1;">🐭</span></div>',
-                question: 'Where is the mouse?',
-                answer: 'behind',
-                description: 'The mouse is behind the lion'
-            },
-            {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐘</span><span style="font-size: 40px; position: absolute; left: 50px; top: 20px; z-index: 1;">🐒</span></div>',
+                scene: '<div style="background: linear-gradient(45deg, #e8f5e8, #fff9c4); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 40px; left: 30px; font-size: 70px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">🐘</div><div style="position: absolute; bottom: 52px; left: 95px; font-size: 40px; opacity: 0.7; filter: blur(1px);">🐒</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the monkey?',
                 answer: 'behind',
                 description: 'The monkey is behind the elephant'
             },
 
-            // UNDER scenarios
+            // UNDER scenarios - Using clear vertical stacking with visual supports
             {
-                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">📦</div><br><div style="font-size: 40px; margin-top: -15px;">🐱</div></div>',
+                scene: '<div style="background: linear-gradient(180deg, #e1f5fe, #f3e5f5); padding: 20px; border-radius: 10px; position: relative; width: 180px; height: 140px; margin: 0 auto;"><div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 60px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));">📦</div><div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 45px;">🐱</div><div style="position: absolute; top: 80px; left: 10px; right: 10px; height: 2px; background: rgba(0,0,0,0.1); border-radius: 1px;"></div></div>',
                 question: 'Where is the cat?',
                 answer: 'under',
                 description: 'The cat is under the box'
             },
             {
-                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">🚗</div><br><div style="font-size: 35px; margin-top: -15px;">🐭</div></div>',
+                scene: '<div style="background: linear-gradient(180deg, #f3e5f5, #e8f5e8); padding: 20px; border-radius: 10px; position: relative; width: 180px; height: 140px; margin: 0 auto;"><div style="position: absolute; top: 25px; left: 50%; transform: translateX(-50%); font-size: 55px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));">🚗</div><div style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); font-size: 35px;">🐭</div><div style="position: absolute; top: 85px; left: 20px; right: 20px; height: 2px; background: rgba(0,0,0,0.1); border-radius: 1px;"></div></div>',
                 question: 'Where is the mouse?',
                 answer: 'under',
                 description: 'The mouse is under the car'
             },
             {
-                scene: '<div style="text-align: center;"><div style="font-size: 55px; margin-bottom: -10px;">🏠</div><br><div style="font-size: 35px; margin-top: -15px;">🐶</div></div>',
-                question: 'Where is the dog?',
-                answer: 'under',
-                description: 'The dog is under the house'
-            },
-            {
-                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">🌳</div><br><div style="font-size: 40px; margin-top: -15px;">🐰</div></div>',
+                scene: '<div style="background: linear-gradient(180deg, #fff3e0, #e1f5fe); padding: 20px; border-radius: 10px; position: relative; width: 180px; height: 140px; margin: 0 auto;"><div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 60px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));">🌳</div><div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 40px;">🐰</div><div style="position: absolute; top: 85px; left: 15px; right: 15px; height: 2px; background: rgba(0,0,0,0.1); border-radius: 1px;"></div></div>',
                 question: 'Where is the rabbit?',
                 answer: 'under',
                 description: 'The rabbit is under the tree'
             },
             {
-                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">🚌</div><br><div style="font-size: 35px; margin-top: -15px;">🐱</div></div>',
-                question: 'Where is the cat?',
-                answer: 'under',
-                description: 'The cat is under the bus'
-            },
-            {
-                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">🛏️</div><br><div style="font-size: 35px; margin-top: -15px;">🐕</div></div>',
+                scene: '<div style="background: linear-gradient(180deg, #fce4ec, #f3e5f5); padding: 20px; border-radius: 10px; position: relative; width: 180px; height: 140px; margin: 0 auto;"><div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 55px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));">🏠</div><div style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); font-size: 40px;">🐶</div><div style="position: absolute; top: 80px; left: 15px; right: 15px; height: 2px; background: rgba(0,0,0,0.1); border-radius: 1px;"></div></div>',
                 question: 'Where is the dog?',
                 answer: 'under',
-                description: 'The dog is under the bed'
+                description: 'The dog is under the house'
             },
 
-            // NEXT TO scenarios
+            // NEXT TO scenarios - Using clear side-by-side positioning with separators
             {
-                scene: '<div style="display: inline-block;"><span style="font-size: 50px;">🐰</span><span style="font-size: 50px; margin-left: 10px;">🌳</span></div>',
+                scene: '<div style="background: linear-gradient(90deg, #e8f5e8, #fff9c4); padding: 25px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 200px; margin: 0 auto;"><span style="font-size: 55px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🐰</span><div style="width: 3px; height: 60px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div><span style="font-size: 55px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🌳</span></div>',
                 question: 'Where is the rabbit?',
                 answer: 'next to',
                 description: 'The rabbit is next to the tree'
             },
             {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🐦</span><span style="font-size: 50px; margin-left: 15px;">🏠</span></div>',
+                scene: '<div style="background: linear-gradient(90deg, #e1f5fe, #fce4ec); padding: 25px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 200px; margin: 0 auto;"><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🐦</span><div style="width: 3px; height: 60px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div><span style="font-size: 55px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🏠</span></div>',
                 question: 'Where is the bird?',
                 answer: 'next to',
                 description: 'The bird is next to the house'
             },
             {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🦆</span><span style="font-size: 50px; margin-left: 20px;">🌊</span></div>',
-                question: 'Where is the duck?',
-                answer: 'next to',
-                description: 'The duck is next to the water'
-            },
-            {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🐱</span><span style="font-size: 45px; margin-left: 15px;">🐶</span></div>',
+                scene: '<div style="background: linear-gradient(90deg, #fff3e0, #e8f5e8); padding: 25px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 200px; margin: 0 auto;"><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🐱</span><div style="width: 3px; height: 60px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🐶</span></div>',
                 question: 'Where is the cat?',
                 answer: 'next to',
                 description: 'The cat is next to the dog'
             },
             {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🐸</span><span style="font-size: 50px; margin-left: 15px;">🌿</span></div>',
-                question: 'Where is the frog?',
+                scene: '<div style="background: linear-gradient(90deg, #f3e5f5, #fff9c4); padding: 25px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 200px; margin: 0 auto;"><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🦆</span><div style="width: 3px; height: 60px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div><span style="font-size: 55px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🌊</span></div>',
+                question: 'Where is the duck?',
                 answer: 'next to',
-                description: 'The frog is next to the plant'
-            },
-            {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🐴</span><span style="font-size: 45px; margin-left: 15px;">🐄</span></div>',
-                question: 'Where is the horse?',
-                answer: 'next to',
-                description: 'The horse is next to the cow'
-            },
-            {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🦋</span><span style="font-size: 50px; margin-left: 15px;">🌺</span></div>',
-                question: 'Where is the butterfly?',
-                answer: 'next to',
-                description: 'The butterfly is next to the flower'
+                description: 'The duck is next to the water'
             },
 
-            // IN FRONT OF scenarios (reverse of behind)
+            // IN FRONT OF scenarios - Using bright foreground with dimmed background
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 40px; position: absolute; left: 0px; top: 20px; z-index: 2;">🐶</span><span style="font-size: 60px; margin-left: 35px;">🐄</span></div>',
+                scene: '<div style="background: linear-gradient(45deg, #fff9c4, #e1f5fe); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 40px; left: 90px; font-size: 60px; opacity: 0.4; filter: blur(2px);">🐄</div><div style="position: absolute; bottom: 45px; left: 40px; font-size: 50px; filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4)); z-index: 2;">🐶</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the dog?',
                 answer: 'in front of',
                 description: 'The dog is in front of the cow'
             },
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 40px; position: absolute; left: 0px; top: 15px; z-index: 2;">🐑</span><span style="font-size: 60px; margin-left: 35px;">🐴</span></div>',
+                scene: '<div style="background: linear-gradient(45deg, #fce4ec, #f3e5f5); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 40px; left: 90px; font-size: 60px; opacity: 0.4; filter: blur(2px);">🐴</div><div style="position: absolute; bottom: 45px; left: 40px; font-size: 45px; filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4)); z-index: 2;">🐑</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the sheep?',
                 answer: 'in front of',
                 description: 'The sheep is in front of the horse'
             },
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 35px; position: absolute; left: 0px; top: 25px; z-index: 2;">🐰</span><span style="font-size: 60px; margin-left: 30px;">🐻</span></div>',
-                question: 'Where is the rabbit?',
-                answer: 'in front of',
-                description: 'The rabbit is in front of the bear'
-            },
-            {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 40px; position: absolute; left: 0px; top: 15px; z-index: 2;">🐱</span><span style="font-size: 55px; margin-left: 35px;">🏠</span></div>',
+                scene: '<div style="background: linear-gradient(45deg, #e8f5e8, #fff3e0); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 35px; left: 80px; font-size: 55px; opacity: 0.4; filter: blur(2px);">🏠</div><div style="position: absolute; bottom: 45px; left: 35px; font-size: 45px; filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4)); z-index: 2;">🐱</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the cat?',
                 answer: 'in front of',
                 description: 'The cat is in front of the house'
             },
-            {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 35px; position: absolute; left: 0px; top: 20px; z-index: 2;">🐭</span><span style="font-size: 50px; margin-left: 30px;">📦</span></div>',
-                question: 'Where is the mouse?',
-                answer: 'in front of',
-                description: 'The mouse is in front of the box'
-            },
-            {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 40px; position: absolute; left: 0px; top: 15px; z-index: 2;">🐦</span><span style="font-size: 50px; margin-left: 35px;">🌳</span></div>',
-                question: 'Where is the bird?',
-                answer: 'in front of',
-                description: 'The bird is in front of the tree'
-            },
 
-            // More creative scenarios
+            // More scenarios with clear visual designs
             {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🐧</span><span style="font-size: 45px; margin-left: 15px;">🧊</span></div>',
-                question: 'Where is the penguin?',
-                answer: 'next to',
-                description: 'The penguin is next to the ice'
-            },
-            {
-                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">☂️</div><br><div style="font-size: 35px; margin-top: -15px;">🐸</div></div>',
+                scene: '<div style="background: linear-gradient(180deg, #e1f5fe, #fce4ec); padding: 20px; border-radius: 10px; position: relative; width: 180px; height: 140px; margin: 0 auto;"><div style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 55px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));">☂️</div><div style="position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); font-size: 40px;">🐸</div><div style="position: absolute; top: 80px; left: 20px; right: 20px; height: 2px; background: rgba(0,0,0,0.1); border-radius: 1px;"></div></div>',
                 question: 'Where is the frog?',
                 answer: 'under',
                 description: 'The frog is under the umbrella'
             },
             {
-                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🦓</span><span style="font-size: 35px; position: absolute; left: 48px; top: 25px; z-index: 1;">🐵</span></div>',
+                scene: '<div style="background: linear-gradient(90deg, #fff3e0, #f3e5f5); padding: 25px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 200px; margin: 0 auto;"><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🐧</span><div style="width: 3px; height: 60px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🧊</span></div>',
+                question: 'Where is the penguin?',
+                answer: 'next to',
+                description: 'The penguin is next to the ice'
+            },
+            {
+                scene: '<div style="background: linear-gradient(45deg, #f3e5f5, #e8f5e8); padding: 20px; border-radius: 10px; position: relative; width: 200px; height: 120px; margin: 0 auto;"><div style="position: absolute; bottom: 40px; left: 30px; font-size: 70px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">🦓</div><div style="position: absolute; bottom: 50px; left: 90px; font-size: 40px; opacity: 0.7; filter: blur(1px);">🐵</div><div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: #666;">Front ← → Back</div></div>',
                 question: 'Where is the monkey?',
                 answer: 'behind',
                 description: 'The monkey is behind the zebra'
             },
             {
-                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🦉</span><span style="font-size: 50px; margin-left: 15px;">🌙</span></div>',
+                scene: '<div style="background: linear-gradient(90deg, #fff9c4, #e1f5fe); padding: 25px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 200px; margin: 0 auto;"><span style="font-size: 50px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🦉</span><div style="width: 3px; height: 60px; background: rgba(0,0,0,0.1); border-radius: 2px;"></div><span style="font-size: 55px; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));">🌙</span></div>',
                 question: 'Where is the owl?',
                 answer: 'next to',
                 description: 'The owl is next to the moon'
@@ -1334,4 +1268,5 @@
         });
     </script>
 </body>
+</html> 
 </html> 
