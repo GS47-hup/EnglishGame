@@ -1,6 +1,6 @@
 # PROJECT STRUCTURE
 
-**Last Updated:** 2025-06-16 18:21:05  
+**Last Updated:** 2025-06-18 21:59:03  
 **Project:** English Review Game  
 **Purpose:** Document all folders and files and their purposes
 

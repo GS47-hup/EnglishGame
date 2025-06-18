@@ -1,7 +1,7 @@
 # 🧠 Context Window Briefing - English Review Game
 
-**Last Updated**: June 16, 2025  
-**Version**: 2.5.0  
+**Last Updated**: June 18, 2025  
+**Version**: 2.15.0  
 **Purpose**: Essential briefing for new chat sessions
 
 ---
