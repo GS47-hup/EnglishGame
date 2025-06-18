@@ -7,6 +7,33 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.13.0] - 2025-06-18
+
+### 🔧 **FIXED: Button Text Visibility Issues in Week 1 Day 4 Lesson**
+
+#### **CRITICAL TEXT VISIBILITY FIX:**
+- **🔍 Button Text Issue Resolved**: Fixed invisible button text in `week1_day4_lesson.html`
+- **!important CSS Rules**: Added `color: white !important` to all button styles to override any conflicting styles
+- **Enhanced Text Shadow**: Increased text shadow contrast for better readability
+- **Font Specification**: Explicitly set Arial font family for consistent text rendering
+- **Focus Indicators**: Added white outline for keyboard navigation accessibility
+
+#### **BUTTONS FIXED:**
+- **Play Buttons**: Start game buttons now show visible text
+- **Back Buttons**: Navigation buttons with clear text
+- **Number Display**: Counting game numbers clearly visible
+- **Audio Buttons**: Sound control buttons with visible icons
+- **All Interactive Elements**: Universal text visibility across lesson
+
+#### **CSS IMPROVEMENTS:**
+- **Universal Button Rule**: Added comprehensive CSS rule for all button types
+- **Text Shadow Enhancement**: Stronger shadow for text contrast
+- **Focus States**: Added accessibility focus indicators
+- **Font Consistency**: Standardized button font family and weight
+- **Cross-Browser Compatibility**: Ensured text visibility in all browsers
+
+---
+
 ## [Version 2.12.0] - 2025-06-18
 
 ### 🎓 **CORRECTED: Midschool & Highschool Section with Real Content**
