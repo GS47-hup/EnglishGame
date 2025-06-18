@@ -412,7 +412,7 @@
             <p class="text-lg text-gray-600 mb-6">Choose your teacher to access customized games and content</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             <!-- Primary New Section -->
             <div class="teacher-option bg-gradient-to-br from-pink-50 to-rose-50 border-2 border-pink-200 rounded-xl p-6 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105" data-teacher="primary">
                 <div class="text-center">
@@ -469,6 +469,26 @@
                     </div>
                     <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition w-full">
                         Access Teacher Barry's Games
+                    </button>
+                </div>
+            </div>
+
+            <!-- Primary Old Section -->
+            <div class="teacher-option bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-xl p-6 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105" data-teacher="primaryOld">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">👕💼</div>
+                    <h3 class="text-2xl font-bold text-purple-700 mb-3">Primary_Old_June 19, 2025</h3>
+                    <div class="text-indigo-600 mb-4">
+                        <p class="font-semibold mb-2">🌟 Month 2, Week 1, Day 5</p>
+                        <div class="text-sm space-y-1">
+                            <div>👕 Clothing & Fashion</div>
+                            <div>🎨 Colors Review</div>
+                            <div>👨‍💼 Jobs & Uniforms</div>
+                            <div>🚗 Transportation</div>
+                        </div>
+                    </div>
+                    <button class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition w-full">
+                        Access Primary Old Lessons
                     </button>
                 </div>
             </div>
@@ -765,6 +785,90 @@
                     <div class="italic">"This is a house."</div>
                     <div class="italic">"There are three windows."</div>
                     <div class="italic">"The door is rectangle."</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary Old Container -->
+    <div id="primaryOld-container" class="container mx-auto max-w-6xl bg-white rounded-xl shadow-lg p-6 hidden">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-purple-600 mb-2">👕💼 Primary_Old - Month 2, Week 1, Day 5</h2>
+            <p class="text-lg text-gray-600 mb-4">Clothing, Jobs & Transportation Review</p>
+            <button id="back-to-teacher-selection-primaryOld" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                ← Back to Teacher Selection
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-4xl mx-auto">
+            <!-- Clothing & Jobs Lesson -->
+            <div class="game-card bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-xl p-6">
+                <div class="text-center">
+                    <div class="text-5xl mb-4">👕💼</div>
+                    <h3 class="text-xl font-bold text-purple-700 mb-3">Clothing & Jobs Interactive Lesson</h3>
+                    <div class="text-purple-600 mb-4">
+                        <p class="text-sm mb-3">📚 Month 2, Week 1, Day 5 - Complete Review Session</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-white p-2 rounded border">
+                                <div class="text-lg mb-1">👕</div>
+                                <div class="font-semibold">Clothing</div>
+                                <div class="text-gray-600">16 items + colors</div>
+                            </div>
+                            <div class="bg-white p-2 rounded border">
+                                <div class="text-lg mb-1">👨‍💼</div>
+                                <div class="font-semibold">Jobs</div>
+                                <div class="text-gray-600">8 occupations</div>
+                            </div>
+                            <div class="bg-white p-2 rounded border">
+                                <div class="text-lg mb-1">🚗</div>
+                                <div class="font-semibold">Transportation</div>
+                                <div class="text-gray-600">9 vehicles</div>
+                            </div>
+                            <div class="bg-white p-2 rounded border">
+                                <div class="text-lg mb-1">🎨</div>
+                                <div class="font-semibold">Colors</div>
+                                <div class="text-gray-600">Full review</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="window.open('month2_week1_day5_lesson.html', '_blank')" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition w-full">
+                        🎮 Start Clothing & Jobs Lesson
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-purple-50 border border-purple-200 rounded-lg p-6">
+            <h4 class="font-bold text-purple-700 mb-4 text-center">🎯 Lesson Activities:</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-purple-600">
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🔊</div>
+                    <div class="font-semibold">Review Videos</div>
+                    <div class="text-xs">YouTube integration</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl mb-2">👕</div>
+                    <div class="font-semibold">Clothing Description</div>
+                    <div class="text-xs">15-minute practice</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl mb-2">💼</div>
+                    <div class="font-semibold">Job Uniforms</div>
+                    <div class="text-xs">Connect jobs & clothing</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🎤</div>
+                    <div class="font-semibold">Fashion Show</div>
+                    <div class="text-xs">Speaking practice</div>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-white rounded-lg border border-purple-200">
+                <h5 class="font-bold text-purple-700 mb-2">🗣️ Language Patterns Practiced:</h5>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                    <div class="italic">"I'm wearing a blue shirt."</div>
+                    <div class="italic">"The doctor wears a white coat."</div>
+                    <div class="italic">"What are you wearing?"</div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month 2, Week 1, Day 5 - Clothing & Jobs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .lesson-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .activity-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white !important;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .activity-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .vocab-item {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vocab-item:hover {
+            transform: scale(1.05);
+            border-color: #764ba2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .emoji-display {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .pattern-card {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .description-activity {
+            background: #e8f5e8;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid #4caf50;
+        }
+
+        .job-uniform-card {
+            background: #fff3e0;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ff9800;
+            text-align: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white !important;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        .interview-input {
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        .celebration {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.close()" title="Close Lesson">✖</button>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Main Header -->
+        <div class="lesson-card p-8 mb-8 text-center">
+            <h1 class="text-4xl font-bold text-purple-800 mb-4">👕💼 Month 2, Week 1, Day 5</h1>
+            <h2 class="text-2xl text-purple-600 mb-4">Clothing & Jobs Review</h2>
+            <p class="text-lg text-gray-700">Review clothing vocabulary • Connect clothing with jobs • Practice describing what people wear</p>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="lesson-card p-6 mb-8">
+            <h3 class="text-2xl font-bold text-center mb-6 text-purple-800">📚 Lesson Activities</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <button class="activity-btn" onclick="showSection('review')">
+                    🔊 Review Videos
+                </button>
+                <button class="activity-btn" onclick="showSection('vocabulary')">
+                    👕 Vocabulary Practice
+                </button>
+                <button class="activity-btn" onclick="showSection('description')">
+                    🗣️ Clothing Description
+                </button>
+                <button class="activity-btn" onclick="showSection('uniforms')">
+                    💼 Job Uniforms
+                </button>
+                <button class="activity-btn" onclick="showSection('interview')">
+                    ❓ What Are You Wearing?
+                </button>
+                <button class="activity-btn" onclick="showSection('fashion')">
+                    🎭 Fashion Show
+                </button>
+            </div>
+        </div>
+
+        <!-- Review Videos Section -->
+        <div id="review" class="lesson-section hidden">
+            <div class="lesson-card p-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-purple-800">🔊 Review Videos (10 minutes)</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <!-- Clothes Video -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-purple-700">👕 Clothing Vocabulary</h4>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/Q_EwuVHDb5U" 
+                                    title="Clothes vocabulary" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Colors Video -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-purple-700">🎨 Colors Review</h4>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/ybt2jhCQ3lA" 
+                                    title="Colors vocabulary" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Transportation Video -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-purple-700">🚗 Transportation</h4>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/lcdWNmvvyew" 
+                                    title="Transportation vocabulary" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Jobs Video -->
+                    <div>
+                        <h4 class="text-xl font-bold mb-4 text-purple-700">👨‍💼 Jobs & Occupations</h4>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/BfegL6UbX-0" 
+                                    title="Jobs vocabulary" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extra Color Song -->
+                <div class="bg-yellow-50 border-2 border-yellow-300 rounded-15 p-6">
+                    <h4 class="text-xl font-bold mb-4 text-yellow-700">🎵 Extra: Color Song</h4>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/YRonvWl1g1s" 
+                                title="Color Song" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vocabulary Practice Section -->
+        <div id="vocabulary" class="lesson-section hidden">
+            <div class="lesson-card p-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-purple-800">👕 Vocabulary Practice</h3>
+                
+                <!-- Clothing Items -->
+                <div class="mb-8">
+                    <h4 class="text-2xl font-bold mb-4 text-purple-700">Clothing Items</h4>
+                    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <div class="vocab-item" onclick="speakWord('shirt')">
+                            <div class="emoji-display">👔</div>
+                            <div class="font-bold">shirt</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('pants')">
+                            <div class="emoji-display">👖</div>
+                            <div class="font-bold">pants</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('dress')">
+                            <div class="emoji-display">👗</div>
+                            <div class="font-bold">dress</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('skirt')">
+                            <div class="emoji-display">👗</div>
+                            <div class="font-bold">skirt</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('shoes')">
+                            <div class="emoji-display">👠</div>
+                            <div class="font-bold">shoes</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('socks')">
+                            <div class="emoji-display">🧦</div>
+                            <div class="font-bold">socks</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('hat')">
+                            <div class="emoji-display">🎩</div>
+                            <div class="font-bold">hat</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('jacket')">
+                            <div class="emoji-display">🧥</div>
+                            <div class="font-bold">jacket</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('T-shirt')">
+                            <div class="emoji-display">👕</div>
+                            <div class="font-bold">T-shirt</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('shorts')">
+                            <div class="emoji-display">🩳</div>
+                            <div class="font-bold">shorts</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('sweater')">
+                            <div class="emoji-display">🧶</div>
+                            <div class="font-bold">sweater</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('coat')">
+                            <div class="emoji-display">🧥</div>
+                            <div class="font-bold">coat</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('uniform')">
+                            <div class="emoji-display">👕</div>
+                            <div class="font-bold">uniform</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('boots')">
+                            <div class="emoji-display">🥾</div>
+                            <div class="font-bold">boots</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('gloves')">
+                            <div class="emoji-display">🧤</div>
+                            <div class="font-bold">gloves</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('mask')">
+                            <div class="emoji-display">😷</div>
+                            <div class="font-bold">mask</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colors Review -->
+                <div class="mb-8">
+                    <h4 class="text-2xl font-bold mb-4 text-purple-700">Colors Review</h4>
+                    <div class="grid grid-cols-4 md:grid-cols-8 gap-4">
+                        <div class="vocab-item bg-red-500 text-white" onclick="speakWord('red')">
+                            <div class="font-bold">red</div>
+                        </div>
+                        <div class="vocab-item bg-blue-500 text-white" onclick="speakWord('blue')">
+                            <div class="font-bold">blue</div>
+                        </div>
+                        <div class="vocab-item bg-yellow-400" onclick="speakWord('yellow')">
+                            <div class="font-bold">yellow</div>
+                        </div>
+                        <div class="vocab-item bg-green-500 text-white" onclick="speakWord('green')">
+                            <div class="font-bold">green</div>
+                        </div>
+                        <div class="vocab-item bg-orange-500 text-white" onclick="speakWord('orange')">
+                            <div class="font-bold">orange</div>
+                        </div>
+                        <div class="vocab-item bg-purple-500 text-white" onclick="speakWord('purple')">
+                            <div class="font-bold">purple</div>
+                        </div>
+                        <div class="vocab-item bg-pink-400" onclick="speakWord('pink')">
+                            <div class="font-bold">pink</div>
+                        </div>
+                        <div class="vocab-item bg-yellow-800 text-white" onclick="speakWord('brown')">
+                            <div class="font-bold">brown</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transportation -->
+                <div class="mb-8">
+                    <h4 class="text-2xl font-bold mb-4 text-purple-700">Transportation</h4>
+                    <div class="grid grid-cols-3 md:grid-cols-5 gap-4">
+                        <div class="vocab-item" onclick="speakWord('car')">
+                            <div class="emoji-display">🚗</div>
+                            <div class="font-bold">car</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('bus')">
+                            <div class="emoji-display">🚌</div>
+                            <div class="font-bold">bus</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('train')">
+                            <div class="emoji-display">🚂</div>
+                            <div class="font-bold">train</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('airplane')">
+                            <div class="emoji-display">✈️</div>
+                            <div class="font-bold">airplane</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('boat')">
+                            <div class="emoji-display">🚤</div>
+                            <div class="font-bold">boat</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('taxi')">
+                            <div class="emoji-display">🚕</div>
+                            <div class="font-bold">taxi</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('helicopter')">
+                            <div class="emoji-display">🚁</div>
+                            <div class="font-bold">helicopter</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('truck')">
+                            <div class="emoji-display">🚚</div>
+                            <div class="font-bold">truck</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('ambulance')">
+                            <div class="emoji-display">🚑</div>
+                            <div class="font-bold">ambulance</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jobs/Occupations -->
+                <div>
+                    <h4 class="text-2xl font-bold mb-4 text-purple-700">Jobs & Occupations</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="vocab-item" onclick="speakWord('teacher')">
+                            <div class="emoji-display">👨‍🏫</div>
+                            <div class="font-bold">teacher</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('doctor')">
+                            <div class="emoji-display">👨‍⚕️</div>
+                            <div class="font-bold">doctor</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('police officer')">
+                            <div class="emoji-display">👮</div>
+                            <div class="font-bold">police officer</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('firefighter')">
+                            <div class="emoji-display">👨‍🚒</div>
+                            <div class="font-bold">firefighter</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('driver')">
+                            <div class="emoji-display">🚗</div>
+                            <div class="font-bold">driver</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('pilot')">
+                            <div class="emoji-display">👨‍✈️</div>
+                            <div class="font-bold">pilot</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('chef')">
+                            <div class="emoji-display">👨‍🍳</div>
+                            <div class="font-bold">chef</div>
+                        </div>
+                        <div class="vocab-item" onclick="speakWord('nurse')">
+                            <div class="emoji-display">👨‍⚕️</div>
+                            <div class="font-bold">nurse</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clothing Description Activity -->
+        <div id="description" class="lesson-section hidden">
+            <div class="lesson-card p-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-purple-800">🗣️ Clothing Description (15 minutes)</h3>
+                
+                <div class="description-activity mb-6">
+                    <h4 class="text-xl font-bold mb-4 text-green-700">👨‍🏫 Teacher Models</h4>
+                    <p class="text-lg mb-4">Teacher demonstrates describing clothing:</p>
+                    <div class="pattern-card">
+                        <p class="text-lg font-bold">"I'm wearing a blue shirt."</p>
+                        <p class="text-lg font-bold">"I'm wearing black pants."</p>
+                        <p class="text-lg font-bold">"I'm wearing white shoes."</p>
+                    </div>
+                </div>
+
+                <div class="description-activity mb-6">
+                    <h4 class="text-xl font-bold mb-4 text-green-700">🧑‍🎓 Student Practice</h4>
+                    <p class="text-lg mb-4">Students describe their own clothes:</p>
+                    
+                    <div class="bg-white p-6 rounded-lg border-2 border-green-300">
+                        <h5 class="font-bold mb-3">Practice Sentences:</h5>
+                        <div class="space-y-3">
+                            <div class="pattern-card">
+                                <input type="text" class="interview-input w-full" placeholder="I'm wearing a _____ _____." />
+                            </div>
+                            <div class="pattern-card">
+                                <input type="text" class="interview-input w-full" placeholder="My shoes are _____." />
+                            </div>
+                            <div class="pattern-card">
+                                <input type="text" class="interview-input w-full" placeholder="I have a _____ jacket." />
+                            </div>
+                        </div>
+                        <button class="activity-btn mt-4" onclick="checkDescriptions()">✅ Check My Descriptions</button>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold mb-4 text-blue-700">📚 Language Patterns</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="pattern-card">
+                            <p class="font-bold text-lg">"I'm wearing a [color] [clothing item]."</p>
+                        </div>
+                        <div class="pattern-card">
+                            <p class="font-bold text-lg">"This is my [color] [clothing item]."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Uniforms Activity -->
+        <div id="uniforms" class="lesson-section hidden">
+            <div class="lesson-card p-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-purple-800">💼 Job Uniforms (15 minutes)</h3>
+                
+                <p class="text-lg text-center mb-8">Connect jobs with typical clothing they wear!</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="job-uniform-card">
+                        <h4 class="text-xl font-bold mb-3">👨‍🚒 Firefighter</h4>
+                        <div class="text-6xl mb-3">👨‍🚒</div>
+                        <p class="font-bold text-orange-700">"The firefighter wears a helmet."</p>
+                        <p class="font-bold text-orange-700">"The firefighter wears boots."</p>
+                        <button class="activity-btn mt-3" onclick="speakWord('The firefighter wears a helmet')">🔊 Listen</button>
+                    </div>
+
+                    <div class="job-uniform-card">
+                        <h4 class="text-xl font-bold mb-3">👨‍⚕️ Doctor</h4>
+                        <div class="text-6xl mb-3">👨‍⚕️</div>
+                        <p class="font-bold text-orange-700">"The doctor wears a white coat."</p>
+                        <p class="font-bold text-orange-700">"The doctor wears a mask."</p>
+                        <button class="activity-btn mt-3" onclick="speakWord('The doctor wears a white coat')">🔊 Listen</button>
+                    </div>
+
+                    <div class="job-uniform-card">
+                        <h4 class="text-xl font-bold mb-3">👮 Police Officer</h4>
+                        <div class="text-6xl mb-3">👮</div>
+                        <p class="font-bold text-orange-700">"The police officer wears a uniform."</p>
+                        <p class="font-bold text-orange-700">"The police officer wears a hat."</p>
+                        <button class="activity-btn mt-3" onclick="speakWord('The police officer wears a uniform')">🔊 Listen</button>
+                    </div>
+
+                    <div class="job-uniform-card">
+                        <h4 class="text-xl font-bold mb-3">👨‍🍳 Chef</h4>
+                        <div class="text-6xl mb-3">👨‍🍳</div>
+                        <p class="font-bold text-orange-700">"The chef wears a white hat."</p>
+                        <p class="font-bold text-orange-700">"The chef wears an apron."</p>
+                        <button class="activity-btn mt-3" onclick="speakWord('The chef wears a white hat')">🔊 Listen</button>
+                    </div>
+
+                    <div class="job-uniform-card">
+                        <h4 class="text-xl font-bold mb-3">👨‍✈️ Pilot</h4>
+                        <div class="text-6xl mb-3">👨‍✈️</div>
+                        <p class="font-bold text-orange-700">"The pilot wears a uniform."</p>
+                        <p class="font-bold text-orange-700">"The pilot wears a hat."</p>
+                        <button class="activity-btn mt-3" onclick="speakWord('The pilot wears a uniform')">🔊 Listen</button>
+                    </div>
+
+                    <div class="job-uniform-card">
+                        <h4 class="text-xl font-bold mb-3">👨‍🏫 Teacher</h4>
+                        <div class="text-6xl mb-3">👨‍🏫</div>
+                        <p class="font-bold text-orange-700">"The teacher wears a shirt."</p>
+                        <p class="font-bold text-orange-700">"The teacher wears pants."</p>
+                        <button class="activity-btn mt-3" onclick="speakWord('The teacher wears a shirt')">🔊 Listen</button>
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 p-6 rounded-lg mt-8">
+                    <h4 class="text-xl font-bold mb-4 text-orange-700">📚 Pattern Practice</h4>
+                    <div class="pattern-card">
+                        <p class="font-bold text-lg">"The [job] wears a [clothing item]."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interview Activity -->
+        <div id="interview" class="lesson-section hidden">
+            <div class="lesson-card p-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-purple-800">❓ What Are You Wearing? (15 minutes)</h3>
+                
+                <div class="description-activity mb-6">
+                    <h4 class="text-xl font-bold mb-4 text-green-700">👥 Partner Interview Practice</h4>
+                    <p class="text-lg mb-4">Students interview each other about their clothing:</p>
+                    
+                    <div class="bg-white p-6 rounded-lg border-2 border-green-300">
+                        <h5 class="font-bold mb-4 text-green-700">Interview Questions & Answers:</h5>
+                        
+                        <div class="space-y-4">
+                            <div class="pattern-card">
+                                <p class="font-bold text-lg">Q: "What are you wearing?"</p>
+                                <p class="text-lg">A: "I'm wearing a blue shirt and black pants."</p>
+                                <button class="activity-btn mt-2" onclick="speakWord('What are you wearing?')">🔊 Question</button>
+                                <button class="activity-btn mt-2 ml-2" onclick="speakWord('I am wearing a blue shirt and black pants')">🔊 Answer</button>
+                            </div>
+                            
+                            <div class="pattern-card">
+                                <p class="font-bold text-lg">Q: "What color is your shirt?"</p>
+                                <p class="text-lg">A: "My shirt is red."</p>
+                                <button class="activity-btn mt-2" onclick="speakWord('What color is your shirt?')">🔊 Question</button>
+                                <button class="activity-btn mt-2 ml-2" onclick="speakWord('My shirt is red')">🔊 Answer</button>
+                            </div>
+
+                            <div class="pattern-card">
+                                <p class="font-bold text-lg">Q: "Do you have a jacket?"</p>
+                                <p class="text-lg">A: "Yes, I have a black jacket." / "No, I don't have a jacket."</p>
+                                <button class="activity-btn mt-2" onclick="speakWord('Do you have a jacket?')">🔊 Question</button>
+                                <button class="activity-btn mt-2 ml-2" onclick="speakWord('Yes, I have a black jacket')">🔊 Answer</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                            <h6 class="font-bold mb-2 text-yellow-700">💡 Practice Tips:</h6>
+                            <ul class="list-disc list-inside space-y-1 text-yellow-700">
+                                <li>Take turns asking and answering</li>
+                                <li>Point to the clothing item you're talking about</li>
+                                <li>Use complete sentences</li>
+                                <li>Help your partner if they need it</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold mb-4 text-blue-700">📝 Interview Record Sheet</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-lg">
+                            <h5 class="font-bold mb-3">Partner 1:</h5>
+                            <input type="text" class="interview-input w-full mb-2" placeholder="Name: ___________" />
+                            <input type="text" class="interview-input w-full mb-2" placeholder="Shirt color: ___________" />
+                            <input type="text" class="interview-input w-full mb-2" placeholder="Pants/Skirt: ___________" />
+                            <input type="text" class="interview-input w-full" placeholder="Shoes: ___________" />
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
+                            <h5 class="font-bold mb-3">Partner 2:</h5>
+                            <input type="text" class="interview-input w-full mb-2" placeholder="Name: ___________" />
+                            <input type="text" class="interview-input w-full mb-2" placeholder="Shirt color: ___________" />
+                            <input type="text" class="interview-input w-full mb-2" placeholder="Pants/Skirt: ___________" />
+                            <input type="text" class="interview-input w-full" placeholder="Shoes: ___________" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fashion Show Activity -->
+        <div id="fashion" class="lesson-section hidden">
+            <div class="lesson-card p-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-purple-800">🎭 Fashion Show (15 minutes)</h3>
+                
+                <div class="description-activity mb-6">
+                    <h4 class="text-xl font-bold mb-4 text-green-700">👔 Describe Classmates' Clothing</h4>
+                    <p class="text-lg mb-4">Students take turns describing what their classmates are wearing!</p>
+                    
+                    <div class="bg-white p-6 rounded-lg border-2 border-green-300">
+                        <h5 class="font-bold mb-4 text-green-700">Fashion Show Examples:</h5>
+                        
+                        <div class="space-y-4">
+                            <div class="pattern-card">
+                                <div class="text-4xl mb-2">👦</div>
+                                <p class="font-bold text-lg">"He is wearing a red T-shirt."</p>
+                                <p class="font-bold text-lg">"He is wearing blue jeans."</p>
+                                <p class="font-bold text-lg">"He is wearing white shoes."</p>
+                                <button class="activity-btn mt-2" onclick="speakWord('He is wearing a red T-shirt')">🔊 Listen</button>
+                            </div>
+                            
+                            <div class="pattern-card">
+                                <div class="text-4xl mb-2">👧</div>
+                                <p class="font-bold text-lg">"She is wearing a yellow dress."</p>
+                                <p class="font-bold text-lg">"She is wearing black shoes."</p>
+                                <p class="font-bold text-lg">"She has a pink hat."</p>
+                                <button class="activity-btn mt-2" onclick="speakWord('She is wearing a yellow dress')">🔊 Listen</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-pink-50 rounded-lg">
+                            <h6 class="font-bold mb-2 text-pink-700">🎭 Fashion Show Rules:</h6>
+                            <ul class="list-disc list-inside space-y-1 text-pink-700">
+                                <li>One student models (stands in front)</li>
+                                <li>Other students describe what the model is wearing</li>
+                                <li>Use "He is wearing..." or "She is wearing..."</li>
+                                <li>Mention colors and clothing items</li>
+                                <li>Be positive and encouraging!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-6 rounded-lg">
+                    <h4 class="text-xl font-bold mb-4 text-purple-700">📚 Language Patterns</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="pattern-card">
+                            <p class="font-bold text-lg">"He is wearing [clothing items]."</p>
+                        </div>
+                        <div class="pattern-card">
+                            <p class="font-bold text-lg">"She is wearing [clothing items]."</p>
+                        </div>
+                        <div class="pattern-card">
+                            <p class="font-bold text-lg">"He/She has a [color] [item]."</p>
+                        </div>
+                        <div class="pattern-card">
+                            <p class="font-bold text-lg">"His/Her [item] is [color]."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Celebration for completing the lesson -->
+                <div class="celebration mt-8">
+                    <h4 class="text-2xl font-bold mb-4">🎉 Congratulations!</h4>
+                    <p class="text-lg">You've completed the Clothing & Jobs lesson!</p>
+                    <p class="text-lg">You can now describe clothing and connect jobs with uniforms!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Text-to-speech function
+        function speakWord(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Show specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.lesson-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('active-section');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('active-section');
+                
+                // Scroll to top of section
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Check descriptions activity
+        function checkDescriptions() {
+            const inputs = document.querySelectorAll('.interview-input');
+            let allFilled = true;
+            
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    allFilled = false;
+                }
+            });
+
+            if (allFilled) {
+                alert('🎉 Great job! You completed all the descriptions!');
+                speakWord('Great job! You completed all the descriptions!');
+            } else {
+                alert('📝 Please fill in all the sentences to complete the activity.');
+                speakWord('Please fill in all the sentences');
+            }
+        }
+
+        // Initialize the lesson
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Month 2, Week 1, Day 5 lesson loaded successfully!');
+        });
+    </script>
+</body>
+</html>
