@@ -7,6 +7,38 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.11.0] - 2025-06-18
+
+### 🎓 **NEW SECTION: Midschool & Highschool Advanced Learning**
+
+#### **NEW LEARNING SECTION ADDED:**
+- **🎓 Midschool & Highschool Section**: New dedicated section for advanced learners
+  - Advanced Grammar module with Perfect Tenses, Conditionals, Passive Voice
+  - Complex Conversations with Debate Skills, Academic Discussions, Presentation Skills
+  - Academic Writing with Essay Structure, Research Skills, Creative Writing
+  - Critical Thinking and Interactive Drama activities
+  - Progress Tracking with Achievement System
+
+#### **USER INTERFACE ENHANCEMENTS:**
+- **4-Section Layout**: Expanded from 3 to 4 teacher selection cards
+- **Responsive Grid**: Updated to `md:grid-cols-2 lg:grid-cols-4` for optimal display
+- **Orange/Amber Theme**: Consistent color scheme for midschool section
+- **Navigation Integration**: Complete back button and section management
+
+#### **TECHNICAL UPDATES:**
+- **TeacherSelectionSystem**: Added `showMidschoolLessons()` method
+- **Container Management**: Updated all show/hide logic for 4 sections
+- **Event Listeners**: Added back-to-selection functionality for midschool
+- **Teacher Selection**: Enhanced `selectTeacher()` to handle 'midschool' option
+
+#### **CONTENT STRUCTURE:**
+- **3 Learning Modules**: Grammar, Conversations, Writing with detailed sub-topics
+- **Advanced Features**: 4 feature highlights with icons and descriptions
+- **Learning Objectives**: 4 key learning goals for academic preparation
+- **Professional Design**: Consistent with existing Primary and Barry sections
+
+---
+
 ## [Version 2.9.0] - 2025-06-18
 
 ### 🔢🦁 **NEW FEATURE: Day 4 Numbers & Animals Interactive Lesson**
@@ -817,6 +849,117 @@ and this project follows semantic versioning principles.
 - Updated Section 3 functionality with new 5-item display
 - Documented shuffle functionality and vocabulary banks
 - Added visual design improvements details
+
+---
+
+## [Version 2.6.0] - 2025-01-03
+
+### 🎯 Major Section 3 Redesign: Subject-Action Line Matching
+
+#### Restructured - Section 3 Complete Transformation
+- **🔄 New Subject-Action Format**: Transformed Section 3 from traditional word-picture matching to interactive sentence-based line drawing
+  - **Column 1**: Subjects - People and animals (dog, teacher, cat, girl, horse, boy, bird, mother, fish, father, elephant, student, cow, sister, pig)
+  - **Column 2**: Actions - Verbs and abilities (running, eating, jumping, swimming, walking, sleeping, flying, reading, writing, drawing, dancing)
+  - **Audio Instructions**: Complete sentences like "The dog is running", "The teacher is eating", "The girl is swimming"
+  - **Student Task**: Draw lines connecting subjects to their actions based on audio instructions
+
+#### Added - Comprehensive Action Vocabulary System
+- **🎯 Curriculum-Aligned Actions**: Used action verbs and abilities from established word bank
+  - **Base Actions**: run, eat, jump, swim, walk, sleep, fly, read, write, draw, dance
+  - **Progressive Forms**: running, eating, jumping, swimming, walking, sleeping, flying, reading, writing, drawing, dancing
+  - **Subject Variety**: Mixed people (teacher, mother, father, girl, boy, sister, student) and animals (dog, cat, horse, bird, fish, elephant, cow, pig)
+
+#### Added - Interactive Line Drawing System
+- **🖱️ Two-Click Connection**: Students click subject, then action to create line connections
+  - **Visual Feedback**: Selected elements scale up with blue glow effect
+  - **Smart Validation**: Only allows subject-to-action connections, prevents invalid combinations
+  - **Green Lines**: Color-coded lines show completed connections
+  - **Clear All**: Reset functionality to start over
+
+#### Enhanced - Audio Instruction System
+- **🔊 Sentence-Based Learning**: 15 complete sentences for comprehensive practice
+  - **Play All Sentences**: Automatic sequential playback with 3-second intervals
+  - **Play Next Sentence**: Step-by-step manual control for careful listening
+  - **Progress Tracking**: Visual progress bar and sentence counter (X of 15 sentences)
+  - **Current Sentence Display**: Shows exactly what students should be matching
+
+#### Added - Advanced Grammar Practice
+- **📝 Present Continuous Structure**: "The [subject] is [verb]+ing" pattern throughout
+  - **Subject-Verb Agreement**: Proper grammar modeling in all audio instructions
+  - **Natural Sentence Flow**: Real conversation patterns for ESL learners
+  - **Comprehension Focus**: Students must understand full sentences, not just individual words
+
+#### Technical Implementation
+- **🛠️ New Question Type**: `subject_action_matching` with specialized data structure
+- **📊 State Management**: `subjectActionState` for tracking connections and progress
+- **🔧 Core Functions**:
+  - `renderSubjectActionMatchingQuestion()`: Creates the two-column interface
+  - `initializeSubjectActionMatching()`: Sets up click handlers and state
+  - `handleSubjectActionClick()`: Manages two-click connection system
+  - `drawSubjectActionLine()`: SVG line drawing between elements
+  - `playAllSubjectActionInstructions()`: Automated audio playback
+  - `playNextSubjectActionInstruction()`: Manual step-through
+  - `checkSubjectActionMatching()`: Validates connections against correct answers
+
+#### Learning Benefits
+- **🧠 Listening Comprehension**: Students must understand complete sentences
+- **🎯 Grammar Reinforcement**: Present continuous tense in context
+- **👥 Real-World Language**: Subject-action relationships mirror natural speech
+- **🔄 Active Engagement**: Physical line drawing maintains attention
+- **📊 Immediate Feedback**: Visual and audio confirmation of connections
+
+#### User Experience Improvements
+- **🎨 Clean Two-Column Design**: Clear separation of subjects and actions
+- **🖱️ Intuitive Interaction**: Simple click-click-connect system
+- **📱 Visual Progress**: Real-time sentence counter and progress bar
+- **✅ Smart Validation**: Helpful error messages guide correct usage
+- **🔄 Reset Functionality**: Easy clear-all for multiple attempts
+
+### Fixed - Section Integration
+- **✅ Seamless Question Flow**: New question type integrates perfectly with existing system
+- **🔄 Navigation Continuity**: Maintains all existing navigation and progress tracking
+- **📊 Score Integration**: Connections contribute to overall section scoring
+- **🎯 Auto-Progression**: Automatic advancement to next question after scoring
+
+### 📖 Documentation
+- Updated Section 3 functionality in questions.json
+- Documented new subject-action matching format
+- Added audio instruction patterns and examples
+
+---
+
+## [Version 2.10.0] - 2025-06-18
+
+### 🎯 Interactive Drag & Drop Preposition Game
+
+#### Major Enhancements
+- **🎯 Interactive Drag & Drop Preposition Game**: Complete overhaul of preposition practice
+  - Drag and drop animals to different positions in playground
+  - Real-time spatial analysis with prepositions: in, on, under, behind, in front of, next to
+  - Click animals to hear position descriptions with audio feedback
+  - Teacher-friendly interactive challenges and reset functionality
+  - Visual playground with house, tree, box, and car reference objects
+  - 5 draggable animals: cat, dog, rabbit, bird, mouse
+
+#### Technical Improvements
+- Enhanced position tracking and spatial relationship detection
+- Intelligent preposition analysis based on animal proximity to objects
+- Interactive sentence generation: "The cat is under the house"
+- Audio integration for all preposition descriptions
+- Responsive drag boundaries and visual feedback
+
+#### Game Features Added
+- **🎤 Ask "Where is...?"**: Random animal position challenges
+- **🔄 Reset Animals**: Return all animals to starting positions
+- **🎲 Random Challenge**: Guided preposition placement tasks
+- **🎯 Click & Learn**: Click any animal to hear its current position
+
+#### Quality Assurance
+- ✅ Verified all 15+ game functions working correctly
+- ✅ Confirmed audio system functionality across all browsers
+- ✅ Tested drag and drop compatibility on mobile and desktop
+- ✅ Validated spatial analysis accuracy
+- ✅ Checked responsive design on multiple screen sizes
 
 ---
 
