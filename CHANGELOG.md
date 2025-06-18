@@ -7,6 +7,45 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.14.3] - 2025-06-18
+
+### 🎯 **ENHANCED: Crystal Clear Preposition Recognition**
+
+#### **MAJOR PREPOSITION CLARITY IMPROVEMENTS:**
+- **⬇️ UNDER Enhanced**: Made "under" scenarios dramatically clearer with thick visual floor lines (8px height), stronger drop shadows (15px), gradient backgrounds, and "UNDER" labels
+- **🔝 ON Added**: Brand new "ON" preposition scenarios showing animals clearly ON TOP of objects with visual separation lines and "ON TOP" labels
+- **📦 IN Added**: Completely new "IN" preposition questions showing animals clearly INSIDE containers with bordered frames and "INSIDE" labels
+
+#### **NEW ANSWER OPTIONS:**
+- **🔘 Six Buttons**: Expanded from 4 to 6 answer choices including new "on" and "in" buttons
+- **🎯 Complete Coverage**: Now covers all major spatial prepositions for comprehensive learning
+
+#### **VISUAL DESIGN ENHANCEMENTS:**
+- **🎨 Color-Coded Borders**: Green borders for bowls, orange for boxes, purple for houses to make "inside" concept crystal clear
+- **📏 Enhanced Spacing**: Better padding and container sizing for optimal clarity
+- **💫 Visual Labels**: Small corner labels ("UNDER", "ON TOP", "INSIDE") for learning reinforcement
+- **🌈 Distinct Gradients**: Each preposition type uses unique gradient patterns for visual learning
+
+#### **QUESTION SCENARIOS REDESIGNED:**
+- **📦🐱 ON Examples**: Cat on box, bird on car, cat on house with clear stacking visuals
+- **🏠🐸 IN Examples**: Fish in bowl, mouse in box, frog in house with container borders
+- **☂️🐸 UNDER Enhanced**: Frog under umbrella with heavy shadow lines and clear separation
+- **🚗🐭 UNDER Enhanced**: Mouse under car with thick floor indicators
+
+#### **TECHNICAL IMPROVEMENTS:**
+- **🔧 Fixed HTML**: Removed duplicate closing tag that was causing validation issues
+- **💻 Better CSS**: Enhanced container management for new preposition types
+- **🎮 Smooth Interaction**: All new buttons integrate seamlessly with existing quiz system
+- **📱 Mobile Ready**: All new visuals work perfectly on mobile devices
+
+#### **EDUCATIONAL VALUE:**
+- **🧠 Comprehensive Learning**: Now covers 6 major prepositions for complete spatial understanding
+- **👁️ Visual Clarity**: Each preposition type has distinct visual patterns for easy recognition
+- **🔁 Reinforcement**: Visual labels and clear boundaries reinforce learning concepts
+- **📚 Complete Coverage**: Students can now practice all essential spatial prepositions
+
+---
+
 ## [Version 2.14.2] - 2025-06-18
 
 ### 🎨 **REDESIGNED: Crystal Clear Visual Positioning System**
