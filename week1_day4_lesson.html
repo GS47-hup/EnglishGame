@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1 Day 4: House & School Supplies | Interactive Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f8bbd9 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(45deg, #6a5acd, #4169e1);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .lesson-info {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: #6a5acd;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .game-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .game-description {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .vocab-item {
+            background: linear-gradient(45deg, #f0f8ff, #e6f3ff);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #ddd;
+        }
+
+        .vocab-item:hover {
+            background: linear-gradient(45deg, #ddeeff, #ccddff);
+            transform: scale(1.05);
+            border-color: #6a5acd;
+        }
+
+        .vocab-emoji {
+            font-size: 2.5em;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .vocab-word {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .interactive-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .play-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin: 10px;
+            min-width: 150px;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .pattern-examples {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #6a5acd;
+        }
+
+        .pattern-title {
+            font-weight: bold;
+            color: #6a5acd;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .pattern-example {
+            background: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border: 1px solid #e0e0e0;
+            font-style: italic;
+        }
+
+        .game-area {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .game-area.active {
+            display: block;
+        }
+
+        .matching-game {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .matching-item {
+            background: linear-gradient(45deg, #e8f5e8, #f0fff0);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .matching-item:hover {
+            background: linear-gradient(45deg, #d4edda, #e8f5e8);
+            transform: scale(1.02);
+        }
+
+        .matching-item.selected {
+            border-color: #28a745;
+            background: linear-gradient(45deg, #c3e6cb, #d4edda);
+        }
+
+        .matching-item.correct {
+            border-color: #28a745;
+            background: linear-gradient(45deg, #d1ecf1, #bee5eb);
+            animation: correctMatch 0.6s ease;
+        }
+
+        @keyframes correctMatch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .score-board {
+            text-align: center;
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #ffc107;
+        }
+
+        .score {
+            font-size: 2em;
+            font-weight: bold;
+            color: #856404;
+            margin: 10px 0;
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(45deg, #495057, #6c757d);
+            transform: translateY(-2px);
+        }
+
+        .number-display {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            padding: 15px 25px;
+            border-radius: 50%;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .number-display:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .audio-button {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5em;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-button:hover {
+            background: linear-gradient(45deg, #138496, #17a2b8);
+            transform: scale(1.1);
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: celebrationPop 0.6s ease;
+        }
+
+        @keyframes celebrationPop {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        /* Print-friendly styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .game-card {
+                border: 2px solid black;
+                break-inside: avoid;
+                margin-bottom: 20px;
+            }
+            
+            .play-button, .audio-button {
+                display: none;
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .game-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .matching-game {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏠 Week 1, Day 4: House & School 🎒</h1>
+            <div class="lesson-info">Interactive Vocabulary & Number Games</div>
+        </header>
+
+        <div id="mainMenu">
+            <div class="game-grid">
+                <!-- House Vocabulary Game -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🏠</span>
+                        <h2 class="game-title">House Vocabulary</h2>
+                        <p class="game-description">Learn parts of the house with interactive matching</p>
+                    </div>
+                    
+                    <div class="vocab-grid">
+                        <div class="vocab-item" onclick="playAudio('house')">
+                            <span class="vocab-emoji">🏠</span>
+                            <span class="vocab-word">house</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('door')">
+                            <span class="vocab-emoji">🚪</span>
+                            <span class="vocab-word">door</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('window')">
+                            <span class="vocab-emoji">🪟</span>
+                            <span class="vocab-word">window</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('roof')">
+                            <span class="vocab-emoji">🏠</span>
+                            <span class="vocab-word">roof</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('room')">
+                            <span class="vocab-emoji">🛏️</span>
+                            <span class="vocab-word">room</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('kitchen')">
+                            <span class="vocab-emoji">🍳</span>
+                            <span class="vocab-word">kitchen</span>
+                        </div>
+                    </div>
+                    
+                    <button class="play-button" onclick="startGame('houseMatching')">
+                        🎮 Play House Game
+                    </button>
+                </div>
+
+                <!-- School Supplies Game -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🎒</span>
+                        <h2 class="game-title">School Supplies</h2>
+                        <p class="game-description">Practice school vocabulary with counting</p>
+                    </div>
+                    
+                    <div class="vocab-grid">
+                        <div class="vocab-item" onclick="playAudio('pencil')">
+                            <span class="vocab-emoji">✏️</span>
+                            <span class="vocab-word">pencil</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('pen')">
+                            <span class="vocab-emoji">🖊️</span>
+                            <span class="vocab-word">pen</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('book')">
+                            <span class="vocab-emoji">📚</span>
+                            <span class="vocab-word">book</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('eraser')">
+                            <span class="vocab-emoji">🧽</span>
+                            <span class="vocab-word">eraser</span>
+                        </div>
+                    </div>
+                    
+                    <button class="play-button" onclick="startGame('schoolSupplies')">
+                        🎮 Play School Game
+                    </button>
+                </div>
+
+                <!-- Numbers Game -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🔢</span>
+                        <h2 class="game-title">Numbers 1-5</h2>
+                        <p class="game-description">Count objects and learn numbers</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <span class="number-display" onclick="playNumberAudio('one')">1</span>
+                        <span class="number-display" onclick="playNumberAudio('two')">2</span>
+                        <span class="number-display" onclick="playNumberAudio('three')">3</span>
+                        <span class="number-display" onclick="playNumberAudio('four')">4</span>
+                        <span class="number-display" onclick="playNumberAudio('five')">5</span>
+                    </div>
+                    
+                    <button class="play-button" onclick="startGame('numbersGame')">
+                        🎮 Play Numbers Game
+                    </button>
+                </div>
+
+                <!-- Shapes Review Game -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <span class="game-icon">🔺</span>
+                        <h2 class="game-title">Shapes & Colors</h2>
+                        <p class="game-description">Review shapes and colors in house objects</p>
+                    </div>
+                    
+                    <div class="vocab-grid">
+                        <div class="vocab-item" onclick="playAudio('circle')">
+                            <span class="vocab-emoji">🔵</span>
+                            <span class="vocab-word">circle</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('square')">
+                            <span class="vocab-emoji">🟦</span>
+                            <span class="vocab-word">square</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('triangle')">
+                            <span class="vocab-emoji">🔺</span>
+                            <span class="vocab-word">triangle</span>
+                        </div>
+                        <div class="vocab-item" onclick="playAudio('rectangle')">
+                            <span class="vocab-emoji">🔷</span>
+                            <span class="vocab-word">rectangle</span>
+                        </div>
+                    </div>
+                    
+                    <button class="play-button" onclick="startGame('shapesGame')">
+                        🎮 Play Shapes Game
+                    </button>
+                </div>
+            </div>
+
+            <!-- Language Patterns Section -->
+            <div class="interactive-section">
+                <h2>🗣️ Today's Language Patterns</h2>
+                
+                <div class="pattern-examples">
+                    <div class="pattern-title">🏠 House Descriptions:</div>
+                    <div class="pattern-example">"This is a house."</div>
+                    <div class="pattern-example">"The door is brown."</div>
+                    <div class="pattern-example">"The window is square."</div>
+                </div>
+
+                <div class="pattern-examples">
+                    <div class="pattern-title">🔢 Counting Objects:</div>
+                    <div class="pattern-example">"There are three windows."</div>
+                    <div class="pattern-example">"There are two doors."</div>
+                    <div class="pattern-example">"There are five books."</div>
+                </div>
+
+                <div class="pattern-examples">
+                    <div class="pattern-title">🎒 School Supplies:</div>
+                    <div class="pattern-example">"This is a pencil."</div>
+                    <div class="pattern-example">"These are books."</div>
+                    <div class="pattern-example">"The pen is blue."</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- House Matching Game -->
+        <div id="houseMatching" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Menu</button>
+            <h2>🏠 House Vocabulary Matching</h2>
+            <p>Click on the house parts and their pictures to match them!</p>
+            
+            <div class="score-board">
+                <div>Score: <span class="score" id="houseScore">0</span></div>
+                <div>Matches: <span id="houseMatches">0</span> / 6</div>
+            </div>
+
+            <div class="matching-game">
+                <div class="matching-column" id="houseWords">
+                    <div class="matching-item" data-match="house">house</div>
+                    <div class="matching-item" data-match="door">door</div>
+                    <div class="matching-item" data-match="window">window</div>
+                    <div class="matching-item" data-match="roof">roof</div>
+                    <div class="matching-item" data-match="kitchen">kitchen</div>
+                    <div class="matching-item" data-match="room">room</div>
+                </div>
+                <div class="matching-column" id="houseEmojis">
+                    <div class="matching-item" data-match="door">🚪</div>
+                    <div class="matching-item" data-match="house">🏠</div>
+                    <div class="matching-item" data-match="kitchen">🍳</div>
+                    <div class="matching-item" data-match="window">🪟</div>
+                    <div class="matching-item" data-match="room">🛏️</div>
+                    <div class="matching-item" data-match="roof">🏠</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- School Supplies Game -->
+        <div id="schoolSupplies" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Menu</button>
+            <h2>🎒 School Supplies Counting</h2>
+            <p>Count the school supplies and click the correct number!</p>
+            
+            <div class="score-board">
+                <div>Score: <span class="score" id="schoolScore">0</span></div>
+                <div>Question: <span id="questionNumber">1</span> / 5</div>
+            </div>
+
+            <div id="countingQuestion" style="text-align: center; margin: 30px 0;">
+                <div id="objectsToCount" style="font-size: 3em; margin: 20px 0;"></div>
+                <div>How many <span id="objectName"></span>?</div>
+                <div style="margin: 20px 0;">
+                    <button class="number-display" onclick="selectNumber(1)">1</button>
+                    <button class="number-display" onclick="selectNumber(2)">2</button>
+                    <button class="number-display" onclick="selectNumber(3)">3</button>
+                    <button class="number-display" onclick="selectNumber(4)">4</button>
+                    <button class="number-display" onclick="selectNumber(5)">5</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Numbers Game -->
+        <div id="numbersGame" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Menu</button>
+            <h2>🔢 Numbers Practice</h2>
+            <p>Listen and click the correct number!</p>
+            
+            <div class="score-board">
+                <div>Score: <span class="score" id="numbersScore">0</span></div>
+                <div>Round: <span id="numbersRound">1</span> / 5</div>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="audio-button" onclick="playRandomNumber()">🔊</button>
+                <p>Listen and click the number you hear!</p>
+                <div style="margin: 20px 0;">
+                    <button class="number-display" onclick="checkNumber(1)">1</button>
+                    <button class="number-display" onclick="checkNumber(2)">2</button>
+                    <button class="number-display" onclick="checkNumber(3)">3</button>
+                    <button class="number-display" onclick="checkNumber(4)">4</button>
+                    <button class="number-display" onclick="checkNumber(5)">5</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shapes Game -->
+        <div id="shapesGame" class="game-area">
+            <button class="back-button" onclick="backToMenu()">← Back to Menu</button>
+            <h2>🔺 Shapes in the House</h2>
+            <p>Find the shapes in house objects!</p>
+            
+            <div class="score-board">
+                <div>Score: <span class="score" id="shapesScore">0</span></div>
+                <div>Question: <span id="shapesQuestion">1</span> / 4</div>
+            </div>
+
+            <div id="shapeQuestionArea" style="text-align: center; margin: 30px 0;">
+                <div id="shapeDescription" style="font-size: 1.5em; margin: 20px 0;"></div>
+                <div id="shapeChoices" style="margin: 20px 0;"></div>
+            </div>
+        </div>
+
+        <!-- Celebration Modal -->
+        <div class="overlay" id="overlay"></div>
+        <div class="celebration" id="celebration">
+            <h2>🎉 Excellent Work! 🎉</h2>
+            <p id="celebrationMessage">You completed the game!</p>
+            <button class="play-button" onclick="hideCelebration()">Continue Learning</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio simulation (Text-to-Speech when available)
+        function playAudio(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                speechSynthesis.speak(utterance);
+            }
+            
+            // Visual feedback
+            event.target.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function playNumberAudio(numberWord) {
+            playAudio(numberWord);
+        }
+
+        // Game Management
+        function startGame(gameId) {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById(gameId).classList.add('active');
+            
+            if (gameId === 'houseMatching') {
+                initHouseMatchingGame();
+            } else if (gameId === 'schoolSupplies') {
+                initSchoolSuppliesGame();
+            } else if (gameId === 'numbersGame') {
+                initNumbersGame();
+            } else if (gameId === 'shapesGame') {
+                initShapesGame();
+            }
+        }
+
+        function backToMenu() {
+            document.querySelectorAll('.game-area').forEach(area => {
+                area.classList.remove('active');
+            });
+            document.getElementById('mainMenu').style.display = 'block';
+        }
+
+        // House Matching Game Logic
+        let houseMatches = 0;
+        let houseScore = 0;
+        let selectedItem = null;
+
+        function initHouseMatchingGame() {
+            houseMatches = 0;
+            houseScore = 0;
+            selectedItem = null;
+            updateHouseScore();
+            
+            // Shuffle the emoji column
+            const emojiColumn = document.getElementById('houseEmojis');
+            const emojis = Array.from(emojiColumn.children);
+            emojis.sort(() => Math.random() - 0.5);
+            emojiColumn.innerHTML = '';
+            emojis.forEach(emoji => emojiColumn.appendChild(emoji));
+            
+            // Add click listeners
+            document.querySelectorAll('#houseWords .matching-item, #houseEmojis .matching-item').forEach(item => {
+                item.classList.remove('selected', 'correct');
+                item.onclick = () => selectHouseItem(item);
+            });
+        }
+
+        function selectHouseItem(item) {
+            if (item.classList.contains('correct')) return;
+            
+            if (!selectedItem) {
+                selectedItem = item;
+                item.classList.add('selected');
+            } else if (selectedItem === item) {
+                selectedItem.classList.remove('selected');
+                selectedItem = null;
+            } else {
+                // Check for match
+                if (selectedItem.dataset.match === item.dataset.match) {
+                    // Correct match!
+                    selectedItem.classList.add('correct');
+                    item.classList.add('correct');
+                    selectedItem.classList.remove('selected');
+                    
+                    houseMatches++;
+                    houseScore += 100;
+                    updateHouseScore();
+                    
+                    playAudio(selectedItem.dataset.match);
+                    
+                    if (houseMatches === 6) {
+                        setTimeout(() => showCelebration('Perfect! You matched all house parts!'), 500);
+                    }
+                } else {
+                    // Wrong match
+                    selectedItem.classList.remove('selected');
+                    houseScore = Math.max(0, houseScore - 20);
+                    updateHouseScore();
+                }
+                selectedItem = null;
+            }
+        }
+
+        function updateHouseScore() {
+            document.getElementById('houseScore').textContent = houseScore;
+            document.getElementById('houseMatches').textContent = houseMatches;
+        }
+
+        // School Supplies Counting Game
+        let schoolScore = 0;
+        let currentQuestion = 1;
+        let correctAnswer = 0;
+
+        const schoolItems = [
+            { emoji: '✏️', name: 'pencils' },
+            { emoji: '🖊️', name: 'pens' },
+            { emoji: '📚', name: 'books' },
+            { emoji: '🧽', name: 'erasers' }
+        ];
+
+        function initSchoolSuppliesGame() {
+            schoolScore = 0;
+            currentQuestion = 1;
+            updateSchoolScore();
+            generateCountingQuestion();
+        }
+
+        function generateCountingQuestion() {
+            const item = schoolItems[Math.floor(Math.random() * schoolItems.length)];
+            const count = Math.floor(Math.random() * 5) + 1;
+            correctAnswer = count;
+            
+            document.getElementById('objectsToCount').textContent = item.emoji.repeat(count);
+            document.getElementById('objectName').textContent = item.name;
+        }
+
+        function selectNumber(number) {
+            if (number === correctAnswer) {
+                schoolScore += 100;
+                currentQuestion++;
+                
+                if (currentQuestion <= 5) {
+                    updateSchoolScore();
+                    setTimeout(generateCountingQuestion, 500);
+                } else {
+                    showCelebration('Great counting! You finished all questions!');
+                }
+            } else {
+                schoolScore = Math.max(0, schoolScore - 20);
+                updateSchoolScore();
+            }
+        }
+
+        function updateSchoolScore() {
+            document.getElementById('schoolScore').textContent = schoolScore;
+            document.getElementById('questionNumber').textContent = currentQuestion;
+        }
+
+        // Numbers Game
+        let numbersScore = 0;
+        let numbersRound = 1;
+        let currentNumber = 0;
+
+        function initNumbersGame() {
+            numbersScore = 0;
+            numbersRound = 1;
+            updateNumbersScore();
+            playRandomNumber();
+        }
+
+        function playRandomNumber() {
+            currentNumber = Math.floor(Math.random() * 5) + 1;
+            const numbers = ['one', 'two', 'three', 'four', 'five'];
+            playAudio(numbers[currentNumber - 1]);
+        }
+
+        function checkNumber(number) {
+            if (number === currentNumber) {
+                numbersScore += 100;
+                numbersRound++;
+                
+                if (numbersRound <= 5) {
+                    updateNumbersScore();
+                    setTimeout(playRandomNumber, 500);
+                } else {
+                    showCelebration('Excellent listening! You identified all numbers!');
+                }
+            } else {
+                numbersScore = Math.max(0, numbersScore - 20);
+                updateNumbersScore();
+            }
+        }
+
+        function updateNumbersScore() {
+            document.getElementById('numbersScore').textContent = numbersScore;
+            document.getElementById('numbersRound').textContent = numbersRound;
+        }
+
+        // Shapes Game
+        let shapesScore = 0;
+        let shapesQuestionNum = 1;
+
+        const shapeQuestions = [
+            { description: "The window is...", answer: "rectangle", choices: ["🔵 circle", "🔷 rectangle", "🔺 triangle"] },
+            { description: "The clock is...", answer: "circle", choices: ["🔵 circle", "🟦 square", "🔷 rectangle"] },
+            { description: "The door is...", answer: "rectangle", choices: ["🔺 triangle", "🔷 rectangle", "🔵 circle"] },
+            { description: "The picture frame is...", answer: "square", choices: ["🟦 square", "🔺 triangle", "🔵 circle"] }
+        ];
+
+        function initShapesGame() {
+            shapesScore = 0;
+            shapesQuestionNum = 1;
+            updateShapesScore();
+            showShapeQuestion();
+        }
+
+        function showShapeQuestion() {
+            if (shapesQuestionNum <= shapeQuestions.length) {
+                const question = shapeQuestions[shapesQuestionNum - 1];
+                document.getElementById('shapeDescription').textContent = question.description;
+                
+                const choicesHtml = question.choices.map(choice => 
+                    `<button class="play-button" onclick="checkShape('${choice.split(' ')[1]}')">${choice}</button>`
+                ).join('');
+                document.getElementById('shapeChoices').innerHTML = choicesHtml;
+            }
+        }
+
+        function checkShape(selectedShape) {
+            const question = shapeQuestions[shapesQuestionNum - 1];
+            if (selectedShape === question.answer) {
+                shapesScore += 100;
+                shapesQuestionNum++;
+                
+                if (shapesQuestionNum <= shapeQuestions.length) {
+                    updateShapesScore();
+                    setTimeout(showShapeQuestion, 500);
+                } else {
+                    showCelebration('Amazing! You found all the shapes!');
+                }
+            } else {
+                shapesScore = Math.max(0, shapesScore - 25);
+                updateShapesScore();
+            }
+        }
+
+        function updateShapesScore() {
+            document.getElementById('shapesScore').textContent = shapesScore;
+            document.getElementById('shapesQuestion').textContent = shapesQuestionNum;
+        }
+
+        // Celebration System
+        function showCelebration(message) {
+            document.getElementById('celebrationMessage').textContent = message;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('celebration').style.display = 'block';
+        }
+
+        function hideCelebration() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('celebration').style.display = 'none';
+            backToMenu();
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Week 1 Day 4 Interactive Lesson Loaded!');
+        });
+    </script>
+</body>
+</html> 
