@@ -412,7 +412,27 @@
             <p class="text-lg text-gray-600 mb-6">Choose your teacher to access customized games and content</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Primary New Section -->
+            <div class="teacher-option bg-gradient-to-br from-pink-50 to-rose-50 border-2 border-pink-200 rounded-xl p-6 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105" data-teacher="primary">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🏠</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-3">Primary_New_June 19, 2025</h3>
+                    <div class="text-rose-600 mb-4">
+                        <p class="font-semibold mb-2">🌟 Week 1 Day 4 Lesson</p>
+                        <div class="text-sm space-y-1">
+                            <div>🏠 House Vocabulary</div>
+                            <div>🎒 School Supplies</div>
+                            <div>🔢 Numbers 1-5</div>
+                            <div>🔺 Shapes & Colors</div>
+                        </div>
+                    </div>
+                    <button class="bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition w-full">
+                        Access Primary Lessons
+                    </button>
+                </div>
+            </div>
+
             <!-- Teacher Barry -->
             <div class="teacher-option bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-6 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105" data-teacher="barry">
                 <div class="text-center">
@@ -522,6 +542,90 @@
                 <div>🎙️ Speaking Practice</div>
                 <div>❓ Comprehensive Quiz</div>
                 <div>🎵 Audio Integration</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary Lessons Container -->
+    <div id="primary-container" class="container mx-auto max-w-6xl bg-white rounded-xl shadow-lg p-6 hidden">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-pink-600 mb-2">🏠 Primary Lessons - Week 1 Day 4</h2>
+            <p class="text-lg text-gray-600 mb-4">Interactive House & School Vocabulary Learning</p>
+            <button id="back-to-teacher-selection-primary" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                ← Back to Teacher Selection
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-6 max-w-4xl mx-auto">
+            <!-- Week 1 Day 4 Lesson -->
+            <div class="game-card bg-gradient-to-br from-pink-50 to-rose-50 border-2 border-pink-200 rounded-xl p-8">
+                <div class="text-center">
+                    <div class="text-6xl mb-4">🏠🎒</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-4">Week 1, Day 4: House & School Supplies</h3>
+                    <div class="text-pink-600 mb-6">
+                        <p class="text-lg mb-4">📚 Complete Interactive Lesson</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div class="bg-white p-3 rounded-lg border">
+                                <div class="text-2xl mb-2">🏠</div>
+                                <div class="font-semibold">House Vocab</div>
+                                <div class="text-xs text-gray-600">6 words with matching</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border">
+                                <div class="text-2xl mb-2">🎒</div>
+                                <div class="font-semibold">School Supplies</div>
+                                <div class="text-xs text-gray-600">Counting 1-5</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border">
+                                <div class="text-2xl mb-2">🔢</div>
+                                <div class="font-semibold">Numbers</div>
+                                <div class="text-xs text-gray-600">Audio recognition</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border">
+                                <div class="text-2xl mb-2">🔺</div>
+                                <div class="font-semibold">Shapes</div>
+                                <div class="text-xs text-gray-600">In house objects</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="window.open('week1_day4_lesson.html', '_blank')" class="bg-pink-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-pink-700 transition text-lg w-full">
+                        🎮 Start Week 1 Day 4 Lesson
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-pink-50 border border-pink-200 rounded-lg p-6">
+            <h4 class="font-bold text-pink-700 mb-4 text-center">🎯 Lesson Features:</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-pink-600">
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🔊</div>
+                    <div class="font-semibold">Audio Support</div>
+                    <div class="text-xs">Click to hear pronunciation</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🎮</div>
+                    <div class="font-semibold">4 Interactive Games</div>
+                    <div class="text-xs">Matching, counting, listening</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl mb-2">📱</div>
+                    <div class="font-semibold">Mobile Friendly</div>
+                    <div class="text-xs">Works on all devices</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl mb-2">🎉</div>
+                    <div class="font-semibold">Celebration System</div>
+                    <div class="text-xs">Visual feedback & rewards</div>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-white rounded-lg border border-pink-200">
+                <h5 class="font-bold text-pink-700 mb-2">🗣️ Language Patterns Practiced:</h5>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                    <div class="italic">"This is a house."</div>
+                    <div class="italic">"There are three windows."</div>
+                    <div class="italic">"The door is rectangle."</div>
+                </div>
             </div>
         </div>
     </div>

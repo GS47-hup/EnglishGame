@@ -54,6 +54,10 @@ class TeacherSelectionSystem {
         document.getElementById('back-to-teacher-selection-2')?.addEventListener('click', () => {
             this.showTeacherSelection();
         });
+        
+        document.getElementById('back-to-teacher-selection-primary')?.addEventListener('click', () => {
+            this.showTeacherSelection();
+        });
     }
     
     selectTeacher(teacher) {
@@ -62,6 +66,8 @@ class TeacherSelectionSystem {
         
         if (teacher === 'barry') {
             this.showTeacherBarryGames();
+        } else if (teacher === 'primary') {
+            this.showPrimaryLessons();
         } else if (teacher === 'other') {
             this.showOtherGames();
         }
@@ -71,6 +77,7 @@ class TeacherSelectionSystem {
         // Hide all containers
         document.getElementById('teacher-selection').style.display = 'block';
         document.getElementById('teacher-barry-container').style.display = 'none';
+        document.getElementById('primary-container').style.display = 'none';
         document.getElementById('other-games-container').style.display = 'none';
         
         // Update current teacher
@@ -81,6 +88,7 @@ class TeacherSelectionSystem {
     showTeacherBarryGames() {
         // Hide teacher selection and other games
         document.getElementById('teacher-selection').style.display = 'none';
+        document.getElementById('primary-container').style.display = 'none';
         document.getElementById('other-games-container').style.display = 'none';
         
         // Show Teacher Barry container
@@ -89,10 +97,23 @@ class TeacherSelectionSystem {
         debugLog('Showing Teacher Barry games');
     }
     
+    showPrimaryLessons() {
+        // Hide teacher selection and other containers
+        document.getElementById('teacher-selection').style.display = 'none';
+        document.getElementById('teacher-barry-container').style.display = 'none';
+        document.getElementById('other-games-container').style.display = 'none';
+        
+        // Show Primary container
+        document.getElementById('primary-container').style.display = 'block';
+        
+        debugLog('Showing Primary lessons');
+    }
+    
     showOtherGames() {
         // Hide teacher selection and Teacher Barry games
         document.getElementById('teacher-selection').style.display = 'none';
         document.getElementById('teacher-barry-container').style.display = 'none';
+        document.getElementById('primary-container').style.display = 'none';
         
         // Show other games container
         document.getElementById('other-games-container').style.display = 'block';

@@ -7,6 +7,30 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.8.0] - 2025-06-18
+
+### 🌟 **MAJOR UPDATE: Primary Section Integration**
+
+#### **MAIN WEBSITE INTEGRATION:**
+- **🏠 Primary_New_June 19, 2025 Section**: New teacher option in main website navigation
+- **🎯 Teacher Selection Expansion**: Extended from 2 to 3 teacher options (Primary, Barry, Other Games)
+- **📱 Responsive Grid Layout**: Updated teacher cards to 3-column responsive grid
+- **🔗 Seamless Navigation**: Complete integration with existing teacher selection system
+
+#### **ENHANCED USER EXPERIENCE:**
+- **🎨 Beautiful Primary Theme**: Pink/rose gradient design matching lesson content
+- **📋 Feature Overview Cards**: Visual breakdown of lesson components and features
+- **🔄 Navigation System**: Back buttons and proper state management
+- **📖 Educational Information**: Language patterns and learning objectives display
+
+#### **TECHNICAL IMPLEMENTATION:**
+- **🔧 JavaScript Integration**: Updated TeacherSelectionSystem class with Primary support
+- **🎮 Container Management**: Proper show/hide logic for all three teacher sections
+- **🔗 Event Handlers**: Complete event listener setup for Primary back button
+- **📱 Mobile Compatibility**: Responsive design works on all devices
+
+---
+
 ## [Version 2.7.0] - 2025-06-18
 
 ### 🏠 **NEW FEATURE: Week 1 Day 4 Interactive Lesson Website**
