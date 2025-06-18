@@ -757,8 +757,8 @@
                     </div>
                     
                     <div class="preposition-demo">
-                        <h4>🎯 Drag & Drop Preposition Game</h4>
-                        <p style="margin: 10px 0; color: #666;">Drag animals to different positions and practice saying where they are!</p>
+                        <h4>🎯 Where Is The Animal? Visual Quiz</h4>
+                        <p style="margin: 10px 0; color: #666;">Look at the picture and answer: Where is the animal?</p>
                         
                         <!-- Preposition Buttons -->
                         <div style="margin: 15px 0;">
@@ -770,59 +770,31 @@
                             <span class="preposition-item" onclick="playAudio('in front of')">in front of</span>
                         </div>
 
-                        <!-- Interactive Playground -->
-                        <div id="prepositionPlayground" class="preposition-playground">
-                            <!-- Reference Objects -->
-                            <div class="reference-object house" style="position: absolute; top: 50px; left: 200px;">
-                                🏠
-                                <div class="object-label">house</div>
-                            </div>
-                            <div class="reference-object tree" style="position: absolute; top: 120px; left: 400px;">
-                                🌳
-                                <div class="object-label">tree</div>
-                            </div>
-                            <div class="reference-object box" style="position: absolute; top: 180px; left: 100px;">
-                                📦
-                                <div class="object-label">box</div>
-                            </div>
-                            <div class="reference-object car" style="position: absolute; top: 200px; left: 350px;">
-                                🚗
-                                <div class="object-label">car</div>
-                            </div>
-
-                            <!-- Draggable Animals -->
-                            <div class="draggable-animal" draggable="true" style="position: absolute; top: 10px; left: 10px;" data-animal="cat">
-                                🐱
-                                <div class="animal-label">cat</div>
-                            </div>
-                            <div class="draggable-animal" draggable="true" style="position: absolute; top: 10px; left: 80px;" data-animal="dog">
-                                🐶
-                                <div class="animal-label">dog</div>
-                            </div>
-                            <div class="draggable-animal" draggable="true" style="position: absolute; top: 10px; left: 150px;" data-animal="rabbit">
-                                🐰
-                                <div class="animal-label">rabbit</div>
-                            </div>
-                            <div class="draggable-animal" draggable="true" style="position: absolute; top: 10px; left: 220px;" data-animal="bird">
-                                🐦
-                                <div class="animal-label">bird</div>
-                            </div>
-                            <div class="draggable-animal" draggable="true" style="position: absolute; top: 10px; left: 290px;" data-animal="mouse">
-                                🐭
-                                <div class="animal-label">mouse</div>
+                        <!-- Visual Quiz Area -->
+                        <div id="prepositionQuiz" class="preposition-playground">
+                            <div id="animalScene" style="text-align: center; font-size: 48px; padding: 30px; background: #f0f8ff; border: 2px solid #ddd; border-radius: 10px; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                                🎯 Click "Next Question" to start!
                             </div>
                         </div>
 
-                        <!-- Sentence Display -->
-                        <div id="prepositionSentence" class="preposition-sentence">
-                            🎯 Drag animals around and click on them to hear where they are!
+                        <!-- Question Display -->
+                        <div id="questionDisplay" class="preposition-sentence">
+                            🎯 Click "Next Question" to start the quiz!
+                        </div>
+
+                        <!-- Answer Options -->
+                        <div id="answerOptions" style="display: none; text-align: center; margin: 20px 0;">
+                            <button class="answer-btn" onclick="checkAnswer('behind')" style="margin: 5px; padding: 10px 20px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; cursor: pointer; font-size: 16px;">behind</button>
+                            <button class="answer-btn" onclick="checkAnswer('in front of')" style="margin: 5px; padding: 10px 20px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; cursor: pointer; font-size: 16px;">in front of</button>
+                            <button class="answer-btn" onclick="checkAnswer('next to')" style="margin: 5px; padding: 10px 20px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; cursor: pointer; font-size: 16px;">next to</button>
+                            <button class="answer-btn" onclick="checkAnswer('under')" style="margin: 5px; padding: 10px 20px; background: #e3f2fd; border: 2px solid #2196f3; border-radius: 8px; cursor: pointer; font-size: 16px;">under</button>
                         </div>
 
                         <!-- Game Buttons -->
                         <div style="margin: 20px 0; text-align: center;">
-                            <button class="play-button" onclick="askWhereIsAnimal()">🎤 Ask "Where is...?"</button>
-                            <button class="play-button" onclick="resetAnimals()">🔄 Reset Animals</button>
-                            <button class="play-button" onclick="randomChallenge()">🎲 Random Challenge</button>
+                            <button class="play-button" onclick="startPrepositionQuiz()">🎮 Next Question</button>
+                            <button class="play-button" onclick="showAnswer()">💡 Show Answer</button>
+                            <button class="play-button" onclick="resetQuiz()">🔄 Reset Quiz</button>
                         </div>
                     </div>
                 </div>
@@ -1015,187 +987,150 @@
             showCelebration('Sea animals live in the water! 🐟🐢🐬🦈🐋🐙🦀⭐');
         }
 
-        // Enhanced Interactive Preposition System
-        let draggedAnimal = null;
-        let animalPositions = {};
-
-        // Initialize drag and drop functionality
-        function initializePrepositionGame() {
-            const animals = document.querySelectorAll('.draggable-animal');
-            const playground = document.getElementById('prepositionPlayground');
-
-            animals.forEach(animal => {
-                // Store initial positions
-                const animalName = animal.getAttribute('data-animal');
-                animalPositions[animalName] = {
-                    x: parseInt(animal.style.left),
-                    y: parseInt(animal.style.top)
-                };
-
-                // Add drag event listeners
-                animal.addEventListener('dragstart', handleDragStart);
-                animal.addEventListener('dragend', handleDragEnd);
-                animal.addEventListener('click', handleAnimalClick);
-            });
-
-            // Make playground droppable
-            playground.addEventListener('dragover', handleDragOver);
-            playground.addEventListener('drop', handleDrop);
-        }
-
-        function handleDragStart(e) {
-            draggedAnimal = e.target;
-            e.target.classList.add('being-dragged');
-            e.dataTransfer.effectAllowed = 'move';
-        }
-
-        function handleDragEnd(e) {
-            e.target.classList.remove('being-dragged');
-            draggedAnimal = null;
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            if (draggedAnimal) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left - 25; // Center the animal
-                const y = e.clientY - rect.top - 25;
-
-                // Constrain to playground boundaries
-                const maxX = rect.width - 50;
-                const maxY = rect.height - 50;
-                
-                const constrainedX = Math.max(0, Math.min(x, maxX));
-                const constrainedY = Math.max(0, Math.min(y, maxY));
-
-                draggedAnimal.style.left = constrainedX + 'px';
-                draggedAnimal.style.top = constrainedY + 'px';
-
-                // Update position tracking
-                const animalName = draggedAnimal.getAttribute('data-animal');
-                animalPositions[animalName] = { x: constrainedX, y: constrainedY };
-
-                // Provide audio feedback
-                playAudio(`${animalName} moved`);
+        // Visual Preposition Quiz System
+        let currentQuizQuestion = 0;
+        let correctAnswer = '';
+        let quizScore = 0;
+        
+        const prepositionQuestions = [
+            {
+                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐄</span><span style="font-size: 40px; position: absolute; left: 45px; top: 20px; z-index: 1;">🐶</span></div>',
+                question: 'Where is the dog?',
+                answer: 'behind',
+                description: 'The dog is behind the cow'
+            },
+            {
+                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐶</span><span style="font-size: 40px; position: absolute; left: 45px; top: 20px; z-index: 1;">🐄</span></div>',
+                question: 'Where is the cow?',
+                answer: 'behind',
+                description: 'The cow is behind the dog'
+            },
+            {
+                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">📦</div><br><div style="font-size: 40px; margin-top: -15px;">🐱</div></div>',
+                question: 'Where is the cat?',
+                answer: 'under',
+                description: 'The cat is under the box'
+            },
+            {
+                scene: '<div style="display: inline-block;"><span style="font-size: 50px;">🐰</span><span style="font-size: 50px; margin-left: 10px;">🌳</span></div>',
+                question: 'Where is the rabbit?',
+                answer: 'next to',
+                description: 'The rabbit is next to the tree'
+            },
+            {
+                scene: '<div style="text-align: center;"><div style="font-size: 50px; margin-bottom: -10px;">🚗</div><br><div style="font-size: 35px; margin-top: -15px;">🐭</div></div>',
+                question: 'Where is the mouse?',
+                answer: 'under',
+                description: 'The mouse is under the car'
+            },
+            {
+                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🐦</span><span style="font-size: 50px; margin-left: 15px;">🏠</span></div>',
+                question: 'Where is the bird?',
+                answer: 'next to',
+                description: 'The bird is next to the house'
+            },
+            {
+                scene: '<div style="position: relative; display: inline-block;"><span style="font-size: 60px;">🐴</span><span style="font-size: 40px; position: absolute; left: 50px; top: 15px; z-index: 1;">🐑</span></div>',
+                question: 'Where is the sheep?',
+                answer: 'behind',
+                description: 'The sheep is behind the horse'
+            },
+            {
+                scene: '<div style="display: inline-block;"><span style="font-size: 45px;">🦆</span><span style="font-size: 50px; margin-left: 20px;">🌊</span></div>',
+                question: 'Where is the duck?',
+                answer: 'next to',
+                description: 'The duck is next to the water'
             }
-        }
+        ];
 
-        function handleAnimalClick(e) {
-            const animal = e.currentTarget;
-            const animalName = animal.getAttribute('data-animal');
-            const position = animalPositions[animalName];
+        function startPrepositionQuiz() {
+            if (currentQuizQuestion >= prepositionQuestions.length) {
+                currentQuizQuestion = 0; // Reset to beginning
+                showCelebration(`🎉 Quiz Complete! You got ${quizScore} out of ${prepositionQuestions.length} correct!`);
+                quizScore = 0;
+                return;
+            }
             
-            const sentence = analyzePosition(animalName, position);
-            document.getElementById('prepositionSentence').textContent = sentence;
-            playAudio(sentence);
+            const question = prepositionQuestions[currentQuizQuestion];
+            document.getElementById('animalScene').innerHTML = question.scene;
+            document.getElementById('questionDisplay').textContent = question.question;
+            document.getElementById('answerOptions').style.display = 'block';
+            
+            correctAnswer = question.answer;
+            
+            // Reset answer button colors
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.style.background = '#e3f2fd';
+                btn.style.border = '2px solid #2196f3';
+                btn.disabled = false;
+            });
+            
+            playAudio(question.question);
         }
 
-        function analyzePosition(animalName, position) {
-            const references = document.querySelectorAll('.reference-object');
-            let closestObject = null;
-            let minDistance = Infinity;
-            let relationship = 'somewhere in the playground';
-
-            references.forEach(ref => {
-                const refRect = ref.getBoundingClientRect();
-                const playgroundRect = document.getElementById('prepositionPlayground').getBoundingClientRect();
-                const refX = refRect.left - playgroundRect.left;
-                const refY = refRect.top - playgroundRect.top;
-
-                const distance = Math.sqrt(Math.pow(position.x - refX, 2) + Math.pow(position.y - refY, 2));
-                
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    closestObject = ref.classList[1]; // Get the object class name
+        function checkAnswer(selectedAnswer) {
+            const question = prepositionQuestions[currentQuizQuestion];
+            
+            // Disable all buttons
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            // Color the buttons
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                if (btn.textContent === correctAnswer) {
+                    btn.style.background = '#c8e6c9'; // Green for correct
+                    btn.style.border = '2px solid #4caf50';
+                } else if (btn.textContent === selectedAnswer && selectedAnswer !== correctAnswer) {
+                    btn.style.background = '#ffcdd2'; // Red for wrong selection
+                    btn.style.border = '2px solid #f44336';
                 }
             });
-
-            if (minDistance < 60) { // Close enough to determine relationship
-                const refElement = document.querySelector(`.reference-object.${closestObject}`);
-                const refRect = refElement.getBoundingClientRect();
-                const playgroundRect = document.getElementById('prepositionPlayground').getBoundingClientRect();
-                const refX = refRect.left - playgroundRect.left;
-                const refY = refRect.top - playgroundRect.top;
-
-                // Determine spatial relationship
-                if (Math.abs(position.x - refX) < 30) {
-                    if (position.y < refY - 20) {
-                        relationship = `above the ${closestObject}`;
-                    } else if (position.y > refY + 40) {
-                        relationship = `under the ${closestObject}`;
-                    } else {
-                        relationship = `next to the ${closestObject}`;
-                    }
-                } else if (position.x < refX - 30) {
-                    relationship = `to the left of the ${closestObject}`;
-                } else if (position.x > refX + 30) {
-                    if (position.y > refY + 10) {
-                        relationship = `behind the ${closestObject}`;
-                    } else {
-                        relationship = `in front of the ${closestObject}`;
-                    }
-                } else {
-                    relationship = `on the ${closestObject}`;
-                }
-            }
-
-            return `The ${animalName} is ${relationship}.`;
-        }
-
-        function askWhereIsAnimal() {
-            const animals = ['cat', 'dog', 'rabbit', 'bird', 'mouse'];
-            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-            const position = animalPositions[randomAnimal];
-            const sentence = analyzePosition(randomAnimal, position);
             
+            if (selectedAnswer === correctAnswer) {
+                quizScore++;
+                document.getElementById('questionDisplay').textContent = `✅ Correct! ${question.description}`;
+                playAudio(`Correct! ${question.description}`);
+            } else {
+                document.getElementById('questionDisplay').textContent = `❌ Not quite. ${question.description}`;
+                playAudio(`Not quite. ${question.description}`);
+            }
+            
+            currentQuizQuestion++;
+            
+            // Auto-advance after 3 seconds
             setTimeout(() => {
-                playAudio(`Where is the ${randomAnimal}?`);
-                setTimeout(() => {
-                    document.getElementById('prepositionSentence').textContent = sentence;
-                    playAudio(sentence);
-                }, 2000);
-            }, 500);
+                if (currentQuizQuestion < prepositionQuestions.length) {
+                    startPrepositionQuiz();
+                } else {
+                    showCelebration(`🎉 Quiz Complete! You got ${quizScore} out of ${prepositionQuestions.length} correct!`);
+                    quizScore = 0;
+                    currentQuizQuestion = 0;
+                }
+            }, 3000);
         }
 
-        function resetAnimals() {
-            const animals = document.querySelectorAll('.draggable-animal');
-            const startPositions = [
-                { x: 10, y: 10 },
-                { x: 80, y: 10 },
-                { x: 150, y: 10 },
-                { x: 220, y: 10 },
-                { x: 290, y: 10 }
-            ];
-
-            animals.forEach((animal, index) => {
-                animal.style.left = startPositions[index].x + 'px';
-                animal.style.top = startPositions[index].y + 'px';
-                
-                const animalName = animal.getAttribute('data-animal');
-                animalPositions[animalName] = startPositions[index];
-            });
-
-            document.getElementById('prepositionSentence').textContent = '🎯 Drag animals around and click on them to hear where they are!';
-            playAudio('Animals reset to starting positions');
-        }
-
-        function randomChallenge() {
-            const challenges = [
-                "Put the cat under the house",
-                "Place the dog behind the tree",
-                "Move the rabbit next to the car",
-                "Put the bird on the box",
-                "Place the mouse in front of the house"
-            ];
+        function showAnswer() {
+            const question = prepositionQuestions[currentQuizQuestion];
+            document.getElementById('questionDisplay').textContent = `💡 ${question.description}`;
+            playAudio(question.description);
             
-            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
-            document.getElementById('prepositionSentence').textContent = `🎯 Challenge: ${randomChallenge}`;
-            playAudio(randomChallenge);
+            // Highlight correct answer
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                if (btn.textContent === correctAnswer) {
+                    btn.style.background = '#c8e6c9';
+                    btn.style.border = '2px solid #4caf50';
+                }
+            });
+        }
+
+        function resetQuiz() {
+            currentQuizQuestion = 0;
+            quizScore = 0;
+            document.getElementById('animalScene').innerHTML = '🎯 Click "Next Question" to start!';
+            document.getElementById('questionDisplay').textContent = '🎯 Click "Next Question" to start the quiz!';
+            document.getElementById('answerOptions').style.display = 'none';
+            playAudio('Quiz reset. Ready to start again!');
         }
 
         // Classification games
@@ -1260,10 +1195,7 @@
             console.log('Day 4: Numbers & Animals lesson loaded!');
             generateCountingQuestion(); // Initialize counting game
             
-            // Initialize interactive preposition game when prepositions section is loaded
-            setTimeout(() => {
-                initializePrepositionGame();
-            }, 1000);
+            // Preposition quiz is ready - no initialization needed
         });
     </script>
 </body>

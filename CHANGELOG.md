@@ -7,6 +7,45 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.14.0] - 2025-06-18
+
+### 🎓 **CORRECTED: Midschool Section & Redesigned Preposition Game**
+
+#### **MAJOR MIDSCHOOL SECTION UPDATE:**
+- **🔄 Fixed Lesson Assignment**: Midschool & Highschool section now correctly links to `day4_numbers_animals_lesson.html`
+- **🎯 Proper Content**: Changed from House & School lesson to Numbers & Animals lesson for midschool level
+- **🔢🦁 Updated Icons**: Changed section visual from 🏠🎒 to 🔢🦁 reflecting advanced numbers + animals content
+- **📚 Accurate Description**: Updated features to show Numbers 6-10, Zoo Animals, Farm Animals, Sea Animals + Prepositions
+
+#### **PREPOSITION GAME COMPLETE REDESIGN:**
+- **🎯 Visual Quiz System**: Completely replaced drag-and-drop with simple question-based system
+- **👁️ Clear Visual Positioning**: 8 different scenarios showing animals in clear spatial relationships
+- **🐄🐶 Behind Examples**: Dog clearly positioned behind cow with visual overlap showing "behind" relationship
+- **📦🐱 Under Examples**: Cat positioned under box with clear spatial arrangement
+- **🌳🐰 Next To Examples**: Animals side-by-side demonstrating "next to" preposition
+
+#### **QUIZ FEATURES:**
+- **❓ Multiple Choice Answers**: 4 answer options per question (behind, in front of, next to, under)
+- **🎨 Visual Feedback**: Correct answers turn green, wrong answers turn red
+- **🗣️ Audio Questions**: Each question spoken aloud with Web Speech API
+- **⏩ Auto-Progression**: Automatically moves to next question after 3 seconds
+- **🏆 Score Tracking**: Tracks correct answers throughout 8-question quiz
+- **🎉 Completion Celebration**: Shows final score when quiz completed
+
+#### **REMOVED COMPLEX FEATURES:**
+- **❌ Drag & Drop System**: Eliminated complex animal dragging functionality
+- **❌ Position Analysis**: Removed complicated spatial relationship calculations
+- **❌ Playground Controls**: Simplified from multiple playground management functions
+- **✅ Simple & Effective**: Now focuses purely on visual question recognition
+
+#### **TECHNICAL IMPROVEMENTS:**
+- **🔄 Simplified JavaScript**: Replaced 200+ lines of drag code with 50 lines of quiz logic
+- **📱 Better Mobile**: Touch-friendly answer buttons instead of drag interactions
+- **🎮 Instant Feedback**: Immediate visual and audio feedback for answers
+- **🔁 Reset Functionality**: Easy quiz restart with score reset
+
+---
+
 ## [Version 2.13.0] - 2025-06-18
 
 ### 🔧 **FIXED: Button Text Visibility Issues in Week 1 Day 4 Lesson**
