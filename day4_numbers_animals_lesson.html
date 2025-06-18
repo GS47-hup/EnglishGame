@@ -978,15 +978,180 @@
             const randomCount = Math.floor(Math.random() * 5) + 6; // 6-10
             const randomAnimal = zooAnimals[Math.floor(Math.random() * zooAnimals.length)];
             
-            showCelebration(`Count the zoo animals: There are ${randomCount} ${randomAnimal} in the zoo!`);
+            document.getElementById('animalScene').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: #333; margin-bottom: 20px;">🦁 Zoo Counting Challenge!</h3>
+                    <p style="font-size: 18px; margin-bottom: 30px;">Count the zoo animals carefully:</p>
+                    <div style="font-size: 60px; margin: 30px 0; line-height: 1.2;">
+                        ${randomAnimal.repeat(randomCount)}
+                    </div>
+                    <p style="font-size: 20px; color: #666; margin-bottom: 30px;">
+                        How many ${randomAnimal} do you see?
+                    </p>
+                    <div style="margin-top: 30px;">
+                        <button class="play-button" onclick="checkZooCount(${randomCount-1})" style="margin: 5px;">${randomCount-1}</button>
+                        <button class="play-button" onclick="checkZooCount(${randomCount})" style="margin: 5px;">${randomCount}</button>
+                        <button class="play-button" onclick="checkZooCount(${randomCount+1})" style="margin: 5px;">${randomCount+1}</button>
+                    </div>
+                </div>
+            `;
+            
+            window.correctZooCount = randomCount;
+            playAudio(`Count the zoo animals: How many ${randomAnimal} do you see?`);
+        }
+
+        function checkZooCount(selectedCount) {
+            const isCorrect = (selectedCount === window.correctZooCount);
+            
+            if (isCorrect) {
+                document.getElementById('animalScene').innerHTML += `
+                    <div style="color: green; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                        🎉 Excellent counting! You found ${window.correctZooCount} animals!
+                    </div>
+                `;
+                playAudio(`Excellent counting! You found ${window.correctZooCount} animals!`);
+            } else {
+                document.getElementById('animalScene').innerHTML += `
+                    <div style="color: orange; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                        🤔 Try counting again! The correct answer was ${window.correctZooCount}.
+                    </div>
+                `;
+                playAudio(`Try counting again! The correct answer was ${window.correctZooCount}.`);
+            }
+            
+            setTimeout(() => {
+                startZooGame(); // Start another round
+            }, 3000);
         }
 
         function startFarmGame() {
-            showCelebration('Sort the animals: Which animals live on the farm? 🐄🐴🐑🐔🦆🐐🐷');
+            // Create a mix of farm and non-farm animals
+            const allAnimalsPool = [...farmAnimals, ...zooAnimals.slice(0, 3), ...seaAnimals.slice(0, 2)];
+            const shuffledAnimals = allAnimalsPool.sort(() => Math.random() - 0.5).slice(0, 8);
+            
+            document.getElementById('animalScene').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: #333; margin-bottom: 20px;">🐄 Farm Animal Sorting!</h3>
+                    <p style="font-size: 18px; margin-bottom: 30px;">Click ONLY the farm animals:</p>
+                    <div style="font-size: 60px; margin: 30px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+                        ${shuffledAnimals.map((animal, index) => 
+                            `<span style="cursor: pointer; border: 2px solid #ddd; border-radius: 10px; padding: 10px; margin: 5px;" onclick="selectFarmAnimal('${animal}', ${index})" id="animal-${index}">${animal}</span>`
+                        ).join('')}
+                    </div>
+                    <div id="farmResult" style="margin-top: 20px; font-size: 18px;"></div>
+                </div>
+            `;
+            
+            window.farmAnimalsSelected = [];
+            window.farmAnimalsTest = shuffledAnimals;
+            playAudio('Click only the farm animals. Which animals live on a farm?');
+        }
+
+        function selectFarmAnimal(animal, index) {
+            const element = document.getElementById(`animal-${index}`);
+            const isFarmAnimal = farmAnimals.includes(animal);
+            
+            if (isFarmAnimal) {
+                element.style.border = '3px solid green';
+                element.style.background = '#e8f5e8';
+                window.farmAnimalsSelected.push(animal);
+                playAudio('Correct! This lives on a farm.');
+            } else {
+                element.style.border = '3px solid red';
+                element.style.background = '#ffe8e8';
+                playAudio('This animal doesn\'t live on a farm.');
+            }
+            
+            element.onclick = null; // Disable further clicks
+            
+            // Check if all farm animals have been found
+            const allFarmAnimalsInTest = window.farmAnimalsTest.filter(a => farmAnimals.includes(a));
+            if (window.farmAnimalsSelected.length === allFarmAnimalsInTest.length) {
+                setTimeout(() => {
+                    document.getElementById('farmResult').innerHTML = `
+                        <div style="color: green; font-weight: bold;">🎉 Great job! You found all ${allFarmAnimalsInTest.length} farm animals!</div>
+                    `;
+                    playAudio(`Great job! You found all the farm animals!`);
+                }, 500);
+            }
         }
 
         function startSeaGame() {
-            showCelebration('Sea animals live in the water! 🐟🐢🐬🦈🐋🐙🦀⭐');
+            // Create an interactive sea animal identification game
+            const randomSeaAnimal = seaAnimals[Math.floor(Math.random() * seaAnimals.length)];
+            const animalFacts = {
+                '🐟': 'Fish swim in schools and breathe through gills',
+                '🐢': 'Sea turtles can live over 100 years',
+                '🐬': 'Dolphins are very intelligent marine mammals',
+                '🦈': 'Sharks have been around for 400 million years',
+                '🐋': 'Blue whales are the largest animals on Earth',
+                '🐙': 'Octopuses have three hearts and blue blood',
+                '🦀': 'Crabs walk sideways and have hard shells',
+                '⭐': 'Starfish can regrow their lost arms'
+            };
+            
+            document.getElementById('animalScene').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: #333; margin-bottom: 20px;">🌊 Sea Animal Discovery!</h3>
+                    <div style="font-size: 120px; margin: 30px 0;">${randomSeaAnimal}</div>
+                    <div style="font-size: 18px; color: #666; margin-bottom: 30px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                        ${animalFacts[randomSeaAnimal]}
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <button class="play-button" onclick="nextSeaAnimal()" style="margin: 10px;">🌊 Discover Another Sea Animal</button>
+                        <button class="play-button" onclick="seaAnimalQuiz()" style="margin: 10px;">🧠 Take Sea Animal Quiz</button>
+                    </div>
+                </div>
+            `;
+            
+            playAudio(`This is a ${randomSeaAnimal}. ${animalFacts[randomSeaAnimal]}`);
+        }
+
+        function nextSeaAnimal() {
+            startSeaGame(); // Show another random sea animal
+        }
+
+        function seaAnimalQuiz() {
+            const quizAnimals = seaAnimals.slice(0, 4); // Use first 4 sea animals
+            const correctAnimal = quizAnimals[Math.floor(Math.random() * quizAnimals.length)];
+            
+            document.getElementById('animalScene').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: #333; margin-bottom: 20px;">🌊 Sea Animal Quiz!</h3>
+                    <p style="font-size: 18px; margin-bottom: 30px;">Which of these lives in the sea?</p>
+                    <div style="margin: 30px 0;">
+                        ${[correctAnimal, '🐄', '🦁', '🐔'].sort(() => Math.random() - 0.5).map(animal => 
+                            `<button class="play-button" onclick="checkSeaQuiz('${animal}', '${correctAnimal}')" style="margin: 10px; font-size: 40px; padding: 20px;">${animal}</button>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+            
+            playAudio('Which of these animals lives in the sea?');
+        }
+
+        function checkSeaQuiz(selected, correct) {
+            const isCorrect = (selected === correct);
+            
+            if (isCorrect) {
+                document.getElementById('animalScene').innerHTML += `
+                    <div style="color: green; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                        🎉 Correct! ${selected} lives in the sea!
+                    </div>
+                `;
+                playAudio(`Correct! ${selected} lives in the sea!`);
+            } else {
+                document.getElementById('animalScene').innerHTML += `
+                    <div style="color: orange; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                        🤔 Not quite! ${correct} lives in the sea.
+                    </div>
+                `;
+                playAudio(`Not quite! ${correct} lives in the sea.`);
+            }
+            
+            setTimeout(() => {
+                startSeaGame();
+            }, 3000);
         }
 
         // Visual Preposition Quiz System
@@ -1202,6 +1367,9 @@
 
         // Classification games
         let selectedCategory = '';
+        let classificationScore = 0;
+        let currentClassificationRound = 0;
+        const maxClassificationRounds = 5;
 
         function selectCategory(category) {
             selectedCategory = category;
@@ -1217,32 +1385,175 @@
                 return;
             }
             
-            let animals = '';
-            switch(selectedCategory) {
-                case 'zoo':
-                    animals = '🦁🐘🐅🐻🦒🐒🦓🦘';
-                    break;
-                case 'farm':
-                    animals = '🐄🐴🐑🐔🦆🐐🐷';
-                    break;
-                case 'sea':
-                    animals = '🐟🐢🐬🦈🐋🐙🦀⭐';
-                    break;
+            classificationScore = 0;
+            currentClassificationRound = 0;
+            
+            let categoryName = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
+            playAudio(`Starting ${categoryName} Animal Classification Game!`);
+            
+            nextClassificationRound();
+        }
+
+        function nextClassificationRound() {
+            if (currentClassificationRound >= maxClassificationRounds) {
+                showCelebration(`🎉 Classification Complete! You got ${classificationScore}/${maxClassificationRounds} correct! Great job learning about ${selectedCategory} animals!`);
+                return;
             }
             
-            showCelebration(`${selectedCategory.toUpperCase()} ANIMALS: ${animals}`);
+            currentClassificationRound++;
+            
+            // Create a mixed set of animals for classification
+            const allAnimals = {
+                'zoo': ['🦁', '🐘', '🐅', '🐻', '🦒', '🐒', '🦓', '🦘'],
+                'farm': ['🐄', '🐴', '🐑', '🐔', '🦆', '🐐', '🐷'],
+                'sea': ['🐟', '🐢', '🐬', '🦈', '🐋', '🐙', '🦀', '⭐']
+            };
+            
+            // Get random animals from the selected category and other categories
+            const correctAnimals = allAnimals[selectedCategory];
+            const otherCategories = Object.keys(allAnimals).filter(cat => cat !== selectedCategory);
+            const wrongAnimals = [];
+            
+            otherCategories.forEach(cat => {
+                wrongAnimals.push(...allAnimals[cat].slice(0, 2)); // Add 2 from each other category
+            });
+            
+            // Pick one correct animal and one wrong animal for this round
+            const correctAnimal = correctAnimals[Math.floor(Math.random() * correctAnimals.length)];
+            const wrongAnimal = wrongAnimals[Math.floor(Math.random() * wrongAnimals.length)];
+            
+            // Randomly decide which one to show
+            const showCorrect = Math.random() > 0.5;
+            const animalToShow = showCorrect ? correctAnimal : wrongAnimal;
+            const isCorrect = showCorrect;
+            
+            // Display the question
+            let categoryName = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
+            let questionText = `Round ${currentClassificationRound}: Does this animal belong in ${categoryName}? ${animalToShow}`;
+            
+            document.getElementById('animalScene').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: #333; margin-bottom: 20px;">${questionText}</h3>
+                    <div style="font-size: 120px; margin: 30px 0;">${animalToShow}</div>
+                    <div style="margin-top: 30px;">
+                        <button class="play-button" onclick="answerClassification(true)" style="margin: 10px; font-size: 18px;">✅ YES - This belongs in ${categoryName}</button>
+                        <button class="play-button" onclick="answerClassification(false)" style="margin: 10px; font-size: 18px;">❌ NO - This doesn't belong in ${categoryName}</button>
+                    </div>
+                    <div style="margin-top: 20px; font-size: 16px; color: #666;">
+                        Score: ${classificationScore}/${currentClassificationRound-1} | Round: ${currentClassificationRound}/${maxClassificationRounds}
+                    </div>
+                </div>
+            `;
+            
+            // Store the correct answer
+            window.currentClassificationAnswer = isCorrect;
+            
+            playAudio(questionText);
+        }
+
+        function answerClassification(userAnswer) {
+            const isCorrect = (userAnswer === window.currentClassificationAnswer);
+            
+            if (isCorrect) {
+                classificationScore++;
+                document.getElementById('animalScene').innerHTML += `
+                    <div style="color: green; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                        ✅ Correct! Well done!
+                    </div>
+                `;
+                playAudio('Correct! Well done!');
+            } else {
+                document.getElementById('animalScene').innerHTML += `
+                    <div style="color: red; font-size: 24px; font-weight: bold; margin-top: 20px;">
+                        ❌ Not quite right. Let's learn more!
+                    </div>
+                `;
+                playAudio('Not quite right. Let\'s learn more!');
+            }
+            
+            // Auto-advance to next round
+            setTimeout(() => {
+                nextClassificationRound();
+            }, 2500);
         }
 
         function startIntegrationChallenge() {
             const challenges = [
-                "Create a sentence with: numbers + colors + animals",
-                "Describe animals using prepositions and colors",
-                "Count animals in different habitats",
-                "Use house vocabulary with animals and numbers"
+                {
+                    text: "Create a sentence with: numbers + colors + animals",
+                    example: "Example: 'I see three red birds in the tree.'",
+                    prompt: "Now you try! Use numbers, colors, and animals in one sentence."
+                },
+                {
+                    text: "Describe animals using prepositions and colors",
+                    example: "Example: 'The brown cat is under the blue car.'",
+                    prompt: "Your turn! Describe where a colored animal is located."
+                },
+                {
+                    text: "Count animals in different habitats",
+                    example: "Example: 'There are five fish in the sea and two birds on the farm.'",
+                    prompt: "Try it! Count animals in zoo, farm, or sea habitats."
+                },
+                {
+                    text: "Use house vocabulary with animals and numbers",
+                    example: "Example: 'In my kitchen, there are four windows and one cat.'",
+                    prompt: "Your challenge! Combine house rooms with animals and numbers."
+                }
             ];
             
             const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
-            showCelebration(`Integration Challenge: ${randomChallenge}`);
+            
+            document.getElementById('animalScene').innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h3 style="color: #333; margin-bottom: 20px;">🎯 Integration Challenge!</h3>
+                    <div style="background: #f0f8ff; padding: 20px; border-radius: 15px; margin: 20px 0;">
+                        <h4 style="color: #2196f3; margin-bottom: 15px;">${randomChallenge.text}</h4>
+                        <p style="color: #666; font-style: italic; margin-bottom: 15px;">${randomChallenge.example}</p>
+                        <p style="color: #333; font-weight: bold;">${randomChallenge.prompt}</p>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <button class="play-button" onclick="newIntegrationChallenge()" style="margin: 10px;">🔄 New Challenge</button>
+                        <button class="play-button" onclick="showIntegrationHint()" style="margin: 10px;">💡 Need a Hint?</button>
+                    </div>
+                    <div id="integrationHint" style="margin-top: 20px;"></div>
+                </div>
+            `;
+            
+            window.currentChallenge = randomChallenge;
+            playAudio(`Integration Challenge: ${randomChallenge.text}. ${randomChallenge.prompt}`);
+        }
+
+        function newIntegrationChallenge() {
+            startIntegrationChallenge();
+        }
+
+        function showIntegrationHint() {
+            const hints = {
+                "Create a sentence with: numbers + colors + animals": "Try: 'I can see [NUMBER] [COLOR] [ANIMAL] in the [PLACE].'",
+                "Describe animals using prepositions and colors": "Try: 'The [COLOR] [ANIMAL] is [PREPOSITION] the [OBJECT].'",
+                "Count animals in different habitats": "Try: 'In the [HABITAT], there are [NUMBER] [ANIMALS].'",
+                "Use house vocabulary with animals and numbers": "Try: 'In my [ROOM], there are [NUMBER] [THINGS] and [NUMBER] [ANIMALS].'"
+            };
+            
+            const hint = hints[window.currentChallenge.text];
+            document.getElementById('integrationHint').innerHTML = `
+                <div style="background: #fff3cd; padding: 15px; border-radius: 10px; color: #856404;">
+                    <strong>💡 Hint:</strong> ${hint}
+                </div>
+            `;
+            playAudio(`Hint: ${hint}`);
+        }
+
+        // Audio function
+        function playAudio(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop any current speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                utterance.volume = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
         }
 
         // Celebration system
