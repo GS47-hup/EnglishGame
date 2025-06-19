@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days 1-3 Interactive Review Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: #4299e1;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-duration {
+            background: #48bb78;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .game-description {
+            color: #666;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .play-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-screen {
+            display: none;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .back-button {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .flashcard {
+            background: white;
+            border: 3px solid #4299e1;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .flashcard-word {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .flashcard-emoji {
+            font-size: 4rem;
+            margin: 15px 0;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option-button {
+            background: white;
+            border: 2px solid #4299e1;
+            color: #4299e1;
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .option-button:hover {
+            background: #4299e1;
+            color: white;
+        }
+
+        .option-button.correct {
+            background: #48bb78;
+            border-color: #48bb78;
+            color: white;
+        }
+
+        .option-button.incorrect {
+            background: #f56565;
+            border-color: #f56565;
+            color: white;
+        }
+
+        .next-button {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .mode-button {
+            background: #e2e8f0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-button.active {
+            background: #4299e1;
+            color: white;
+        }
+
+        .sentence-builder {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            min-height: 60px;
+            padding: 20px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 15px;
+            align-items: center;
+        }
+
+        .word-card {
+            background: #4299e1;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .word-card:hover {
+            transform: scale(1.05);
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #48bb78;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+            
+            .game-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .game-card, .flashcard, .game-screen {
+                background: white !important;
+                border: 2px solid black !important;
+            }
+            
+            .play-button, .back-button, .next-button {
+                background: white !important;
+                color: black !important;
+                border: 2px solid black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Header -->
+        <div class="header">
+            <h1>🎮 Days 1-3 Interactive Review Games</h1>
+            <p>Complete Vocabulary & Sentence Pattern Mastery</p>
+            <div class="stats">
+                <div class="stat-box">📚 85+ Words</div>
+                <div class="stat-box">⏱️ 45-60 Minutes</div>
+                <div class="stat-box">🎯 7 Games</div>
+                <div class="stat-box">🏆 Complete Mastery</div>
+            </div>
+        </div>
+
+        <!-- Games Grid -->
+        <div id="gamesGrid" class="games-grid">
+            <div class="game-card" onclick="startGame('flashcard')">
+                <div class="game-title">
+                    🃏 Flashcard Revolution
+                    <span class="game-duration">10-15 min</span>
+                </div>
+                <div class="game-description">
+                    Master all 85+ vocabulary words with 4 advanced modes: Visual Lightning, Audio Recognition, Sentence Builder, and Category Speed Sort.
+                </div>
+                <button class="play-button">Start Flashcard Revolution</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('family')">
+                <div class="game-title">
+                    👨‍👩‍👧‍👦 Family Detective
+                    <span class="game-duration">8 min</span>
+                </div>
+                <div class="game-description">
+                    Practice Day 1 family vocabulary with critical "This is" vs "These are" patterns. Master family descriptions and identification.
+                </div>
+                <button class="play-button">Start Family Detective</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('colorshape')">
+                <div class="game-title">
+                    🌈 Color Shape Master
+                    <span class="game-duration">7 min</span>
+                </div>
+                <div class="game-description">
+                    Integrate Day 1 colors with Day 2 shapes. Practice "The window is a rectangle" and color combinations.
+                </div>
+                <button class="play-button">Start Color Shape Master</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('house')">
+                <div class="game-title">
+                    🏠 House Explorer
+                    <span class="game-duration">8 min</span>
+                </div>
+                <div class="game-description">
+                    Explore Day 2 house vocabulary with counting patterns. Practice room identification and number integration.
+                </div>
+                <button class="play-button">Start House Explorer</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('classroom')">
+                <div class="game-title">
+                    📚 Classroom Commander
+                    <span class="game-duration">6 min</span>
+                </div>
+                <div class="game-description">
+                    Master Day 3 classroom instructions and action patterns. Follow commands and identify school supplies.
+                </div>
+                <button class="play-button">Start Classroom Commander</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('toys')">
+                <div class="game-title">
+                    🧸 Toy Store Adventure
+                    <span class="game-duration">7 min</span>
+                </div>
+                <div class="game-description">
+                    Practice Day 3 toys and art supplies. Describe toys with colors and match supplies with actions.
+                </div>
+                <button class="play-button">Start Toy Store Adventure</button>
+            </div>
+
+            <div class="game-card" onclick="startGame('integration')">
+                <div class="game-title">
+                    🏆 Ultimate Integration Challenge
+                    <span class="game-duration">10 min</span>
+                </div>
+                <div class="game-description">
+                    Combine ALL Days 1-3 vocabulary and patterns. Build complex sentences and complete conversations.
+                </div>
+                <button class="play-button">Start Ultimate Challenge</button>
+            </div>
+        </div>
+
+        <!-- Game Screens -->
+        <div id="gameScreen" class="game-screen">
+            <div class="game-header">
+                <button class="back-button" onclick="returnToMenu()">← Back to Games</button>
+                <div class="score-display">Score: <span id="currentScore">0</span>/<span id="totalQuestions">0</span></div>
+            </div>
+            <div id="gameContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Vocabulary Data from Review.md
+        const vocabulary = {
+            family: ['father', 'mother', 'parents', 'brother', 'sister', 'grandfather', 'grandmother', 'grandparents'],
+            colors: ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'pink', 'brown'],
+            bodyParts: ['head', 'hair', 'eyes', 'nose', 'mouth', 'ears', 'hands', 'arms', 'legs', 'feet'],
+            greetings: ['hello', 'hi', 'goodbye', 'bye'],
+            shapes: ['circle', 'square', 'triangle', 'rectangle'],
+            house: ['house', 'door', 'window', 'roof', 'room', 'living room', 'bedroom', 'bathroom', 'kitchen'],
+            numbers: ['one', 'two', 'three', 'four', 'five'],
+            schoolSupplies: ['pencil', 'pen', 'book', 'eraser'],
+            classroomObjects: ['desk', 'chair', 'table', 'board', 'door', 'window', 'clock', 'bookshelf'],
+            toys: ['ball', 'doll', 'car', 'teddy bear', 'balloon', 'yo-yo', 'train', 'boat'],
+            artSupplies: ['paint', 'paper', 'crayon', 'marker', 'chalk', 'yarn', 'tape', 'brush'],
+            instructions: ['listen', 'point', 'sit down', 'stand up', 'open', 'close', 'take', 'give']
+        };
+
+        // Emoji mappings for visual learning
+        const emojis = {
+            'father': '👨', 'mother': '👩', 'parents': '👨‍👩', 'brother': '👦', 'sister': '👧',
+            'grandfather': '👴', 'grandmother': '👵', 'grandparents': '👴👵',
+            'red': '🔴', 'blue': '🔵', 'yellow': '🟡', 'green': '🟢', 'orange': '🟠', 'purple': '🟣', 'pink': '🩷', 'brown': '🤎',
+            'head': '🗣️', 'hair': '💇', 'eyes': '👀', 'nose': '👃', 'mouth': '👄', 'ears': '👂', 'hands': '🤲', 'arms': '💪', 'legs': '🦵', 'feet': '🦶',
+            'hello': '👋', 'hi': '👋', 'goodbye': '👋', 'bye': '👋',
+            'circle': '⭕', 'square': '⬜', 'triangle': '🔺', 'rectangle': '▭',
+            'house': '🏠', 'door': '🚪', 'window': '🪟', 'roof': '🏠', 'room': '🏠', 'living room': '🛋️', 'bedroom': '🛏️', 'bathroom': '🚿', 'kitchen': '👩‍🍳',
+            'one': '1️⃣', 'two': '2️⃣', 'three': '3️⃣', 'four': '4️⃣', 'five': '5️⃣',
+            'pencil': '✏️', 'pen': '🖊️', 'book': '📖', 'eraser': '🧽',
+            'desk': '🪑', 'chair': '🪑', 'table': '🪑', 'board': '📋', 'clock': '🕐', 'bookshelf': '📚',
+            'ball': '⚽', 'doll': '🪆', 'car': '🚗', 'teddy bear': '🧸', 'balloon': '🎈', 'yo-yo': '🪀', 'train': '🚂', 'boat': '⛵',
+            'paint': '🎨', 'paper': '📄', 'crayon': '🖍️', 'marker': '🖊️', 'chalk': '✏️', 'yarn': '🧶', 'tape': '📹', 'brush': '🖌️',
+            'listen': '👂', 'point': '👉', 'sit down': '🪑', 'stand up': '🧍', 'open': '📖', 'close': '📚', 'take': '🤏', 'give': '🤲'
+        };
+
+        // Game state
+        let currentGame = '';
+        let currentScore = 0;
+        let totalQuestions = 0;
+        let currentQuestion = 0;
+        let gameData = [];
+
+        // Get all vocabulary as flat array
+        function getAllVocabulary() {
+            return Object.values(vocabulary).flat();
+        }
+
+        // Get random items from array
+        function getRandomItems(array, count) {
+            const shuffled = [...array].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Start game function
+        function startGame(gameType) {
+            currentGame = gameType;
+            currentScore = 0;
+            currentQuestion = 0;
+            
+            document.getElementById('gamesGrid').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            
+            // Initialize specific game
+            switch(gameType) {
+                case 'flashcard':
+                    initFlashcardGame();
+                    break;
+                case 'family':
+                    initFamilyGame();
+                    break;
+                case 'colorshape':
+                    initColorShapeGame();
+                    break;
+                case 'house':
+                    initHouseGame();
+                    break;
+                case 'classroom':
+                    initClassroomGame();
+                    break;
+                case 'toys':
+                    initToysGame();
+                    break;
+                case 'integration':
+                    initIntegrationGame();
+                    break;
+            }
+        }
+
+        // Return to main menu
+        function returnToMenu() {
+            document.getElementById('gamesGrid').style.display = 'grid';
+            document.getElementById('gameScreen').style.display = 'none';
+            currentGame = '';
+        }
+
+        // Update score display
+        function updateScore() {
+            document.getElementById('currentScore').textContent = currentScore;
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+        }
+
+        // Speech synthesis for audio feedback
+        function playAudio(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Flashcard Revolution Game
+        function initFlashcardGame() {
+            totalQuestions = 20;
+            currentQuestion = 0;
+            updateScore();
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>🃏 Flashcard Revolution</h2>
+                <div class="mode-selector">
+                    <button class="mode-button active" onclick="setFlashcardMode('visual')">👁️ Visual Lightning</button>
+                    <button class="mode-button" onclick="setFlashcardMode('audio')">🔊 Audio Recognition</button>
+                    <button class="mode-button" onclick="setFlashcardMode('sentence')">🏗️ Sentence Builder</button>
+                    <button class="mode-button" onclick="setFlashcardMode('category')">📂 Category Sort</button>
+                </div>
+                <div id="flashcardContent"></div>
+            `;
+            
+            setFlashcardMode('visual');
+        }
+
+        let flashcardMode = 'visual';
+        
+        function setFlashcardMode(mode) {
+            flashcardMode = mode;
+            
+            // Update active button
+            document.querySelectorAll('.mode-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentQuestion = 0;
+            currentScore = 0;
+            updateScore();
+            
+            switch(mode) {
+                case 'visual':
+                    showVisualFlashcard();
+                    break;
+                case 'audio':
+                    showAudioFlashcard();
+                    break;
+                case 'sentence':
+                    showSentenceBuilder();
+                    break;
+                case 'category':
+                    showCategorySort();
+                    break;
+            }
+        }
+
+        function showVisualFlashcard() {
+            const words = getAllVocabulary();
+            const currentWord = words[currentQuestion % words.length];
+            
+            const content = document.getElementById('flashcardContent');
+            content.innerHTML = `
+                <div class="flashcard">
+                    <div class="flashcard-emoji">${emojis[currentWord] || '❓'}</div>
+                    <div class="flashcard-word">${currentWord}</div>
+                </div>
+                <button class="next-button" onclick="nextFlashcard()">Next Word (${currentQuestion + 1}/${totalQuestions})</button>
+            `;
+            
+            playAudio(currentWord);
+        }
+
+        function showAudioFlashcard() {
+            const words = getAllVocabulary();
+            const correctWord = words[currentQuestion % words.length];
+            const options = getRandomItems(words.filter(w => w !== correctWord), 3);
+            options.push(correctWord);
+            options.sort(() => 0.5 - Math.random());
+            
+            const content = document.getElementById('flashcardContent');
+            content.innerHTML = `
+                <div class="flashcard">
+                    <div class="flashcard-emoji">🔊</div>
+                    <p>Listen and choose the correct word:</p>
+                    <button onclick="playAudio('${correctWord}')" style="margin: 10px; padding: 10px 20px; border-radius: 10px; border: none; background: #4299e1; color: white; cursor: pointer;">🔊 Play Audio</button>
+                </div>
+                <div class="options-grid">
+                    ${options.map(word => `
+                        <button class="option-button" onclick="checkAudioAnswer('${word}', '${correctWord}')">${word}</button>
+                    `).join('')}
+                </div>
+            `;
+            
+            setTimeout(() => playAudio(correctWord), 500);
+        }
+
+        function checkAudioAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('incorrect');
+                }
+                btn.disabled = true;
+            });
+            
+            if (selected === correct) {
+                currentScore++;
+                playAudio("Correct!");
+            } else {
+                playAudio("Try again. The answer is " + correct);
+            }
+            
+            updateScore();
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showAudioFlashcard();
+                } else {
+                    showGameComplete();
+                }
+            }, 2000);
+        }
+
+        function nextFlashcard() {
+            currentQuestion++;
+            if (currentQuestion < totalQuestions) {
+                showVisualFlashcard();
+            } else {
+                showGameComplete();
+            }
+        }
+
+        function showGameComplete() {
+            const content = document.getElementById('flashcardContent') || document.getElementById('gameContent');
+            const percentage = Math.round((currentScore / totalQuestions) * 100);
+            
+            content.innerHTML = `
+                <div class="flashcard">
+                    <h2>🏆 Game Complete!</h2>
+                    <div class="flashcard-emoji">🎉</div>
+                    <p>Final Score: ${currentScore}/${totalQuestions} (${percentage}%)</p>
+                    <button class="next-button" onclick="returnToMenu()">Return to Games Menu</button>
+                </div>
+            `;
+            
+            playAudio(`Game complete! You scored ${currentScore} out of ${totalQuestions}`);
+        }
+
+        // Family Detective Game
+        function initFamilyGame() {
+            totalQuestions = 10;
+            currentQuestion = 0;
+            updateScore();
+            
+            showFamilyQuestion();
+        }
+
+        function showFamilyQuestion() {
+            const familyWords = vocabulary.family;
+            const correctFamily = familyWords[currentQuestion % familyWords.length];
+            const isPlural = ['parents', 'grandparents'].includes(correctFamily);
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>👨‍👩‍👧‍👦 Family Detective</h2>
+                <div class="flashcard">
+                    <div class="flashcard-emoji">${emojis[correctFamily]}</div>
+                    <p>Choose the correct sentence:</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkFamilyAnswer(true, ${isPlural})">
+                        This is my ${correctFamily}
+                    </button>
+                    <button class="option-button" onclick="checkFamilyAnswer(false, ${isPlural})">
+                        These are my ${correctFamily}
+                    </button>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: #f7fafc; border-radius: 10px;">
+                    <strong>Remember:</strong> "This is" = ONE person | "These are" = MORE than one person
+                </div>
+            `;
+        }
+
+        function checkFamilyAnswer(selectedSingular, isCorrectlyPlural) {
+            const correct = selectedSingular === !isCorrectlyPlural;
+            
+            if (correct) {
+                currentScore++;
+                playAudio("Correct!");
+            } else {
+                playAudio("Try again. Remember: This is for one person, These are for multiple people.");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showFamilyQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2000);
+        }
+
+        // Color Shape Master Game
+        function initColorShapeGame() {
+            totalQuestions = 8;
+            currentQuestion = 0;
+            updateScore();
+            showColorShapeQuestion();
+        }
+
+        function showColorShapeQuestion() {
+            const colors = vocabulary.colors;
+            const shapes = vocabulary.shapes;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>🌈 Color Shape Master</h2>
+                <div class="flashcard">
+                    <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+                        <div class="flashcard-emoji">${emojis[color]}</div>
+                        <div style="font-size: 2rem;">+</div>
+                        <div class="flashcard-emoji">${emojis[shape]}</div>
+                    </div>
+                    <p>How do you describe this?</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkColorShapeAnswer('This is a ${color} ${shape}', true)">
+                        This is a ${color} ${shape}
+                    </button>
+                    <button class="option-button" onclick="checkColorShapeAnswer('The ${shape} is ${color}', true)">
+                        The ${shape} is ${color}
+                    </button>
+                    <button class="option-button" onclick="checkColorShapeAnswer('These are ${color} ${shape}s', false)">
+                        These are ${color} ${shape}s
+                    </button>
+                </div>
+            `;
+        }
+
+        function checkColorShapeAnswer(selected, isCorrect) {
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Correct! " + selected);
+            } else {
+                playAudio("Remember, we're describing one shape, so use 'This is' or 'The shape is'");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showColorShapeQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2500);
+        }
+
+        // Initialize other games with similar patterns...
+        function initHouseGame() {
+            totalQuestions = 8;
+            currentQuestion = 0;
+            updateScore();
+            showHouseQuestion();
+        }
+
+        function showHouseQuestion() {
+            const houseWords = vocabulary.house;
+            const room = houseWords[Math.floor(Math.random() * houseWords.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>🏠 House Explorer</h2>
+                <div class="flashcard">
+                    <div class="flashcard-emoji">${emojis[room] || '🏠'}</div>
+                    <p>What room is this?</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkHouseAnswer('This is the ${room}', true)">
+                        This is the ${room}
+                    </button>
+                    <button class="option-button" onclick="checkHouseAnswer('This is a ${room}', false)">
+                        This is a ${room}
+                    </button>
+                    <button class="option-button" onclick="checkHouseAnswer('These are ${room}s', false)">
+                        These are ${room}s
+                    </button>
+                </div>
+            `;
+            
+            playAudio("What room is this?");
+        }
+
+        function checkHouseAnswer(selected, isCorrect) {
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Correct!");
+            } else {
+                playAudio("Remember to use 'the' with rooms: This is THE kitchen");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showHouseQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2000);
+        }
+
+        function initClassroomGame() {
+            totalQuestions = 6;
+            currentQuestion = 0;
+            updateScore();
+            showClassroomQuestion();
+        }
+
+        function showClassroomQuestion() {
+            const instructions = vocabulary.instructions;
+            const instruction = instructions[Math.floor(Math.random() * instructions.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>📚 Classroom Commander</h2>
+                <div class="flashcard">
+                    <div class="flashcard-emoji">${emojis[instruction] || '👨‍🏫'}</div>
+                    <p>Follow the instruction:</p>
+                    <h3>"${instruction.charAt(0).toUpperCase() + instruction.slice(1)}!"</h3>
+                </div>
+                <button class="next-button" onclick="followInstruction('${instruction}')">I followed the instruction!</button>
+            `;
+            
+            playAudio(instruction);
+        }
+
+        function followInstruction(instruction) {
+            currentScore++;
+            updateScore();
+            playAudio("Great job following the instruction!");
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showClassroomQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 1500);
+        }
+
+        function initToysGame() {
+            totalQuestions = 8;
+            currentQuestion = 0;
+            updateScore();
+            showToysQuestion();
+        }
+
+        function showToysQuestion() {
+            const toys = vocabulary.toys;
+            const colors = vocabulary.colors;
+            const toy = toys[Math.floor(Math.random() * toys.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>🧸 Toy Store Adventure</h2>
+                <div class="flashcard">
+                    <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+                        <div class="flashcard-emoji">${emojis[color]}</div>
+                        <div class="flashcard-emoji">${emojis[toy]}</div>
+                    </div>
+                    <p>Describe this toy:</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkToysAnswer('This is a ${color} ${toy}', true)">
+                        This is a ${color} ${toy}
+                    </button>
+                    <button class="option-button" onclick="checkToysAnswer('The ${toy} is ${color}', true)">
+                        The ${toy} is ${color}
+                    </button>
+                    <button class="option-button" onclick="checkToysAnswer('These are ${color} ${toy}s', false)">
+                        These are ${color} ${toy}s
+                    </button>
+                </div>
+            `;
+        }
+
+        function checkToysAnswer(selected, isCorrect) {
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Correct! " + selected);
+            } else {
+                playAudio("Remember, we're describing one toy!");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showToysQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2000);
+        }
+
+        function initIntegrationGame() {
+            totalQuestions = 5;
+            currentQuestion = 0;
+            updateScore();
+            showIntegrationQuestion();
+        }
+
+        function showIntegrationQuestion() {
+            const integrationChallenges = [
+                "My father is in the kitchen",
+                "These are my blue books",
+                "I have two red balls",
+                "The window is a rectangle",
+                "My sister has brown hair"
+            ];
+            
+            const challenge = integrationChallenges[currentQuestion];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>🏆 Ultimate Integration Challenge</h2>
+                <div class="flashcard">
+                    <div class="flashcard-emoji">🎯</div>
+                    <p>Complete this sentence using all your knowledge:</p>
+                    <h3>"${challenge}"</h3>
+                    <p>Is this sentence correct?</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkIntegrationAnswer(true)">✅ Yes, it's correct</button>
+                    <button class="option-button" onclick="checkIntegrationAnswer(false)">❌ No, it has an error</button>
+                </div>
+            `;
+            
+            playAudio(challenge);
+        }
+
+        function checkIntegrationAnswer(isCorrect) {
+            // All the sample sentences are correct
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Correct! That sentence uses perfect grammar and vocabulary.");
+            } else {
+                playAudio("Actually, that sentence is correct! Keep practicing your patterns.");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showIntegrationQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2500);
+        }
+    </script>
+</body>
+</html> 
