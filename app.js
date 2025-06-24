@@ -895,13 +895,10 @@ function renderLineMatchingQuestion(question, sectionId, questionIndex) {
 }
 
 function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
-    // Get shuffled images for both sections
-    const sectionAImages = question.section_a.shuffled_order.map(index => 
-        question.section_a.images.find(img => img.id === index)
-    );
-    const sectionBImages = question.section_b.shuffled_order.map(index => 
-        question.section_b.images.find(img => img.id === index)
-    );
+    // Get images in correct order corresponding to numbers 1-10 and 11-20
+    // Sort by ID to ensure proper alignment with numbers
+    const sectionAImages = question.section_a.images.sort((a, b) => a.id - b.id);
+    const sectionBImages = question.section_b.images.sort((a, b) => a.id - b.id);
     
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
@@ -927,7 +924,8 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                                 const num = i + 1;
                                 return `
                                     <div class="number-item bg-blue-100 border-3 border-blue-400 rounded-lg p-3 text-center cursor-pointer hover:bg-blue-200 transition-all" 
-                                         data-number="${num}" data-type="number" data-section="a" id="number-a-${num}">
+                                         data-number="${num}" data-type="number" data-section="a" id="number-a-${num}"
+                                         style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
                                         <div class="text-2xl font-bold text-blue-800">${num}</div>
                                     </div>
                                 `;
@@ -939,10 +937,12 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                     <div class="section-a-images">
                         <h4 class="font-bold mb-4 text-xl text-green-600 text-center">Section A Images</h4>
                         <div class="space-y-3">
-                            ${sectionAImages.map((image) => `
+                            ${sectionAImages.slice(0, 10).map((image, index) => `
                                 <div class="image-item bg-green-100 border-3 border-green-400 rounded-lg p-4 text-center cursor-pointer hover:bg-green-200 transition-all" 
-                                     data-image-id="${image.id}" data-type="image" data-section="a" id="image-a-${image.id}">
-                                    ${createWordImageHTML(image.name || image.text || 'image', '', 'large')}
+                                     data-image-id="${image.id}" data-type="image" data-section="a" id="image-a-${image.id}"
+                                     style="min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                    ${createWordImageHTML(image.name || image.text || 'image', '', 'medium')}
+                                    <div class="text-xs text-gray-500 mt-1">${image.name}</div>
                                 </div>
                             `).join('')}
                         </div>
@@ -956,7 +956,8 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                                 const num = i + 11;
                                 return `
                                     <div class="number-item bg-purple-100 border-3 border-purple-400 rounded-lg p-3 text-center cursor-pointer hover:bg-purple-200 transition-all" 
-                                         data-number="${num}" data-type="number" data-section="b" id="number-b-${num}">
+                                         data-number="${num}" data-type="number" data-section="b" id="number-b-${num}"
+                                         style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
                                         <div class="text-2xl font-bold text-purple-800">${num}</div>
                                     </div>
                                 `;
@@ -968,10 +969,12 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                     <div class="section-b-images">
                         <h4 class="font-bold mb-4 text-xl text-orange-600 text-center">Section B Images</h4>
                         <div class="space-y-3">
-                            ${sectionBImages.map((image) => `
+                            ${sectionBImages.slice(0, 10).map((image, index) => `
                                 <div class="image-item bg-orange-100 border-3 border-orange-400 rounded-lg p-4 text-center cursor-pointer hover:bg-orange-200 transition-all" 
-                                     data-image-id="${image.id}" data-type="image" data-section="b" id="image-b-${image.id}">
-                                    ${createWordImageHTML(image.name || image.text || 'image', '', 'large')}
+                                     data-image-id="${image.id}" data-type="image" data-section="b" id="image-b-${image.id}"
+                                     style="min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                    ${createWordImageHTML(image.name || image.text || 'image', '', 'medium')}
+                                    <div class="text-xs text-gray-500 mt-1">${image.name}</div>
                                 </div>
                             `).join('')}
                         </div>
