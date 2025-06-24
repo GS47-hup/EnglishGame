@@ -698,7 +698,7 @@ function renderMultipleChoiceQuestion(question, sectionId, questionIndex) {
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '❓'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || question.text || 'question', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
             </div>
             <div class="options-grid grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -717,7 +717,7 @@ function renderYesNoQuestion(question, sectionId, questionIndex) {
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '❓'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || question.text || 'question', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
             </div>
             <div class="yes-no-options flex justify-center gap-8">
@@ -760,7 +760,7 @@ function renderMatchingQuestion(question, sectionId, questionIndex) {
                             <div class="picture-slot drop-zone border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-20 bg-gray-50" 
                                  data-target="${pair.word}" data-index="${index}">
                                 <div class="text-center">
-                                    <span class="text-4xl">${pair.emoji}</span>
+                                    ${createWordImageHTML(pair.word || pair.text || 'image', '', 'medium')}
                                     <div class="text-sm text-gray-500 mt-2">Drop word here</div>
                                 </div>
                             </div>
@@ -782,7 +782,7 @@ function renderDrawingQuestion(question, sectionId, questionIndex) {
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '🎨'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || 'art', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
                 <p class="instructions text-gray-600 text-lg">${question.instructions}</p>
             </div>
@@ -814,7 +814,7 @@ function renderLineMatchingQuestion(question, sectionId, questionIndex) {
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '🔗'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || 'matching', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
                 <p class="instructions text-gray-600 text-lg mb-4">${question.instructions}</p>
             </div>
@@ -847,7 +847,7 @@ function renderLineMatchingQuestion(question, sectionId, questionIndex) {
                         ${shuffledImages.map((image, index) => `
                             <div class="image-item bg-green-100 border-3 border-green-400 rounded-lg p-4 text-center cursor-pointer hover:bg-green-200 transition-all" 
                                  data-image-id="${image.id}" data-type="image" id="image-${image.id}">
-                                <div class="text-6xl mb-2">${image.emoji}</div>
+                                ${createWordImageHTML(image.name || image.text || 'image', 'mb-2', 'large')}
                                 <div class="text-sm text-gray-600">${image.color} ${image.name}</div>
                             </div>
                         `).join('')}
@@ -906,7 +906,7 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '🔗'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || 'matching', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
                 <p class="instructions text-gray-600 text-lg mb-4">${question.instructions}</p>
             </div>
@@ -942,7 +942,7 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                             ${sectionAImages.map((image) => `
                                 <div class="image-item bg-green-100 border-3 border-green-400 rounded-lg p-4 text-center cursor-pointer hover:bg-green-200 transition-all" 
                                      data-image-id="${image.id}" data-type="image" data-section="a" id="image-a-${image.id}">
-                                    <div class="text-6xl">${image.emoji}</div>
+                                    ${createWordImageHTML(image.name || image.text || 'image', '', 'large')}
                                 </div>
                             `).join('')}
                         </div>
@@ -971,7 +971,7 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                             ${sectionBImages.map((image) => `
                                 <div class="image-item bg-orange-100 border-3 border-orange-400 rounded-lg p-4 text-center cursor-pointer hover:bg-orange-200 transition-all" 
                                      data-image-id="${image.id}" data-type="image" data-section="b" id="image-b-${image.id}">
-                                    <div class="text-6xl">${image.emoji}</div>
+                                    ${createWordImageHTML(image.name || image.text || 'image', '', 'large')}
                                 </div>
                             `).join('')}
                         </div>
@@ -2232,7 +2232,7 @@ function renderSubjectActionMatchingQuestion(question, sectionId, questionIndex)
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '🔗'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || 'action', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
                 <p class="instructions text-gray-600 text-lg mb-4">${question.instructions}</p>
             </div>
@@ -2252,7 +2252,7 @@ function renderSubjectActionMatchingQuestion(question, sectionId, questionIndex)
                             ${displaySubjects.map((subject) => `
                                 <div class="subject-item bg-blue-100 border-3 border-blue-400 rounded-lg p-6 text-center cursor-pointer hover:bg-blue-200 transition-all" 
                                      data-subject-id="${subject.id}" data-type="subject" id="subject-${subject.id}">
-                                    <div class="text-8xl">${subject.emoji}</div>
+                                    ${createWordImageHTML(subject.name || subject.text || 'person', '', 'large')}
                                 </div>
                             `).join('')}
                         </div>
@@ -2265,7 +2265,7 @@ function renderSubjectActionMatchingQuestion(question, sectionId, questionIndex)
                             ${displayActions.map((action) => `
                                 <div class="action-item bg-green-100 border-3 border-green-400 rounded-lg p-6 text-center cursor-pointer hover:bg-green-200 transition-all" 
                                      data-action-id="${action.id}" data-type="action" id="action-${action.id}">
-                                    <div class="text-8xl">${action.emoji}</div>
+                                    ${createWordImageHTML(action.name || action.text || 'action', '', 'large')}
                                 </div>
                             `).join('')}
                         </div>
@@ -2656,7 +2656,7 @@ function renderListenAndCircleQuestion(question, sectionId, questionIndex) {
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
             <div class="question-header text-center mb-8">
-                <div class="question-emoji text-8xl mb-4">${question.emoji || '👂'}</div>
+                <div class="question-emoji-container mb-4">${createWordImageHTML(question.word || 'ear', 'mb-4', 'large')}</div>
                 <h3 class="question-text text-2xl font-bold mb-4 text-gray-800">${question.question}</h3>
                 <p class="instructions text-gray-600 text-lg mb-4">${question.instructions}</p>
             </div>
@@ -2681,7 +2681,7 @@ function renderListenAndCircleQuestion(question, sectionId, questionIndex) {
                                 <div class="option-item bg-blue-50 border-3 border-blue-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-100 transition-all hover:transform hover:scale-105"
                                      onclick="selectListenAndCircleOption('${sectionId}', ${questionIndex}, ${q.id}, '${option.id}', '${q.correct_answer}')"
                                      data-option-id="${option.id}" data-question-id="${q.id}">
-                                    <div class="text-8xl mb-2">${option.emoji}</div>
+                                    <div class="mb-2">${createWordImageHTML(option.word || option.name || option.text || 'option', '', 'large')}</div>
                                     <div class="option-letter text-lg font-bold text-blue-600">${String.fromCharCode(65 + optIndex)}</div>
                                 </div>
                             `).join('')}
@@ -3108,14 +3108,14 @@ class FlashcardsGame {
         // Set content based on style
         switch (this.style) {
             case 'emoji':
-                cardEmoji.textContent = card.emoji;
+                cardEmoji.innerHTML = createWordImageHTML(card.name, '', 'large');
                 cardText.textContent = '?';
                 cardAnswer.textContent = card.name.toUpperCase();
                 break;
             case 'word':
                 cardEmoji.textContent = '?';
                 cardText.textContent = card.name.toUpperCase();
-                cardAnswer.textContent = card.emoji;
+                cardAnswer.innerHTML = createWordImageHTML(card.name, '', 'large');
                 break;
             case 'audio':
                 cardEmoji.textContent = '🔊';
@@ -3265,3 +3265,208 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Questions loader will be initialized when needed (when "Other Games" is selected)
 });
+
+// ================================
+// IMAGE SYSTEM - VOCABULARY IMAGES
+// ================================
+
+// Image mapping for vocabulary words
+const ImageMapping = {
+    // Family Members
+    'father': 'Level Starter Words_images/father.png',
+    'mother': 'Level Starter Words_images/mother.png',
+    'brother': 'Level Starter Words_images/brother.png',
+    'sister': 'Level Starter Words_images/sister.png',
+    'grandfather': 'Level Starter Words_images/grandfather.png',
+    'grandmother': 'Level Starter Words_images/grandmother.png',
+    
+    // Body Parts
+    'eye': 'Level Starter Words_images/eye.png',
+    'nose': 'Level Starter Words_images/nose.png',
+    'ear': 'Level Starter Words_images/ear.png',
+    'hand': 'Level Starter Words_images/hand.png',
+    'arm': 'Level Starter Words_images/arm.png',
+    'leg': 'Level Starter Words_images/leg.png',
+    'foot': 'Level Starter Words_images/foot.png',
+    'finger': 'Level Starter Words_images/finger.png',
+    'toe': 'Level Starter Words_images/toe.png',
+    'teeth': 'Level Starter Words_images/teeth.png',
+    
+    // Animals
+    'elephant': 'Level Starter Words_images/elephant.png',
+    'tiger': 'Level Starter Words_images/tiger.png',
+    'bear': 'Level Starter Words_images/bear.png',
+    'lion': 'Level Starter Words_images/lion.png',
+    'giraffe': 'Level Starter Words_images/giraffe.png',
+    'zebra': 'Level Starter Words_images/zerbra.png',
+    'kangaroo': 'Level Starter Words_images/kangaroo.png',
+    'monkey': 'Level Starter Words_images/monkey.png',
+    'turtle': 'Level Starter Words_images/turtle.png',
+    'fish': 'Level Starter Words_images/fish.png',
+    'chicken': 'Level Starter Words_images/chicken.png',
+    'ant': 'Level Starter Words_images/ant.png',
+    'spider': 'Level Starter Words_images/spider.png',
+    
+    // Transportation
+    'car': 'Level Starter Words_images/car.png',
+    'bus': 'Level Starter Words_images/bus.png',
+    'train': 'Level Starter Words_images/train.png',
+    'boat': 'Level Starter Words_images/boat.png',
+    'truck': 'Level Starter Words_images/truck.png',
+    
+    // Food
+    'bread': 'Level Starter Words_images/bread.png',
+    'rice': 'Level Starter Words_images/rice.png',
+    'chicken': 'Level Starter Words_images/chicken.png',
+    'fish': 'Level Starter Words_images/fish.png',
+    'cake': 'Level Starter Words_images/cake.png',
+    'ice cream': 'Level Starter Words_images/ice cream.png',
+    'pizza': 'Level Starter Words_images/pizza.png',
+    'juice': 'Level Starter Words_images/juice.png',
+    'meat': 'Level Starter Words_images/meat.png',
+    'food': 'Level Starter Words_images/food.png',
+    
+    // Actions
+    'walk': 'Level Starter Words_images/walk.png',
+    'run': 'Level Starter Words_images/run.png',
+    'swim': 'Level Starter Words_images/swim.png',
+    'hop': 'Level Starter Words_images/hop.png',
+    'eat': 'Level Starter Words_images/eat.png',
+    'brush my teeth': 'Level Starter Words_images/brush my teeth.png',
+    'brush my hair': 'Level Starter Words_images/brush my hair.png',
+    'wash my hands': 'Level Starter Words_images/wash my hands.png',
+    'wash my face': 'Level Starter Words_images/wash my face.png',
+    'ride a bike': 'Level Starter Words_images/ride a bike.png',
+    'fly a kite': 'Level Starter Words_images/fly a kite.png',
+    'jump rope': 'Level Starter Words_images/jump rope.png',
+    'play soccer': 'Level Starter Words_images/play soccer.png',
+    
+    // Adjectives
+    'big': 'Level Starter Words_images/big.png',
+    'small': 'Level Starter Words_images/small.png',
+    'long': 'Level Starter Words_images/long.png',
+    'short': 'Level Starter Words_images/short.png',
+    'fast': 'Level Starter Words_images/fast.png',
+    'slow': 'Level Starter Words_images/slow.png',
+    'hot': 'Level Starter Words_images/hot.png',
+    'new': 'Level Starter Words_images/new.png',
+    'old': 'Level Starter Words_images/old.png',
+    'quiet': 'Level Starter Words_images/quiet.png',
+    'noise': 'Level Starter Words_images/noise.png',
+    
+    // Nature
+    'tree': 'Level Starter Words_images/tree.png',
+    'flower': 'Level Starter Words_images/flower.png',
+    'leaf': 'Level Starter Words_images/leaf.png',
+    'rock': 'Level Starter Words_images/rock.png',
+    'river': 'Level Starter Words_images/river.png',
+    'lake': 'Level Starter Words_images/lake.png',
+    'hill': 'Level Starter Words_images/hill.png',
+    'sea': 'Level Starter Words_images/sea.png',
+    'moon': 'Level Starter Words_images/moon.png',
+    
+    // School/Games
+    'game': 'Level Starter Words_images/game.png',
+    'puzzle': 'Level Starter Words_images/puzzle.png',
+    'marble': 'Level Starter Words_images/marble.png',
+    'card': 'Level Starter Words_images/card.png',
+    'kites': 'Level Starter Words_images/kites.png',
+    
+    // Prepositions
+    'in': 'Level Starter Words_images/in.png',
+    'on': 'Level Starter Words_images/on.png',
+    'under': 'Level Starter Words_images/under.png',
+    
+    // Miscellaneous
+    'zoo': 'Level Starter Words_images/zoo.png',
+    'boot': 'Level Starter Words_images/boot.png',
+    'wig': 'Level Starter Words_images/wig.png',
+    'pot': 'Level Starter Words_images/pot.png',
+    'cot': 'Level Starter Words_images/cot.png',
+    'hut': 'Level Starter Words_images/hut.png',
+    'nut': 'Level Starter Words_images/nut.png',
+    'cut': 'Level Starter Words_images/cut.png',
+    'dig': 'Level Starter Words_images/dig.png',
+    'fig': 'Level Starter Words_images/fig.png',
+    'pie': 'Level Starter Words_images/pie.png',
+    'die': 'Level Starter Words_images/die.png',
+    'lie': 'Level Starter Words_images/lie.png',
+    'tie': 'Level Starter Words_images/tie.png'
+};
+
+// Emoji fallbacks (current system)
+const EmojiMapping = {
+    'hello': '👋',
+    'goodbye': '👋',
+    'father': '👨',
+    'mother': '👩',
+    'brother': '👦',
+    'sister': '👧',
+    'grandfather': '👴',
+    'grandmother': '👵',
+    'parents': '👨‍👩‍👧‍👦',
+    'grandparents': '👴👵',
+    'red': '🔴',
+    'blue': '🔵',
+    'yellow': '🟡',
+    'green': '🟢',
+    'orange': '🟠',
+    'purple': '🟣',
+    'pink': '🩷',
+    'brown': '🤎',
+    'head': '🙂',
+    'hair': '💇',
+    'eyes': '👀',
+    'nose': '👃',
+    'mouth': '👄',
+    'ears': '👂',
+    'hands': '🙌',
+    'arms': '💪',
+    'legs': '🦵',
+    'feet': '🦶'
+};
+
+/**
+ * Get image source for a vocabulary word
+ * Returns PNG image path if available, otherwise emoji fallback
+ */
+function getImageForWord(word) {
+    const normalizedWord = word.toLowerCase().trim();
+    
+    // Check if we have a PNG image for this word
+    if (ImageMapping[normalizedWord]) {
+        return {
+            type: 'image',
+            src: ImageMapping[normalizedWord],
+            alt: word,
+            fallback: EmojiMapping[normalizedWord] || '❓'
+        };
+    }
+    
+    // Fall back to emoji
+    return {
+        type: 'emoji',
+        src: EmojiMapping[normalizedWord] || '❓',
+        alt: word,
+        fallback: '❓'
+    };
+}
+
+/**
+ * Create HTML for displaying word image (PNG or emoji)
+ */
+function createWordImageHTML(word, className = '', size = 'large') {
+    const imageData = getImageForWord(word);
+    const sizeClass = size === 'small' ? 'text-4xl' : size === 'medium' ? 'text-6xl' : 'text-8xl';
+    
+    if (imageData.type === 'image') {
+        return `<img src="${imageData.src}" alt="${imageData.alt}" class="vocab-image ${className}" 
+                style="max-width: ${size === 'small' ? '60px' : size === 'medium' ? '80px' : '120px'}; 
+                       max-height: ${size === 'small' ? '60px' : size === 'medium' ? '80px' : '120px'}; 
+                       object-fit: contain; margin: 0 auto;" 
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="emoji-fallback ${sizeClass} ${className}" style="display: none;">${imageData.fallback}</div>`;
+    } else {
+        return `<div class="question-emoji ${sizeClass} ${className}">${imageData.src}</div>`;
+    }
+}

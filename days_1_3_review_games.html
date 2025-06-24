@@ -552,7 +552,7 @@
 
         // Flashcard Revolution Game
         function initFlashcardGame() {
-            totalQuestions = 20;
+            totalQuestions = 50; // Increased from 20 to 50
             currentQuestion = 0;
             updateScore();
             
@@ -582,22 +582,29 @@
             
             currentQuestion = 0;
             currentScore = 0;
+            builtSentence = []; // Reset sentence builder
             updateScore();
             
+            // Set different question counts for different modes
             switch(mode) {
                 case 'visual':
+                    totalQuestions = 30;
                     showVisualFlashcard();
                     break;
                 case 'audio':
+                    totalQuestions = 25;
                     showAudioFlashcard();
                     break;
                 case 'sentence':
+                    totalQuestions = 20;
                     showSentenceBuilder();
                     break;
                 case 'category':
+                    totalQuestions = 6; // One for each category
                     showCategorySort();
                     break;
             }
+            updateScore();
         }
 
         function showVisualFlashcard() {
@@ -609,11 +616,234 @@
                 <div class="flashcard">
                     <div class="flashcard-emoji">${emojis[currentWord] || '❓'}</div>
                     <div class="flashcard-word">${currentWord}</div>
+                    <p style="margin-top: 15px; color: #666;">Say the word aloud!</p>
                 </div>
                 <button class="next-button" onclick="nextFlashcard()">Next Word (${currentQuestion + 1}/${totalQuestions})</button>
             `;
             
             playAudio(currentWord);
+        }
+
+        function showSentenceBuilder() {
+            const sentenceTemplates = [
+                { template: ["This", "is", "my", "FAMILY"], category: "family", article: "my" },
+                { template: ["This", "is", "a", "COLOR", "SHAPE"], category: "colorshape", article: "a" },
+                { template: ["These", "are", "my", "FAMILY"], category: "family", article: "my", plural: true },
+                { template: ["The", "SHAPE", "is", "COLOR"], category: "colorshape", article: "the" },
+                { template: ["I", "have", "NUMBER", "TOYS"], category: "toys", article: "", withNumber: true },
+                { template: ["My", "FAMILY", "has", "COLOR", "BODYPART"], category: "family", bodypart: true },
+                { template: ["There", "are", "NUMBER", "CLASSROOM", "in", "the", "room"], category: "classroom", withNumber: true },
+                { template: ["This", "is", "the", "HOUSE"], category: "house", article: "the" },
+                { template: ["I", "use", "SUPPLIES", "to", "write"], category: "supplies", action: true },
+                { template: ["Please", "INSTRUCTION"], category: "instruction", command: true }
+            ];
+            
+            const template = sentenceTemplates[currentQuestion % sentenceTemplates.length];
+            const targetSentence = buildTargetSentence(template);
+            
+            const allWords = [...template.template];
+            // Add some random words to make it challenging
+            const extraWords = getRandomItems(getAllVocabulary(), 5);
+            allWords.push(...extraWords);
+            
+            // Shuffle the words
+            const shuffledWords = allWords.sort(() => 0.5 - Math.random());
+            
+            const content = document.getElementById('flashcardContent');
+            content.innerHTML = `
+                <div class="flashcard">
+                    <h3>🏗️ Build this sentence:</h3>
+                    <p style="font-size: 1.3rem; color: #4a5568; margin: 15px 0;">"${targetSentence}"</p>
+                </div>
+                <div class="sentence-builder" id="sentenceBuilder">
+                    <p style="color: #666; margin-bottom: 10px;">Drag words here to build the sentence:</p>
+                </div>
+                <div class="word-bank">
+                    ${shuffledWords.map(word => `
+                        <div class="word-card" draggable="true" onclick="addWordToSentence('${word}')">${word}</div>
+                    `).join('')}
+                </div>
+                <button class="next-button" onclick="checkSentenceBuilder('${targetSentence}')">Check My Sentence</button>
+                <button class="next-button" style="background: #f56565;" onclick="clearSentence()">Clear All</button>
+            `;
+        }
+
+        function buildTargetSentence(template) {
+            const colors = vocabulary.colors;
+            const shapes = vocabulary.shapes;
+            const family = vocabulary.family;
+            const toys = vocabulary.toys;
+            const bodyParts = vocabulary.bodyParts;
+            const house = vocabulary.house;
+            const supplies = vocabulary.schoolSupplies;
+            const instructions = vocabulary.instructions;
+            const classroom = vocabulary.classroomObjects;
+            const numbers = vocabulary.numbers;
+            
+            let sentence = template.template.join(" ");
+            
+            // Replace placeholders with actual words
+            if (sentence.includes("COLOR")) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                sentence = sentence.replace("COLOR", color);
+            }
+            if (sentence.includes("SHAPE")) {
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                sentence = sentence.replace("SHAPE", shape);
+            }
+            if (sentence.includes("FAMILY")) {
+                let familyMember = family[Math.floor(Math.random() * family.length)];
+                if (template.plural && !['parents', 'grandparents'].includes(familyMember)) {
+                    familyMember = ['parents', 'grandparents'][Math.floor(Math.random() * 2)];
+                }
+                sentence = sentence.replace("FAMILY", familyMember);
+            }
+            if (sentence.includes("TOYS")) {
+                const toy = toys[Math.floor(Math.random() * toys.length)];
+                sentence = sentence.replace("TOYS", toy + "s");
+            }
+            if (sentence.includes("BODYPART")) {
+                const part = bodyParts[Math.floor(Math.random() * bodyParts.length)];
+                sentence = sentence.replace("BODYPART", part);
+            }
+            if (sentence.includes("HOUSE")) {
+                const room = house[Math.floor(Math.random() * house.length)];
+                sentence = sentence.replace("HOUSE", room);
+            }
+            if (sentence.includes("SUPPLIES")) {
+                const supply = supplies[Math.floor(Math.random() * supplies.length)];
+                sentence = sentence.replace("SUPPLIES", supply);
+            }
+            if (sentence.includes("INSTRUCTION")) {
+                const instruction = instructions[Math.floor(Math.random() * instructions.length)];
+                sentence = sentence.replace("INSTRUCTION", instruction);
+            }
+            if (sentence.includes("CLASSROOM")) {
+                const item = classroom[Math.floor(Math.random() * classroom.length)];
+                sentence = sentence.replace("CLASSROOM", item + "s");
+            }
+            if (sentence.includes("NUMBER")) {
+                const number = numbers[Math.floor(Math.random() * numbers.length)];
+                sentence = sentence.replace("NUMBER", number);
+            }
+            
+            return sentence;
+        }
+
+        let builtSentence = [];
+
+        function addWordToSentence(word) {
+            builtSentence.push(word);
+            updateSentenceDisplay();
+        }
+
+        function updateSentenceDisplay() {
+            const builder = document.getElementById('sentenceBuilder');
+            if (builder) {
+                builder.innerHTML = `
+                    <p style="color: #666; margin-bottom: 10px;">Your sentence:</p>
+                    ${builtSentence.map((word, index) => `
+                        <span class="word-card" onclick="removeWordFromSentence(${index})" style="cursor: pointer;">${word}</span>
+                    `).join(' ')}
+                `;
+            }
+        }
+
+        function removeWordFromSentence(index) {
+            builtSentence.splice(index, 1);
+            updateSentenceDisplay();
+        }
+
+        function clearSentence() {
+            builtSentence = [];
+            updateSentenceDisplay();
+        }
+
+        function checkSentenceBuilder(target) {
+            const userSentence = builtSentence.join(" ");
+            
+            if (userSentence.toLowerCase() === target.toLowerCase()) {
+                currentScore++;
+                playAudio("Perfect! You built the sentence correctly!");
+            } else {
+                playAudio("Good try! The correct sentence is: " + target);
+            }
+            
+            builtSentence = [];
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showSentenceBuilder();
+                } else {
+                    showGameComplete();
+                }
+            }, 3000);
+        }
+
+        function showCategorySort() {
+            const categories = ['family', 'colors', 'bodyParts', 'house', 'toys', 'schoolSupplies'];
+            const currentCategory = categories[currentQuestion % categories.length];
+            const categoryWords = vocabulary[currentCategory];
+            const otherWords = getRandomItems(getAllVocabulary().filter(word => !categoryWords.includes(word)), 8);
+            
+            const allWords = [...categoryWords.slice(0, 4), ...otherWords.slice(0, 6)];
+            allWords.sort(() => 0.5 - Math.random());
+            
+            const content = document.getElementById('flashcardContent');
+            content.innerHTML = `
+                <div class="flashcard">
+                    <h3>📂 Category Sort Challenge</h3>
+                    <p>Find all the <strong>${currentCategory.replace(/([A-Z])/g, ' $1').toLowerCase()}</strong> words!</p>
+                    <p>Score: <span id="categoryScore">0</span>/${categoryWords.slice(0, 4).length}</p>
+                </div>
+                <div class="options-grid" id="categoryGrid">
+                    ${allWords.map(word => `
+                        <button class="option-button" onclick="selectCategoryWord('${word}', '${currentCategory}')">${word}</button>
+                    `).join('')}
+                </div>
+                <div style="margin-top: 20px;">
+                    <p><strong>Selected words:</strong> <span id="selectedWords"></span></p>
+                </div>
+            `;
+            
+            window.categorySelected = [];
+            window.categoryTarget = categoryWords.slice(0, 4);
+        }
+
+        function selectCategoryWord(word, category) {
+            const isCorrect = vocabulary[category].includes(word);
+            const button = event.target;
+            
+            if (isCorrect && !window.categorySelected.includes(word)) {
+                button.classList.add('correct');
+                button.disabled = true;
+                window.categorySelected.push(word);
+                
+                document.getElementById('categoryScore').textContent = window.categorySelected.length;
+                document.getElementById('selectedWords').textContent = window.categorySelected.join(', ');
+                
+                playAudio("Correct! " + word + " belongs to " + category);
+                
+                if (window.categorySelected.length === window.categoryTarget.length) {
+                    currentScore++;
+                    updateScore();
+                    
+                    setTimeout(() => {
+                        currentQuestion++;
+                        if (currentQuestion < totalQuestions) {
+                            showCategorySort();
+                        } else {
+                            showGameComplete();
+                        }
+                    }, 2000);
+                }
+            } else if (!isCorrect) {
+                button.classList.add('incorrect');
+                button.disabled = true;
+                playAudio("Sorry, " + word + " doesn't belong to " + category);
+            }
         }
 
         function showAudioFlashcard() {
@@ -696,7 +926,7 @@
 
         // Family Detective Game
         function initFamilyGame() {
-            totalQuestions = 10;
+            totalQuestions = 20; // Increased from 10 to 20
             currentQuestion = 0;
             updateScore();
             
@@ -704,13 +934,33 @@
         }
 
         function showFamilyQuestion() {
+            const questionTypes = ['thisThese', 'description', 'counting', 'identification'];
+            const questionType = questionTypes[currentQuestion % questionTypes.length];
+            
+            switch(questionType) {
+                case 'thisThese':
+                    showThisTheseQuestion();
+                    break;
+                case 'description':
+                    showFamilyDescriptionQuestion();
+                    break;
+                case 'counting':
+                    showFamilyCountingQuestion();
+                    break;
+                case 'identification':
+                    showFamilyIdentificationQuestion();
+                    break;
+            }
+        }
+
+        function showThisTheseQuestion() {
             const familyWords = vocabulary.family;
-            const correctFamily = familyWords[currentQuestion % familyWords.length];
+            const correctFamily = familyWords[Math.floor(Math.random() * familyWords.length)];
             const isPlural = ['parents', 'grandparents'].includes(correctFamily);
             
             const content = document.getElementById('gameContent');
             content.innerHTML = `
-                <h2>👨‍👩‍👧‍👦 Family Detective</h2>
+                <h2>👨‍👩‍👧‍👦 Family Detective - This vs These</h2>
                 <div class="flashcard">
                     <div class="flashcard-emoji">${emojis[correctFamily]}</div>
                     <p>Choose the correct sentence:</p>
@@ -727,6 +977,100 @@
                     <strong>Remember:</strong> "This is" = ONE person | "These are" = MORE than one person
                 </div>
             `;
+        }
+
+        function showFamilyDescriptionQuestion() {
+            const family = vocabulary.family.filter(f => !['parents', 'grandparents'].includes(f));
+            const colors = vocabulary.colors;
+            const bodyParts = vocabulary.bodyParts;
+            
+            const familyMember = family[Math.floor(Math.random() * family.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const bodyPart = bodyParts[Math.floor(Math.random() * bodyParts.length)];
+            
+            const correctSentence = `My ${familyMember} has ${color} ${bodyPart}`;
+            const wrongSentence1 = `This ${familyMember} has ${color} ${bodyPart}`;
+            const wrongSentence2 = `These ${familyMember} has ${color} ${bodyPart}`;
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>👨‍👩‍👧‍👦 Family Detective - Descriptions</h2>
+                <div class="flashcard">
+                    <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+                        <div class="flashcard-emoji">${emojis[familyMember]}</div>
+                        <div class="flashcard-emoji">${emojis[color]}</div>
+                        <div class="flashcard-emoji">${emojis[bodyPart] || '👤'}</div>
+                    </div>
+                    <p>How do you describe this family member?</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkDescriptionAnswer('${correctSentence}', true)">
+                        ${correctSentence}
+                    </button>
+                    <button class="option-button" onclick="checkDescriptionAnswer('${wrongSentence1}', false)">
+                        ${wrongSentence1}
+                    </button>
+                    <button class="option-button" onclick="checkDescriptionAnswer('${wrongSentence2}', false)">
+                        ${wrongSentence2}
+                    </button>
+                </div>
+            `;
+        }
+
+        function showFamilyCountingQuestion() {
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>👨‍👩‍👧‍👦 Family Detective - Counting</h2>
+                <div class="flashcard">
+                    <div style="display: flex; gap: 10px; justify-content: center; margin: 20px 0;">
+                        <div class="flashcard-emoji">👨</div>
+                        <div class="flashcard-emoji">👩</div>
+                    </div>
+                    <p>How many people do you see?</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkCountingAnswer('This is my parents', false)">
+                        This is my parents
+                    </button>
+                    <button class="option-button" onclick="checkCountingAnswer('These are my parents', true)">
+                        These are my parents
+                    </button>
+                    <button class="option-button" onclick="checkCountingAnswer('This is my parent', false)">
+                        This is my parent
+                    </button>
+                </div>
+            `;
+        }
+
+        function showFamilyIdentificationQuestion() {
+            const greetings = vocabulary.greetings;
+            const family = vocabulary.family.filter(f => !['parents', 'grandparents'].includes(f));
+            
+            const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+            const familyMember = family[Math.floor(Math.random() * family.length)];
+            
+            const content = document.getElementById('gameContent');
+            content.innerHTML = `
+                <h2>👨‍👩‍👧‍👦 Family Detective - Greetings</h2>
+                <div class="flashcard">
+                    <div class="flashcard-emoji">${emojis[familyMember]}</div>
+                    <p>Someone asks: "Who's this?"</p>
+                    <p>How do you answer?</p>
+                </div>
+                <div class="options-grid">
+                    <button class="option-button" onclick="checkIdentificationAnswer('This is my ${familyMember}', true)">
+                        This is my ${familyMember}
+                    </button>
+                    <button class="option-button" onclick="checkIdentificationAnswer('These are my ${familyMember}', false)">
+                        These are my ${familyMember}
+                    </button>
+                    <button class="option-button" onclick="checkIdentificationAnswer('This are my ${familyMember}', false)">
+                        This are my ${familyMember}
+                    </button>
+                </div>
+            `;
+            
+            playAudio("Who's this?");
         }
 
         function checkFamilyAnswer(selectedSingular, isCorrectlyPlural) {
@@ -749,6 +1093,66 @@
                     showGameComplete();
                 }
             }, 2000);
+        }
+
+        function checkDescriptionAnswer(selected, isCorrect) {
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Excellent! " + selected);
+            } else {
+                playAudio("Remember to use 'My' when describing family members.");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showFamilyQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2500);
+        }
+
+        function checkCountingAnswer(selected, isCorrect) {
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Perfect! These are my parents - two people!");
+            } else {
+                playAudio("Remember: When you see two people, use 'These are'");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showFamilyQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2500);
+        }
+
+        function checkIdentificationAnswer(selected, isCorrect) {
+            if (isCorrect) {
+                currentScore++;
+                playAudio("Great answer! " + selected);
+            } else {
+                playAudio("When someone asks 'Who's this?', answer 'This is my...'");
+            }
+            
+            updateScore();
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < totalQuestions) {
+                    showFamilyQuestion();
+                } else {
+                    showGameComplete();
+                }
+            }, 2500);
         }
 
         // Color Shape Master Game
