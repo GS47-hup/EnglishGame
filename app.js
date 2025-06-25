@@ -938,11 +938,10 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                         <h4 class="font-bold mb-4 text-xl text-green-600 text-center">Section A Images</h4>
                         <div class="space-y-3">
                             ${sectionAImages.slice(0, 10).map((image, index) => `
-                                <div class="image-item bg-green-100 border-3 border-green-400 rounded-lg p-4 text-center cursor-pointer hover:bg-green-200 transition-all" 
+                                <div class="image-item bg-green-100 border-3 border-green-400 rounded-lg p-3 text-center cursor-pointer hover:bg-green-200 transition-all" 
                                      data-image-id="${image.id}" data-type="image" data-section="a" id="image-a-${image.id}"
-                                     style="min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                     style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
                                     ${createWordImageHTML(image.name || image.text || 'image', '', 'medium')}
-                                    <div class="text-xs text-gray-500 mt-1">${image.name}</div>
                                 </div>
                             `).join('')}
                         </div>
@@ -970,11 +969,10 @@ function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
                         <h4 class="font-bold mb-4 text-xl text-orange-600 text-center">Section B Images</h4>
                         <div class="space-y-3">
                             ${sectionBImages.slice(0, 10).map((image, index) => `
-                                <div class="image-item bg-orange-100 border-3 border-orange-400 rounded-lg p-4 text-center cursor-pointer hover:bg-orange-200 transition-all" 
+                                <div class="image-item bg-orange-100 border-3 border-orange-400 rounded-lg p-3 text-center cursor-pointer hover:bg-orange-200 transition-all" 
                                      data-image-id="${image.id}" data-type="image" data-section="b" id="image-b-${image.id}"
-                                     style="min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                     style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
                                     ${createWordImageHTML(image.name || image.text || 'image', '', 'medium')}
-                                    <div class="text-xs text-gray-500 mt-1">${image.name}</div>
                                 </div>
                             `).join('')}
                         </div>
