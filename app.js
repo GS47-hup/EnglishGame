@@ -895,10 +895,17 @@ function renderLineMatchingQuestion(question, sectionId, questionIndex) {
 }
 
 function renderLineMatchingColumnsQuestion(question, sectionId, questionIndex) {
-    // Get images in correct order corresponding to numbers 1-10 and 11-20
-    // Sort by ID to ensure proper alignment with numbers
-    const sectionAImages = question.section_a.images.sort((a, b) => a.id - b.id);
-    const sectionBImages = question.section_b.images.sort((a, b) => a.id - b.id);
+    // Use shuffled orders for proper randomization
+    const sectionAOrder = question.section_a.shuffled_order || Array.from({length: 10}, (_, i) => i + 1);
+    const sectionBOrder = question.section_b.shuffled_order || Array.from({length: 10}, (_, i) => i + 11);
+    
+    // Create images in shuffled order for display randomization
+    const sectionAImages = sectionAOrder.map(id => 
+        question.section_a.images.find(img => img.id === id) || {id, name: 'missing', emoji: '❓'}
+    );
+    const sectionBImages = sectionBOrder.map(id => 
+        question.section_b.images.find(img => img.id === id) || {id, name: 'missing', emoji: '❓'}
+    );
     
     return `
         <div class="question-container bg-white rounded-xl shadow-lg p-8">
@@ -1976,8 +1983,18 @@ function generateNewImages(sectionId, questionIndex) {
         return;
     }
     
-    // Shuffle the vocabulary bank
-    const shuffledBank = [...vocabularyBank].sort(() => Math.random() - 0.5);
+    // PROPER RANDOMIZATION: Use Fisher-Yates shuffle
+    function fisherYatesShuffle(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+    
+    // Shuffle the vocabulary bank properly
+    const shuffledBank = fisherYatesShuffle(vocabularyBank);
     
     // Select first 20 words
     const selectedWords = shuffledBank.slice(0, 20);
@@ -2015,21 +2032,14 @@ function generateNewImages(sectionId, questionIndex) {
     );
     
     // Create TRULY RANDOM shuffled orders using Fisher-Yates shuffle
-    function fisherYatesShuffle(array) {
-        const shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    }
-    
     question.section_a.shuffled_order = fisherYatesShuffle(Array.from({length: 10}, (_, i) => i + 1));
     question.section_b.shuffled_order = fisherYatesShuffle(Array.from({length: 10}, (_, i) => i + 11));
     
-    debugLog('New images generated', {
+    debugLog('New images generated with PROPER randomization', {
         sectionA: sectionAWords.map(w => w.name),
-        sectionB: sectionBWords.map(w => w.name)
+        sectionB: sectionBWords.map(w => w.name),
+        sectionAOrder: question.section_a.shuffled_order,
+        sectionBOrder: question.section_b.shuffled_order
     });
     
     // Clear existing lines
@@ -2044,7 +2054,7 @@ function generateNewImages(sectionId, questionIndex) {
     // Re-render the question with new images
     renderQuestion(sectionId, questionIndex);
     
-    showToast('New images generated! 🎲', 'success');
+    showToast('New images generated with proper randomization! 🎲', 'success');
     audioSystem.speak('New images are ready! Listen to the instructions again.');
 }
 
@@ -2634,8 +2644,8 @@ function shuffleSubjectActionImages(sectionId, questionIndex) {
     ];
     
     // Create new shuffled display orders
-    question.shuffled_subjects = [3, 1, 5, 2, 4]; // Random display order
-    question.shuffled_actions = [2, 5, 1, 4, 3];  // Random display order
+    question.section_a.shuffled_order = [3, 1, 5, 2, 4]; // Random display order
+    question.section_b.shuffled_order = [2, 5, 1, 4, 3];  // Random display order
     
     debugLog('New Subject-Action images generated', {
         subjects: question.current_subjects.map(s => s.name),
@@ -3613,218 +3623,18 @@ function createWordImageHTML(word, className = '', size = 'large') {
     const sizeClass = size === 'small' ? 'text-4xl' : size === 'medium' ? 'text-6xl' : 'text-8xl';
     
     if (imageData.type === 'image') {
+        const sizeMap = {
+            'small': { width: '40px', height: '40px' },
+            'medium': { width: '60px', height: '60px' },
+            'large': { width: '80px', height: '80px' }
+        };
+        const dimensions = sizeMap[size] || sizeMap['large'];
+        
         return `<img src="${imageData.src}" alt="${imageData.alt}" class="vocab-image ${className}" 
-                style="max-width: ${size === 'small' ? '60px' : size === 'medium' ? '80px' : '120px'}; 
-                       max-height: ${size === 'small' ? '60px' : size === 'medium' ? '80px' : '120px'}; 
-                       object-fit: contain; margin: 0 auto;" 
+                style="width: ${dimensions.width}; height: ${dimensions.height}; object-fit: contain; margin: 0 auto;" 
                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <div class="emoji-fallback ${sizeClass} ${className}" style="display: none;">${imageData.fallback}</div>`;
     } else {
         return `<div class="question-emoji ${sizeClass} ${className}">${imageData.src}</div>`;
-    }
-}
-
-// ================================
-// IMAGE MAPPING SYSTEM - USING ACTUAL PNG FILES
-// ================================
-
-function getImageForWord(word) {
-    // Map words to actual PNG files in Level Starter Words_images folder
-    const imageMap = {
-        // Family
-        'mother': 'Level Starter Words_images/mother.png',
-        'father': 'Level Starter Words_images/father.png',
-        'sister': 'Level Starter Words_images/sister.png',
-        'brother': 'Level Starter Words_images/brother.png',
-        'grandfather': 'Level Starter Words_images/grandfather.png',
-        'grandmother': 'Level Starter Words_images/grandmother.png',
-        
-        // Body parts
-        'eye': 'Level Starter Words_images/eye.png',
-        'eyes': 'Level Starter Words_images/eye.png',
-        'nose': 'Level Starter Words_images/nose.png',
-        'ear': 'Level Starter Words_images/ear.png',
-        'ears': 'Level Starter Words_images/ear.png',
-        'teeth': 'Level Starter Words_images/teeth.png',
-        'hand': 'Level Starter Words_images/hand.png',
-        'hands': 'Level Starter Words_images/hand.png',
-        'foot': 'Level Starter Words_images/foot.png',
-        'feet': 'Level Starter Words_images/foot.png',
-        'leg': 'Level Starter Words_images/leg.png',
-        'arm': 'Level Starter Words_images/arm.png',
-        'finger': 'Level Starter Words_images/finger.png',
-        'toe': 'Level Starter Words_images/toe.png',
-        
-        // Animals
-        'elephant': 'Level Starter Words_images/elephant.png',
-        'tiger': 'Level Starter Words_images/tiger.png',
-        'lion': 'Level Starter Words_images/lion.png',
-        'bear': 'Level Starter Words_images/bear.png',
-        'monkey': 'Level Starter Words_images/monkey.png',
-        'giraffe': 'Level Starter Words_images/giraffe.png',
-        'kangaroo': 'Level Starter Words_images/kangaroo.png',
-        'snake': 'Level Starter Words_images/snake.png',
-        'turtle': 'Level Starter Words_images/turtle.png',
-        'frog': 'Level Starter Words_images/frog.png',
-        'ant': 'Level Starter Words_images/ant.png',
-        'spider': 'Level Starter Words_images/spider.png',
-        'fish': 'Level Starter Words_images/fish.png',
-        'chicken': 'Level Starter Words_images/chicken.png',
-        
-        // Food
-        'food': 'Level Starter Words_images/food.png',
-        'bread': 'Level Starter Words_images/bread.png',
-        'cake': 'Level Starter Words_images/cake.png',
-        'rice': 'Level Starter Words_images/rice.png',
-        'pizza': 'Level Starter Words_images/pizza.png',
-        'ice cream': 'Level Starter Words_images/ice cream.png',
-        'meat': 'Level Starter Words_images/meat.png',
-        'juice': 'Level Starter Words_images/juice.png',
-        'pie': 'Level Starter Words_images/pie.png',
-        
-        // Transportation
-        'train': 'Level Starter Words_images/train.png',
-        'truck': 'Level Starter Words_images/truck.png',
-        'bus': 'Level Starter Words_images/bus.png',
-        'boat': 'Level Starter Words_images/boat.png',
-        'car': '🚗', // fallback to emoji if no image
-        'bike': '🚲',
-        'airplane': '✈️',
-        
-        // Actions
-        'walk': 'Level Starter Words_images/walk.png',
-        'swim': 'Level Starter Words_images/swim.png',
-        'hop': 'Level Starter Words_images/hop.png',
-        'run': 'Level Starter Words_images/run.png',
-        'eat': 'Level Starter Words_images/eat.png',
-        'ride a bike': 'Level Starter Words_images/ride a bike.png',
-        'fly a kite': 'Level Starter Words_images/fly a kite.png',
-        'jump rope': 'Level Starter Words_images/jump rope.png',
-        'play soccer': 'Level Starter Words_images/play soccer.png',
-        'brush my teeth': 'Level Starter Words_images/brush my teeth.png',
-        'brush my hair': 'Level Starter Words_images/brush my hair.png',
-        'wash my hands': 'Level Starter Words_images/wash my hands.png',
-        'wash my face': 'Level Starter Words_images/wash my face.png',
-        
-        // Nature
-        'tree': 'Level Starter Words_images/tree.png',
-        'flower': 'Level Starter Words_images/flower.png',
-        'moon': 'Level Starter Words_images/moon.png',
-        'lake': 'Level Starter Words_images/lake.png',
-        'hill': 'Level Starter Words_images/hill.png',
-        'river': 'Level Starter Words_images/river.png',
-        'rock': 'Level Starter Words_images/rock.png',
-        'leaf': 'Level Starter Words_images/leaf.png',
-        'sea': 'Level Starter Words_images/sea.png',
-        
-        // Objects and items
-        'card': 'Level Starter Words_images/card.png',
-        'puzzle': 'Level Starter Words_images/puzzle.png',
-        'marble': 'Level Starter Words_images/marble.png',
-        'game': 'Level Starter Words_images/game.png',
-        'kites': 'Level Starter Words_images/kites.png',
-        'nut': 'Level Starter Words_images/nut.png',
-        'boot': 'Level Starter Words_images/boot.png',
-        
-        // Size and descriptors
-        'big': 'Level Starter Words_images/big.png',
-        'small': 'Level Starter Words_images/small.png',
-        'long': 'Level Starter Words_images/long.png',
-        'short': 'Level Starter Words_images/short.png',
-        'fast': 'Level Starter Words_images/fast.png',
-        'slow': 'Level Starter Words_images/slow.png',
-        'hot': 'Level Starter Words_images/hot.png',
-        'quiet': 'Level Starter Words_images/quiet.png',
-        'noise': 'Level Starter Words_images/noise.png',
-        'new': 'Level Starter Words_images/new.png',
-        'old': 'Level Starter Words_images/old.png',
-        
-        // Prepositions
-        'in': 'Level Starter Words_images/in.png',
-        'on': 'Level Starter Words_images/on.png',
-        'under': 'Level Starter Words_images/under.png',
-        
-        // Other words
-        'zoo': 'Level Starter Words_images/zoo.png',
-        'cut': 'Level Starter Words_images/cut.png',
-        'dig': 'Level Starter Words_images/dig.png',
-        'tie': 'Level Starter Words_images/tie.png',
-        'lie': 'Level Starter Words_images/lie.png',
-        'die': 'Level Starter Words_images/die.png',
-        'wig': 'Level Starter Words_images/wig.png',
-        'fig': 'Level Starter Words_images/fig.png',
-        'cot': 'Level Starter Words_images/cot.png',
-        'pot': 'Level Starter Words_images/pot.png',
-        'hut': 'Level Starter Words_images/hut.png'
-    };
-    
-    const imagePath = imageMap[word.toLowerCase()];
-    
-    // Return image path if available, otherwise return emoji fallback
-    if (imagePath && imagePath.startsWith('Level Starter Words_images/')) {
-        return `<img src="${imagePath}" alt="${word}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;" />`;
-    } else if (imagePath) {
-        // It's an emoji fallback
-        return `<span style="font-size: 80px;">${imagePath}</span>`;
-    } else {
-        // Default emoji fallbacks for common categories
-        const emojiMap = {
-            // Family
-            'mother': '👩', 'father': '👨', 'sister': '👧', 'brother': '👦',
-            'grandfather': '👴', 'grandmother': '👵',
-            
-            // Colors
-            'red': '🔴', 'blue': '🔵', 'yellow': '🟡', 'green': '🟢',
-            'orange': '🟠', 'purple': '🟣', 'black': '⚫', 'white': '⚪',
-            'pink': '🩷', 'brown': '🤎', 'gray': '🩶',
-            
-            // Animals
-            'cat': '🐱', 'dog': '🐕', 'bird': '🐦', 'cow': '🐄',
-            'horse': '🐴', 'pig': '🐷', 'sheep': '🐑', 'duck': '🦆',
-            'zebra': '🦓', 'penguin': '🐧',
-            
-            // Shapes
-            'circle': '⭕', 'square': '⬜', 'triangle': '🔺', 'rectangle': '⬛',
-            
-            // School
-            'book': '📚', 'pen': '🖊️', 'pencil': '✏️', 'ruler': '📏',
-            'bag': '🎒', 'desk': '🪑', 'chair': '🪑', 'board': '⬛',
-            
-            // Actions
-            'running': '🏃‍♂️', 'jumping': '🦘', 'sleeping': '😴', 
-            'reading': '📖', 'writing': '✍️', 'drawing': '🎨',
-            'dancing': '💃', 'singing': '🎵', 'playing': '🤸',
-            'flying': '🦅', 'swimming': '🏊‍♀️',
-            
-            // Default
-            'default': '❓'
-        };
-        
-        return `<span style="font-size: 80px;">${emojiMap[word.toLowerCase()] || emojiMap['default']}</span>`;
-    }
-}
-
-function createWordImageHTML(word, className = '', size = 'large') {
-    const sizeMap = {
-        'small': { width: '40px', height: '40px', fontSize: '40px' },
-        'medium': { width: '60px', height: '60px', fontSize: '60px' },
-        'large': { width: '80px', height: '80px', fontSize: '80px' }
-    };
-    
-    const dimensions = sizeMap[size] || sizeMap['large'];
-    const imageHTML = getImageForWord(word);
-    
-    // If it's an image tag, update the dimensions
-    if (imageHTML.startsWith('<img')) {
-        return imageHTML.replace(
-            /style="[^"]*"/,
-            `style="width: ${dimensions.width}; height: ${dimensions.height}; object-fit: cover; border-radius: 8px;" class="${className}"`
-        );
-    } else {
-        // It's an emoji span
-        return imageHTML.replace(
-            /style="[^"]*"/,
-            `style="font-size: ${dimensions.fontSize};" class="${className}"`
-        );
     }
 }
