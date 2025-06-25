@@ -382,19 +382,175 @@
             font-weight: bold;
         }
         @media (max-width: 768px) {
+            /* Complete mobile overhaul */
             .exam-preview-container {
                 padding: 10px;
+                max-width: 100%;
+                overflow-x: hidden;
             }
+            
+            /* Fix exam sections on mobile */
+            .exam-section {
+                margin-bottom: 20px;
+                padding: 15px !important;
+            }
+            
+            /* Fix two-column layouts on mobile - force single column */
+            .grid.grid-cols-1.md\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+            }
+            
+            /* Fix column headers and spacing */
+            .column-a, .column-b, .subjects, .actions {
+                margin-bottom: 20px;
+                width: 100%;
+            }
+            
+            .column-a h4, .column-b h4, .subjects h4, .actions h4 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                color: #1f2937;
+                font-weight: bold;
+                border-bottom: 2px solid #e5e7eb;
+                padding-bottom: 8px;
+            }
+            
+            /* Fix list items spacing and layout */
+            .space-y-2 > div {
+                margin-bottom: 12px !important;
+                padding: 10px;
+                background: white;
+                border-radius: 8px;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            
+            /* Fix number circles and emojis */
+            .number-circle {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+                margin-right: 12px;
+                flex-shrink: 0;
+            }
+            
+            .emoji {
+                font-size: 28px;
+                width: 40px;
+                margin-right: 10px;
+                flex-shrink: 0;
+            }
+            
+            /* Fix flex layouts */
+            .flex.items-center.gap-3 {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-wrap: nowrap;
+                width: 100%;
+            }
+            
+            /* Fix options layout */
             .options {
-                flex-direction: column;
-                gap: 8px;
+                flex-direction: column !important;
+                gap: 12px !important;
+                margin-top: 15px;
+                width: 100%;
             }
+            
+            .option {
+                min-width: auto !important;
+                width: 100% !important;
+                padding: 15px !important;
+                text-align: left !important;
+                border: 2px solid #d1d5db !important;
+                border-radius: 8px;
+                background: white;
+                font-size: 16px;
+                box-sizing: border-box;
+            }
+            
+            /* Fix example questions */
             .example-question {
-                flex-direction: column;
-                align-items: start;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                padding: 15px !important;
+                margin-bottom: 15px;
+                width: 100%;
+                box-sizing: border-box;
             }
+            
+            .example-question p {
+                font-size: 16px !important;
+                margin-bottom: 15px;
+                line-height: 1.5;
+                width: 100%;
+            }
+            
+            /* Fix yes/no options */
             .yes-no-options {
-                margin-top: 10px;
+                margin-top: 15px !important;
+                width: 100%;
+                display: flex;
+                gap: 10px;
+            }
+            
+            .yes-no-options span {
+                min-width: 80px !important;
+                padding: 12px 20px !important;
+                font-size: 16px !important;
+                border-radius: 8px;
+                text-align: center;
+                flex: 1;
+            }
+            
+            /* Fix headings */
+            h2.text-3xl {
+                font-size: 24px !important;
+                line-height: 1.3;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            
+            h3.text-xl {
+                font-size: 20px !important;
+                line-height: 1.3;
+                margin-bottom: 15px;
+            }
+            
+            /* Fix small text readability */
+            .text-sm {
+                font-size: 15px !important;
+                line-height: 1.5;
+            }
+            
+            /* Fix teacher selection grid */
+            .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-5 {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+            }
+            
+            /* Fix teacher cards */
+            .teacher-option {
+                padding: 20px !important;
+                margin-bottom: 20px;
+            }
+            
+            .teacher-option h3 {
+                font-size: 18px !important;
+                line-height: 1.4;
+            }
+            
+            /* Ensure no horizontal overflow */
+            body, html {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
+            * {
+                max-width: 100%;
+                box-sizing: border-box;
             }
         }
     </style>
