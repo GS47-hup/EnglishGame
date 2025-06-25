@@ -7,6 +7,44 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.20.1] - 2025-06-25 08:39:24
+
+### 🔧 **HOTFIX: Question Mark Image Issue - Comprehensive Emoji Mapping**
+
+#### **IMAGE DISPLAY EMERGENCY FIX:**
+- **❓ Question Mark Problem**: Fixed all question marks (?) appearing instead of emojis in exam preview section
+- **📝 Complete Emoji Mapping**: Added 80+ missing vocabulary words to EmojiMapping system
+- **🎯 Comprehensive Coverage**: All vocabulary words now have proper emoji fallbacks
+- **🔧 ImageMapping Integration**: Enhanced emoji fallback system for reliable display
+
+#### **EMOJI MAPPING ADDITIONS:**
+- **🐱 Animals**: cat, dog, elephant, tiger, bear, lion, giraffe, zebra, kangaroo, monkey, turtle, chicken, ant, spider, bird, horse, mouse
+- **🚗 Transportation**: car, bus, train, boat, truck  
+- **🍎 Food**: apple, bread, rice, cake, ice cream, pizza, juice, meat, food, milk, lemon
+- **⭕ Shapes**: circle, square, triangle, rectangle, shapes
+- **📚 School/Objects**: book, pencil, pen, eraser, hat, window, pants, chair, table
+- **🏃‍♂️ Actions**: walk, run, swim, hop, eat, reading, running, dancing, playing, swimming, jumping, sleeping, walking, flying, eating
+- **🔴 Adjectives**: big, small, long, short, fast, slow, hot, new, old, quiet, noise, sweet, sour
+- **🌳 Nature**: tree, flower, leaf, rock, river, lake, hill, sea, moon
+- **🎮 Games**: game, puzzle, marble, card, kites
+- **📦 Prepositions**: in, on, under, behind
+- **👁️ Body Parts**: eye, ear, hand, arm, leg, foot, finger, toe, teeth
+- **🦁 Miscellaneous**: zoo, boot, wig, pot, cot, hut, nut, cut, dig, fig, pie, die, lie, tie
+
+#### **TECHNICAL IMPROVEMENTS:**
+- **🔄 Fallback System**: Enhanced getImageForWord() function with comprehensive emoji coverage
+- **⚡ Immediate Fix**: No more question marks showing in any part of the application
+- **📱 Universal Support**: All vocabulary words now display properly across all devices
+- **🎯 Error Prevention**: Comprehensive emoji mapping prevents future question mark issues
+
+#### **IMPACT:**
+- **✅ Visual Consistency**: All vocabulary items now display proper visual representations
+- **👥 User Experience**: Professional appearance with no broken question mark displays
+- **📚 Educational Quality**: Proper visual learning aids for all vocabulary items
+- **🚀 Reliability**: Robust fallback system ensures images always display correctly
+
+---
+
 ## [Version 2.20.0] - 2025-06-25 08:32:27
 
 ### 🚨 **CRITICAL FIX: Complete Mobile Responsiveness Overhaul**

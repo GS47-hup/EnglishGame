@@ -3409,6 +3409,8 @@ const EmojiMapping = {
     'grandmother': '👵',
     'parents': '👨‍👩‍👧‍👦',
     'grandparents': '👴👵',
+    
+    // Colors
     'red': '🔴',
     'blue': '🔵',
     'yellow': '🟡',
@@ -3417,16 +3419,159 @@ const EmojiMapping = {
     'purple': '🟣',
     'pink': '🩷',
     'brown': '🤎',
+    
+    // Body Parts
     'head': '🙂',
     'hair': '💇',
     'eyes': '👀',
+    'eye': '👁️',
     'nose': '👃',
     'mouth': '👄',
     'ears': '👂',
+    'ear': '👂',
     'hands': '🙌',
+    'hand': '✋',
     'arms': '💪',
+    'arm': '💪',
     'legs': '🦵',
-    'feet': '🦶'
+    'leg': '🦵',
+    'feet': '🦶',
+    'foot': '🦶',
+    'finger': '👆',
+    'toe': '🦶',
+    'teeth': '🦷',
+    
+    // Animals
+    'cat': '🐱',
+    'dog': '🐕',
+    'fish': '🐟',
+    'elephant': '🐘',
+    'tiger': '🐅',
+    'bear': '🐻',
+    'lion': '🦁',
+    'giraffe': '🦒',
+    'zebra': '🦓',
+    'kangaroo': '🦘',
+    'monkey': '🐵',
+    'turtle': '🐢',
+    'chicken': '🐔',
+    'ant': '🐜',
+    'spider': '🕷️',
+    'bird': '🐦',
+    'horse': '🐴',
+    'mouse': '🐭',
+    
+    // Transportation
+    'car': '🚗',
+    'bus': '🚌',
+    'train': '🚂',
+    'boat': '🚤',
+    'truck': '🚚',
+    
+    // Food
+    'bread': '🍞',
+    'rice': '🍚',
+    'cake': '🎂',
+    'ice cream': '🍦',
+    'pizza': '🍕',
+    'juice': '🧃',
+    'meat': '🥩',
+    'food': '🍽️',
+    'apple': '🍎',
+    'milk': '🥛',
+    'lemon': '🍋',
+    
+    // Shapes
+    'circle': '⭕',
+    'square': '⬜',
+    'triangle': '🔺',
+    'rectangle': '▭',
+    
+    // School/Objects
+    'book': '📚',
+    'pencil': '✏️',
+    'pen': '🖊️',
+    'eraser': '🔴',
+    'hat': '👒',
+    'window': '🪟',
+    'pants': '👖',
+    'chair': '🪑',
+    'table': '🍽️',
+    
+    // Actions/Verbs
+    'walk': '🚶‍♂️',
+    'run': '🏃‍♂️',
+    'swim': '🏊‍♂️',
+    'hop': '🦘',
+    'eat': '🍽️',
+    'reading': '📖',
+    'running': '🏃‍♂️',
+    'dancing': '💃',
+    'playing': '🎮',
+    'swimming': '🏊‍♂️',
+    'jumping': '🦘',
+    'sleeping': '😴',
+    'walking': '🚶‍♂️',
+    'flying': '🕊️',
+    'eating': '🍽️',
+    
+    // Adjectives/Descriptions
+    'big': '🔴',
+    'small': '🔵',
+    'long': '📏',
+    'short': '📐',
+    'fast': '⚡',
+    'slow': '🐌',
+    'hot': '🔥',
+    'new': '✨',
+    'old': '🏚️',
+    'quiet': '🤫',
+    'noise': '🔊',
+    'sweet': '🍯',
+    'sour': '🍋',
+    
+    // Nature
+    'tree': '🌳',
+    'flower': '🌸',
+    'leaf': '🍃',
+    'rock': '🗿',
+    'river': '🏞️',
+    'lake': '🏞️',
+    'hill': '🏔️',
+    'sea': '🌊',
+    'moon': '🌙',
+    
+    // School/Games
+    'game': '🎮',
+    'puzzle': '🧩',
+    'marble': '⚪',
+    'card': '🃏',
+    'kites': '🪁',
+    
+    // Prepositions
+    'in': '📦',
+    'on': '🔛',
+    'under': '⬇️',
+    'behind': '⬅️',
+    
+    // Shapes and patterns
+    'shapes': '🔶',
+    
+    // Miscellaneous
+    'zoo': '🦁',
+    'boot': '👢',
+    'wig': '👩‍🦱',
+    'pot': '🍲',
+    'cot': '🛏️',
+    'hut': '🏚️',
+    'nut': '🥜',
+    'cut': '✂️',
+    'dig': '⛏️',
+    'fig': '🟤',
+    'pie': '🥧',
+    'die': '🎲',
+    'lie': '🛏️',
+    'tie': '👔'
 };
 
 /**
