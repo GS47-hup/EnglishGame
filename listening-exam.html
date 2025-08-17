@@ -132,13 +132,6 @@
     </style>
 </head>
 <body>
-    <!-- Hidden Netlify Form for data collection -->
-    <form name="exam-submissions" data-netlify="true" style="display: none;">
-        <input name="student-name" />
-        <input name="timestamp" />
-        <input name="exam-data" />
-        <input name="score" />
-    </form>
     <!-- Login Screen -->
     <div id="loginScreen" class="login-container">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
@@ -437,6 +430,10 @@
 
         // Submit exam
         document.getElementById('submitExam').addEventListener('click', function() {
+            const submitButton = document.getElementById('submitExam');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
             const submission = {
                 studentName: studentName,
                 timestamp: new Date().toISOString(),
@@ -445,70 +442,34 @@
                 completed: true
             };
 
-            // Save to localStorage for teacher dashboard and Netlify Forms
-            let submissions = JSON.parse(localStorage.getItem('examSubmissions')) || [];
-            submissions.push(submission);
-            localStorage.setItem('examSubmissions', JSON.stringify(submissions));
-
-            // Also submit to Netlify Forms for backup
-            submitToNetlifyForms(submission);
-
-            alert('Exam submitted successfully! Thank you.');
-            // Redirect back to login
-            location.reload();
+            // Submit to Neon database via Netlify Function
+            fetch('/.netlify/functions/submit-exam', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submission)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Exam submitted successfully! Score: ${data.score}\nThank you, ${studentName}!`);
+                    // Redirect back to login
+                    location.reload();
+                } else {
+                    throw new Error(data.error || 'Submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting exam:', error);
+                alert('Error submitting exam. Please try again or contact your teacher.');
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Exam';
+            });
         });
 
-        function submitToNetlifyForms(submission) {
-            // Create a hidden form for Netlify Forms submission
-            const form = document.createElement('form');
-            form.style.display = 'none';
-            form.setAttribute('name', 'exam-submissions');
-            form.setAttribute('data-netlify', 'true');
-            
-            // Add form fields
-            const fields = {
-                'student-name': submission.studentName,
-                'timestamp': submission.timestamp,
-                'exam-data': JSON.stringify(submission),
-                'score': calculateSubmissionScore(submission)
-            };
-            
-            Object.keys(fields).forEach(fieldName => {
-                const input = document.createElement('input');
-                input.setAttribute('name', fieldName);
-                input.setAttribute('value', fields[fieldName]);
-                form.appendChild(input);
-            });
-            
-            document.body.appendChild(form);
-            
-            // Submit the form
-            fetch('/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(new FormData(form)).toString()
-            }).catch(error => {
-                console.log('Netlify form submission failed (this is normal in development):', error);
-            });
-            
-            // Clean up
-            document.body.removeChild(form);
-        }
-
-        function calculateSubmissionScore(submission) {
-            const correctAnswers = {
-                1: "🍎", 2: "🐱", 3: "📚", 4: "🚗", 5: "🌸",
-                6: "⚽", 7: "🌳", 8: "🏠", 9: "🐦", 10: "🐟"
-            };
-            
-            let score = 0;
-            submission.answers.forEach(answer => {
-                if (correctAnswers[answer.number] === answer.image) {
-                    score++;
-                }
-            });
-            return `${score}/10`;
-        }
 
         function updateProgress() {
             document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;

@@ -131,9 +131,9 @@
                     <i class="fas fa-arrow-left mr-1"></i>Back to Student Exam
                 </a>
                 <br><br>
-                <div class="text-xs text-gray-500 bg-yellow-50 p-3 rounded">
-                    <strong>📝 Note for Netlify:</strong> Student data is stored locally in browser. 
-                    For permanent backup, check Netlify Forms in your dashboard for submitted exam data.
+                <div class="text-xs text-gray-500 bg-green-50 p-3 rounded">
+                    <strong>💾 Database Status:</strong> Connected to Neon PostgreSQL database. 
+                    All exam data is stored permanently and accessible across devices.
                 </div>
             </div>
         </div>
@@ -214,10 +214,43 @@
         });
 
         function loadSubmissions() {
-            // Load from localStorage (works on same domain as students)
-            submissions = JSON.parse(localStorage.getItem('examSubmissions')) || [];
-            displayStatistics();
-            displayResults();
+            // Show loading indicator
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading submissions from database...</p></div>';
+            
+            // Fetch from Neon database via Netlify Function
+            fetch('/.netlify/functions/get-submissions')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        submissions = data.submissions;
+                        console.log(`Loaded ${data.count} submissions from database`);
+                    } else {
+                        console.error('Error loading submissions:', data.error);
+                        submissions = [];
+                    }
+                    displayStatistics();
+                    displayResults();
+                })
+                .catch(error => {
+                    console.error('Error fetching submissions:', error);
+                    submissions = [];
+                    displayStatistics();
+                    displayResults();
+                    
+                    // Show error message
+                    const resultsContainer = document.getElementById('resultsContainer');
+                    resultsContainer.innerHTML = `
+                        <div class="text-center py-8 text-red-600">
+                            <i class="fas fa-exclamation-triangle text-3xl mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Connection Error</h3>
+                            <p>Unable to connect to database. Please check your internet connection.</p>
+                            <button onclick="loadSubmissions()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                <i class="fas fa-refresh mr-2"></i>Retry
+                            </button>
+                        </div>
+                    `;
+                });
         }
 
         function displayStatistics() {
@@ -421,11 +454,38 @@
 
         function clearResults() {
             if (confirm('Are you sure you want to clear all exam results? This action cannot be undone.')) {
-                localStorage.removeItem('examSubmissions');
-                submissions = [];
-                displayStatistics();
-                displayResults();
-                alert('All results have been cleared.');
+                // Show loading state
+                const clearBtn = document.querySelector('.clear-btn');
+                const originalText = clearBtn.innerHTML;
+                clearBtn.disabled = true;
+                clearBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Clearing...';
+                
+                fetch('/.netlify/functions/clear-submissions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        submissions = [];
+                        displayStatistics();
+                        displayResults();
+                        alert(`${data.message}`);
+                    } else {
+                        alert('Error clearing results: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error clearing results:', error);
+                    alert('Error connecting to database.');
+                })
+                .finally(() => {
+                    // Restore button state
+                    clearBtn.disabled = false;
+                    clearBtn.innerHTML = originalText;
+                });
             }
         }
 
