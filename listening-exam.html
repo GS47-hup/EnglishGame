@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Listening Exam</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f9ff;
+        }
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .exam-container {
+            display: none;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .exam-container.active {
+            display: block;
+        }
+        .numbers-column {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .images-column {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .number-item {
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .number-item:hover {
+            background: #2563eb;
+            transform: scale(1.1);
+        }
+        .number-item.active {
+            background: #ef4444;
+            animation: pulse 0.5s;
+        }
+        .image-item {
+            background: #f3f4f6;
+            border: 3px solid #e5e7eb;
+            border-radius: 10px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .image-item:hover {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .image-item.connected {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        .connection-line {
+            position: absolute;
+            background: #ef4444;
+            height: 3px;
+            z-index: 10;
+            pointer-events: none;
+            border-radius: 2px;
+        }
+        .audio-control {
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+        }
+        .audio-control:hover {
+            background: #059669;
+        }
+        .audio-control:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .progress-bar {
+            background: #e5e7eb;
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #3b82f6;
+            height: 100%;
+            transition: width 0.3s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hidden Netlify Form for data collection -->
+    <form name="exam-submissions" data-netlify="true" style="display: none;">
+        <input name="student-name" />
+        <input name="timestamp" />
+        <input name="exam-data" />
+        <input name="score" />
+    </form>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <i class="fas fa-headphones text-4xl text-blue-500 mb-4"></i>
+                <h1 class="text-2xl font-bold text-gray-800">Digital Listening Exam</h1>
+                <p class="text-gray-600 mt-2">Enter your details to begin</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Student Name:</label>
+                    <input type="text" id="studentName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                    <input type="password" id="studentPassword" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" placeholder="Enter password (e.g., 123)" required>
+                </div>
+                
+                <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg font-bold hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Start Exam
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <a href="teacher-dashboard.html" class="text-blue-500 hover:underline text-sm">
+                    <i class="fas fa-user-tie mr-1"></i>Teacher Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Screen -->
+    <div id="examScreen" class="exam-container">
+        <div class="bg-white rounded-lg p-6 mb-6 shadow-lg">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Listening Exam</h1>
+                    <p class="text-gray-600">Student: <span id="displayName"></span></p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">Question: <span id="currentQuestion">1</span> / 10</p>
+                    <div class="progress-bar w-32">
+                        <div id="progressFill" class="progress-fill" style="width: 10%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg p-6 mb-6 shadow-lg text-center">
+            <button id="playAudio" class="audio-control">
+                <i class="fas fa-play mr-2"></i>Play Audio (<span id="playsLeft">3</span> plays left)
+            </button>
+            <p class="text-sm text-gray-600 mt-2">Listen carefully and connect the number to the correct image</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Numbers Column -->
+            <div class="numbers-column">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Numbers</h2>
+                <div id="numbersContainer" class="flex flex-col items-center">
+                    <!-- Numbers will be generated here -->
+                </div>
+            </div>
+
+            <!-- Images Column -->
+            <div class="images-column">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Images</h2>
+                <div id="imagesContainer" class="grid grid-cols-5 gap-2 justify-items-center">
+                    <!-- Images will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-8">
+            <button id="nextQuestion" class="bg-green-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors mr-4" style="display: none;">
+                Next Question <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+            <button id="submitExam" class="bg-red-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-red-600 transition-colors" style="display: none;">
+                <i class="fas fa-paper-plane mr-2"></i>Submit Exam
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Exam data
+        const examData = [
+            { audio: "Number 1 is an apple", answer: "🍎" },
+            { audio: "Number 2 is a cat", answer: "🐱" },
+            { audio: "Number 3 is a book", answer: "📚" },
+            { audio: "Number 4 is a car", answer: "🚗" },
+            { audio: "Number 5 is a flower", answer: "🌸" },
+            { audio: "Number 6 is a ball", answer: "⚽" },
+            { audio: "Number 7 is a tree", answer: "🌳" },
+            { audio: "Number 8 is a house", answer: "🏠" },
+            { audio: "Number 9 is a bird", answer: "🐦" },
+            { audio: "Number 10 is a fish", answer: "🐟" }
+        ];
+
+        const allImages = ["🍎", "🐱", "📚", "🚗", "🌸", "⚽", "🌳", "🏠", "🐦", "🐟"];
+        
+        let currentQuestionIndex = 0;
+        let studentAnswers = [];
+        let selectedNumber = null;
+        let playsRemaining = 3;
+        let studentName = '';
+        let connections = [];
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            studentName = document.getElementById('studentName').value.trim();
+            const password = document.getElementById('studentPassword').value;
+            
+            if (studentName && password) {
+                document.getElementById('displayName').textContent = studentName;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('examScreen').classList.add('active');
+                initializeExam();
+            }
+        });
+
+        function initializeExam() {
+            generateNumbers();
+            generateImages();
+            updateProgress();
+        }
+
+        function generateNumbers() {
+            const container = document.getElementById('numbersContainer');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 10; i++) {
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'number-item';
+                numberDiv.textContent = i;
+                numberDiv.dataset.number = i;
+                numberDiv.addEventListener('click', () => selectNumber(i, numberDiv));
+                container.appendChild(numberDiv);
+            }
+        }
+
+        function generateImages() {
+            const container = document.getElementById('imagesContainer');
+            container.innerHTML = '';
+            
+            // Shuffle images for each question
+            const shuffledImages = [...allImages].sort(() => Math.random() - 0.5);
+            
+            shuffledImages.forEach((emoji, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'image-item';
+                imageDiv.textContent = emoji;
+                imageDiv.dataset.image = emoji;
+                imageDiv.dataset.index = index;
+                imageDiv.addEventListener('click', () => connectToImage(emoji, imageDiv));
+                container.appendChild(imageDiv);
+            });
+        }
+
+        function selectNumber(number, element) {
+            // Remove previous selection
+            document.querySelectorAll('.number-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            selectedNumber = number;
+            element.classList.add('active');
+        }
+
+        function connectToImage(image, element) {
+            if (!selectedNumber) {
+                alert('Please select a number first!');
+                return;
+            }
+
+            // Check if this number already has a connection
+            const existingConnection = connections.find(conn => conn.number === selectedNumber);
+            if (existingConnection) {
+                // Remove existing connection
+                removeConnection(selectedNumber);
+            }
+
+            // Add new connection
+            connections.push({
+                number: selectedNumber,
+                image: image,
+                questionIndex: currentQuestionIndex
+            });
+
+            // Visual feedback
+            element.classList.add('connected');
+            drawConnectionLine(selectedNumber, element);
+
+            // Clear selection
+            document.querySelectorAll('.number-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            selectedNumber = null;
+
+            // Show next button - any connection allows next question
+            if (currentQuestionIndex < 9) {
+                document.getElementById('nextQuestion').style.display = 'inline-block';
+            } else {
+                document.getElementById('submitExam').style.display = 'inline-block';
+            }
+        }
+
+        function removeConnection(number) {
+            connections = connections.filter(conn => conn.number !== number);
+            
+            // Remove visual indicators
+            document.querySelectorAll('.image-item').forEach(item => {
+                item.classList.remove('connected');
+            });
+            
+            // Remove connection lines
+            document.querySelectorAll('.connection-line').forEach(line => {
+                line.remove();
+            });
+            
+            // Redraw remaining connections
+            connections.forEach(conn => {
+                const imageElement = document.querySelector(`[data-image="${conn.image}"]`);
+                if (imageElement) {
+                    imageElement.classList.add('connected');
+                    drawConnectionLine(conn.number, imageElement);
+                }
+            });
+        }
+
+        function drawConnectionLine(number, imageElement) {
+            const numberElement = document.querySelector(`[data-number="${number}"]`);
+            const line = document.createElement('div');
+            line.className = 'connection-line';
+            
+            const numberRect = numberElement.getBoundingClientRect();
+            const imageRect = imageElement.getBoundingClientRect();
+            
+            // Account for page scroll
+            const x1 = numberRect.right + window.scrollX;
+            const y1 = numberRect.top + numberRect.height / 2 + window.scrollY;
+            const x2 = imageRect.left + window.scrollX;
+            const y2 = imageRect.top + imageRect.height / 2 + window.scrollY;
+            
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            line.style.position = 'absolute';
+            line.style.width = length + 'px';
+            line.style.left = x1 + 'px';
+            line.style.top = y1 + 'px';
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.transformOrigin = '0 50%';
+            
+            document.body.appendChild(line);
+        }
+
+        // Audio functionality
+        document.getElementById('playAudio').addEventListener('click', function() {
+            if (playsRemaining > 0) {
+                const utterance = new SpeechSynthesisUtterance(examData[currentQuestionIndex].audio);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+                
+                playsRemaining--;
+                document.getElementById('playsLeft').textContent = playsRemaining;
+                
+                if (playsRemaining === 0) {
+                    this.disabled = true;
+                    this.innerHTML = '<i class="fas fa-volume-mute mr-2"></i>No more plays';
+                }
+            }
+        });
+
+        // Next question
+        document.getElementById('nextQuestion').addEventListener('click', function() {
+            currentQuestionIndex++;
+            playsRemaining = 3;
+            
+            const playButton = document.getElementById('playAudio');
+            playButton.disabled = false;
+            playButton.innerHTML = '<i class="fas fa-play mr-2"></i>Play Audio (<span id="playsLeft">3</span> plays left)';
+            document.getElementById('playsLeft').textContent = playsRemaining;
+            
+            this.style.display = 'none';
+            
+            updateProgress();
+            
+            if (currentQuestionIndex === 9) {
+                document.getElementById('submitExam').style.display = 'inline-block';
+            }
+        });
+
+        // Submit exam
+        document.getElementById('submitExam').addEventListener('click', function() {
+            const submission = {
+                studentName: studentName,
+                timestamp: new Date().toISOString(),
+                answers: connections,
+                totalQuestions: 10,
+                completed: true
+            };
+
+            // Save to localStorage for teacher dashboard and Netlify Forms
+            let submissions = JSON.parse(localStorage.getItem('examSubmissions')) || [];
+            submissions.push(submission);
+            localStorage.setItem('examSubmissions', JSON.stringify(submissions));
+
+            // Also submit to Netlify Forms for backup
+            submitToNetlifyForms(submission);
+
+            alert('Exam submitted successfully! Thank you.');
+            // Redirect back to login
+            location.reload();
+        });
+
+        function submitToNetlifyForms(submission) {
+            // Create a hidden form for Netlify Forms submission
+            const form = document.createElement('form');
+            form.style.display = 'none';
+            form.setAttribute('name', 'exam-submissions');
+            form.setAttribute('data-netlify', 'true');
+            
+            // Add form fields
+            const fields = {
+                'student-name': submission.studentName,
+                'timestamp': submission.timestamp,
+                'exam-data': JSON.stringify(submission),
+                'score': calculateSubmissionScore(submission)
+            };
+            
+            Object.keys(fields).forEach(fieldName => {
+                const input = document.createElement('input');
+                input.setAttribute('name', fieldName);
+                input.setAttribute('value', fields[fieldName]);
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            
+            // Submit the form
+            fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(new FormData(form)).toString()
+            }).catch(error => {
+                console.log('Netlify form submission failed (this is normal in development):', error);
+            });
+            
+            // Clean up
+            document.body.removeChild(form);
+        }
+
+        function calculateSubmissionScore(submission) {
+            const correctAnswers = {
+                1: "🍎", 2: "🐱", 3: "📚", 4: "🚗", 5: "🌸",
+                6: "⚽", 7: "🌳", 8: "🏠", 9: "🐦", 10: "🐟"
+            };
+            
+            let score = 0;
+            submission.answers.forEach(answer => {
+                if (correctAnswers[answer.number] === answer.image) {
+                    score++;
+                }
+            });
+            return `${score}/10`;
+        }
+
+        function updateProgress() {
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            const progress = ((currentQuestionIndex + 1) / 10) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+    </script>
+</body>
+</html>
