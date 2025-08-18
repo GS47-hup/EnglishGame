@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Review Game - Welcome</title>
+    <title>English Olympiad 2025 - Sponsor Presentations</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -23,7 +23,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             text-align: center;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             animation: fadeInUp 1s ease-out;
             margin: 1rem;
@@ -35,43 +35,60 @@
                 margin: 0;
             }
         }
-        .access-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .presentation-btn {
             border: none;
-            border-radius: 50px;
+            border-radius: 15px;
             color: white;
             font-size: 1rem;
             font-weight: bold;
-            padding: 0.8rem 1.5rem;
-            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: block;
             touch-action: manipulation;
-            min-height: 48px;
+            min-height: 60px;
             width: 100%;
-            max-width: 280px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1rem;
         }
         
         @media (min-width: 640px) {
-            .access-btn {
+            .presentation-btn {
                 font-size: 1.2rem;
-                padding: 1rem 2rem;
-                margin-top: 2rem;
-                width: auto;
-                max-width: none;
+                padding: 1.2rem 2rem;
+                margin: 0.75rem auto;
+                max-width: 450px;
             }
         }
-        .access-btn:hover {
+        
+        .english-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .arabic-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .presentation-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
-        .welcome-icon {
+        
+        .arabic-btn:hover {
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+        
+        .olympiad-icon {
             font-size: 4rem;
             color: #667eea;
             margin-bottom: 1rem;
         }
+        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -82,35 +99,66 @@
                 transform: translateY(0);
             }
         }
+        
         .subtitle {
             color: #6b7280;
             font-size: 1.1rem;
             margin: 1rem 0;
         }
+        
         .title {
             color: #1f2937;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+        }
+        
+        @media (min-width: 640px) {
+            .title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .language-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
 <body>
     <div class="welcome-card">
-        <div class="welcome-icon">
-            <i class="fas fa-graduation-cap"></i>
+        <div class="olympiad-icon">
+            <i class="fas fa-trophy"></i>
         </div>
-        <h1 class="title">Welcome!</h1>
-        <p class="subtitle">Hello! Ready to start your English learning journey?</p>
-        <p class="text-gray-600">Click the button below to access the digital listening exam</p>
+        <h1 class="title">English Olympiad 2025</h1>
+        <p class="subtitle">Official Sponsor Presentations</p>
+        <p class="text-gray-600 mb-8">Choose your preferred language to view the presentation</p>
         
-        <a href="listening-exam.html" class="access-btn">
-            <i class="fas fa-headphones mr-2"></i>
-            Digital Listening Exam
-        </a>
+        <div class="space-y-4">
+            <a href="english-olympiad-sponsor-presentation.html" class="presentation-btn english-btn">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-globe-americas mr-3 text-xl"></i>
+                    <div>
+                        <div>English Presentation</div>
+                        <div class="language-label">View in English</div>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="english-olympiad-sponsor-presentation-arabic.html" class="presentation-btn arabic-btn">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-globe mr-3 text-xl"></i>
+                    <div>
+                        <div>العرض باللغة العربية</div>
+                        <div class="language-label">View in Arabic</div>
+                    </div>
+                </div>
+            </a>
+        </div>
         
-        <div class="mt-6 text-sm text-gray-500">
-            <p>🎧 Audio-Based Assessment • 🎯 Progress Tracking • 📊 Real-Time Results</p>
+        <div class="mt-8 text-sm text-gray-500">
+            <p>🏆 Official English Olympiad Sponsorship Information</p>
         </div>
     </div>
 </body>
