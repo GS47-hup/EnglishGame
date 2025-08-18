@@ -8,8 +8,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background-color: #f0f9ff;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Mobile-first font sizes */
+        @media (max-width: 640px) {
+            body {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
         }
         .login-container {
             min-height: 100vh;
@@ -19,9 +28,15 @@
         }
         .exam-container {
             display: none;
-            padding: 20px;
+            padding: 10px;
             max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        @media (min-width: 640px) {
+            .exam-container {
+                padding: 20px;
+            }
         }
         .exam-container.active {
             display: block;
@@ -29,30 +44,47 @@
         .numbers-column {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .images-column {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 640px) {
+            .numbers-column,
+            .images-column {
+                padding: 20px;
+            }
         }
         .number-item {
             background: #3b82f6;
             color: white;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
+            touch-action: manipulation; /* Better touch response */
+            user-select: none; /* Prevent text selection on touch */
+        }
+        
+        @media (min-width: 640px) {
+            .number-item {
+                width: 50px;
+                height: 50px;
+                margin: 10px 0;
+            }
         }
         .number-item:hover {
             background: #2563eb;
@@ -66,16 +98,27 @@
             background: #f3f4f6;
             border: 3px solid #e5e7eb;
             border-radius: 10px;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            margin: 10px;
+            font-size: 2rem;
+            margin: 8px;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
+            touch-action: manipulation;
+            user-select: none;
+        }
+        
+        @media (min-width: 640px) {
+            .image-item {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+                margin: 10px;
+            }
         }
         .image-item:hover {
             border-color: #3b82f6;
@@ -98,12 +141,22 @@
             color: white;
             border: none;
             border-radius: 25px;
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 24px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            margin: 20px 0;
+            margin: 15px 0;
+            touch-action: manipulation;
+            min-height: 48px; /* Minimum touch target size */
+        }
+        
+        @media (min-width: 640px) {
+            .audio-control {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+                margin: 20px 0;
+            }
         }
         .audio-control:hover {
             background: #059669;
@@ -189,7 +242,7 @@
             <p class="text-sm text-gray-600 mt-2">Listen carefully and connect the number to the correct image</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
             <!-- Numbers Column -->
             <div class="numbers-column">
                 <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Numbers</h2>
@@ -201,17 +254,17 @@
             <!-- Images Column -->
             <div class="images-column">
                 <h2 class="text-xl font-bold text-gray-800 mb-4 text-center">Images</h2>
-                <div id="imagesContainer" class="grid grid-cols-5 gap-2 justify-items-center">
+                <div id="imagesContainer" class="grid grid-cols-4 sm:grid-cols-5 gap-2 justify-items-center">
                     <!-- Images will be generated here -->
                 </div>
             </div>
         </div>
 
-        <div class="text-center mt-8">
-            <button id="nextQuestion" class="bg-green-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors mr-4" style="display: none;">
+        <div class="text-center mt-6 px-4">
+            <button id="nextQuestion" class="bg-green-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-600 transition-colors mb-2 w-full sm:w-auto sm:mr-4" style="display: none;">
                 Next Question <i class="fas fa-arrow-right ml-2"></i>
             </button>
-            <button id="submitExam" class="bg-red-500 text-white px-8 py-3 rounded-lg font-bold hover:bg-red-600 transition-colors" style="display: none;">
+            <button id="submitExam" class="bg-red-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-red-600 transition-colors w-full sm:w-auto" style="display: none;">
                 <i class="fas fa-paper-plane mr-2"></i>Submit Exam
             </button>
         </div>
@@ -305,7 +358,14 @@
 
         function connectToImage(image, element) {
             if (!selectedNumber) {
-                alert('Please select a number first!');
+                // Mobile-friendly feedback
+                const isMobile = window.innerWidth < 640;
+                if (isMobile) {
+                    // Show toast-style message for mobile
+                    showMobileToast('Please select a number first!');
+                } else {
+                    alert('Please select a number first!');
+                }
                 return;
             }
 
@@ -323,8 +383,11 @@
                 questionIndex: currentQuestionIndex
             });
 
-            // Visual feedback
+            // Visual feedback with haptic feedback on mobile
             element.classList.add('connected');
+            if (navigator.vibrate) {
+                navigator.vibrate(50); // Short vibration for feedback
+            }
             drawConnectionLine(selectedNumber, element);
 
             // Clear selection
@@ -339,6 +402,17 @@
             } else {
                 document.getElementById('submitExam').style.display = 'inline-block';
             }
+        }
+
+        function showMobileToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-4 left-4 right-4 bg-red-500 text-white px-4 py-3 rounded-lg shadow-lg z-50 text-center';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
         }
 
         function removeConnection(number) {
