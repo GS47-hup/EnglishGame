@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Olympiad 2025 - Official Sponsor Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .lang-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+        }
+
+        .lang-btn:not(.active) {
+            background: transparent;
+            color: #333;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .organizer-credit {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .event-details {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid #dee2e6;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            text-align: center;
+        }
+
+        .agenda-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .agenda-table th, .agenda-table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .agenda-table th {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .agenda-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .agenda-table tr:hover {
+            background-color: #e3f2fd;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .time-column { 
+            width: 15%; 
+            font-weight: bold; 
+            color: #e74c3c;
+            font-size: 1.05em;
+        }
+        .activity-column { 
+            width: 35%; 
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .participants-column { 
+            width: 25%;
+            color: #5a6c7d;
+        }
+        .details-column { 
+            width: 25%; 
+            font-style: italic; 
+            color: #666;
+        }
+
+        .key-info {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .key-info h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .key-info p {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .sponsor-highlight {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .sponsor-highlight h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .sponsors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .sponsor-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .impact-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .metric-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+
+        .contact-section {
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .contact-section h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .competition-structure {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .round-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .round-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .round-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .olympic-traditions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tradition-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .tradition-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #d63031;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .logo { font-size: 2.5em; }
+            .subtitle { font-size: 1.1em; }
+            .agenda-table { font-size: 0.9em; }
+            .agenda-table th, .agenda-table td { padding: 10px; }
+            .impact-metrics { grid-template-columns: 1fr; }
+            .sponsors-grid { grid-template-columns: 1fr; }
+        }
+
+        .print-styles {
+            display: none;
+        }
+
+        @media print {
+            body { background: white !important; }
+            .language-switcher { display: none; }
+            .content-section { box-shadow: none; border: 1px solid #ccc; }
+            .agenda-table { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="language-switcher">
+        <a href="english-olympiad-sponsor-presentation.html" class="lang-btn active">English</a>
+        <a href="english-olympiad-sponsor-presentation-arabic.html" class="lang-btn">العربية</a>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">🏆 English Olympiad 2025</div>
+            <div class="subtitle">World's First Comprehensive English Language Competition for Second Language Speakers</div>
+            <div class="organizer-credit">Organized by Youlearnt - SpokenEnglish Academy Program</div>
+            
+            <div class="event-details">
+                <div class="impact-metrics">
+                    <div class="metric-card">
+                        <span class="metric-number">📅</span>
+                        <div class="metric-label">September 16, 2025</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">📍</span>
+                        <div class="metric-label">منتزه الخمس العائلي<br>Al Khums Family Park</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">500+</span>
+                        <div class="metric-label">Student Competitors</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">1,100+</span>
+                        <div class="metric-label">Total Attendees</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-section">
+            <h2 class="section-header">🗓️ Official Event Agenda</h2>
+            
+            <div class="key-info">
+                <h3>🎯 Strategic Event Overview:</h3>
+                <p>✅ <strong>Youlearnt</strong> is the primary organizer with <strong>SpokenEnglish Academy Program</strong> as event leader</p>
+                <p>✅ <strong>World's First</strong> English Language Olympiad for second language learners</p>
+                <p>✅ <strong>Live TV Coverage</strong> with professional media documentation</p>
+                <p>✅ <strong>Major Prize Pool</strong> with substantial rewards for champions</p>
+            </div>
+
+            <table class="agenda-table">
+                <thead>
+                    <tr>
+                        <th class="time-column">Time</th>
+                        <th class="activity-column">Event Activity</th>
+                        <th class="participants-column">Participants</th>
+                        <th class="details-column">Details & Highlights</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time-column">7:30 - 8:00 AM</td>
+                        <td class="activity-column">🚌 Grand Arrival & Registration</td>
+                        <td class="participants-column">500 Students<br>600 Parents<br>50+ Staff</td>
+                        <td class="details-column">Branded ID cards, welcome breakfast, professional registration process</td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">8:00 - 8:30 AM</td>
+                        <td class="activity-column">🎭 Olympic Opening Ceremony</td>
+                        <td class="participants-column">All 1,100+ Attendees</td>
+                        <td class="details-column"><strong>Olympic flame lighting, parade of teams, English pledge ceremony</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">8:30 - 8:45 AM</td>
+                        <td class="activity-column">📋 Team Assembly & Strategy</td>
+                        <td class="participants-column">500 Students<br>50+ Teachers</td>
+                        <td class="details-column">8 competitive teams, ~15 students each, professional team leadership</td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">9:00 - 10:30 AM</td>
+                        <td class="activity-column">🎧 <strong>ROUND 1: Listening Olympics</strong></td>
+                        <td class="participants-column">All 500 Students</td>
+                        <td class="details-column">4 simultaneous competition zones, comprehensive listening assessment</td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">10:30 - 11:00 AM</td>
+                        <td class="activity-column">☕ Sponsor Recognition Break</td>
+                        <td class="participants-column">All Attendees</td>
+                        <td class="details-column"><strong>Sponsor presentations, refreshments, Round 1 results announcement</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">11:00 - 12:30 PM</td>
+                        <td class="activity-column">🗣️ <strong>ROUND 2: Speaking Olympics</strong></td>
+                        <td class="participants-column">~250 Qualifying Students</td>
+                        <td class="details-column">Advanced communication challenges, interactive team competitions</td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">12:30 - 1:30 PM</td>
+                        <td class="activity-column">🍽️ Sponsored Lunch Celebration</td>
+                        <td class="participants-column">All 1,100+ Attendees</td>
+                        <td class="details-column"><strong>Sponsor networking, media interviews, family engagement activities</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">1:30 - 3:00 PM</td>
+                        <td class="activity-column">📖 <strong>ROUND 3: Reading Olympics</strong></td>
+                        <td class="participants-column">~125 Semi-Finalists</td>
+                        <td class="details-column">Advanced language integration, comprehensive skill assessment</td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">3:00 - 3:30 PM</td>
+                        <td class="activity-column">🎯 Sponsor Spotlight Break</td>
+                        <td class="participants-column">All Attendees</td>
+                        <td class="details-column"><strong>Sponsor recognition, finalist announcements, building anticipation</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">3:30 - 5:00 PM</td>
+                        <td class="activity-column">🏆 <strong>GRAND FINALE: Championship Round</strong></td>
+                        <td class="participants-column">~50 Elite Finalists</td>
+                        <td class="details-column"><strong>MAIN STAGE - Complete English mastery demonstration</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">5:00 - 6:00 PM</td>
+                        <td class="activity-column">🥇 Victory Ceremony & Awards</td>
+                        <td class="participants-column">All Attendees</td>
+                        <td class="details-column"><strong>Gold medals, major prizes, champion recognition</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="time-column">6:00 - 6:30 PM</td>
+                        <td class="activity-column">📸 Media Conference & Celebrations</td>
+                        <td class="participants-column">Winners, Sponsors, Organizers</td>
+                        <td class="details-column"><strong>Press conference, sponsor recognition, social media content creation</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sponsor-highlight">
+                <h3>🤝 Partnership Opportunities Throughout the Event</h3>
+                <div class="sponsors-grid">
+                    <div class="sponsor-card">🎭 Ceremony Branding</div>
+                    <div class="sponsor-card">🍽️ Meal Sponsorship</div>
+                    <div class="sponsor-card">🏆 Award Presentations</div>
+                    <div class="sponsor-card">📺 Media Recognition</div>
+                    <div class="sponsor-card">🎯 Competition Naming</div>
+                    <div class="sponsor-card">🎪 Venue Branding</div>
+                </div>
+            </div>
+
+            <div class="key-info">
+                <h3>📺 Comprehensive Media Coverage Strategy:</h3>
+                <p>• <strong>Live Television Broadcast:</strong> Full-day coverage with local TV partner</p>
+                <p>• <strong>Social Media Integration:</strong> Real-time updates, winner interviews, behind-the-scenes content</p>
+                <p>• <strong>Professional Documentation:</strong> High-quality photography & videography for future marketing</p>
+                <p>• <strong>Press Conference:</strong> Post-event media briefing featuring sponsors, winners, and organizers</p>
+                <p>• <strong>Digital Reach:</strong> Multi-platform content distribution maximizing sponsor visibility</p>
+            </div>
+
+            <h2 class="section-header">🏗️ Progressive Competition Structure</h2>
+            
+            <div class="competition-structure">
+                <div class="round-card">
+                    <div class="round-title">🎧 ROUND 1</div>
+                    <h3>Listening Foundation</h3>
+                    <p><strong>All 500 Students</strong></p>
+                    <p>4 Competition Zones</p>
+                    <p>~125 Students per zone</p>
+                    <p>Pure listening comprehension</p>
+                    <p><strong>Advance: ~250 Students</strong></p>
+                </div>
+                
+                <div class="round-card">
+                    <div class="round-title">🗣️ ROUND 2</div>
+                    <h3>Listening + Speaking</h3>
+                    <p><strong>~250 Students</strong></p>
+                    <p>2 Competition Zones</p>
+                    <p>Blindfolded Maze Game</p>
+                    <p>Instruction giving & following</p>
+                    <p><strong>Advance: ~125 Students</strong></p>
+                </div>
+                
+                <div class="round-card">
+                    <div class="round-title">📖 ROUND 3</div>
+                    <h3>Listen + Speak + Read</h3>
+                    <p><strong>~125 Students</strong></p>
+                    <p>1 Main Competition Area</p>
+                    <p>Advanced integration challenges</p>
+                    <p>Reading comprehension + oral response</p>
+                    <p><strong>Advance: ~50 Students</strong></p>
+                </div>
+                
+                <div class="round-card">
+                    <div class="round-title">🏆 ROUND 4</div>
+                    <h3>All Skills Championship</h3>
+                    <p><strong>~50 Finalist Students</strong></p>
+                    <p>MAIN STAGE Performance</p>
+                    <p>Listen, Speak, Read, Write</p>
+                    <p>Complete language mastery</p>
+                    <p><strong>CHAMPIONS CROWNED</strong></p>
+                </div>
+            </div>
+
+            <div class="key-info">
+                <h3>🎯 Team Organization Structure</h3>
+                <p><strong>12-16 Teams Total:</strong></p>
+                <ul>
+                    <li>Each teacher selects: 1 Primary Group + 1 Middle/High School Group</li>
+                    <li>Team sizes: 8-15 students (varying sizes - need fairness solution)</li>
+                    <li>Teacher serves as team leader and mentor</li>
+                    <li>Mixed age groups within teams for peer learning</li>
+                </ul>
+            </div>
+
+            <h2 class="section-header">🔥 Olympic Traditions Integration</h2>
+            
+            <div class="olympic-traditions">
+                <div class="tradition-card">
+                    <div class="tradition-title">🔥 The English Learning Flame</div>
+                    <p><strong>Opening Ceremony:</strong></p>
+                    <ul>
+                        <li>Top student from each branch carries flame segment</li>
+                        <li>Three flames unite to create main English Olympiad flame</li>
+                        <li>Flame stays lit throughout entire competition</li>
+                        <li>Symbolic of knowledge, passion, and unity</li>
+                    </ul>
+                </div>
+
+                <div class="tradition-card">
+                    <div class="tradition-title">🎭 Olympic Ceremonies</div>
+                    <p><strong>Opening Ceremony:</strong></p>
+                    <ul>
+                        <li>Parade of teams with academy flags</li>
+                        <li>English Olympic oath by competitors</li>
+                        <li>Youlearnt - SpokenEnglish Academy program anthem in English</li>
+                        <li>Introduction of judges and sponsors</li>
+                    </ul>
+                    
+                    <p><strong>Closing Ceremony:</strong></p>
+                    <ul>
+                        <li>Victory podium with gold, silver, bronze</li>
+                        <li>Flag raising for winning teams</li>
+                        <li>Medal ceremonies with English academy anthem</li>
+                        <li>Extinguishing of the Olympic flame</li>
+                    </ul>
+                </div>
+
+                <div class="tradition-card">
+                    <div class="tradition-title">🏅 Olympic Symbolism</div>
+                    <p><strong>Five Rings = Five English Skills:</strong></p>
+                    <ul>
+                        <li>🎧 <strong>Blue Ring:</strong> Listening</li>
+                        <li>🗣️ <strong>Yellow Ring:</strong> Speaking</li>
+                        <li>📖 <strong>Black Ring:</strong> Reading</li>
+                        <li>✍️ <strong>Green Ring:</strong> Writing</li>
+                        <li>📚 <strong>Red Ring:</strong> Grammar</li>
+                    </ul>
+                    
+                    <p><strong>Olympic Village Areas:</strong></p>
+                    <ul>
+                        <li>Team preparation zones</li>
+                        <li>Warm-up areas for practice</li>
+                        <li>Relaxation spaces</li>
+                        <li>Media interview zones</li>
+                    </ul>
+                </div>
+
+                <div class="tradition-card">
+                    <div class="tradition-title">🏃 Torch Relay Elements</div>
+                    <p><strong>Between Competition Areas:</strong></p>
+                    <ul>
+                        <li>Mini torches carried between rounds</li>
+                        <li>Student torch bearers for each transition</li>
+                        <li>Ceremonial lighting of competition zone flames</li>
+                        <li>Symbolic passage of knowledge</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="impact-metrics">
+                <div class="metric-card">
+                    <span class="metric-number">10+</span>
+                    <div class="metric-label">Hours Live Coverage</div>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">4</span>
+                    <div class="metric-label">Competition Rounds</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="contact-section">
+            <h3>📞 Partnership & Sponsorship Inquiries</h3>
+            <div class="contact-info">
+                <strong>Youlearnt - SpokenEnglish Academy Program</strong><br>
+                Primary Event Organizer & Strategic Partner<br><br>
+                <strong>Location:</strong> Al Khums, Libya
+            </div>
+        </div>
+    </div>
+</body>
+</html>
