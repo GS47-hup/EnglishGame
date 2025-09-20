@@ -547,6 +547,8 @@
                         </div>
                         ` : ''}
 
+                        ${generatePlacementAnswerGrid(submission)}
+
                         <div class="mt-4 flex flex-wrap gap-2">
                             <button onclick="showPlacementDetails('${submission.id}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
                                 <i class="fas fa-eye mr-1"></i>View Details
@@ -560,6 +562,64 @@
             placementResultsContainer.innerHTML = resultsHTML;
         }
 
+        function generatePlacementAnswerGrid(submission) {
+            // Correct answers for placement test
+            const correctAnswers = {
+                // Level 3 Assessment (Questions 1-24)
+                'question_1': 'a', 'question_2': 'b', 'question_3': 'a', 'question_4': 'b', 'question_5': 'a',
+                'question_7': 'c', 'question_8': 'b', 'question_9': 'a', 'question_10': 'c', 'question_11': 'a',
+                'question_12': 'c', 'question_13': 'b', 'question_14': 'a', 'question_15': 'b', 'question_16': 'b',
+                'question_17': 'c', 'question_18': 'a', 'question_19': 'a', 'question_20': 'b', 'question_21': 'a',
+                'question_22': 'b', 'question_23': 'b', 'question_24': 'a',
+
+                // Level 4 Assessment (Questions 25-49)
+                'question_25': 'b', 'question_26': 'a', 'question_27': 'c', 'question_28': 'b', 'question_29': 'a',
+                'question_30': 'c', 'question_31': 'b', 'question_32': 'c', 'question_33': 'b', 'question_34': 'a',
+                'question_35': 'a', 'question_36': 'b', 'question_37': 'c', 'question_38': 'b', 'question_39': 'b',
+                'question_40': 'b', 'question_41': 'a', 'question_42': 'b', 'question_43': 'a', 'question_44': 'a',
+                'question_45': 'b', 'question_46': 'b', 'question_47': 'c', 'question_48': 'a', 'question_49': 'a'
+            };
+
+            let gridHTML = `
+                <div style="margin-top: 15px;">
+                    <h4 style="font-weight: bold; margin-bottom: 10px; color: #374151;">Question Analysis (1-49):</h4>
+                    <div class="answer-grid">
+            `;
+
+            for (let i = 1; i <= 49; i++) {
+                const studentAnswer = submission.answers[`question_${i}`];
+                const correctAnswer = correctAnswers[`question_${i}`];
+
+                let cellClass = 'answer-item';
+                let cellContent = i;
+
+                if (!studentAnswer) {
+                    cellClass += ' answer-missing';
+                    cellContent = `${i}<br><small>No Answer</small>`;
+                } else if (studentAnswer === correctAnswer) {
+                    cellClass += ' answer-correct';
+                    cellContent = `${i}<br><small>✓ ${studentAnswer.toUpperCase()}</small>`;
+                } else {
+                    cellClass += ' answer-incorrect';
+                    cellContent = `${i}<br><small>✗ ${studentAnswer.toUpperCase()}</small>`;
+                }
+
+                gridHTML += `<div class="${cellClass}">${cellContent}</div>`;
+            }
+
+            gridHTML += `
+                    </div>
+                    <div style="margin-top: 10px; font-size: 12px; color: #6b7280;">
+                        <span style="background: #ecfdf5; padding: 2px 6px; border-radius: 3px; margin-right: 8px;">✓ Correct</span>
+                        <span style="background: #fef2f2; padding: 2px 6px; border-radius: 3px; margin-right: 8px;">✗ Incorrect</span>
+                        <span style="background: #fefce8; padding: 2px 6px; border-radius: 3px;">⚪ No Answer</span>
+                    </div>
+                </div>
+            `;
+
+            return gridHTML;
+        }
+
         function showPlacementDetails(submissionId) {
             const submission = placementSubmissions.find(sub => sub.id == submissionId);
             if (!submission) {
@@ -567,37 +627,94 @@
                 return;
             }
 
-            let details = `Placement Test Details for ${submission.studentName}\n`;
-            details += `========================================\n`;
-            details += `Submission Time: ${new Date(submission.timestamp).toLocaleString()}\n`;
-            details += `Completion Time: ${submission.completionTime}\n`;
-            details += `Total Score: ${submission.totalScore}/49 (${((submission.totalScore / 49) * 100).toFixed(1)}%)\n`;
-            details += `Level 3 Score: ${submission.level3Score}/24 (${((submission.level3Score / 24) * 100).toFixed(1)}%)\n`;
-            details += `Level 4 Score: ${submission.level4Score}/25 (${((submission.level4Score / 25) * 100).toFixed(1)}%)\n`;
-            details += `Placement Level: ${submission.placementLevel}\n`;
-            details += `Recommendation: ${submission.recommendation}\n\n`;
+            // Correct answers for placement test
+            const correctAnswers = {
+                // Level 3 Assessment (Questions 1-24)
+                'question_1': 'a', 'question_2': 'b', 'question_3': 'a', 'question_4': 'b', 'question_5': 'a',
+                'question_7': 'c', 'question_8': 'b', 'question_9': 'a', 'question_10': 'c', 'question_11': 'a',
+                'question_12': 'c', 'question_13': 'b', 'question_14': 'a', 'question_15': 'b', 'question_16': 'b',
+                'question_17': 'c', 'question_18': 'a', 'question_19': 'a', 'question_20': 'b', 'question_21': 'a',
+                'question_22': 'b', 'question_23': 'b', 'question_24': 'a',
+
+                // Level 4 Assessment (Questions 25-49)
+                'question_25': 'b', 'question_26': 'a', 'question_27': 'c', 'question_28': 'b', 'question_29': 'a',
+                'question_30': 'c', 'question_31': 'b', 'question_32': 'c', 'question_33': 'b', 'question_34': 'a',
+                'question_35': 'a', 'question_36': 'b', 'question_37': 'c', 'question_38': 'b', 'question_39': 'b',
+                'question_40': 'b', 'question_41': 'a', 'question_42': 'b', 'question_43': 'a', 'question_44': 'a',
+                'question_45': 'b', 'question_46': 'b', 'question_47': 'c', 'question_48': 'a', 'question_49': 'a'
+            };
+
+            let details = `📋 PLACEMENT TEST ANALYSIS: ${submission.studentName}\n`;
+            details += `================================================================\n`;
+            details += `📅 Submission: ${new Date(submission.timestamp).toLocaleString()}\n`;
+            details += `⏱️ Time Taken: ${submission.completionTime}\n`;
+            details += `📊 Overall Score: ${submission.totalScore}/49 (${((submission.totalScore / 49) * 100).toFixed(1)}%)\n`;
+            details += `📚 Level 3 Score: ${submission.level3Score}/24 (${((submission.level3Score / 24) * 100).toFixed(1)}%)\n`;
+            details += `🚀 Level 4 Score: ${submission.level4Score}/25 (${((submission.level4Score / 25) * 100).toFixed(1)}%)\n`;
+            details += `🎯 Placement: ${submission.placementLevel}\n`;
+            details += `💡 Recommendation: ${submission.recommendation}\n\n`;
 
             if (submission.writingContent) {
-                details += `Writing Task (${submission.writingTask}):\n`;
+                details += `✍️ WRITING TASK (${submission.writingTask}):\n`;
+                details += `${'-'.repeat(40)}\n`;
                 details += `${submission.writingContent}\n\n`;
             }
 
-            details += `Detailed Answers:\n`;
-            details += `================\n`;
+            details += `📝 DETAILED QUESTION ANALYSIS:\n`;
+            details += `================================================================\n`;
 
-            // Show first few answers as example
-            for (let i = 1; i <= Math.min(10, 49); i++) {
-                const answer = submission.answers[`question_${i}`];
-                if (answer) {
-                    details += `Q${i}: ${answer}\n`;
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+
+            // Level 3 Questions (1-24)
+            details += `\n📚 LEVEL 3 QUESTIONS (1-24):\n`;
+            details += `${'-'.repeat(40)}\n`;
+            for (let i = 1; i <= 24; i++) {
+                const studentAnswer = submission.answers[`question_${i}`];
+                const correctAnswer = correctAnswers[`question_${i}`];
+
+                if (!studentAnswer) {
+                    details += `Q${i.toString().padStart(2, '0')}: ❌ NO ANSWER (Correct: ${correctAnswer})\n`;
+                    unansweredCount++;
+                } else if (studentAnswer === correctAnswer) {
+                    details += `Q${i.toString().padStart(2, '0')}: ✅ ${studentAnswer.toUpperCase()} (CORRECT)\n`;
+                    correctCount++;
                 } else {
-                    details += `Q${i}: No answer\n`;
+                    details += `Q${i.toString().padStart(2, '0')}: ❌ ${studentAnswer.toUpperCase()} (Correct: ${correctAnswer})\n`;
+                    incorrectCount++;
                 }
             }
 
-            if (Object.keys(submission.answers).length > 10) {
-                details += `... and ${Object.keys(submission.answers).length - 10} more answers\n`;
+            // Level 4 Questions (25-49)
+            details += `\n🚀 LEVEL 4 QUESTIONS (25-49):\n`;
+            details += `${'-'.repeat(40)}\n`;
+            for (let i = 25; i <= 49; i++) {
+                const studentAnswer = submission.answers[`question_${i}`];
+                const correctAnswer = correctAnswers[`question_${i}`];
+
+                if (!studentAnswer) {
+                    details += `Q${i.toString().padStart(2, '0')}: ❌ NO ANSWER (Correct: ${correctAnswer})\n`;
+                    unansweredCount++;
+                } else if (studentAnswer === correctAnswer) {
+                    details += `Q${i.toString().padStart(2, '0')}: ✅ ${studentAnswer.toUpperCase()} (CORRECT)\n`;
+                    correctCount++;
+                } else {
+                    details += `Q${i.toString().padStart(2, '0')}: ❌ ${studentAnswer.toUpperCase()} (Correct: ${correctAnswer})\n`;
+                    incorrectCount++;
+                }
             }
+
+            // Question 6 (text answer)
+            if (submission.answers.question_6_text) {
+                details += `\nQ06 (Text): "${submission.answers.question_6_text}"\n`;
+            }
+
+            details += `\n📊 SUMMARY STATISTICS:\n`;
+            details += `================================================================\n`;
+            details += `✅ Correct Answers: ${correctCount}/49 (${((correctCount / 49) * 100).toFixed(1)}%)\n`;
+            details += `❌ Incorrect Answers: ${incorrectCount}/49 (${((incorrectCount / 49) * 100).toFixed(1)}%)\n`;
+            details += `⚪ Unanswered: ${unansweredCount}/49 (${((unansweredCount / 49) * 100).toFixed(1)}%)\n`;
 
             alert(details);
         }
