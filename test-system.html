@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test System - 3 Question Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 90%;
+            max-width: 800px;
+            margin: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4facfe;
+        }
+
+        .question-number {
+            color: #4facfe;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+
+        .option.selected {
+            border-color: #4facfe;
+            background: #e3f2fd;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #4facfe;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 15px;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .question {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-flask mr-3"></i>Test System Demo</h1>
+            <p>3-Question Test to Verify System Functionality</p>
+        </div>
+
+        <div class="content">
+            <form id="testForm">
+                <!-- Question 1: Name -->
+                <div class="question">
+                    <div class="question-number">Question 1:</div>
+                    <div class="question-text">What is your name?</div>
+                    <input type="text" class="text-input" name="q1" placeholder="Enter your full name here..." required>
+                </div>
+
+                <!-- Question 2: Simple Math -->
+                <div class="question">
+                    <div class="question-number">Question 2:</div>
+                    <div class="question-text">What is 2 + 2?</div>
+                    <div class="options">
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q2" value="a" required> a) 53
+                        </label>
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q2" value="b" required> b) 22
+                        </label>
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q2" value="c" required> c) 4
+                        </label>
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q2" value="d" required> d) -235234
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 3: Quantum Physics -->
+                <div class="question">
+                    <div class="question-number">Question 3:</div>
+                    <div class="question-text">
+                        In quantum field theory, what is the commutation relation [x̂, p̂] for position and momentum operators in the canonical quantization scheme, given ℏ (reduced Planck constant)?
+                    </div>
+                    <div class="options">
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q3" value="a" required> a) [x̂, p̂] = ℏ
+                        </label>
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q3" value="b" required> b) [x̂, p̂] = iℏ
+                        </label>
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q3" value="c" required> c) [x̂, p̂] = -iℏ
+                        </label>
+                        <label class="option" onclick="selectOption(this)">
+                            <input type="radio" name="q3" value="d" required> d) [x̂, p̂] = 2πℏ
+                        </label>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-check mr-2"></i>Submit Test
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Section -->
+            <div id="resultSection" class="result-section">
+                <div class="score" id="scoreDisplay">Score: 0/3</div>
+                <div id="resultDetails"></div>
+
+                <div class="back-link">
+                    <a href="Complete_Level_3_4_Digital_Placement_Test.html">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Placement Test
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Correct answers
+        const correctAnswers = {
+            q2: 'c',  // 2 + 2 = 4
+            q3: 'b'   // [x̂, p̂] = iℏ in quantum mechanics
+        };
+
+        // Select option functionality
+        function selectOption(element) {
+            // Remove selected class from all options in the same question
+            const questionDiv = element.closest('.question');
+            const options = questionDiv.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            // Add selected class to clicked option
+            element.classList.add('selected');
+        }
+
+        // Form submission
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get answers
+            const formData = new FormData(this);
+            const answers = {
+                q1: formData.get('q1'),
+                q2: formData.get('q2'),
+                q3: formData.get('q3')
+            };
+
+            // Calculate score
+            let score = 0;
+            let resultDetails = '<div style="text-align: left; margin-top: 20px;">';
+
+            // Question 1 (Name) - always correct if filled
+            if (answers.q1 && answers.q1.trim()) {
+                score++;
+                resultDetails += '<p><strong>Q1 (Name):</strong> ✅ Answered</p>';
+            } else {
+                resultDetails += '<p><strong>Q1 (Name):</strong> ❌ Not answered</p>';
+            }
+
+            // Question 2 (Math)
+            if (answers.q2 === correctAnswers.q2) {
+                score++;
+                resultDetails += '<p><strong>Q2 (2+2):</strong> ✅ Correct (c) 4</p>';
+            } else {
+                resultDetails += `<p><strong>Q2 (2+2):</strong> ❌ Wrong (${answers.q2 || 'no answer'}) - Correct: c) 4</p>`;
+            }
+
+            // Question 3 (Quantum Physics)
+            if (answers.q3 === correctAnswers.q3) {
+                score++;
+                resultDetails += '<p><strong>Q3 (Quantum):</strong> ✅ Correct (b) [x̂, p̂] = iℏ</p>';
+            } else {
+                resultDetails += `<p><strong>Q3 (Quantum):</strong> ❌ Wrong (${answers.q3 || 'no answer'}) - Correct: b) [x̂, p̂] = iℏ</p>`;
+            }
+
+            resultDetails += '</div>';
+
+            // Show results
+            document.getElementById('scoreDisplay').textContent = `Score: ${score}/3 (${((score/3)*100).toFixed(1)}%)`;
+            document.getElementById('resultDetails').innerHTML = resultDetails;
+
+            // Hide form and show results
+            document.getElementById('testForm').style.display = 'none';
+            document.getElementById('resultSection').classList.add('show');
+
+            // Submit to database (same as placement test)
+            const submissionData = {
+                student_name: answers.q1 || 'Anonymous',
+                student_password: 'test-system',
+                start_time: new Date().toISOString(),
+                end_time: new Date().toISOString(),
+                completion_time: '00:02:30', // Estimated time
+                answers: answers,
+                questions_answered: Object.keys(answers).filter(key => answers[key]).length,
+                score: score,
+                total_questions: 3,
+                submission_timestamp: new Date().toISOString()
+            };
+
+            // Submit to test system database endpoint
+            fetch('/.netlify/functions/submit-test-system', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submissionData)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Test System Submission Result:', result);
+                if (result.success) {
+                    // Add submission confirmation to results
+                    const confirmationDiv = document.createElement('div');
+                    confirmationDiv.style.marginTop = '20px';
+                    confirmationDiv.style.padding = '15px';
+                    confirmationDiv.style.backgroundColor = '#d4edda';
+                    confirmationDiv.style.borderRadius = '10px';
+                    confirmationDiv.style.border = '1px solid #c3e6cb';
+                    confirmationDiv.innerHTML = `
+                        <strong>✅ Test Submitted Successfully!</strong><br>
+                        <small>Submission ID: ${result.submissionId}<br>
+                        Time: ${new Date(result.timestamp).toLocaleString()}</small>
+                    `;
+                    document.getElementById('resultSection').appendChild(confirmationDiv);
+                } else {
+                    console.error('Submission failed:', result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting test:', error);
+                // Still show results even if submission fails
+            });
+        });
+    </script>
+</body>
+</html>
