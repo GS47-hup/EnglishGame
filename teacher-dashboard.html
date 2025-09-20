@@ -225,6 +225,23 @@
                 <!-- Placement test results will be generated here -->
             </div>
         </div>
+
+        <!-- Test System Results -->
+        <div class="dashboard-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-flask mr-2"></i>Test System Results (3 Questions Demo)
+            </h2>
+
+            <div id="noTestSystemResults" class="text-center py-12 text-gray-500" style="display: none;">
+                <i class="fas fa-vial text-6xl mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">No Test System Submissions Yet</h3>
+                <p>Students' test system results will appear here once they complete the demo.</p>
+            </div>
+
+            <div id="testSystemResultsContainer">
+                <!-- Test system results will be generated here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -236,6 +253,7 @@
 
         let submissions = [];
         let placementSubmissions = [];
+        let testSystemSubmissions = [];
         const TEACHER_PASSWORD = 'teacher123'; // Change this password as needed
 
         // Teacher login functionality
@@ -257,16 +275,19 @@
             // Show loading indicators
             const resultsContainer = document.getElementById('resultsContainer');
             const placementResultsContainer = document.getElementById('placementResultsContainer');
+            const testSystemResultsContainer = document.getElementById('testSystemResultsContainer');
 
             resultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading listening exam submissions...</p></div>';
             placementResultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading placement test submissions...</p></div>';
+            testSystemResultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading test system submissions...</p></div>';
 
-            // Load both listening exam and placement test results
+            // Load all three types: listening exam, placement test, and test system results
             Promise.all([
                 fetch('/.netlify/functions/get-submissions').then(response => response.json()),
-                fetch('/.netlify/functions/get-placement-submissions').then(response => response.json())
+                fetch('/.netlify/functions/get-placement-submissions').then(response => response.json()),
+                fetch('/.netlify/functions/get-test-system-submissions').then(response => response.json())
             ])
-            .then(([listeningData, placementData]) => {
+            .then(([listeningData, placementData, testSystemData]) => {
                 // Handle listening exam results
                 if (listeningData.success) {
                     submissions = listeningData.submissions;
@@ -285,21 +306,34 @@
                     placementSubmissions = [];
                 }
 
+                // Handle test system results
+                if (testSystemData.success) {
+                    testSystemSubmissions = testSystemData.submissions;
+                    console.log(`Loaded ${testSystemData.count} test system submissions from database`);
+                } else {
+                    console.error('Error loading test system submissions:', testSystemData.error);
+                    testSystemSubmissions = [];
+                }
+
                 displayStatistics();
                 displayResults();
                 displayPlacementResults();
+                displayTestSystemResults();
             })
             .catch(error => {
                 console.error('Error fetching submissions:', error);
                 submissions = [];
                 placementSubmissions = [];
+                testSystemSubmissions = [];
                 displayStatistics();
                 displayResults();
                 displayPlacementResults();
+                displayTestSystemResults();
 
                 // Show error messages
                 const resultsContainer = document.getElementById('resultsContainer');
                 const placementResultsContainer = document.getElementById('placementResultsContainer');
+                const testSystemResultsContainer = document.getElementById('testSystemResultsContainer');
 
                 const errorMessage = `
                     <div class="text-center py-8 text-red-600">
@@ -314,6 +348,7 @@
 
                 resultsContainer.innerHTML = errorMessage;
                 placementResultsContainer.innerHTML = errorMessage;
+                testSystemResultsContainer.innerHTML = errorMessage;
             });
         }
 
@@ -353,6 +388,21 @@
             const placementAverage = placementStudents > 0 ? ((placementTotalScore / (placementStudents * 49)) * 100).toFixed(1) : 0;
             const level4ReadyPercent = placementStudents > 0 ? ((placementLevel4Ready / placementStudents) * 100).toFixed(1) : 0;
 
+            // Calculate test system statistics
+            const testSystemStudents = testSystemSubmissions.length;
+            let testSystemTotalScore = 0;
+            let testSystemPerfectScores = 0;
+
+            testSystemSubmissions.forEach(submission => {
+                testSystemTotalScore += submission.totalScore;
+                if (submission.totalScore === 3) {
+                    testSystemPerfectScores++;
+                }
+            });
+
+            const testSystemAverage = testSystemStudents > 0 ? ((testSystemTotalScore / (testSystemStudents * 3)) * 100).toFixed(1) : 0;
+            const perfectScorePercent = testSystemStudents > 0 ? ((testSystemPerfectScores / testSystemStudents) * 100).toFixed(1) : 0;
+
             statsContainer.innerHTML = `
                 <div class="stat-card">
                     <div class="stat-number">${listeningStudents}</div>
@@ -363,6 +413,10 @@
                     <div>Placement Test Students</div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-number">${testSystemStudents}</div>
+                    <div>Test System Students</div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-number">${listeningAverage}%</div>
                     <div>Listening Avg Score</div>
                 </div>
@@ -371,8 +425,12 @@
                     <div>Placement Avg Score</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">${level4ReadyPercent}%</div>
-                    <div>Level 4 Ready</div>
+                    <div class="stat-number">${testSystemAverage}%</div>
+                    <div>Test System Avg Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${perfectScorePercent}%</div>
+                    <div>Perfect Test Scores</div>
                 </div>
             `;
         }
@@ -767,6 +825,123 @@
             details += `✅ Correct Answers: ${correctCount}/49 (${((correctCount / 49) * 100).toFixed(1)}%)\n`;
             details += `❌ Incorrect Answers: ${incorrectCount}/49 (${((incorrectCount / 49) * 100).toFixed(1)}%)\n`;
             details += `⚪ Unanswered: ${unansweredCount}/49 (${((unansweredCount / 49) * 100).toFixed(1)}%)\n`;
+
+            alert(details);
+        }
+
+        function displayTestSystemResults() {
+            const testSystemResultsContainer = document.getElementById('testSystemResultsContainer');
+            const noTestSystemResults = document.getElementById('noTestSystemResults');
+
+            if (testSystemSubmissions.length === 0) {
+                noTestSystemResults.style.display = 'block';
+                testSystemResultsContainer.innerHTML = '';
+                return;
+            }
+
+            noTestSystemResults.style.display = 'none';
+
+            const resultsHTML = testSystemSubmissions.map(submission => {
+                const timestamp = new Date(submission.timestamp).toLocaleString();
+                const scoreClass = submission.totalScore === 3 ? 'text-green-600' : submission.totalScore >= 2 ? 'text-blue-600' : 'text-red-600';
+
+                return `
+                    <div class="student-card">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+                            <div class="mb-2 sm:mb-0">
+                                <h3 class="text-lg font-bold text-gray-800">${submission.studentName}</h3>
+                                <p class="text-sm text-gray-600">
+                                    <i class="fas fa-clock mr-1"></i>Submitted: ${timestamp}
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold ${scoreClass}">${submission.totalScore}/3</div>
+                                <div class="text-sm text-gray-600">${((submission.totalScore / 3) * 100).toFixed(1)}%</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-blue-50 p-3 rounded">
+                                <h4 class="font-semibold text-blue-800">Q1: Name</h4>
+                                <div class="text-sm ${submission.answers.q1 ? 'text-green-600' : 'text-red-600'}">
+                                    ${submission.answers.q1 ? '✅ ' + submission.answers.q1 : '❌ No answer'}
+                                </div>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded">
+                                <h4 class="font-semibold text-green-800">Q2: Math (2+2)</h4>
+                                <div class="text-sm ${submission.answers.q2 === 'c' ? 'text-green-600' : 'text-red-600'}">
+                                    ${submission.answers.q2 === 'c' ? '✅ c) 4 (Correct)' :
+                                      submission.answers.q2 ? `❌ ${submission.answers.q2}) Wrong (Correct: c)` : '❌ No answer'}
+                                </div>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded">
+                                <h4 class="font-semibold text-purple-800">Q3: Quantum Physics</h4>
+                                <div class="text-sm ${submission.answers.q3 === 'b' ? 'text-green-600' : 'text-red-600'}">
+                                    ${submission.answers.q3 === 'b' ? '✅ b) iℏ (Correct)' :
+                                      submission.answers.q3 ? `❌ ${submission.answers.q3}) Wrong (Correct: b)` : '❌ No answer'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button onclick="showTestSystemDetails('${submission.id}')" class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600">
+                                <i class="fas fa-eye mr-1"></i>View Details
+                            </button>
+                            <span class="text-xs text-gray-500">Test System Demo</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            testSystemResultsContainer.innerHTML = resultsHTML;
+        }
+
+        function showTestSystemDetails(submissionId) {
+            const submission = testSystemSubmissions.find(sub => sub.id == submissionId);
+            if (!submission) {
+                alert('Submission not found');
+                return;
+            }
+
+            let details = `🧪 TEST SYSTEM ANALYSIS: ${submission.studentName}\n`;
+            details += `================================================================\n`;
+            details += `📅 Submission: ${new Date(submission.timestamp).toLocaleString()}\n`;
+            details += `📊 Score: ${submission.totalScore}/3 (${((submission.totalScore / 3) * 100).toFixed(1)}%)\n\n`;
+
+            details += `📝 DETAILED ANSWERS:\n`;
+            details += `================================================================\n`;
+
+            // Question 1 - Name
+            details += `Q1 (Name): ${submission.answers.q1 ? `✅ "${submission.answers.q1}"` : '❌ No answer'}\n`;
+
+            // Question 2 - Math
+            const q2Answer = submission.answers.q2;
+            if (!q2Answer) {
+                details += `Q2 (2+2): ❌ No answer (Correct: c) 4)\n`;
+            } else if (q2Answer === 'c') {
+                details += `Q2 (2+2): ✅ ${q2Answer}) 4 (CORRECT)\n`;
+            } else {
+                const options = {a: '53', b: '22', c: '4', d: '-235234'};
+                details += `Q2 (2+2): ❌ ${q2Answer}) ${options[q2Answer]} (Correct: c) 4)\n`;
+            }
+
+            // Question 3 - Quantum Physics
+            const q3Answer = submission.answers.q3;
+            if (!q3Answer) {
+                details += `Q3 (Quantum): ❌ No answer (Correct: b) iℏ)\n`;
+            } else if (q3Answer === 'b') {
+                details += `Q3 (Quantum): ✅ ${q3Answer}) iℏ (CORRECT)\n`;
+            } else {
+                const options = {a: 'ℏ', b: 'iℏ', c: '-iℏ', d: '2πℏ'};
+                details += `Q3 (Quantum): ❌ ${q3Answer}) ${options[q3Answer]} (Correct: b) iℏ)\n`;
+            }
+
+            details += `\n📊 SUMMARY:\n`;
+            details += `================================================================\n`;
+            const correctAnswers = (submission.answers.q1 ? 1 : 0) + (submission.answers.q2 === 'c' ? 1 : 0) + (submission.answers.q3 === 'b' ? 1 : 0);
+            details += `✅ Correct: ${correctAnswers}/3\n`;
+            details += `❌ Incorrect: ${3 - correctAnswers}/3\n`;
+            details += `🎯 Purpose: System testing and database verification\n`;
 
             alert(details);
         }
