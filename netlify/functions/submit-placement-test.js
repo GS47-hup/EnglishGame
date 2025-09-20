@@ -46,6 +46,7 @@ exports.handler = async (event, context) => {
     const correctAnswers = {
       // Level 3 Assessment (Questions 1-24)
       'q1': 'a', 'q2': 'b', 'q3': 'a', 'q4': 'b', 'q5': 'a',
+      // q6 is a text input question - scored separately
       'q7': 'c', 'q8': 'b', 'q9': 'a', 'q10': 'c', 'q11': 'a',
       'q12': 'c', 'q13': 'b', 'q14': 'a', 'q15': 'b', 'q16': 'b',
       'q17': 'c', 'q18': 'a', 'q19': 'a', 'q20': 'b', 'q21': 'a',
@@ -58,6 +59,9 @@ exports.handler = async (event, context) => {
       'q40': 'b', 'q41': 'a', 'q42': 'b', 'q43': 'a', 'q44': 'a',
       'q45': 'b', 'q46': 'b', 'q47': 'c', 'q48': 'a', 'q49': 'a'
     };
+
+    // Question 6 text answer keywords for partial scoring
+    const q6Keywords = ['department store', 'post office', 'movie theater', 'supermarket'];
 
     let score = 0;
     let level3Score = 0;
@@ -81,6 +85,24 @@ exports.handler = async (event, context) => {
         }
       }
     });
+
+    // Special handling for Question 6 (text input)
+    if (submission.answers.question_6_text) {
+      const answer6 = submission.answers.question_6_text.toLowerCase();
+      let q6Score = 0;
+
+      // Award points for each correct answer mentioned
+      q6Keywords.forEach(keyword => {
+        if (answer6.includes(keyword.toLowerCase())) {
+          q6Score += 0.25; // 1 point total possible for Q6, 0.25 per correct answer
+        }
+      });
+
+      // Add to scores (round to avoid floating point issues)
+      const q6Points = Math.min(1, Math.round(q6Score * 4) / 4);
+      score += q6Points;
+      level3Score += q6Points; // Q6 is in Level 3 section
+    }
 
     // Determine placement level based on performance
     let placementLevel = 'Pre-Level 3';

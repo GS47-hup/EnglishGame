@@ -567,6 +567,7 @@
             const correctAnswers = {
                 // Level 3 Assessment (Questions 1-24)
                 'question_1': 'a', 'question_2': 'b', 'question_3': 'a', 'question_4': 'b', 'question_5': 'a',
+                // question_6 is text input - handled separately
                 'question_7': 'c', 'question_8': 'b', 'question_9': 'a', 'question_10': 'c', 'question_11': 'a',
                 'question_12': 'c', 'question_13': 'b', 'question_14': 'a', 'question_15': 'b', 'question_16': 'b',
                 'question_17': 'c', 'question_18': 'a', 'question_19': 'a', 'question_20': 'b', 'question_21': 'a',
@@ -587,21 +588,47 @@
             `;
 
             for (let i = 1; i <= 49; i++) {
-                const studentAnswer = submission.answers[`question_${i}`];
-                const correctAnswer = correctAnswers[`question_${i}`];
-
                 let cellClass = 'answer-item';
                 let cellContent = i;
 
-                if (!studentAnswer) {
-                    cellClass += ' answer-missing';
-                    cellContent = `${i}<br><small>No Answer</small>`;
-                } else if (studentAnswer === correctAnswer) {
-                    cellClass += ' answer-correct';
-                    cellContent = `${i}<br><small>✓ ${studentAnswer.toUpperCase()}</small>`;
+                if (i === 6) {
+                    // Special handling for Question 6 (text input)
+                    const textAnswer = submission.answers.question_6_text;
+                    if (!textAnswer) {
+                        cellClass += ' answer-missing';
+                        cellContent = `${i}<br><small>No Answer</small>`;
+                    } else {
+                        // Check if answer contains expected keywords
+                        const q6Keywords = ['department store', 'post office', 'movie theater', 'supermarket'];
+                        const lowerAnswer = textAnswer.toLowerCase();
+                        const matchCount = q6Keywords.filter(keyword => lowerAnswer.includes(keyword.toLowerCase())).length;
+
+                        if (matchCount >= 3) {
+                            cellClass += ' answer-correct';
+                            cellContent = `${i}<br><small>✓ TEXT</small>`;
+                        } else if (matchCount >= 1) {
+                            cellClass += ' answer-incorrect';
+                            cellContent = `${i}<br><small>~ TEXT</small>`;
+                        } else {
+                            cellClass += ' answer-incorrect';
+                            cellContent = `${i}<br><small>✗ TEXT</small>`;
+                        }
+                    }
                 } else {
-                    cellClass += ' answer-incorrect';
-                    cellContent = `${i}<br><small>✗ ${studentAnswer.toUpperCase()}</small>`;
+                    // Regular multiple choice questions
+                    const studentAnswer = submission.answers[`question_${i}`];
+                    const correctAnswer = correctAnswers[`question_${i}`];
+
+                    if (!studentAnswer) {
+                        cellClass += ' answer-missing';
+                        cellContent = `${i}<br><small>No Answer</small>`;
+                    } else if (studentAnswer === correctAnswer) {
+                        cellClass += ' answer-correct';
+                        cellContent = `${i}<br><small>✓ ${studentAnswer.toUpperCase()}</small>`;
+                    } else {
+                        cellClass += ' answer-incorrect';
+                        cellContent = `${i}<br><small>✗ ${studentAnswer.toUpperCase()}</small>`;
+                    }
                 }
 
                 gridHTML += `<div class="${cellClass}">${cellContent}</div>`;
@@ -631,6 +658,7 @@
             const correctAnswers = {
                 // Level 3 Assessment (Questions 1-24)
                 'question_1': 'a', 'question_2': 'b', 'question_3': 'a', 'question_4': 'b', 'question_5': 'a',
+                // question_6 is text input - handled separately
                 'question_7': 'c', 'question_8': 'b', 'question_9': 'a', 'question_10': 'c', 'question_11': 'a',
                 'question_12': 'c', 'question_13': 'b', 'question_14': 'a', 'question_15': 'b', 'question_16': 'b',
                 'question_17': 'c', 'question_18': 'a', 'question_19': 'a', 'question_20': 'b', 'question_21': 'a',
@@ -671,18 +699,46 @@
             details += `\n📚 LEVEL 3 QUESTIONS (1-24):\n`;
             details += `${'-'.repeat(40)}\n`;
             for (let i = 1; i <= 24; i++) {
-                const studentAnswer = submission.answers[`question_${i}`];
-                const correctAnswer = correctAnswers[`question_${i}`];
+                if (i === 6) {
+                    // Special handling for Question 6 (text input)
+                    const textAnswer = submission.answers.question_6_text;
+                    if (!textAnswer) {
+                        details += `Q06: ❌ NO ANSWER (Expected: department store, post office, movie theater, supermarket)\n`;
+                        unansweredCount++;
+                    } else {
+                        const q6Keywords = ['department store', 'post office', 'movie theater', 'supermarket'];
+                        const lowerAnswer = textAnswer.toLowerCase();
+                        const matchCount = q6Keywords.filter(keyword => lowerAnswer.includes(keyword.toLowerCase())).length;
 
-                if (!studentAnswer) {
-                    details += `Q${i.toString().padStart(2, '0')}: ❌ NO ANSWER (Correct: ${correctAnswer})\n`;
-                    unansweredCount++;
-                } else if (studentAnswer === correctAnswer) {
-                    details += `Q${i.toString().padStart(2, '0')}: ✅ ${studentAnswer.toUpperCase()} (CORRECT)\n`;
-                    correctCount++;
+                        if (matchCount >= 3) {
+                            details += `Q06: ✅ TEXT ANSWER (${matchCount}/4 keywords found)\n`;
+                            details += `     "${textAnswer}"\n`;
+                            correctCount++;
+                        } else if (matchCount >= 1) {
+                            details += `Q06: ⚠️ PARTIAL (${matchCount}/4 keywords found)\n`;
+                            details += `     "${textAnswer}"\n`;
+                            incorrectCount++;
+                        } else {
+                            details += `Q06: ❌ INCORRECT (0/4 keywords found)\n`;
+                            details += `     "${textAnswer}"\n`;
+                            incorrectCount++;
+                        }
+                    }
                 } else {
-                    details += `Q${i.toString().padStart(2, '0')}: ❌ ${studentAnswer.toUpperCase()} (Correct: ${correctAnswer})\n`;
-                    incorrectCount++;
+                    // Regular multiple choice questions
+                    const studentAnswer = submission.answers[`question_${i}`];
+                    const correctAnswer = correctAnswers[`question_${i}`];
+
+                    if (!studentAnswer) {
+                        details += `Q${i.toString().padStart(2, '0')}: ❌ NO ANSWER (Correct: ${correctAnswer})\n`;
+                        unansweredCount++;
+                    } else if (studentAnswer === correctAnswer) {
+                        details += `Q${i.toString().padStart(2, '0')}: ✅ ${studentAnswer.toUpperCase()} (CORRECT)\n`;
+                        correctCount++;
+                    } else {
+                        details += `Q${i.toString().padStart(2, '0')}: ❌ ${studentAnswer.toUpperCase()} (Correct: ${correctAnswer})\n`;
+                        incorrectCount++;
+                    }
                 }
             }
 
@@ -705,10 +761,6 @@
                 }
             }
 
-            // Question 6 (text answer)
-            if (submission.answers.question_6_text) {
-                details += `\nQ06 (Text): "${submission.answers.question_6_text}"\n`;
-            }
 
             details += `\n📊 SUMMARY STATISTICS:\n`;
             details += `================================================================\n`;
