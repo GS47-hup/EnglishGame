@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Level 3 & 4 Placement Test - SpokenEnglish Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 95%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        /* Login Page Styles */
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .warning-box h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .warning-box p {
+            color: #856404;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Exam Page Styles */
+        .exam-container {
+            display: none;
+        }
+
+        .timer-bar {
+            background: #f8f9fa;
+            padding: 15px;
+            border-bottom: 2px solid #e9ecef;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .student-info {
+            background: #e3f2fd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .exam-content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .section-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .section-content {
+            padding: 25px;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+        }
+
+        .subsection h3 {
+            color: #4facfe;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 10px;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .option.selected {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .writing-options {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .writing-option {
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .writing-option:hover {
+            border-color: #4facfe;
+        }
+
+        .writing-option.selected {
+            border-color: #4facfe;
+            background: #f0f8ff;
+        }
+
+        .writing-option h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .submit-section {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 2px solid #e9ecef;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .success-message h2 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .exam-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📚 Complete Level 3 & 4 Placement Test</h1>
+            <p>SpokenEnglish Academy - Digital Assessment (49 Questions)</p>
+        </div>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="content">
+            <div class="login-form">
+                <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">Student Login</h2>
+                
+                <div class="input-group">
+                    <label for="studentName">Student Name:</label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="studentPassword">Password:</label>
+                    <input type="password" id="studentPassword" placeholder="Enter your password" required>
+                </div>
+
+                <div class="warning-box">
+                    <h3>⚠️ Important Notice</h3>
+                    <p>Once you log in, the exam will start immediately and the timer will begin counting. This is a complete 49-question test that takes approximately 45 minutes. Make sure you are ready before clicking "Start Exam".</p>
+                </div>
+
+                <button class="btn" onclick="startExam()">Start Exam</button>
+            </div>
+        </div>
+
+        <!-- Exam Page -->
+        <div id="examPage" class="exam-container">
+            <!-- Timer Bar -->
+            <div class="timer-bar">
+                <div class="timer">⏱️ Time Elapsed: <span id="timer">00:00:00</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Student Info -->
+            <div class="exam-content">
+                <div class="student-info">
+                    <strong>Student:</strong> <span id="displayStudentName"></span> | 
+                    <strong>Test:</strong> Complete Level 3 & 4 Placement Assessment (49 Questions) | 
+                    <strong>Duration:</strong> Approximately 45 minutes
+                </div>
+
+                <!-- Part A: Level 3 Assessment -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>📖 Part A: Level 3 Syllabus Assessment</h2>
+                        <p>20 minutes - 25 points | Test your knowledge of Level 3 content (Questions 1-24)</p>
+                    </div>
+                    <div class="section-content">
+                        <!-- A1: Food & Snacks -->
+                        <div class="subsection">
+                            <h3>A1: Food & Snacks (Unit 1) - 3 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 1:</div>
+                                <div class="question-text">Complete the conversation:<br>
+                                A: "Do you want some chocolate?"<br>
+                                B: "Yes, I want _______." / "No, I don't want _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q1" value="a"> a) some / any
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q1" value="b"> b) any / some
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q1" value="c"> c) some / some
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q1" value="d"> d) any / any
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 2:</div>
+                                <div class="question-text">Which vegetables do you need for soup?</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q2" value="a"> a) gum, popcorn, chocolate
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q2" value="b"> b) carrot, onion, potato
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q2" value="c"> c) soda, chips, peanuts
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 3:</div>
+                                <div class="question-text">What can you make in the kitchen?</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q3" value="a"> a) omelet, smoothie, fruit salad
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q3" value="b"> b) park, library, school
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q3" value="c"> c) doctor, teacher, vet
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- A2: Places & Directions -->
+                        <div class="subsection">
+                            <h3>A2: Places & Directions (Unit 2) - 4 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 4:</div>
+                                <div class="question-text">"Where's the post office?" "It's _______ the library and the school."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q4" value="a"> a) across from
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q4" value="b"> b) between
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q4" value="c"> c) behind
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q4" value="d"> d) under
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 5:</div>
+                                <div class="question-text">What do people do at these places?<br>
+                                Movie theater: _______<br>  
+                                Library: _______<br>  
+                                Supermarket: _______</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q5" value="a"> a) watch movies, borrow books, buy groceries
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q5" value="b"> b) mail letters, kick balls, shop
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q5" value="c"> c) eat food, study, sleep
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 6:</div>
+                                <div class="question-text">Match the activity with the place:<br>
+                                Shop for clothes: _______<br>
+                                Mail letters: _______<br>
+                                Watch a movie: _______<br>
+                                Buy groceries: _______</div>
+                                <textarea class="text-input" name="q6" placeholder="Write your answers here (e.g., department store, post office, movie theater, supermarket)..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- A3: Occupations & What People Do -->
+                        <div class="subsection">
+                            <h3>A3: Occupations & What People Do (Unit 3) - 4 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 7:</div>
+                                <div class="question-text">"Who works at the hospital?"</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q7" value="a"> a) cashier
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q7" value="b"> b) librarian
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q7" value="c"> c) vet
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q7" value="d"> d) postal worker
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 8:</div>
+                                <div class="question-text">"What does the cook do?"</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q8" value="a"> a) The cook sells things
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q8" value="b"> b) The cook makes food
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q8" value="c"> c) The cook drives buses
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 9:</div>
+                                <div class="question-text">"Does the firefighter fight fires?"</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q9" value="a"> a) Yes, he does
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q9" value="b"> b) No, he doesn't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q9" value="c"> c) Yes, she is
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 10:</div>
+                                <div class="question-text">If someone has a stomachache, what's the matter?</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q10" value="a"> a) He has a cold
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q10" value="b"> b) She has a fever
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q10" value="c"> c) He has a stomachache
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- A4: Family & Possessions -->
+                        <div class="subsection">
+                            <h3>A4: Family & Possessions (Unit 4) - 4 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 11:</div>
+                                <div class="question-text">"Who are they?" "They're Danny's _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q11" value="a"> a) parents
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q11" value="b"> b) parent
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q11" value="c"> c) aunt
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 12:</div>
+                                <div class="question-text">"Whose fork is that?" "It's _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q12" value="a"> a) me
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q12" value="b"> b) my
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q12" value="c"> c) mine
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 13:</div>
+                                <div class="question-text">Complete the family: mother, father, aunt, uncle, cousin, _______</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q13" value="a"> a) teacher
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q13" value="b"> b) grandparents
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q13" value="c"> c) friend
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 14:</div>
+                                <div class="question-text">What do you use for eating?</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q14" value="a"> a) fork, knife, spoon
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q14" value="b"> b) book, pencil, bag
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q14" value="c"> c) shirt, shoes, hat
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- A5: Comparatives -->
+                        <div class="subsection">
+                            <h3>A5: Comparatives (Unit 5) - 4 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 15:</div>
+                                <div class="question-text">"Who's taller, Danny or Julie?" "Danny is _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q15" value="a"> a) tall
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q15" value="b"> b) taller
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q15" value="c"> c) tallest
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 16:</div>
+                                <div class="question-text">"The red socks are _______ than the blue socks."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q16" value="a"> a) thick
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q16" value="b"> b) thicker
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q16" value="c"> c) thickest
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 17:</div>
+                                <div class="question-text">Which adjective pair is correct?</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q17" value="a"> a) tall/short, old/young, quick/slow
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q17" value="b"> b) happy/sad, big/small, hot/cold
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q17" value="c"> c) both are correct
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 18:</div>
+                                <div class="question-text">"Is the red sweater thicker than the blue sweater?" "Yes, _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q18" value="a"> a) it is
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q18" value="b"> b) it does
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q18" value="c"> c) it was
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- A6: Past Tense "was/were" -->
+                        <div class="subsection">
+                            <h3>A6: Past Tense "was/were" (Unit 7) - 3 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 19:</div>
+                                <div class="question-text">"Where _______ he yesterday?" "He _______ at the beach."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q19" value="a"> a) was/was
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q19" value="b"> b) were/was
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q19" value="c"> c) was/were
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 20:</div>
+                                <div class="question-text">"_______ they at the bookstore yesterday?" "No, they _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q20" value="a"> a) Was/wasn't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q20" value="b"> b) Were/weren't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q20" value="c"> c) Are/aren't
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 21:</div>
+                                <div class="question-text">"How _______ the weather yesterday?" "It _______ sunny."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q21" value="a"> a) was/was
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q21" value="b"> b) were/were
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q21" value="c"> c) is/was
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- A7: "There was/were" -->
+                        <div class="subsection">
+                            <h3>A7: "There was/were" (Unit 8) - 3 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 22:</div>
+                                <div class="question-text">"_______ any magazines on the table?" "Yes, there _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q22" value="a"> a) Was there/was
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q22" value="b"> b) Were there/were
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q22" value="c"> c) Are there/are
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 23:</div>
+                                <div class="question-text">"There _______ no cell phones in 1940."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q23" value="a"> a) was
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q23" value="b"> b) were
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q23" value="c"> c) are
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 24:</div>
+                                <div class="question-text">"What _______ on the table?" "A folder _______ on the table."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q24" value="a"> a) was/was
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q24" value="b"> b) were/were
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q24" value="c"> c) is/is
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part B: Level 4 Assessment -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>🚀 Part B: Level 4 Syllabus Assessment</h2>
+                        <p>20 minutes - 25 points | Test your knowledge of Level 4 content (Questions 25-49)</p>
+                    </div>
+                    <div class="section-content">
+                        <!-- B1: Sports & Activities -->
+                        <div class="subsection">
+                            <h3>B1: Sports & Activities (Unit 1) - 3 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 25:</div>
+                                <div class="question-text">"What does he like doing?" "He likes _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q25" value="a"> a) climb
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q25" value="b"> b) climbing
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q25" value="c"> c) climbed
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 26:</div>
+                                <div class="question-text">"She's good _______ skiing." "She _______ good at snowboarding."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q26" value="a"> a) at/isn't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q26" value="b"> b) in/doesn't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q26" value="c"> c) for/wasn't
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 27:</div>
+                                <div class="question-text">Safety equipment: To protect your head, always wear a _______</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q27" value="a"> a) knee pads
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q27" value="b"> b) life jacket
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q27" value="c"> c) helmet
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B2: Superlatives & Measurements -->
+                        <div class="subsection">
+                            <h3>B2: Superlatives & Measurements (Unit 2) - 4 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 28:</div>
+                                <div class="question-text">"Which animal is the biggest?" "The hippopotamus is the _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q28" value="a"> a) bigger
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q28" value="b"> b) biggest
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q28" value="c"> c) big
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 29:</div>
+                                <div class="question-text">"Which sea creature is the longest?"</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q29" value="a"> a) The whale is the longest
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q29" value="b"> b) The whale is longer
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q29" value="c"> c) The whale is long
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 30:</div>
+                                <div class="question-text">"The eel _______ as long as the seal."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q30" value="a"> a) is
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q30" value="b"> b) isn't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q30" value="c"> c) both answers possible
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 31:</div>
+                                <div class="question-text">"How much does the beetle weigh?" "It weighs 30 _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q31" value="a"> a) kilometers
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q31" value="b"> b) ounces
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q31" value="c"> c) centimeters
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B3: Appearance & Descriptions -->
+                        <div class="subsection">
+                            <h3>B3: Appearance & Descriptions (Unit 3) - 4 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 32:</div>
+                                <div class="question-text">"What does she look like?" "She has _______ hair."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q32" value="a"> a) long, brown
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q32" value="b"> b) long and brown
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q32" value="c"> c) both are correct
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 33:</div>
+                                <div class="question-text">Hair types: short, shoulder-length, long, straight, curly, _______</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q33" value="a"> a) black
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q33" value="b"> b) wavy
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q33" value="c"> c) beautiful
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 34:</div>
+                                <div class="question-text">Accessories people wear:</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q34" value="a"> a) watch, necklace, earrings
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q34" value="b"> b) stick, leaf, grass
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q34" value="c"> c) ounce, kilogram, centimeter
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 35:</div>
+                                <div class="question-text">"What do the earrings look like?" "They're _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q35" value="a"> a) silver
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q35" value="b"> b) silvers
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q35" value="c"> c) a silver
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B4: Past Tense Activities -->
+                        <div class="subsection">
+                            <h3>B4: Past Tense Activities (Unit 4 & 5) - 5 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 36:</div>
+                                <div class="question-text">"What did they play yesterday?" "They _______ baseball."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q36" value="a"> a) play
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q36" value="b"> b) played
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q36" value="c"> c) playing
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 37:</div>
+                                <div class="question-text">"Did you use the computer this morning?" "No, I _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q37" value="a"> a) don't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q37" value="b"> b) wasn't
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q37" value="c"> c) didn't
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 38:</div>
+                                <div class="question-text">"What did she drink?" "She _______ lemonade."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q38" value="a"> a) drink
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q38" value="b"> b) drank
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q38" value="c"> c) drunk
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 39:</div>
+                                <div class="question-text">"What did he eat for lunch?" "He _______ noodles and curry."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q39" value="a"> a) eat
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q39" value="b"> b) ate
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q39" value="c"> c) eating
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 40:</div>
+                                <div class="question-text">"Did they take pictures?" "Yes, they _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q40" value="a"> a) do
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q40" value="b"> b) did
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q40" value="c"> c) took
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B5: Creative Activities -->
+                        <div class="subsection">
+                            <h3>B5: Creative Activities (Unit 6) - 3 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 41:</div>
+                                <div class="question-text">"What does he like to do in his free time?" "He likes to _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q41" value="a"> a) sing songs
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q41" value="b"> b) singing songs
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q41" value="c"> c) sings songs
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 42:</div>
+                                <div class="question-text">"He cooked dinner _______ them."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q42" value="a"> a) to
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q42" value="b"> b) for
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q42" value="c"> c) with
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 43:</div>
+                                <div class="question-text">Types of art:</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q43" value="a"> a) painting, photograph, mosaic
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q43" value="b"> b) cook, bake, make
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q43" value="c"> c) actor, artist, musician
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B6: Future Plans "going to" -->
+                        <div class="subsection">
+                            <h3>B6: Future Plans "going to" (Unit 7 & 8) - 6 points</h3>
+                            
+                            <div class="question">
+                                <div class="question-number">Question 44:</div>
+                                <div class="question-text">"What do you want to be when you grow up?" "I want to be _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q44" value="a"> a) a scientist
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q44" value="b"> b) scientist
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q44" value="c"> c) the scientist
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 45:</div>
+                                <div class="question-text">"What do you want to do when you're older?" "I want _______ space."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q45" value="a"> a) go to
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q45" value="b"> b) to go to
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q45" value="c"> c) going to
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 46:</div>
+                                <div class="question-text">"What's he going to do on vacation?" "He's _______ take a boat ride."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q46" value="a"> a) going
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q46" value="b"> b) going to
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q46" value="c"> c) go to
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 47:</div>
+                                <div class="question-text">"When is she going to swim?" "She's going to swim _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q47" value="a"> a) yesterday
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q47" value="b"> b) last week
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q47" value="c"> c) tomorrow
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 48:</div>
+                                <div class="question-text">"What's she going to take with her?" "She's going to take _______."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q48" value="a"> a) a swimsuit and towel
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q48" value="b"> b) swimsuit and towel
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q48" value="c"> c) the swimsuit and towel
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="question">
+                                <div class="question-number">Question 49:</div>
+                                <div class="question-text">"How are they going to get there?" "They're going to _______ a taxi."</div>
+                                <div class="options">
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q49" value="a"> a) take
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q49" value="b"> b) taking
+                                    </label>
+                                    <label class="option" onclick="selectOption(this)">
+                                        <input type="radio" name="q49" value="c"> c) took
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part C: Writing Assessment -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2>✍️ Part C: Writing Assessment</h2>
+                        <p>5 minutes - 10 points | Choose ONE writing task</p>
+                    </div>
+                    <div class="section-content">
+                        <div class="writing-options">
+                            <div class="writing-option" onclick="selectWritingOption('level3')">
+                                <h4>📚 Option A: Level 3 Writing Task</h4>
+                                <p>Write about your daily routine using past tense. Complete these sentences about what you did yesterday.</p>
+                            </div>
+                            <div class="writing-option" onclick="selectWritingOption('level4')">
+                                <h4>🚀 Option B: Level 4 Writing Task</h4>
+                                <p>Write about your future plans using "going to" structures. Write about what you plan to do.</p>
+                            </div>
+                        </div>
+
+                        <div id="level3Writing" class="writing-task" style="display: none;">
+                            <h4>Level 3 Writing Task: Yesterday's Activities</h4>
+                            <div class="question">
+                                <div class="question-text">Complete these sentences about what you did yesterday:</div>
+                                <textarea class="text-input" name="writing3" placeholder="Yesterday morning, I...
+At lunch time, I...
+In the afternoon, I...
+In the evening, I..."></textarea>
+                            </div>
+                        </div>
+
+                        <div id="level4Writing" class="writing-task" style="display: none;">
+                            <h4>Level 4 Writing Task: Future Plans</h4>
+                            <div class="question">
+                                <div class="question-text">Write about your future plans using "going to":</div>
+                                <textarea class="text-input" name="writing4" placeholder="Next weekend, I am going to...
+Next month, my family is going to...
+When I grow up, I am going to...
+Next summer, I am going to..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Section -->
+                <div class="submit-section">
+                    <h3>📝 Ready to Submit?</h3>
+                    <p>Please review your answers before submitting. You have completed <span id="questionCount">0</span> out of 49 questions plus the writing section.</p>
+                    <button class="submit-btn" onclick="submitExam()">Submit Complete Exam</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Page -->
+        <div id="successPage" class="content success-message">
+            <h2>✅ Exam Submitted Successfully!</h2>
+            <p>Thank you for completing the complete Level 3 & 4 placement test (49 questions). Your results will be reviewed and you will be notified of your level placement soon.</p>
+            <div style="margin-top: 30px;">
+                <strong>Student:</strong> <span id="finalStudentName"></span><br>
+                <strong>Questions Completed:</strong> <span id="finalQuestionCount"></span> / 49<br>
+                <strong>Completion Time:</strong> <span id="finalTime"></span><br>
+                <strong>Submission Date:</strong> <span id="submissionDate"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let examStartTime = null;
+        let timerInterval = null;
+        let studentName = '';
+        let studentPassword = '';
+
+        // Login functionality
+        function startExam() {
+            const nameInput = document.getElementById('studentName').value.trim();
+            const passwordInput = document.getElementById('studentPassword').value.trim();
+
+            // Validation
+            if (!nameInput || !passwordInput) {
+                alert('Please enter both your name and password.');
+                return;
+            }
+
+            // Basic authentication check - you can enhance this as needed
+            if (passwordInput.length < 3) {
+                alert('Password must be at least 3 characters long.');
+                return;
+            }
+
+            // Store student info
+            studentName = nameInput;
+            studentPassword = passwordInput;
+
+            // Hide login page and show exam
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('examPage').style.display = 'block';
+            document.getElementById('displayStudentName').textContent = studentName;
+
+            // Start timer
+            startTimer();
+
+            // Update progress bar
+            updateProgress();
+        }
+
+        // Timer functionality
+        function startTimer() {
+            examStartTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const elapsed = now - examStartTime;
+            
+            const hours = Math.floor(elapsed / 3600000);
+            const minutes = Math.floor((elapsed % 3600000) / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+
+            const formattedTime = 
+                String(hours).padStart(2, '0') + ':' + 
+                String(minutes).padStart(2, '0') + ':' + 
+                String(seconds).padStart(2, '0');
+
+            document.getElementById('timer').textContent = formattedTime;
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        }
+
+        // Option selection functionality
+        function selectOption(element) {
+            // Remove selected class from siblings
+            const siblings = element.parentNode.querySelectorAll('.option');
+            siblings.forEach(sibling => sibling.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Check the radio button
+            const radio = element.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+            }
+
+            updateProgress();
+        }
+
+        // Writing option selection
+        function selectWritingOption(level) {
+            // Remove selected class from all writing options
+            document.querySelectorAll('.writing-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Hide all writing tasks
+            document.querySelectorAll('.writing-task').forEach(task => {
+                task.style.display = 'none';
+            });
+
+            // Select clicked option and show corresponding task
+            event.target.closest('.writing-option').classList.add('selected');
+            document.getElementById(level + 'Writing').style.display = 'block';
+
+            updateProgress();
+        }
+
+        // Progress bar functionality
+        function updateProgress() {
+            const totalQuestions = 49; // 49 multiple choice questions
+            let answeredQuestions = 0;
+
+            // Count answered multiple choice questions
+            for (let i = 1; i <= 49; i++) {
+                const radios = document.querySelectorAll(`input[name="q${i}"]:checked`);
+                if (radios.length > 0) {
+                    answeredQuestions++;
+                }
+            }
+
+            // Check text area for question 6
+            const q6 = document.querySelector('textarea[name="q6"]');
+            if (q6 && q6.value.trim() !== '') {
+                // This was already counted in the loop above if it exists
+            }
+
+            // Check writing task selection and completion
+            let writingCompleted = false;
+            const writing3 = document.querySelector('textarea[name="writing3"]');
+            const writing4 = document.querySelector('textarea[name="writing4"]');
+            
+            if ((writing3 && writing3.value.trim() !== '') || (writing4 && writing4.value.trim() !== '')) {
+                writingCompleted = true;
+            }
+
+            // Calculate progress (49 questions + 1 writing task = 50 total)
+            let totalCompleted = answeredQuestions;
+            if (writingCompleted) totalCompleted++;
+
+            const progressPercentage = (totalCompleted / 50) * 100;
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+            
+            // Update question count display
+            document.getElementById('questionCount').textContent = answeredQuestions;
+        }
+
+        // Add event listeners to text areas for progress tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            const textAreas = document.querySelectorAll('textarea');
+            textAreas.forEach(textarea => {
+                textarea.addEventListener('input', updateProgress);
+            });
+        });
+
+        // Exam submission functionality
+        function submitExam() {
+            // Count completed questions for validation
+            let answeredQuestions = 0;
+            for (let i = 1; i <= 49; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (checked) answeredQuestions++;
+            }
+
+            // Check if at least some questions are answered
+            if (answeredQuestions < 10) {
+                if (!confirm('You have only answered ' + answeredQuestions + ' questions out of 49. Are you sure you want to submit?')) {
+                    return;
+                }
+            }
+
+            // Confirm submission
+            if (!confirm('Are you sure you want to submit your exam? You cannot change your answers after submission.')) {
+                return;
+            }
+
+            // Stop timer
+            stopTimer();
+            const finalTime = document.getElementById('timer').textContent;
+
+            // Collect all answers
+            const answers = {};
+            
+            // Collect multiple choice answers (Q1-Q49)
+            for (let i = 1; i <= 49; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                answers[`question_${i}`] = checked ? checked.value : '';
+            }
+
+            // Collect text area answer (question 6)
+            const q6 = document.querySelector('textarea[name="q6"]');
+            if (q6) {
+                answers.question_6_text = q6.value.trim();
+            }
+
+            // Collect writing task
+            const writing3 = document.querySelector('textarea[name="writing3"]');
+            const writing4 = document.querySelector('textarea[name="writing4"]');
+            
+            if (writing3 && writing3.value.trim() !== '') {
+                answers.writing_task = 'level3';
+                answers.writing_content = writing3.value.trim();
+            } else if (writing4 && writing4.value.trim() !== '') {
+                answers.writing_task = 'level4';
+                answers.writing_content = writing4.value.trim();
+            }
+
+            // Prepare submission data
+            const submissionData = {
+                student_name: studentName,
+                student_password: studentPassword, // Note: In production, don't send passwords back
+                start_time: examStartTime,
+                end_time: new Date(),
+                completion_time: finalTime,
+                questions_answered: answeredQuestions,
+                total_questions: 49,
+                answers: answers,
+                submission_timestamp: new Date().toISOString()
+            };
+
+            // Submit data to server via Netlify function
+            submitToServer(submissionData);
+        }
+
+        function showSuccessPage(completionTime, questionCount, results) {
+            // Hide exam page and show success page
+            document.getElementById('examPage').style.display = 'none';
+            document.getElementById('successPage').style.display = 'block';
+
+            // Update success page with student info
+            document.getElementById('finalStudentName').textContent = studentName;
+            document.getElementById('finalTime').textContent = completionTime;
+            document.getElementById('finalQuestionCount').textContent = questionCount;
+            document.getElementById('submissionDate').textContent = new Date().toLocaleString();
+
+            // Add placement results if available
+            if (results) {
+                const resultsDiv = document.createElement('div');
+                resultsDiv.style.marginTop = '30px';
+                resultsDiv.style.padding = '20px';
+                resultsDiv.style.backgroundColor = '#f0f8ff';
+                resultsDiv.style.borderRadius = '10px';
+                resultsDiv.style.border = '2px solid #4facfe';
+
+                resultsDiv.innerHTML = `
+                    <h3 style="color: #4facfe; margin-bottom: 15px;">📊 Placement Test Results</h3>
+                    <div style="line-height: 1.8;">
+                        <strong>Overall Score:</strong> ${results.totalScore}<br>
+                        <strong>Level 3 Score:</strong> ${results.level3Score}<br>
+                        <strong>Level 4 Score:</strong> ${results.level4Score}<br>
+                        <strong>Recommended Level:</strong> <span style="color: #28a745; font-weight: bold;">${results.placementLevel}</span><br>
+                        <strong>Recommendation:</strong> ${results.recommendation}
+                    </div>
+                `;
+
+                document.getElementById('successPage').appendChild(resultsDiv);
+            }
+        }
+
+        // Submit data to server via Netlify function
+        function submitToServer(data) {
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            // Submit to Neon database via Netlify Function
+            fetch('/.netlify/functions/submit-placement-test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Success:', result);
+                if (result.success) {
+                    showSuccessPage(data.completion_time, data.questions_answered, result.results);
+                } else {
+                    throw new Error(result.error || 'Submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your exam. Please try again.');
+
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+
+                // Redirect back to login for retry
+                document.getElementById('examPage').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'block';
+            });
+        }
+
+        // Enhanced student validation (can be expanded as needed)
+        function validateStudent(name, password) {
+            // Basic validation - can be enhanced with server-side validation
+            if (!name || name.length < 2) {
+                alert('Please enter a valid name (at least 2 characters).');
+                return false;
+            }
+
+            if (!password || password.length < 3) {
+                alert('Please enter a valid password (at least 3 characters).');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Prevent accidental page refresh
+        window.addEventListener('beforeunload', function(e) {
+            if (examStartTime && document.getElementById('examPage').style.display !== 'none') {
+                e.preventDefault();
+                e.returnValue = 'Are you sure you want to leave? Your exam progress will be lost.';
+            }
+        });
+
+        // Auto-save functionality to prevent data loss
+        function autoSave() {
+            if (!studentName) return; // Don't save if not logged in
+
+            const answers = {};
+
+            // Collect current answers
+            for (let i = 1; i <= 49; i++) {
+                const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                if (checked) answers[`question_${i}`] = checked.value;
+            }
+
+            // Collect text area answers
+            const q6 = document.querySelector('textarea[name="q6"]');
+            if (q6 && q6.value.trim()) answers.question_6_text = q6.value.trim();
+
+            const writing3 = document.querySelector('textarea[name="writing3"]');
+            const writing4 = document.querySelector('textarea[name="writing4"]');
+
+            if (writing3 && writing3.value.trim()) {
+                answers.writing_task = 'level3';
+                answers.writing_content = writing3.value.trim();
+            } else if (writing4 && writing4.value.trim()) {
+                answers.writing_task = 'level4';
+                answers.writing_content = writing4.value.trim();
+            }
+
+            // Save to localStorage
+            localStorage.setItem('placementTestProgress', JSON.stringify({
+                studentName: studentName,
+                answers: answers,
+                timestamp: new Date().toISOString()
+            }));
+        }
+
+        // Set up auto-save every 30 seconds
+        setInterval(autoSave, 30000);
+    </script>
+</body>
+</html>

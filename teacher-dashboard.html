@@ -171,7 +171,7 @@
                         <i class="fas fa-chalkboard-teacher mr-3 text-blue-500"></i>
                         Teacher Dashboard
                     </h1>
-                    <p class="text-gray-600 mt-2">Digital Listening Exam Results</p>
+                    <p class="text-gray-600 mt-2">Digital Listening Exam & Placement Test Results</p>
                 </div>
                 <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-2 sm:space-y-0">
                     <button onclick="exportResults()" class="export-btn w-full sm:w-auto">
@@ -192,20 +192,37 @@
             <!-- Stats will be generated here -->
         </div>
 
-        <!-- Student Results -->
+        <!-- Listening Exam Results -->
         <div class="dashboard-card">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">
-                <i class="fas fa-users mr-2"></i>Student Results
+                <i class="fas fa-headphones mr-2"></i>Listening Exam Results (10 Questions)
             </h2>
-            
+
             <div id="noResults" class="text-center py-12 text-gray-500" style="display: none;">
                 <i class="fas fa-inbox text-6xl mb-4"></i>
-                <h3 class="text-xl font-semibold mb-2">No Exam Submissions Yet</h3>
-                <p>Students' exam results will appear here once they complete the exam.</p>
+                <h3 class="text-xl font-semibold mb-2">No Listening Exam Submissions Yet</h3>
+                <p>Students' listening exam results will appear here once they complete the exam.</p>
             </div>
 
             <div id="resultsContainer">
                 <!-- Student results will be generated here -->
+            </div>
+        </div>
+
+        <!-- Placement Test Results -->
+        <div class="dashboard-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-graduation-cap mr-2"></i>Placement Test Results (49 Questions + Writing)
+            </h2>
+
+            <div id="noPlacementResults" class="text-center py-12 text-gray-500" style="display: none;">
+                <i class="fas fa-clipboard-list text-6xl mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">No Placement Test Submissions Yet</h3>
+                <p>Students' placement test results will appear here once they complete the assessment.</p>
+            </div>
+
+            <div id="placementResultsContainer">
+                <!-- Placement test results will be generated here -->
             </div>
         </div>
     </div>
@@ -218,6 +235,7 @@
         };
 
         let submissions = [];
+        let placementSubmissions = [];
         const TEACHER_PASSWORD = 'teacher123'; // Change this password as needed
 
         // Teacher login functionality
@@ -236,87 +254,125 @@
         });
 
         function loadSubmissions() {
-            // Show loading indicator
+            // Show loading indicators
             const resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading submissions from database...</p></div>';
-            
-            // Fetch from Neon database via Netlify Function
-            fetch('/.netlify/functions/get-submissions')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        submissions = data.submissions;
-                        console.log(`Loaded ${data.count} submissions from database`);
-                    } else {
-                        console.error('Error loading submissions:', data.error);
-                        submissions = [];
-                    }
-                    displayStatistics();
-                    displayResults();
-                })
-                .catch(error => {
-                    console.error('Error fetching submissions:', error);
+            const placementResultsContainer = document.getElementById('placementResultsContainer');
+
+            resultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading listening exam submissions...</p></div>';
+            placementResultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading placement test submissions...</p></div>';
+
+            // Load both listening exam and placement test results
+            Promise.all([
+                fetch('/.netlify/functions/get-submissions').then(response => response.json()),
+                fetch('/.netlify/functions/get-placement-submissions').then(response => response.json())
+            ])
+            .then(([listeningData, placementData]) => {
+                // Handle listening exam results
+                if (listeningData.success) {
+                    submissions = listeningData.submissions;
+                    console.log(`Loaded ${listeningData.count} listening exam submissions from database`);
+                } else {
+                    console.error('Error loading listening submissions:', listeningData.error);
                     submissions = [];
-                    displayStatistics();
-                    displayResults();
-                    
-                    // Show error message
-                    const resultsContainer = document.getElementById('resultsContainer');
-                    resultsContainer.innerHTML = `
-                        <div class="text-center py-8 text-red-600">
-                            <i class="fas fa-exclamation-triangle text-3xl mb-4"></i>
-                            <h3 class="text-xl font-semibold mb-2">Connection Error</h3>
-                            <p>Unable to connect to database. Please check your internet connection.</p>
-                            <button onclick="loadSubmissions()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                                <i class="fas fa-refresh mr-2"></i>Retry
-                            </button>
-                        </div>
-                    `;
-                });
+                }
+
+                // Handle placement test results
+                if (placementData.success) {
+                    placementSubmissions = placementData.submissions;
+                    console.log(`Loaded ${placementData.count} placement test submissions from database`);
+                } else {
+                    console.error('Error loading placement submissions:', placementData.error);
+                    placementSubmissions = [];
+                }
+
+                displayStatistics();
+                displayResults();
+                displayPlacementResults();
+            })
+            .catch(error => {
+                console.error('Error fetching submissions:', error);
+                submissions = [];
+                placementSubmissions = [];
+                displayStatistics();
+                displayResults();
+                displayPlacementResults();
+
+                // Show error messages
+                const resultsContainer = document.getElementById('resultsContainer');
+                const placementResultsContainer = document.getElementById('placementResultsContainer');
+
+                const errorMessage = `
+                    <div class="text-center py-8 text-red-600">
+                        <i class="fas fa-exclamation-triangle text-3xl mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Connection Error</h3>
+                        <p>Unable to connect to database. Please check your internet connection.</p>
+                        <button onclick="loadSubmissions()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            <i class="fas fa-refresh mr-2"></i>Retry
+                        </button>
+                    </div>
+                `;
+
+                resultsContainer.innerHTML = errorMessage;
+                placementResultsContainer.innerHTML = errorMessage;
+            });
         }
 
         function displayStatistics() {
             const statsContainer = document.getElementById('statsContainer');
-            
-            if (submissions.length === 0) {
-                statsContainer.innerHTML = '';
-                return;
-            }
 
-            const totalStudents = submissions.length;
-            const totalQuestions = 10;
-            let totalCorrect = 0;
-            let completedExams = 0;
+            // Calculate listening exam statistics
+            const listeningStudents = submissions.length;
+            const listeningQuestions = 10;
+            let listeningCorrect = 0;
+            let listeningCompleted = 0;
 
             submissions.forEach(submission => {
-                if (submission.completed) completedExams++;
-                
+                if (submission.completed) listeningCompleted++;
+
                 submission.answers.forEach(answer => {
                     if (correctAnswers[answer.number] === answer.image) {
-                        totalCorrect++;
+                        listeningCorrect++;
                     }
                 });
             });
 
-            const averageScore = totalStudents > 0 ? ((totalCorrect / (totalStudents * totalQuestions)) * 100).toFixed(1) : 0;
-            const completionRate = totalStudents > 0 ? ((completedExams / totalStudents) * 100).toFixed(1) : 0;
+            const listeningAverage = listeningStudents > 0 ? ((listeningCorrect / (listeningStudents * listeningQuestions)) * 100).toFixed(1) : 0;
+
+            // Calculate placement test statistics
+            const placementStudents = placementSubmissions.length;
+            let placementTotalScore = 0;
+            let placementLevel4Ready = 0;
+
+            placementSubmissions.forEach(submission => {
+                placementTotalScore += submission.totalScore;
+                if (submission.placementLevel === 'Level 4' || submission.placementLevel === 'Level 4+') {
+                    placementLevel4Ready++;
+                }
+            });
+
+            const placementAverage = placementStudents > 0 ? ((placementTotalScore / (placementStudents * 49)) * 100).toFixed(1) : 0;
+            const level4ReadyPercent = placementStudents > 0 ? ((placementLevel4Ready / placementStudents) * 100).toFixed(1) : 0;
 
             statsContainer.innerHTML = `
                 <div class="stat-card">
-                    <div class="stat-number">${totalStudents}</div>
-                    <div>Total Students</div>
+                    <div class="stat-number">${listeningStudents}</div>
+                    <div>Listening Exam Students</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">${completedExams}</div>
-                    <div>Completed Exams</div>
+                    <div class="stat-number">${placementStudents}</div>
+                    <div>Placement Test Students</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">${averageScore}%</div>
-                    <div>Average Score</div>
+                    <div class="stat-number">${listeningAverage}%</div>
+                    <div>Listening Avg Score</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">${completionRate}%</div>
-                    <div>Completion Rate</div>
+                    <div class="stat-number">${placementAverage}%</div>
+                    <div>Placement Avg Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${level4ReadyPercent}%</div>
+                    <div>Level 4 Ready</div>
                 </div>
             `;
         }
@@ -426,6 +482,121 @@
                 } else {
                     details += `${i}. ${studentAnswer.image} ✗ (Correct: ${correctAnswer})\n`;
                 }
+            }
+
+            alert(details);
+        }
+
+        function displayPlacementResults() {
+            const placementResultsContainer = document.getElementById('placementResultsContainer');
+            const noPlacementResults = document.getElementById('noPlacementResults');
+
+            if (placementSubmissions.length === 0) {
+                noPlacementResults.style.display = 'block';
+                placementResultsContainer.innerHTML = '';
+                return;
+            }
+
+            noPlacementResults.style.display = 'none';
+
+            const resultsHTML = placementSubmissions.map(submission => {
+                const timestamp = new Date(submission.timestamp).toLocaleString();
+                const completionTime = submission.completionTime || 'N/A';
+
+                return `
+                    <div class="student-card">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4">
+                            <div class="mb-2 sm:mb-0">
+                                <h3 class="text-lg font-bold text-gray-800">${submission.studentName}</h3>
+                                <p class="text-sm text-gray-600">
+                                    <i class="fas fa-clock mr-1"></i>Submitted: ${timestamp}
+                                </p>
+                                <p class="text-sm text-gray-600">
+                                    <i class="fas fa-stopwatch mr-1"></i>Completion Time: ${completionTime}
+                                </p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-blue-600">${submission.totalScore}/49</div>
+                                <div class="text-sm text-gray-600">${((submission.totalScore / 49) * 100).toFixed(1)}%</div>
+                                <div class="text-sm font-semibold text-green-600 mt-1">${submission.placementLevel}</div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-blue-50 p-3 rounded">
+                                <h4 class="font-semibold text-blue-800">Level 3 Score</h4>
+                                <div class="text-xl font-bold text-blue-600">${submission.level3Score}/24</div>
+                                <div class="text-sm text-gray-600">${((submission.level3Score / 24) * 100).toFixed(1)}%</div>
+                            </div>
+                            <div class="bg-purple-50 p-3 rounded">
+                                <h4 class="font-semibold text-purple-800">Level 4 Score</h4>
+                                <div class="text-xl font-bold text-purple-600">${submission.level4Score}/25</div>
+                                <div class="text-sm text-gray-600">${((submission.level4Score / 25) * 100).toFixed(1)}%</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-3 rounded mb-4">
+                            <h4 class="font-semibold text-green-800 mb-1">Recommendation</h4>
+                            <p class="text-sm text-green-700">${submission.recommendation}</p>
+                        </div>
+
+                        ${submission.writingContent ? `
+                        <div class="bg-gray-50 p-3 rounded">
+                            <h4 class="font-semibold text-gray-800 mb-1">Writing Task (${submission.writingTask})</h4>
+                            <p class="text-sm text-gray-700 whitespace-pre-wrap">${submission.writingContent}</p>
+                        </div>
+                        ` : ''}
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button onclick="showPlacementDetails('${submission.id}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                                <i class="fas fa-eye mr-1"></i>View Details
+                            </button>
+                            <span class="text-xs text-gray-500">Questions Answered: ${submission.questionsAnswered}/49</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            placementResultsContainer.innerHTML = resultsHTML;
+        }
+
+        function showPlacementDetails(submissionId) {
+            const submission = placementSubmissions.find(sub => sub.id == submissionId);
+            if (!submission) {
+                alert('Submission not found');
+                return;
+            }
+
+            let details = `Placement Test Details for ${submission.studentName}\n`;
+            details += `========================================\n`;
+            details += `Submission Time: ${new Date(submission.timestamp).toLocaleString()}\n`;
+            details += `Completion Time: ${submission.completionTime}\n`;
+            details += `Total Score: ${submission.totalScore}/49 (${((submission.totalScore / 49) * 100).toFixed(1)}%)\n`;
+            details += `Level 3 Score: ${submission.level3Score}/24 (${((submission.level3Score / 24) * 100).toFixed(1)}%)\n`;
+            details += `Level 4 Score: ${submission.level4Score}/25 (${((submission.level4Score / 25) * 100).toFixed(1)}%)\n`;
+            details += `Placement Level: ${submission.placementLevel}\n`;
+            details += `Recommendation: ${submission.recommendation}\n\n`;
+
+            if (submission.writingContent) {
+                details += `Writing Task (${submission.writingTask}):\n`;
+                details += `${submission.writingContent}\n\n`;
+            }
+
+            details += `Detailed Answers:\n`;
+            details += `================\n`;
+
+            // Show first few answers as example
+            for (let i = 1; i <= Math.min(10, 49); i++) {
+                const answer = submission.answers[`question_${i}`];
+                if (answer) {
+                    details += `Q${i}: ${answer}\n`;
+                } else {
+                    details += `Q${i}: No answer\n`;
+                }
+            }
+
+            if (Object.keys(submission.answers).length > 10) {
+                details += `... and ${Object.keys(submission.answers).length - 10} more answers\n`;
             }
 
             alert(details);
