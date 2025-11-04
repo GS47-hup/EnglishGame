@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4 Writing Exam - Online | SpokenEnglish Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #c0392b 0%, #922b21 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #c0392b 0%, #922b21 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .registration {
+            padding: 30px;
+            background: #ecf0f1;
+            display: block;
+        }
+
+        .registration.hide {
+            display: none;
+        }
+
+        .registration h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #922b21;
+            transform: scale(1.05);
+        }
+
+        .timer-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: none;
+        }
+
+        .timer-bar.active {
+            display: block;
+        }
+
+        .timer-bar.warning {
+            background: #f39c12;
+            animation: pulse 1s infinite;
+        }
+
+        .timer-bar.critical {
+            background: #e74c3c;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .content {
+            padding: 40px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #c0392b 0%, #922b21 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .part {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #c0392b;
+        }
+
+        .part-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .part-header h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+
+        .points {
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .question-number {
+            background: #c0392b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #c0392b;
+        }
+
+        textarea.answer-input {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .story-textarea {
+            min-height: 300px !important;
+        }
+
+        .word-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #c0392b;
+        }
+
+        .submit-section {
+            text-align: center;
+            padding: 40px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.5em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #229954;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+        }
+
+        .summary {
+            display: none;
+            padding: 40px;
+        }
+
+        .summary.active {
+            display: block;
+        }
+
+        .summary-header {
+            background: #27ae60;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .summary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .summary-question {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #c0392b;
+        }
+
+        .answer-display {
+            background: #d4edda;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            color: #155724;
+            white-space: pre-wrap;
+        }
+
+        .placeholder-note {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .placeholder-note strong {
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✍️ Level 4 Writing Exam</h1>
+            <p>Online Version - 25 Minutes | 6 Questions (25 Points)</p>
+        </div>
+
+        <!-- Registration -->
+        <div id="registration" class="registration">
+            <h2>📋 Student Information</h2>
+            <div class="placeholder-note">
+                <strong>⚠️ PLACEHOLDER:</strong> Student authentication will be implemented with server integration.
+            </div>
+
+            <div class="form-group">
+                <label for="student-name">Student Name:</label>
+                <input type="text" id="student-name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="student-id">Student ID:</label>
+                <input type="text" id="student-id" placeholder="Enter your student ID" required>
+            </div>
+
+            <button class="btn" onclick="startExam()">Start Writing Exam</button>
+        </div>
+
+        <!-- Timer -->
+        <div id="timer" class="timer-bar">
+            <span id="timer-display">⏱️ Time Remaining: 25:00</span>
+        </div>
+
+        <!-- Exam Content -->
+        <div id="content" class="content">
+            <div class="section-header">
+                <h2>✍️ Writing</h2>
+                <p>Answer all 6 questions | Time: 25 minutes | Total: 25 points</p>
+            </div>
+
+            <!-- Part 1: Complete the Sentences -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 1: Complete the Sentences</h3>
+                    <span class="points">10 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Look at the descriptions and complete the sentences. (2 points each)</p>
+
+                <div class="question">
+                    <span class="question-number">1</span>
+                    <div style="background: #e8f5e9; padding: 12px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #27ae60;">
+                        <strong>Picture description:</strong> Children playing baseball yesterday
+                    </div>
+                    <strong>Yesterday, they ___________________________.</strong>
+                    <input type="text" class="answer-input" id="q1" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">2</span>
+                    <div style="background: #e8f5e9; padding: 12px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #27ae60;">
+                        <strong>Picture description:</strong> Girl with long, straight, blonde hair
+                    </div>
+                    <strong>She has ___________________________.</strong>
+                    <input type="text" class="answer-input" id="q2" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">3</span>
+                    <div style="background: #e8f5e9; padding: 12px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #27ae60;">
+                        <strong>Picture description:</strong> Family packing swimsuit, towel, and sunglasses for vacation
+                    </div>
+                    <strong>They're going to take ___________________________ on vacation.</strong>
+                    <input type="text" class="answer-input" id="q3" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">4</span>
+                    <div style="background: #e8f5e9; padding: 12px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #27ae60;">
+                        <strong>Picture description:</strong> Girl painting pictures at home
+                    </div>
+                    <strong>She likes to ___________________________ in her free time.</strong>
+                    <input type="text" class="answer-input" id="q4" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">5</span>
+                    <div style="background: #e8f5e9; padding: 12px; border-radius: 5px; margin: 10px 0; border-left: 3px solid #27ae60;">
+                        <strong>Picture description:</strong> Comparison of three animals: panda, cheetah, hippopotamus (hippopotamus is biggest)
+                    </div>
+                    <strong>The hippopotamus is ___________________________ animal.</strong>
+                    <input type="text" class="answer-input" id="q5" placeholder="Type your answer here">
+                </div>
+            </div>
+
+            <!-- Part 2: Write a Short Story -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 2: Write a Short Story</h3>
+                    <span class="points">15 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Choose ONE topic and write 5-7 sentences. Use correct grammar and vocabulary from Level 4.</p>
+
+                <div class="word-box">
+                    <strong>Choose ONE topic:</strong>
+                    <br><br>
+                    <strong>Topic A:</strong> My Favorite Sport or Activity
+                    <br><strong>Topic B:</strong> My Last Weekend
+                    <br><strong>Topic C:</strong> My Vacation Plans
+                </div>
+
+                <div class="question">
+                    <span class="question-number">6</span>
+                    <strong>Write your story here (5-7 sentences):</strong>
+                    <textarea class="answer-input story-textarea" id="q6" placeholder="Write your story here. Remember to:
+• Write 5-7 sentences
+• Use Level 4 vocabulary and grammar
+• Include details and descriptions
+• Check your spelling and punctuation
+
+Example topics to write about:
+- Topic A: What sport/activity do you like? Why? When do you do it?
+- Topic B: Where did you go? What did you do? Who was with you?
+- Topic C: Where will you go? What will you take? What will you do?"></textarea>
+                </div>
+
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #2196f3;">
+                    <strong>📝 Scoring Rubric (15 points total):</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Grammar (5 points):</strong> Correct use of tenses, sentence structure</li>
+                        <li><strong>Vocabulary (5 points):</strong> Uses Level 4 vocabulary appropriately</li>
+                        <li><strong>Content & Organization (5 points):</strong> Clear ideas, logical flow, appropriate length (5-7 sentences)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SUBMIT SECTION -->
+            <div class="submit-section">
+                <h2>✅ Finished? Submit Your Writing Exam</h2>
+                <p style="margin: 20px 0; color: #666;">Please review your answers before submitting.</p>
+
+                <div class="placeholder-note">
+                    <strong>⚠️ PLACEHOLDER:</strong> Server submission will be implemented later.
+                </div>
+
+                <button class="submit-btn" onclick="submitExam()">📝 SUBMIT WRITING EXAM</button>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div id="summary" class="summary">
+            <div class="summary-header">
+                <h1>✅ Writing Exam Submitted!</h1>
+                <p style="margin-top: 10px;">Thank you for completing the Writing section</p>
+                <p id="student-info" style="margin-top: 20px; font-size: 1.2em;"></p>
+            </div>
+
+            <div class="placeholder-note">
+                <strong>⚠️ PLACEHOLDER:</strong> This data will be sent to server for teacher grading.
+            </div>
+
+            <div class="summary-section">
+                <h3>✍️ Your Writing Answers (6 questions)</h3>
+                <div id="answers-summary"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px; padding: 20px; background: #d4edda; border-radius: 10px;">
+                <p style="color: #155724; font-size: 1.2em; font-weight: bold;">✅ Your teacher will grade your exam and provide feedback soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeRemaining = 25 * 60; // 25 minutes
+        let examStartTime = null;
+
+        // Auto-fill student info from session
+        window.addEventListener('DOMContentLoaded', function() {
+            const examSession = sessionStorage.getItem('examSession');
+            if (examSession) {
+                const session = JSON.parse(examSession);
+                document.getElementById('student-name').value = session.studentName || '';
+                document.getElementById('student-id').value = 'AUTO-' + Date.now();
+
+                // Auto-hide placeholder note
+                const placeholder = document.querySelector('.placeholder-note');
+                if (placeholder) placeholder.style.display = 'none';
+            }
+        });
+
+        function startExam() {
+            const name = document.getElementById('student-name').value;
+            const id = document.getElementById('student-id').value;
+
+            if (!name || !id) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            localStorage.setItem('studentName', name);
+            localStorage.setItem('studentId', id);
+            examStartTime = new Date();
+
+            document.getElementById('registration').classList.add('hide');
+            document.getElementById('timer').classList.add('active');
+            document.getElementById('content').classList.add('active');
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining === 5 * 60) {
+                    document.getElementById('timer').classList.add('warning');
+                    alert('⚠️ 5 minutes remaining!');
+                }
+
+                if (timeRemaining === 60) {
+                    document.getElementById('timer').classList.remove('warning');
+                    document.getElementById('timer').classList.add('critical');
+                    alert('🚨 Only 1 minute left!');
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ Time is up!');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer-display').textContent =
+                `⏱️ Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        async function submitExam() {
+            clearInterval(timerInterval);
+
+            const answers = {};
+
+            // All 6 questions are text/textarea inputs
+            for (let i = 1; i <= 6; i++) {
+                const el = document.getElementById(`q${i}`);
+                answers[`q${i}`] = el ? el.value || '(No answer)' : '(No answer)';
+            }
+
+            // Calculate time taken
+            const timeTaken = examStartTime ?
+                Math.floor((new Date() - examStartTime) / 1000 / 60) + ' minutes' : 'N/A';
+
+            // Submit to database
+            await submitToDatabase(answers, timeTaken);
+
+            displaySummary(answers);
+
+            document.getElementById('timer').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('summary').classList.add('active');
+        }
+
+        async function submitToDatabase(answers, timeTaken) {
+            const name = localStorage.getItem('studentName');
+            const id = localStorage.getItem('studentId');
+
+            const submissionData = {
+                studentName: name,
+                studentId: id,
+                examType: 'Writing',
+                level: 4,
+                answers: answers,
+                timeTaken: timeTaken,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/submit-level4-exam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(submissionData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Level 4 Writing Exam submitted to database successfully!', result);
+                } else {
+                    console.error('❌ Submission failed:', result.error);
+                    alert('⚠️ Exam submitted but there was an issue saving to database. Please inform your teacher.');
+                }
+            } catch (error) {
+                console.error('❌ Database submission error:', error);
+                alert('⚠️ Exam submitted but there was a connection issue. Your answers are saved locally.');
+            }
+        }
+
+        function displaySummary(answers) {
+            const name = localStorage.getItem('studentName');
+            const id = localStorage.getItem('studentId');
+            const time = new Date().toLocaleString();
+
+            document.getElementById('student-info').textContent =
+                `Student: ${name} | ID: ${id} | Submitted: ${time}`;
+
+            let html = '';
+            for (let i = 1; i <= 6; i++) {
+                html += `
+                    <div class="summary-question">
+                        <strong>Question ${i}:</strong>
+                        <div class="answer-display">${answers[`q${i}`]}</div>
+                    </div>
+                `;
+            }
+            document.getElementById('answers-summary').innerHTML = html;
+
+            console.log('Level 4 Writing Exam Submitted:', { student: {name, id}, answers, time });
+        }
+    </script>
+</body>
+</html>

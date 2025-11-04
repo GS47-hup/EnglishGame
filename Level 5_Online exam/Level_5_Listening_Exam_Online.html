@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 5 Listening Exam - Online | SpokenEnglish Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .registration {
+            padding: 30px;
+            background: #ecf0f1;
+            display: block;
+        }
+
+        .registration.hide {
+            display: none;
+        }
+
+        .registration h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #d35400;
+            transform: scale(1.05);
+        }
+
+        .timer-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: none;
+        }
+
+        .timer-bar.active {
+            display: block;
+        }
+
+        .timer-bar.warning {
+            background: #f39c12;
+            animation: pulse 1s infinite;
+        }
+
+        .timer-bar.critical {
+            background: #e74c3c;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .content {
+            padding: 40px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .instruction-box {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .instruction-box strong {
+            color: #856404;
+        }
+
+        .part {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #e67e22;
+        }
+
+        .part-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .part-header h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+
+        .points {
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .question-number {
+            background: #e67e22;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #e67e22;
+        }
+
+        .word-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #e67e22;
+        }
+
+        .option {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #e67e22;
+            background: #ecf0f1;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .audio-player {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .audio-player strong {
+            display: block;
+            margin-bottom: 15px;
+            color: #155724;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .play-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .play-btn:hover {
+            background: #229954;
+        }
+
+        .play-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .plays-remaining {
+            background: #e67e22;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .submit-section {
+            text-align: center;
+            padding: 40px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.5em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #229954;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+        }
+
+        .summary {
+            display: none;
+            padding: 40px;
+        }
+
+        .summary.active {
+            display: block;
+        }
+
+        .summary-header {
+            background: #27ae60;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .summary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .summary-question {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #e67e22;
+        }
+
+        .answer-display {
+            background: #d4edda;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            color: #155724;
+        }
+
+        .placeholder-note {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .placeholder-note strong {
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👂 Level 5 Listening Exam</h1>
+            <p>Online Version - 25 Minutes | 25 Questions</p>
+        </div>
+
+        <!-- Registration -->
+        <div id="registration" class="registration">
+            <h2>📋 Student Information</h2>
+            <div class="placeholder-note">
+                <strong>⚠️ PLACEHOLDER:</strong> Student authentication will be implemented with server integration.
+            </div>
+
+            <div class="form-group">
+                <label for="student-name">Student Name:</label>
+                <input type="text" id="student-name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="student-id">Student ID:</label>
+                <input type="text" id="student-id" placeholder="Enter your student ID" required>
+            </div>
+
+            <button class="btn" onclick="startExam()">Start Listening Exam</button>
+        </div>
+
+        <!-- Timer -->
+        <div id="timer" class="timer-bar">
+            <span id="timer-display">⏱️ Time Remaining: 25:00</span>
+        </div>
+
+        <!-- Exam Content -->
+        <div id="content" class="content">
+            <div class="section-header">
+                <h2>👂 Listening Comprehension</h2>
+                <p>Answer all 25 questions | Time: 25 minutes</p>
+            </div>
+
+            <div class="instruction-box">
+                <strong>🎧 IMPORTANT:</strong> You can play each audio TWO TIMES ONLY. After 2 plays, the audio will be disabled. Listen carefully!
+            </div>
+
+            <!-- Part 1: Multiple Choice -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 1: Multiple Choice</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to five short dialogues and choose the correct answer (A, B, or C).</p>
+
+                <div class="question">
+                    <span class="question-number">1</span>
+                    <strong>What is the girl's favorite subject?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 1:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l1')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l1">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio file: l1_favorite_subject.mp3</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q1" value="A"> A) Math
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="B"> B) Science
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="C"> C) English
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">2</span>
+                    <strong>How does the boy stay healthy?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 2:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l2')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l2">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio file: l2_healthy.mp3</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q2" value="A"> A) He eats vegetables
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="B"> B) He runs every day
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q2" value="C"> C) He drinks lots of water
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">3</span>
+                    <strong>What does the girl want to be when she grows up?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 3:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l3')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l3">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio file: l3_future_job.mp3</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q3" value="A"> A) A doctor
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="B"> B) A dentist
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q3" value="C"> C) A scientist
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">4</span>
+                    <strong>Where did they go last weekend?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 4:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l4')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l4">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio file: l4_weekend.mp3</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q4" value="A"> A) To the library
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="B"> B) To the desert
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q4" value="C"> C) To the mountains
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">5</span>
+                    <strong>What is the boy doing now?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 5:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l5')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l5">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio file: l5_website.mp3</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q5" value="A"> A) Watching a documentary
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="B"> B) Playing video games
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q5" value="C"> C) Creating a website
+                    </label>
+                </div>
+            </div>
+
+            <!-- Part 2: Gap Fill -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 2: Gap Fill - Future Plans</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to Tom talking about his future plans. Write the missing words.</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Passage - Tom's Future Dreams:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l6')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l6">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l6_tom_future.mp3</em></p>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                    <h4>Tom's Future Dreams</h4>
+                    <p style="margin-top: 10px;">
+                    When I grow up, I'm going to be a <input type="text" class="answer-input" id="q6" style="display: inline-block; width: 200px; margin: 0 5px;">. I love working with computers and technology. I have already learned how to create websites, and next month I <input type="text" class="answer-input" id="q7" style="display: inline-block; width: 150px; margin: 0 5px;"> learn about computer programming. I think it will be really interesting!
+                    </p>
+                    <p style="margin-top: 10px;">
+                    In the future, I want to travel to <input type="text" class="answer-input" id="q8" style="display: inline-block; width: 150px; margin: 0 5px;"> and work for a big technology company. My dad says if I study hard, I <input type="text" class="answer-input" id="q9" style="display: inline-block; width: 150px; margin: 0 5px;"> be very successful. I <input type="text" class="answer-input" id="q10" style="display: inline-block; width: 150px; margin: 0 5px;"> visited Silicon Valley, but I will go there one day!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Part 3: True or False -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 3: True or False - Past Experience</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to Lisa talking about her weekend. Write T (True) or F (False).</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Passage - Lisa's Weekend:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l7')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l7">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l7_lisa_weekend.mp3</em></p>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">11</span>
+                    <strong>Lisa was studying while her brother was playing video games.</strong>
+                    <input type="text" class="answer-input" id="q11" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">12</span>
+                    <strong>Lisa borrowed books about technology from the library.</strong>
+                    <input type="text" class="answer-input" id="q12" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">13</span>
+                    <strong>Lisa had a salad on Sunday.</strong>
+                    <input type="text" class="answer-input" id="q13" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">14</span>
+                    <strong>They watched a documentary about deserts.</strong>
+                    <input type="text" class="answer-input" id="q14" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">15</span>
+                    <strong>Lisa has already run a marathon.</strong>
+                    <input type="text" class="answer-input" id="q15" placeholder="Type T or F">
+                </div>
+            </div>
+
+            <!-- Part 4: Listen and Match -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 4: Listen and Match</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to five people talking about their jobs. Match each speaker to their profession.</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Passage - Jobs:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l8')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l8">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l8_jobs.mp3</em></p>
+                </div>
+
+                <div class="word-box">
+                    <strong>Jobs:</strong> Computer Scientist | Dentist | Chef | Teacher | Nurse
+                </div>
+
+                <div class="question">
+                    <span class="question-number">16</span>
+                    <strong>Speaker 1 is a:</strong>
+                    <input type="text" class="answer-input" id="q16" placeholder="Type the job">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">17</span>
+                    <strong>Speaker 2 is a:</strong>
+                    <input type="text" class="answer-input" id="q17" placeholder="Type the job">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">18</span>
+                    <strong>Speaker 3 is a:</strong>
+                    <input type="text" class="answer-input" id="q18" placeholder="Type the job">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">19</span>
+                    <strong>Speaker 4 is a:</strong>
+                    <input type="text" class="answer-input" id="q19" placeholder="Type the job">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">20</span>
+                    <strong>Speaker 5 is a:</strong>
+                    <input type="text" class="answer-input" id="q20" placeholder="Type the job">
+                </div>
+            </div>
+
+            <!-- Part 5: Comprehension Questions -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 5: Comprehension Questions</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to the passage about adventures and answer the questions.</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Passage - Adventures:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l9')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l9">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l9_adventures.mp3</em></p>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">21</span>
+                    <strong>Where did they go last summer?</strong>
+                    <input type="text" class="answer-input" id="q21" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">22</span>
+                    <strong>What did they see while they were climbing?</strong>
+                    <input type="text" class="answer-input" id="q22" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">23</span>
+                    <strong>Who is good at making fires?</strong>
+                    <input type="text" class="answer-input" id="q23" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">24</span>
+                    <strong>What did they look at at night?</strong>
+                    <input type="text" class="answer-input" id="q24" placeholder="Type your answer here">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">25</span>
+                    <strong>What should you bring when camping in the mountains?</strong>
+                    <input type="text" class="answer-input" id="q25" placeholder="Type your answer here">
+                </div>
+            </div>
+
+            <!-- SUBMIT SECTION -->
+            <div class="submit-section">
+                <h2>✅ Finished? Submit Your Listening Exam</h2>
+                <p style="margin: 20px 0; color: #666;">Please review your answers before submitting.</p>
+
+                <div class="placeholder-note">
+                    <strong>⚠️ PLACEHOLDER:</strong> Server submission will be implemented later.
+                </div>
+
+                <button class="submit-btn" onclick="submitExam()">📝 SUBMIT LISTENING EXAM</button>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div id="summary" class="summary">
+            <div class="summary-header">
+                <h1>✅ Listening Exam Submitted!</h1>
+                <p style="margin-top: 10px;">Thank you for completing the Listening section</p>
+                <p id="student-info" style="margin-top: 20px; font-size: 1.2em;"></p>
+            </div>
+
+            <div class="placeholder-note">
+                <strong>⚠️ PLACEHOLDER:</strong> This data will be sent to server for teacher grading.
+            </div>
+
+            <div class="summary-section">
+                <h3>👂 Your Listening Answers (25 questions)</h3>
+                <div id="answers-summary"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px; padding: 20px; background: #d4edda; border-radius: 10px;">
+                <p style="color: #155724; font-size: 1.2em; font-weight: bold;">✅ Your teacher will grade your exam and provide feedback soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeRemaining = 25 * 60; // 25 minutes
+        let examStartTime = null;
+        let audioPlays = {
+            l1: 2, l2: 2, l3: 2, l4: 2, l5: 2,
+            l6: 2, l7: 2, l8: 2, l9: 2
+        };
+
+        // Auto-fill student info from session
+        window.addEventListener('DOMContentLoaded', function() {
+            const examSession = sessionStorage.getItem('examSession');
+            if (examSession) {
+                const session = JSON.parse(examSession);
+                document.getElementById('student-name').value = session.studentName || '';
+                document.getElementById('student-id').value = 'AUTO-' + Date.now();
+
+                // Auto-hide placeholder note
+                const placeholder = document.querySelector('.placeholder-note');
+                if (placeholder) placeholder.style.display = 'none';
+            }
+        });
+
+        function startExam() {
+            const name = document.getElementById('student-name').value;
+            const id = document.getElementById('student-id').value;
+
+            if (!name || !id) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            localStorage.setItem('studentName', name);
+            localStorage.setItem('studentId', id);
+            examStartTime = new Date();
+
+            document.getElementById('registration').classList.add('hide');
+            document.getElementById('timer').classList.add('active');
+            document.getElementById('content').classList.add('active');
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining === 5 * 60) {
+                    document.getElementById('timer').classList.add('warning');
+                    alert('⚠️ 5 minutes remaining!');
+                }
+
+                if (timeRemaining === 60) {
+                    document.getElementById('timer').classList.remove('warning');
+                    document.getElementById('timer').classList.add('critical');
+                    alert('🚨 Only 1 minute left!');
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ Time is up!');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer-display').textContent =
+                `⏱️ Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function playAudio(audioId) {
+            if (audioPlays[audioId] > 0) {
+                // PLACEHOLDER: In real implementation, this would play the actual audio file
+                alert(`🎧 Playing audio: ${audioId}.mp3\n\n⚠️ PLACEHOLDER: Audio file will be loaded when integrated with server.\n\nPlays remaining after this: ${audioPlays[audioId] - 1}/2`);
+
+                // Decrement plays
+                audioPlays[audioId]--;
+                document.getElementById(`plays-${audioId}`).textContent = `Plays: ${audioPlays[audioId]}/2`;
+
+                // Disable button if no plays left
+                const buttons = document.querySelectorAll(`button[onclick="playAudio('${audioId}')"]`);
+                if (audioPlays[audioId] === 0) {
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.textContent = '🚫 No Plays Remaining';
+                    });
+                }
+            } else {
+                alert('❌ You have used all your plays for this audio!');
+            }
+        }
+
+        async function submitExam() {
+            clearInterval(timerInterval);
+
+            const answers = {};
+
+            // Radio buttons q1-q5
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                answers[`q${i}`] = selected ? selected.value : '(No answer)';
+            }
+
+            // Text inputs q6-q25
+            for (let i = 6; i <= 25; i++) {
+                const el = document.getElementById(`q${i}`);
+                answers[`q${i}`] = el ? el.value || '(No answer)' : '(No answer)';
+            }
+
+            // Calculate time taken
+            const timeTaken = examStartTime ?
+                Math.floor((new Date() - examStartTime) / 1000 / 60) + ' minutes' : 'N/A';
+
+            // Submit to database
+            await submitToDatabase(answers, timeTaken);
+
+            displaySummary(answers);
+
+            document.getElementById('timer').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('summary').classList.add('active');
+        }
+
+        async function submitToDatabase(answers, timeTaken) {
+            const name = localStorage.getItem('studentName');
+            const id = localStorage.getItem('studentId');
+
+            const submissionData = {
+                studentName: name,
+                studentId: id,
+                examType: 'Listening',
+                level: 5,
+                answers: answers,
+                audioPlaysUsed: audioPlays,
+                timeTaken: timeTaken,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/submit-level5-exam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(submissionData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Level 5 Listening Exam submitted to database successfully!', result);
+                } else {
+                    console.error('❌ Submission failed:', result.error);
+                    alert('⚠️ Exam submitted but there was an issue saving to database. Please inform your teacher.');
+                }
+            } catch (error) {
+                console.error('❌ Database submission error:', error);
+                alert('⚠️ Exam submitted but there was a connection issue. Your answers are saved locally.');
+            }
+        }
+
+        function displaySummary(answers) {
+            const name = localStorage.getItem('studentName');
+            const id = localStorage.getItem('studentId');
+            const time = new Date().toLocaleString();
+
+            document.getElementById('student-info').textContent =
+                `Student: ${name} | ID: ${id} | Submitted: ${time}`;
+
+            let html = '';
+            for (let i = 1; i <= 25; i++) {
+                html += `
+                    <div class="summary-question">
+                        <strong>Question ${i}:</strong>
+                        <div class="answer-display">${answers[`q${i}`]}</div>
+                    </div>
+                `;
+            }
+            document.getElementById('answers-summary').innerHTML = html;
+
+            console.log('Listening Exam Submitted:', { student: {name, id}, answers, time, audioPlaysUsed: audioPlays });
+        }
+    </script>
+</body>
+</html>

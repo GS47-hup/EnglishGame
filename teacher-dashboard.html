@@ -242,6 +242,42 @@
                 <!-- Test system results will be generated here -->
             </div>
         </div>
+
+        <!-- Level 4 Exam Results -->
+        <div class="dashboard-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-book-reader mr-2 text-green-600"></i>Level 4 Exam Results
+            </h2>
+            <p class="text-gray-600 mb-4">Reading (25Q), Writing (6Q), Listening (25Q) - 25-30 minutes each</p>
+
+            <div id="noLevel4Results" class="text-center py-12 text-gray-500" style="display: none;">
+                <i class="fas fa-clipboard text-6xl mb-4 text-green-400"></i>
+                <h3 class="text-xl font-semibold mb-2">No Level 4 Submissions Yet</h3>
+                <p>Students' Level 4 exam results will appear here once they complete any exam.</p>
+            </div>
+
+            <div id="level4ResultsContainer">
+                <!-- Level 4 results will be generated here -->
+            </div>
+        </div>
+
+        <!-- Level 5 Exam Results -->
+        <div class="dashboard-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-user-graduate mr-2 text-purple-600"></i>Level 5 Exam Results
+            </h2>
+            <p class="text-gray-600 mb-4">Reading (25Q), Writing (6Q), Listening (25Q) - 30-35 minutes each</p>
+
+            <div id="noLevel5Results" class="text-center py-12 text-gray-500" style="display: none;">
+                <i class="fas fa-award text-6xl mb-4 text-purple-400"></i>
+                <h3 class="text-xl font-semibold mb-2">No Level 5 Submissions Yet</h3>
+                <p>Students' Level 5 exam results will appear here once they complete any exam.</p>
+            </div>
+
+            <div id="level5ResultsContainer">
+                <!-- Level 5 results will be generated here -->
+            </div>
+        </div>
     </div>
 
     <script>
@@ -254,6 +290,8 @@
         let submissions = [];
         let placementSubmissions = [];
         let testSystemSubmissions = [];
+        let level4Submissions = [];
+        let level5Submissions = [];
         const TEACHER_PASSWORD = 'teacher123'; // Change this password as needed
 
         // Teacher login functionality
@@ -281,13 +319,15 @@
             placementResultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading placement test submissions...</p></div>';
             testSystemResultsContainer.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-3xl text-blue-500"></i><p class="mt-2 text-gray-600">Loading test system submissions...</p></div>';
 
-            // Load all three types: listening exam, placement test, and test system results
+            // Load all five types: listening exam, placement test, test system, level 4, and level 5 results
             Promise.all([
                 fetch('/.netlify/functions/get-submissions').then(response => response.json()),
                 fetch('/.netlify/functions/get-placement-submissions').then(response => response.json()),
-                fetch('/.netlify/functions/get-test-system-submissions').then(response => response.json())
+                fetch('/.netlify/functions/get-test-system-submissions').then(response => response.json()),
+                fetch('/.netlify/functions/get-level4-submissions').then(response => response.json()),
+                fetch('/.netlify/functions/get-level5-submissions').then(response => response.json())
             ])
-            .then(([listeningData, placementData, testSystemData]) => {
+            .then(([listeningData, placementData, testSystemData, level4Data, level5Data]) => {
                 // Handle listening exam results
                 if (listeningData.success) {
                     submissions = listeningData.submissions;
@@ -315,20 +355,44 @@
                     testSystemSubmissions = [];
                 }
 
+                // Handle Level 4 results
+                if (level4Data.success) {
+                    level4Submissions = level4Data.submissions;
+                    console.log(`Loaded ${level4Data.count} Level 4 exam submissions from database`);
+                } else {
+                    console.error('Error loading Level 4 submissions:', level4Data.error);
+                    level4Submissions = [];
+                }
+
+                // Handle Level 5 results
+                if (level5Data.success) {
+                    level5Submissions = level5Data.submissions;
+                    console.log(`Loaded ${level5Data.count} Level 5 exam submissions from database`);
+                } else {
+                    console.error('Error loading Level 5 submissions:', level5Data.error);
+                    level5Submissions = [];
+                }
+
                 displayStatistics();
                 displayResults();
                 displayPlacementResults();
                 displayTestSystemResults();
+                displayLevel4Results();
+                displayLevel5Results();
             })
             .catch(error => {
                 console.error('Error fetching submissions:', error);
                 submissions = [];
                 placementSubmissions = [];
                 testSystemSubmissions = [];
+                level4Submissions = [];
+                level5Submissions = [];
                 displayStatistics();
                 displayResults();
                 displayPlacementResults();
                 displayTestSystemResults();
+                displayLevel4Results();
+                displayLevel5Results();
 
                 // Show error messages
                 const resultsContainer = document.getElementById('resultsContainer');
@@ -1032,6 +1096,142 @@
                 loadSubmissions();
             }
         }, 30000);
+
+        // Display Level 4 Exam Results
+        function displayLevel4Results() {
+            const container = document.getElementById('level4ResultsContainer');
+            const noResults = document.getElementById('noLevel4Results');
+
+            if (level4Submissions.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+
+            container.innerHTML = level4Submissions.map(sub => {
+                const data = sub.submissionData || sub;
+                const examIcon = data.examType === 'Reading' ? '📖' :
+                                data.examType === 'Writing' ? '✏️' : '🎧';
+                const examColor = data.examType === 'Reading' ? 'green' :
+                                 data.examType === 'Writing' ? 'blue' : 'orange';
+
+                return `
+                    <div class="student-card">
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${examIcon} ${data.studentName || 'Unknown'}</h3>
+                                <p class="text-gray-600">Student ID: ${data.studentId || 'N/A'}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="inline-block px-4 py-2 bg-${examColor}-100 text-${examColor}-700 rounded-lg font-bold">
+                                    Level 4 - ${data.examType}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <strong>Submitted:</strong> ${new Date(sub.timestamp).toLocaleString()} |
+                            <strong>Time:</strong> ${data.timeTaken || 'N/A'}
+                        </div>
+                        <div class="mt-3">
+                            <button onclick="viewLevel4Details(${sub.id})" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                View Answers
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display Level 5 Exam Results
+        function displayLevel5Results() {
+            const container = document.getElementById('level5ResultsContainer');
+            const noResults = document.getElementById('noLevel5Results');
+
+            if (level5Submissions.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+
+            container.innerHTML = level5Submissions.map(sub => {
+                const data = sub.submissionData || sub;
+                const examIcon = data.examType === 'Reading' ? '📖' :
+                                data.examType === 'Writing' ? '✏️' : '🎧';
+                const examColor = data.examType === 'Reading' ? 'purple' :
+                                 data.examType === 'Writing' ? 'indigo' : 'pink';
+
+                return `
+                    <div class="student-card">
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${examIcon} ${data.studentName || 'Unknown'}</h3>
+                                <p class="text-gray-600">Student ID: ${data.studentId || 'N/A'}</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="inline-block px-4 py-2 bg-${examColor}-100 text-${examColor}-700 rounded-lg font-bold">
+                                    Level 5 - ${data.examType}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <strong>Submitted:</strong> ${new Date(sub.timestamp).toLocaleString()} |
+                            <strong>Time:</strong> ${data.timeTaken || 'N/A'}
+                        </div>
+                        <div class="mt-3">
+                            <button onclick="viewLevel5Details(${sub.id})" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                                View Answers
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // View Level 4 Details (placeholder - to be implemented)
+        function viewLevel4Details(id) {
+            const submission = level4Submissions.find(s => s.id === id);
+            if (!submission) return;
+
+            const data = submission.submissionData || submission;
+            let details = `📝 LEVEL 4 ${data.examType.toUpperCase()} EXAM - ${data.studentName}\n\n`;
+            details += `Student ID: ${data.studentId}\n`;
+            details += `Submitted: ${new Date(submission.timestamp).toLocaleString()}\n`;
+            details += `Time Taken: ${data.timeTaken || 'N/A'}\n\n`;
+            details += `ANSWERS:\n`;
+
+            if (data.answers) {
+                Object.keys(data.answers).forEach(key => {
+                    details += `${key}: ${data.answers[key]}\n`;
+                });
+            }
+
+            alert(details);
+        }
+
+        // View Level 5 Details (placeholder - to be implemented)
+        function viewLevel5Details(id) {
+            const submission = level5Submissions.find(s => s.id === id);
+            if (!submission) return;
+
+            const data = submission.submissionData || submission;
+            let details = `📝 LEVEL 5 ${data.examType.toUpperCase()} EXAM - ${data.studentName}\n\n`;
+            details += `Student ID: ${data.studentId}\n`;
+            details += `Submitted: ${new Date(submission.timestamp).toLocaleString()}\n`;
+            details += `Time Taken: ${data.timeTaken || 'N/A'}\n\n`;
+            details += `ANSWERS:\n`;
+
+            if (data.answers) {
+                Object.keys(data.answers).forEach(key => {
+                    details += `${key}: ${data.answers[key]}\n`;
+                });
+            }
+
+            alert(details);
+        }
 
         // Initial load happens after login
     </script>

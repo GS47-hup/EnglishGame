@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Exam Selection | SpokenEnglish Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header i {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-title {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .selection-card {
+            background: #f8f9fa;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .selection-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .selection-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .selection-card i {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .selection-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .selection-card p {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .exam-type-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .exam-type-card {
+            background: #f8f9fa;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .exam-type-card:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .exam-type-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            color: white;
+        }
+
+        .exam-type-card i {
+            font-size: 2em;
+            min-width: 50px;
+        }
+
+        .exam-type-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .exam-type-info h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .exam-type-info p {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .teacher-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .teacher-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .teacher-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .selection-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>SpokenEnglish Academy</h1>
+            <p>Online Exam System</p>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: Student Name -->
+            <div class="step active" id="step1">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    <span>Enter Your Information</span>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Student Name:</label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="off">
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="goToStep(2)" id="nameNextBtn">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Select Level -->
+            <div class="step" id="step2">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    <span>Select Your Level</span>
+                </div>
+
+                <div class="selection-grid">
+                    <div class="selection-card" onclick="selectLevel('4')">
+                        <i class="fas fa-book-reader"></i>
+                        <h3>Level 4</h3>
+                        <p>Intermediate</p>
+                    </div>
+                    <div class="selection-card" onclick="selectLevel('5')">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Level 5</h3>
+                        <p>Upper Intermediate</p>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn btn-primary" onclick="goToStep(3)" id="levelNextBtn" disabled>
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Select Exam Type -->
+            <div class="step" id="step3">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    <span>Select Exam Type</span>
+                </div>
+
+                <div class="exam-type-grid">
+                    <div class="exam-type-card" onclick="selectExamType('reading')">
+                        <i class="fas fa-book-open"></i>
+                        <div class="exam-type-info">
+                            <h3>Reading Exam</h3>
+                            <p>Reading comprehension and vocabulary</p>
+                        </div>
+                    </div>
+                    <div class="exam-type-card" onclick="selectExamType('writing')">
+                        <i class="fas fa-pen"></i>
+                        <div class="exam-type-info">
+                            <h3>Writing Exam</h3>
+                            <p>Grammar and writing skills</p>
+                        </div>
+                    </div>
+                    <div class="exam-type-card" onclick="selectExamType('listening')">
+                        <i class="fas fa-headphones"></i>
+                        <div class="exam-type-info">
+                            <h3>Listening Exam</h3>
+                            <p>Audio comprehension</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn btn-primary" onclick="goToStep(4)" id="examNextBtn" disabled>
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div class="step" id="step4">
+                <div class="step-title">
+                    <span class="step-number">4</span>
+                    <span>Confirm Your Selection</span>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <span class="summary-label"><i class="fas fa-user"></i> Student Name:</span>
+                        <span class="summary-value" id="summaryName">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label"><i class="fas fa-layer-group"></i> Level:</span>
+                        <span class="summary-value" id="summaryLevel">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label"><i class="fas fa-clipboard-list"></i> Exam Type:</span>
+                        <span class="summary-value" id="summaryExam">-</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToStep(3)">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn btn-primary" onclick="startExam()">
+                        Start Exam <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="teacher-link">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <a href="teacher-dashboard.html">Teacher Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let examData = {
+            studentName: '',
+            level: '',
+            examType: ''
+        };
+
+        // Enable/disable name input button
+        document.getElementById('studentName').addEventListener('input', function() {
+            const btn = document.getElementById('nameNextBtn');
+            btn.disabled = this.value.trim().length === 0;
+        });
+
+        function goToStep(stepNumber) {
+            // Validate current step
+            if (stepNumber === 2) {
+                const name = document.getElementById('studentName').value.trim();
+                if (!name) {
+                    alert('Please enter your name');
+                    return;
+                }
+                examData.studentName = name;
+            }
+
+            if (stepNumber === 3 && !examData.level) {
+                alert('Please select your level');
+                return;
+            }
+
+            if (stepNumber === 4) {
+                if (!examData.examType) {
+                    alert('Please select an exam type');
+                    return;
+                }
+                updateSummary();
+            }
+
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Show target step
+            document.getElementById('step' + stepNumber).classList.add('active');
+        }
+
+        function selectLevel(level) {
+            examData.level = level;
+
+            // Update UI
+            document.querySelectorAll('.selection-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Enable next button
+            document.getElementById('levelNextBtn').disabled = false;
+        }
+
+        function selectExamType(type) {
+            examData.examType = type;
+
+            // Update UI
+            document.querySelectorAll('.exam-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Enable next button
+            document.getElementById('examNextBtn').disabled = false;
+        }
+
+        function updateSummary() {
+            document.getElementById('summaryName').textContent = examData.studentName;
+            document.getElementById('summaryLevel').textContent = 'Level ' + examData.level;
+
+            const examNames = {
+                'reading': 'Reading Exam',
+                'writing': 'Writing Exam',
+                'listening': 'Listening Exam'
+            };
+            document.getElementById('summaryExam').textContent = examNames[examData.examType];
+        }
+
+        function startExam() {
+            // Save to sessionStorage for the exam page to access
+            sessionStorage.setItem('examSession', JSON.stringify({
+                studentName: examData.studentName,
+                level: examData.level,
+                examType: examData.examType,
+                startTime: new Date().toISOString()
+            }));
+
+            // Construct exam URL
+            const examFiles = {
+                '4-reading': 'Level 4 online exam/Level_4_Reading_Exam_Online.html',
+                '4-writing': 'Level 4 online exam/Level_4_Writing_Exam_Online.html',
+                '4-listening': 'Level 4 online exam/Level_4_Listening_Exam_Online.html',
+                '5-reading': 'Level 5_Online exam/Level_5_Reading_Exam_Online.html',
+                '5-writing': 'Level 5_Online exam/Level_5_Writing_Exam_Online.html',
+                '5-listening': 'Level 5_Online exam/Level_5_Listening_Exam_Online.html'
+            };
+
+            const examKey = `${examData.level}-${examData.examType}`;
+            const examUrl = examFiles[examKey];
+
+            if (examUrl) {
+                window.location.href = examUrl;
+            } else {
+                alert('Exam not found. Please contact your teacher.');
+            }
+        }
+    </script>
+</body>
+</html>

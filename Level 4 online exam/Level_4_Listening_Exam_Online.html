@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4 Listening Exam - Online | SpokenEnglish Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .registration {
+            padding: 30px;
+            background: #ecf0f1;
+            display: block;
+        }
+
+        .registration.hide {
+            display: none;
+        }
+
+        .registration h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #d68910;
+            transform: scale(1.05);
+        }
+
+        .timer-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: none;
+        }
+
+        .timer-bar.active {
+            display: block;
+        }
+
+        .timer-bar.warning {
+            background: #f39c12;
+            animation: pulse 1s infinite;
+        }
+
+        .timer-bar.critical {
+            background: #e74c3c;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .content {
+            padding: 40px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .instruction-box {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .instruction-box strong {
+            color: #856404;
+        }
+
+        .part {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .part-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .part-header h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+
+        .points {
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .question {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .question-number {
+            background: #f39c12;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+
+        .word-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 2px solid #f39c12;
+        }
+
+        .option {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #f39c12;
+            background: #ecf0f1;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .audio-player {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .audio-player strong {
+            display: block;
+            margin-bottom: 15px;
+            color: #155724;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .play-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .play-btn:hover {
+            background: #229954;
+        }
+
+        .play-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .plays-remaining {
+            background: #f39c12;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .transcript {
+            background: #e8f5e9;
+            border: 2px solid #c8e6c9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .transcript strong {
+            color: #2e7d32;
+        }
+
+        .submit-section {
+            text-align: center;
+            padding: 40px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.5em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #229954;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+        }
+
+        .summary {
+            display: none;
+            padding: 40px;
+        }
+
+        .summary.active {
+            display: block;
+        }
+
+        .summary-header {
+            background: #27ae60;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .summary-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .summary-question {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+        }
+
+        .answer-display {
+            background: #d4edda;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            color: #155724;
+        }
+
+        .placeholder-note {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .placeholder-note strong {
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👂 Level 4 Listening Exam</h1>
+            <p>Online Version - 20-25 Minutes | 25 Questions</p>
+        </div>
+
+        <!-- Registration -->
+        <div id="registration" class="registration">
+            <h2>📋 Student Information</h2>
+            <div class="placeholder-note">
+                <strong>⚠️ PLACEHOLDER:</strong> Student authentication will be implemented with server integration.
+            </div>
+
+            <div class="form-group">
+                <label for="student-name">Student Name:</label>
+                <input type="text" id="student-name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="student-id">Student ID:</label>
+                <input type="text" id="student-id" placeholder="Enter your student ID" required>
+            </div>
+
+            <button class="btn" onclick="startExam()">Start Listening Exam</button>
+        </div>
+
+        <!-- Timer -->
+        <div id="timer" class="timer-bar">
+            <span id="timer-display">⏱️ Time Remaining: 25:00</span>
+        </div>
+
+        <!-- Exam Content -->
+        <div id="content" class="content">
+            <div class="section-header">
+                <h2>👂 Listening Comprehension</h2>
+                <p>Answer all 25 questions | Time: 20-25 minutes</p>
+            </div>
+
+            <div class="instruction-box">
+                <strong>🎧 IMPORTANT:</strong> You can play each audio TWO TIMES ONLY. After 2 plays, the audio will be disabled. Listen carefully!
+            </div>
+
+            <!-- Part 1: Listen and Number -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 1: Listen and Number</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to the story. Write the activities in order (1-5).</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Story - A Day in the City:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l1')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l1">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l1_day_in_city.mp3</em></p>
+                </div>
+
+                <div class="transcript">
+                    <strong>📝 TRANSCRIPT (Teacher only - hidden from students):</strong>
+                    <p style="margin-top: 10px;">"Last Saturday, my family went to the city. First, we went bowling at the sports center. It was really fun! After that, my brother took pictures of the buildings with his camera. Then we had lunch. My dad grilled hamburgers and they were delicious! In the afternoon, we saw a parade with dancers and musicians. Finally, I bought a beautiful necklace from a shop near the beach. It was a wonderful day!"</p>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                    <p><strong>Write the number (1-5) next to each activity:</strong></p>
+                    <br>
+                    <div class="question">
+                        <strong>___ Going bowling</strong>
+                        <input type="text" class="answer-input" id="q1" placeholder="Number (1-5)">
+                    </div>
+                    <div class="question">
+                        <strong>___ Taking pictures</strong>
+                        <input type="text" class="answer-input" id="q2" placeholder="Number (1-5)">
+                    </div>
+                    <div class="question">
+                        <strong>___ Eating lunch</strong>
+                        <input type="text" class="answer-input" id="q3" placeholder="Number (1-5)">
+                    </div>
+                    <div class="question">
+                        <strong>___ Seeing a parade</strong>
+                        <input type="text" class="answer-input" id="q4" placeholder="Number (1-5)">
+                    </div>
+                    <div class="question">
+                        <strong>___ Buying a necklace</strong>
+                        <input type="text" class="answer-input" id="q5" placeholder="Number (1-5)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 2: Listen and Match -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 2: Listen and Match</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen and match each person to their vacation plan.</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio - Vacation Plans:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l2')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l2">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l2_vacation_plans.mp3</em></p>
+                </div>
+
+                <div class="transcript">
+                    <strong>📝 TRANSCRIPT (Teacher only):</strong>
+                    <p style="margin-top: 10px;">"Listen carefully and match the people to their vacation plans. Number 1: Tom is very excited! He's going to take a boat ride on Monday morning. Number 2: Sarah loves animals. She's going to ride a horse on the beach. Number 3: Emma and her family are going to stay in a hotel near the ocean. Number 4: Jack wants to see the city. He's going to go on a bus tour tomorrow. Number 5: Lily is going to swim in the ocean every day. She loves swimming!"</p>
+                </div>
+
+                <div class="word-box">
+                    <strong>Activities:</strong> Take a boat ride | Ride a horse | Stay in a hotel | Go on a bus tour | Swim in the ocean
+                </div>
+
+                <div class="question">
+                    <span class="question-number">6</span>
+                    <strong>Tom is going to:</strong>
+                    <input type="text" class="answer-input" id="q6" placeholder="Type the activity">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">7</span>
+                    <strong>Sarah is going to:</strong>
+                    <input type="text" class="answer-input" id="q7" placeholder="Type the activity">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">8</span>
+                    <strong>Emma is going to:</strong>
+                    <input type="text" class="answer-input" id="q8" placeholder="Type the activity">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">9</span>
+                    <strong>Jack is going to:</strong>
+                    <input type="text" class="answer-input" id="q9" placeholder="Type the activity">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">10</span>
+                    <strong>Lily is going to:</strong>
+                    <input type="text" class="answer-input" id="q10" placeholder="Type the activity">
+                </div>
+            </div>
+
+            <!-- Part 3: Multiple Choice -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 3: Multiple Choice</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to the conversations and choose the correct answer (A, B, or C).</p>
+
+                <div class="question">
+                    <span class="question-number">11</span>
+                    <strong>What did she eat for lunch?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 11:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l3a')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l3a">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio: "Boy: What did you eat for lunch today? Girl: I went to a Japanese restaurant and had sushi. It was delicious!"</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q11" value="A"> A) Noodles
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="B"> B) Sushi
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q11" value="C"> C) Curry
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">12</span>
+                    <strong>What does he look like?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 12:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l3b')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l3b">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio: "Girl: I can't find my brother. Can you help me? Woman: Sure! What does he look like? Girl: He has shoulder-length, wavy hair and he's wearing a blue shirt."</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q12" value="A"> A) Short, straight hair
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="B"> B) Long, curly hair
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q12" value="C"> C) Shoulder-length, wavy hair
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">13</span>
+                    <strong>What sport is he good at?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 13:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l3c')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l3c">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio: "Girl: What's your favorite sport? Boy: I love ice-skating! I go to the ice rink every weekend. Girl: Are you good at it? Boy: Yes! I'm really good at ice-skating!"</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q13" value="A"> A) Ice-skating
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="B"> B) Skateboarding
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q13" value="C"> C) Skiing
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">14</span>
+                    <strong>What does she want to be when she grows up?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 14:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l3d')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l3d">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio: "Teacher: What do you want to be when you grow up, Emily? Girl: I want to be a scientist! I want to discover new things and do experiments. Teacher: That's wonderful! You're very good at science."</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q14" value="A"> A) Artist
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="B"> B) Scientist
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q14" value="C"> C) Musician
+                    </label>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">15</span>
+                    <strong>What is he going to do tomorrow?</strong>
+
+                    <div class="audio-player">
+                        <strong>🎧 Audio Question 15:</strong>
+                        <div class="audio-controls">
+                            <button class="play-btn" onclick="playAudio('l3e')">▶️ Play Audio</button>
+                            <span class="plays-remaining" id="plays-l3e">Plays: 2/2</span>
+                        </div>
+                        <p style="margin-top: 10px; color: #155724;"><em>Audio: "Mom: What are you going to do tomorrow, Tom? Boy: I'm going to go bowling with my friends at the sports center. Mom: That sounds like fun! Have a great time!"</em></p>
+                    </div>
+
+                    <label class="option">
+                        <input type="radio" name="q15" value="A"> A) Go bowling
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="B"> B) Take pictures
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q15" value="C"> C) See a parade
+                    </label>
+                </div>
+            </div>
+
+            <!-- Part 4: Gap Fill -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 4: Gap Fill</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to the story and write the missing words. You will hear it twice.</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Story - My Creative Friend:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l4')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l4">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l4_creative_friend.mp3</em></p>
+                </div>
+
+                <div class="transcript">
+                    <strong>📝 TRANSCRIPT (Teacher only):</strong>
+                    <p style="margin-top: 10px;">"Now listen and write the missing words. You will hear the story twice. My friend Lisa is very creative. She likes to PAINT pictures in her free time. Last week, she BAKED cookies for her mom's birthday. They were delicious! Lisa also likes to make JEWELRY. She made a beautiful necklace with colorful beads. When she grows up, she wants to be an ARTIST. She wants to paint pictures and design clothes. I think Lisa is the MOST creative person I know!"</p>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0;">
+                    <h4>My Creative Friend</h4>
+                    <p style="margin-top: 10px;">
+                    My friend Lisa is very creative. She likes to <input type="text" class="answer-input" id="q16" style="display: inline-block; width: 150px; margin: 0 5px;"> pictures in her free time. Last week, she <input type="text" class="answer-input" id="q17" style="display: inline-block; width: 150px; margin: 0 5px;"> cookies for her mom's birthday. They were delicious! Lisa also likes to make <input type="text" class="answer-input" id="q18" style="display: inline-block; width: 150px; margin: 0 5px;">. She made a beautiful necklace with colorful beads. When she grows up, she wants to be an <input type="text" class="answer-input" id="q19" style="display: inline-block; width: 150px; margin: 0 5px;">. She wants to paint pictures and design clothes. I think Lisa is the <input type="text" class="answer-input" id="q20" style="display: inline-block; width: 150px; margin: 0 5px;"> creative person I know!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Part 5: True or False -->
+            <div class="part">
+                <div class="part-header">
+                    <h3>Part 5: True or False</h3>
+                    <span class="points">5 points</span>
+                </div>
+                <p><strong>Instructions:</strong> Listen to the passage and write T (True) or F (False). You will hear it twice.</p>
+
+                <div class="audio-player">
+                    <strong>🎧 Audio Passage - Mike's Vacation Plans:</strong>
+                    <div class="audio-controls">
+                        <button class="play-btn" onclick="playAudio('l5')">▶️ Play Audio</button>
+                        <span class="plays-remaining" id="plays-l5">Plays: 2/2</span>
+                    </div>
+                    <p style="margin-top: 10px; color: #155724;"><em>Audio file: l5_mikes_vacation.mp3</em></p>
+                </div>
+
+                <div class="transcript">
+                    <strong>📝 TRANSCRIPT (Teacher only):</strong>
+                    <p style="margin-top: 10px;">"Listen to this passage about Mike's vacation plans. You will hear it twice. Mike is very excited about his summer vacation! Next week, he's going to go to the mountains with his family. They're going to stay in a big tent and camp out under the stars. Mike is going to take his flashlight and sleeping bag. His sister is going to bring her camera because she wants to take pictures of the animals. On Monday, they're going to hike to the top of the mountain. Mike's dad is good at fishing, so they're going to catch fish for dinner. Mike also wants to catch butterflies. He thinks camping is more exciting than staying in a hotel. It's going to be an amazing adventure!"</p>
+                </div>
+
+                <div class="question">
+                    <span class="question-number">21</span>
+                    <strong>Mike is going to the beach.</strong>
+                    <input type="text" class="answer-input" id="q21" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">22</span>
+                    <strong>They're going to stay in a tent.</strong>
+                    <input type="text" class="answer-input" id="q22" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">23</span>
+                    <strong>Mike's sister is going to bring a flashlight.</strong>
+                    <input type="text" class="answer-input" id="q23" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">24</span>
+                    <strong>Mike's dad is good at fishing.</strong>
+                    <input type="text" class="answer-input" id="q24" placeholder="Type T or F">
+                </div>
+
+                <div class="question">
+                    <span class="question-number">25</span>
+                    <strong>Mike thinks hotels are more exciting than camping.</strong>
+                    <input type="text" class="answer-input" id="q25" placeholder="Type T or F">
+                </div>
+            </div>
+
+            <!-- SUBMIT SECTION -->
+            <div class="submit-section">
+                <h2>✅ Finished? Submit Your Listening Exam</h2>
+                <p style="margin: 20px 0; color: #666;">Please review your answers before submitting.</p>
+
+                <div class="placeholder-note">
+                    <strong>⚠️ PLACEHOLDER:</strong> Server submission will be implemented later.
+                </div>
+
+                <button class="submit-btn" onclick="submitExam()">📝 SUBMIT LISTENING EXAM</button>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div id="summary" class="summary">
+            <div class="summary-header">
+                <h1>✅ Listening Exam Submitted!</h1>
+                <p style="margin-top: 10px;">Thank you for completing the Listening section</p>
+                <p id="student-info" style="margin-top: 20px; font-size: 1.2em;"></p>
+            </div>
+
+            <div class="placeholder-note">
+                <strong>⚠️ PLACEHOLDER:</strong> This data will be sent to server for teacher grading.
+            </div>
+
+            <div class="summary-section">
+                <h3>👂 Your Listening Answers (25 questions)</h3>
+                <div id="answers-summary"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px; padding: 20px; background: #d4edda; border-radius: 10px;">
+                <p style="color: #155724; font-size: 1.2em; font-weight: bold;">✅ Your teacher will grade your exam and provide feedback soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timerInterval;
+        let timeRemaining = 25 * 60; // 25 minutes
+        let examStartTime = null;
+        let audioPlays = {
+            l1: 2, l2: 2, l3a: 2, l3b: 2, l3c: 2, l3d: 2, l3e: 2, l4: 2, l5: 2
+        };
+
+        // Auto-fill student info from session
+        window.addEventListener('DOMContentLoaded', function() {
+            const examSession = sessionStorage.getItem('examSession');
+            if (examSession) {
+                const session = JSON.parse(examSession);
+                document.getElementById('student-name').value = session.studentName || '';
+                document.getElementById('student-id').value = 'AUTO-' + Date.now();
+
+                // Auto-hide placeholder note
+                const placeholder = document.querySelector('.placeholder-note');
+                if (placeholder) placeholder.style.display = 'none';
+            }
+        });
+
+        function startExam() {
+            const name = document.getElementById('student-name').value;
+            const id = document.getElementById('student-id').value;
+
+            if (!name || !id) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            localStorage.setItem('studentName', name);
+            localStorage.setItem('studentId', id);
+            examStartTime = new Date();
+
+            document.getElementById('registration').classList.add('hide');
+            document.getElementById('timer').classList.add('active');
+            document.getElementById('content').classList.add('active');
+
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining === 5 * 60) {
+                    document.getElementById('timer').classList.add('warning');
+                    alert('⚠️ 5 minutes remaining!');
+                }
+
+                if (timeRemaining === 60) {
+                    document.getElementById('timer').classList.remove('warning');
+                    document.getElementById('timer').classList.add('critical');
+                    alert('🚨 Only 1 minute left!');
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('⏰ Time is up!');
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer-display').textContent =
+                `⏱️ Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function playAudio(audioId) {
+            if (audioPlays[audioId] > 0) {
+                // PLACEHOLDER: In real implementation, this would play the actual audio file
+                alert(`🎧 Playing audio: ${audioId}.mp3\n\n⚠️ PLACEHOLDER: Audio file will be loaded when integrated with server.\n\nPlays remaining after this: ${audioPlays[audioId] - 1}/2`);
+
+                // Decrement plays
+                audioPlays[audioId]--;
+                document.getElementById(`plays-${audioId}`).textContent = `Plays: ${audioPlays[audioId]}/2`;
+
+                // Disable button if no plays left
+                const buttons = document.querySelectorAll(`button[onclick="playAudio('${audioId}')"]`);
+                if (audioPlays[audioId] === 0) {
+                    buttons.forEach(btn => {
+                        btn.disabled = true;
+                        btn.textContent = '🚫 No Plays Remaining';
+                    });
+                }
+            } else {
+                alert('❌ You have used all your plays for this audio!');
+            }
+        }
+
+        async function submitExam() {
+            clearInterval(timerInterval);
+
+            const answers = {};
+
+            // Text inputs q1-q10, q16-q25
+            for (let i = 1; i <= 10; i++) {
+                const el = document.getElementById(`q${i}`);
+                answers[`q${i}`] = el ? el.value || '(No answer)' : '(No answer)';
+            }
+
+            // Radio buttons q11-q15
+            for (let i = 11; i <= 15; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                answers[`q${i}`] = selected ? selected.value : '(No answer)';
+            }
+
+            // Text inputs q16-q25
+            for (let i = 16; i <= 25; i++) {
+                const el = document.getElementById(`q${i}`);
+                answers[`q${i}`] = el ? el.value || '(No answer)' : '(No answer)';
+            }
+
+            // Calculate time taken
+            const timeTaken = examStartTime ?
+                Math.floor((new Date() - examStartTime) / 1000 / 60) + ' minutes' : 'N/A';
+
+            // Submit to database
+            await submitToDatabase(answers, timeTaken);
+
+            displaySummary(answers);
+
+            document.getElementById('timer').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('summary').classList.add('active');
+        }
+
+        async function submitToDatabase(answers, timeTaken) {
+            const name = localStorage.getItem('studentName');
+            const id = localStorage.getItem('studentId');
+
+            const submissionData = {
+                studentName: name,
+                studentId: id,
+                examType: 'Listening',
+                level: 4,
+                answers: answers,
+                audioPlaysUsed: audioPlays,
+                timeTaken: timeTaken,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/submit-level4-exam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(submissionData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Level 4 Listening Exam submitted to database successfully!', result);
+                } else {
+                    console.error('❌ Submission failed:', result.error);
+                    alert('⚠️ Exam submitted but there was an issue saving to database. Please inform your teacher.');
+                }
+            } catch (error) {
+                console.error('❌ Database submission error:', error);
+                alert('⚠️ Exam submitted but there was a connection issue. Your answers are saved locally.');
+            }
+        }
+
+        function displaySummary(answers) {
+            const name = localStorage.getItem('studentName');
+            const id = localStorage.getItem('studentId');
+            const time = new Date().toLocaleString();
+
+            document.getElementById('student-info').textContent =
+                `Student: ${name} | ID: ${id} | Submitted: ${time}`;
+
+            let html = '';
+            for (let i = 1; i <= 25; i++) {
+                html += `
+                    <div class="summary-question">
+                        <strong>Question ${i}:</strong>
+                        <div class="answer-display">${answers[`q${i}`]}</div>
+                    </div>
+                `;
+            }
+            document.getElementById('answers-summary').innerHTML = html;
+
+            console.log('Level 4 Listening Exam Submitted:', { student: {name, id}, answers, time, audioPlaysUsed: audioPlays });
+        }
+    </script>
+</body>
+</html>
