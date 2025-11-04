@@ -125,6 +125,161 @@
         .clear-btn:hover {
             background: #dc2626;
         }
+
+        /* Exam Details Modal/View */
+        .exam-details-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .exam-details-view.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .exam-details-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .exam-details-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .exam-details-close {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+            transition: all 0.3s;
+        }
+
+        .exam-details-close:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .exam-details-body {
+            padding: 30px;
+        }
+
+        .exam-info-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .exam-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .exam-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .exam-info-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .exam-info-value {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .answer-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .answer-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .answer-card-header {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .answer-card-content {
+            color: #333;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .answer-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .answer-badge.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .answer-badge.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .answer-badge.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .no-answer {
+            color: #999;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -1191,49 +1346,137 @@
             }).join('');
         }
 
-        // View Level 4 Details (placeholder - to be implemented)
+        // View Level 4 Details - Beautiful Card Display
         function viewLevel4Details(id) {
             const submission = level4Submissions.find(s => s.id === id);
             if (!submission) return;
 
             const data = submission.submissionData || submission;
-            let details = `📝 LEVEL 4 ${data.examType.toUpperCase()} EXAM - ${data.studentName}\n\n`;
-            details += `Student ID: ${data.studentId}\n`;
-            details += `Submitted: ${new Date(submission.timestamp).toLocaleString()}\n`;
-            details += `Time Taken: ${data.timeTaken || 'N/A'}\n\n`;
-            details += `ANSWERS:\n`;
-
-            if (data.answers) {
-                Object.keys(data.answers).forEach(key => {
-                    details += `${key}: ${data.answers[key]}\n`;
-                });
-            }
-
-            alert(details);
+            showExamDetails(data, submission, 4);
         }
 
-        // View Level 5 Details (placeholder - to be implemented)
+        // View Level 5 Details - Beautiful Card Display
         function viewLevel5Details(id) {
             const submission = level5Submissions.find(s => s.id === id);
             if (!submission) return;
 
             const data = submission.submissionData || submission;
-            let details = `📝 LEVEL 5 ${data.examType.toUpperCase()} EXAM - ${data.studentName}\n\n`;
-            details += `Student ID: ${data.studentId}\n`;
-            details += `Submitted: ${new Date(submission.timestamp).toLocaleString()}\n`;
-            details += `Time Taken: ${data.timeTaken || 'N/A'}\n\n`;
-            details += `ANSWERS:\n`;
+            showExamDetails(data, submission, 5);
+        }
 
+        // Show Exam Details in Beautiful Modal
+        function showExamDetails(data, submission, level) {
+            const modal = document.getElementById('examDetailsModal');
+            const title = document.getElementById('examDetailsTitle');
+            const subtitle = document.getElementById('examDetailsSubtitle');
+            const infoCard = document.getElementById('examInfoCard');
+            const answersGrid = document.getElementById('answersGrid');
+
+            // Set header
+            const examIcon = data.examType === 'Reading' ? '📖' :
+                            data.examType === 'Writing' ? '✏️' : '🎧';
+            title.innerHTML = `${examIcon} Level ${level} ${data.examType} Exam`;
+            subtitle.textContent = data.studentName || 'Unknown Student';
+
+            // Build info card
+            infoCard.innerHTML = `
+                <div class="exam-info-item">
+                    <span class="exam-info-label">👤 Student Name:</span>
+                    <span class="exam-info-value">${data.studentName || 'N/A'}</span>
+                </div>
+                <div class="exam-info-item">
+                    <span class="exam-info-label">🆔 Student ID:</span>
+                    <span class="exam-info-value">${data.studentId || 'N/A'}</span>
+                </div>
+                <div class="exam-info-item">
+                    <span class="exam-info-label">📅 Submitted:</span>
+                    <span class="exam-info-value">${new Date(submission.timestamp).toLocaleString()}</span>
+                </div>
+                <div class="exam-info-item">
+                    <span class="exam-info-label">⏱️ Time Taken:</span>
+                    <span class="exam-info-value">${data.timeTaken || 'N/A'}</span>
+                </div>
+                ${data.audioPlaysUsed ? `
+                <div class="exam-info-item">
+                    <span class="exam-info-label">🎧 Audio Plays Used:</span>
+                    <span class="exam-info-value">${JSON.stringify(data.audioPlaysUsed)}</span>
+                </div>
+                ` : ''}
+            `;
+
+            // Build answer cards
+            let answersHTML = '';
             if (data.answers) {
-                Object.keys(data.answers).forEach(key => {
-                    details += `${key}: ${data.answers[key]}\n`;
+                const sortedKeys = Object.keys(data.answers).sort((a, b) => {
+                    // Extract numbers from keys like "q1", "q2", etc.
+                    const numA = parseInt(a.replace(/\D/g, '')) || 0;
+                    const numB = parseInt(b.replace(/\D/g, '')) || 0;
+                    return numA - numB;
                 });
+
+                sortedKeys.forEach(key => {
+                    const answer = data.answers[key];
+                    const questionNum = key.toUpperCase();
+                    const isNoAnswer = answer === '(No answer)' || !answer || answer.trim() === '';
+
+                    answersHTML += `
+                        <div class="answer-card">
+                            <div class="answer-card-header">
+                                <span>Question ${questionNum.replace('Q', '')}</span>
+                            </div>
+                            <div class="answer-card-content ${isNoAnswer ? 'no-answer' : ''}">
+                                ${isNoAnswer ? '(No answer provided)' : answer}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                answersHTML = '<p class="no-answer">No answers recorded.</p>';
             }
 
-            alert(details);
+            answersGrid.innerHTML = answersHTML;
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
+
+        // Close Exam Details Modal
+        function closeExamDetails() {
+            const modal = document.getElementById('examDetailsModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('examDetailsModal');
+            if (event.target === modal) {
+                closeExamDetails();
+            }
+        });
 
         // Initial load happens after login
     </script>
+
+    <!-- Exam Details Modal -->
+    <div id="examDetailsModal" class="exam-details-view">
+        <div class="exam-details-content">
+            <div class="exam-details-header">
+                <button class="exam-details-close" onclick="closeExamDetails()">✕ Close</button>
+                <h2 id="examDetailsTitle">Exam Details</h2>
+                <p id="examDetailsSubtitle"></p>
+            </div>
+            <div class="exam-details-body">
+                <div class="exam-info-card" id="examInfoCard">
+                    <!-- Student info will be inserted here -->
+                </div>
+                <h3 style="color: #667eea; margin-bottom: 20px;">📝 Student Answers</h3>
+                <div class="answers-grid" id="answersGrid">
+                    <!-- Answer cards will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
