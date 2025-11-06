@@ -34,6 +34,42 @@ A comprehensive interactive English learning game designed for ESL students and 
 4. **🎯 Number Recognition** - Listen to English numbers and identify them
 5. **🎲 English Number Matching** - Match English number words to quantities
 
+## 🎓 **Level 4 & 5 Online Exam System**
+
+### **Complete Assessment Platform**
+A professional online examination system for Level 4 and Level 5 students with full database integration and teacher dashboard.
+
+### **🎯 Exam Types (6 Total)**
+**Level 4 Exams (25-minute timer):**
+- 📖 **Reading Exam**: 25 questions testing reading comprehension
+- ✏️ **Writing Exam**: 6 questions evaluating writing skills
+- 🎧 **Listening Exam**: 25 questions with audio (2-play limit per audio)
+
+**Level 5 Exams (30-minute timer):**
+- 📖 **Reading Exam**: 25 questions testing reading comprehension
+- ✏️ **Writing Exam**: 6 questions evaluating writing skills
+- 🎧 **Listening Exam**: 25 questions with audio (2-play limit per audio)
+
+### **📋 Student Experience**
+1. **Enter Name**: Student provides their name
+2. **Select Level**: Choose between Level 4 or Level 5
+3. **Choose Exam**: Select Reading, Writing, or Listening exam
+4. **Take Exam**: Complete timed exam with progress tracking
+5. **Submit**: Results automatically saved to database
+
+### **👨‍🏫 Teacher Dashboard**
+- **Beautiful Modal Display**: Card-based exam result viewer with responsive grid layout
+- **View All Submissions**: Access all Level 4 & 5 exam results in one place
+- **Detailed Results**: See student name, exam type, time taken, and all answers
+- **Real-time Updates**: Automatically fetches latest submissions from database
+- **Export Data**: Download results for record keeping
+
+### **🗄️ Database Integration**
+- **Backend**: Neon PostgreSQL database for persistent storage
+- **API**: Netlify serverless functions for secure data handling
+- **Auto-Save**: All submissions automatically saved with timestamp
+- **Data Tracked**: Student name, exam type, answers, time taken, completion status
+
 ## ✨ **Enhanced Features**
 
 - **🔊 Audio Support**: Text-to-speech for all questions in English
@@ -101,13 +137,22 @@ python start_server.py
 
 ```
 Review game/
-├── index.html                           # Main application file
+├── index.html                           # Main application entry (redirects to exam selection)
+├── student-exam-selection.html         # Student exam selection portal (4-step wizard)
+├── teacher-dashboard.html               # Enhanced teacher dashboard with modal display
 ├── questions.json                       # Question bank data
 ├── start_server.py                      # Python server script
 ├── start_game.bat                       # Windows launcher
 ├── CHANGELOG.md                         # Detailed version history
-├── content_bank_guide.md               # Content Bank user guide (198 lines)
+├── content_bank_guide.md               # Content Bank user guide
 ├── README.md                            # This file
+├── Level 4 online exam/                # Level 4 exam files (Reading, Writing, Listening)
+├── Level 5_Online exam/                # Level 5 exam files (Reading, Writing, Listening)
+├── netlify/functions/                  # Serverless functions for database operations
+│   ├── submit-level4-exam.js          # Save Level 4 submissions
+│   ├── submit-level5-exam.js          # Save Level 5 submissions
+│   ├── get-level4-submissions.js      # Retrieve Level 4 results
+│   └── get-level5-submissions.js      # Retrieve Level 5 results
 ├── All first month vocab and sentences.md  # Original curriculum source
 └── my_learning_log.md                   # Development notes
 ```
@@ -166,10 +211,11 @@ templates: {
 
 ## 📈 **Version Information**
 
-- **Current Version**: 2.0.0 - Content Bank Edition
-- **Last Updated**: January 2, 2025
-- **Next Release**: Enhanced game generation from Content Bank
+- **Current Version**: 2.23.0 - Level 4 & 5 Online Exam System
+- **Last Updated**: January 2025
+- **Major Features**: Complete online exam platform with database integration and teacher dashboard
+- **Next Release**: Additional exam analytics and reporting features
 
 ---
 
-**🎯 From basic review to comprehensive content management - everything you need for ESL teaching!** 🚀 
+**🎯 From basic review to professional online assessments - everything you need for ESL teaching!** 🚀 

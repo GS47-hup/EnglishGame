@@ -293,6 +293,7 @@
             padding: 15px;
             margin: 15px 0;
             border-radius: 8px;
+            display: none; /* Hidden from students - for teacher reference only */
         }
 
         .transcript strong {
@@ -394,18 +395,15 @@
         <!-- Registration -->
         <div id="registration" class="registration">
             <h2>📋 Student Information</h2>
-            <div class="placeholder-note">
-                <strong>⚠️ PLACEHOLDER:</strong> Student authentication will be implemented with server integration.
-            </div>
 
             <div class="form-group">
                 <label for="student-name">Student Name:</label>
-                <input type="text" id="student-name" placeholder="Enter your full name" required>
+                <input type="text" id="student-name" placeholder="Enter your full name" required autocomplete="off">
             </div>
 
             <div class="form-group">
                 <label for="student-id">Student ID:</label>
-                <input type="text" id="student-id" placeholder="Enter your student ID" required>
+                <input type="text" id="student-id" placeholder="Enter your student ID" required autocomplete="off">
             </div>
 
             <button class="btn" onclick="startExam()">Start Listening Exam</button>
@@ -454,23 +452,23 @@
                     <br>
                     <div class="question">
                         <strong>___ Going bowling</strong>
-                        <input type="text" class="answer-input" id="q1" placeholder="Number (1-5)">
+                        <input type="text" class="answer-input" id="q1" placeholder="Number (1-5)" autocomplete="off">
                     </div>
                     <div class="question">
                         <strong>___ Taking pictures</strong>
-                        <input type="text" class="answer-input" id="q2" placeholder="Number (1-5)">
+                        <input type="text" class="answer-input" id="q2" placeholder="Number (1-5)" autocomplete="off">
                     </div>
                     <div class="question">
                         <strong>___ Eating lunch</strong>
-                        <input type="text" class="answer-input" id="q3" placeholder="Number (1-5)">
+                        <input type="text" class="answer-input" id="q3" placeholder="Number (1-5)" autocomplete="off">
                     </div>
                     <div class="question">
                         <strong>___ Seeing a parade</strong>
-                        <input type="text" class="answer-input" id="q4" placeholder="Number (1-5)">
+                        <input type="text" class="answer-input" id="q4" placeholder="Number (1-5)" autocomplete="off">
                     </div>
                     <div class="question">
                         <strong>___ Buying a necklace</strong>
-                        <input type="text" class="answer-input" id="q5" placeholder="Number (1-5)">
+                        <input type="text" class="answer-input" id="q5" placeholder="Number (1-5)" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -504,31 +502,31 @@
                 <div class="question">
                     <span class="question-number">6</span>
                     <strong>Tom is going to:</strong>
-                    <input type="text" class="answer-input" id="q6" placeholder="Type the activity">
+                    <input type="text" class="answer-input" id="q6" placeholder="Type the activity" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">7</span>
                     <strong>Sarah is going to:</strong>
-                    <input type="text" class="answer-input" id="q7" placeholder="Type the activity">
+                    <input type="text" class="answer-input" id="q7" placeholder="Type the activity" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">8</span>
                     <strong>Emma is going to:</strong>
-                    <input type="text" class="answer-input" id="q8" placeholder="Type the activity">
+                    <input type="text" class="answer-input" id="q8" placeholder="Type the activity" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">9</span>
                     <strong>Jack is going to:</strong>
-                    <input type="text" class="answer-input" id="q9" placeholder="Type the activity">
+                    <input type="text" class="answer-input" id="q9" placeholder="Type the activity" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">10</span>
                     <strong>Lily is going to:</strong>
-                    <input type="text" class="answer-input" id="q10" placeholder="Type the activity">
+                    <input type="text" class="answer-input" id="q10" placeholder="Type the activity" autocomplete="off">
                 </div>
             </div>
 
@@ -686,7 +684,7 @@
                 <div style="background: white; padding: 20px; border-radius: 8px; margin: 15px 0;">
                     <h4>My Creative Friend</h4>
                     <p style="margin-top: 10px;">
-                    My friend Lisa is very creative. She likes to <input type="text" class="answer-input" id="q16" style="display: inline-block; width: 150px; margin: 0 5px;"> pictures in her free time. Last week, she <input type="text" class="answer-input" id="q17" style="display: inline-block; width: 150px; margin: 0 5px;"> cookies for her mom's birthday. They were delicious! Lisa also likes to make <input type="text" class="answer-input" id="q18" style="display: inline-block; width: 150px; margin: 0 5px;">. She made a beautiful necklace with colorful beads. When she grows up, she wants to be an <input type="text" class="answer-input" id="q19" style="display: inline-block; width: 150px; margin: 0 5px;">. She wants to paint pictures and design clothes. I think Lisa is the <input type="text" class="answer-input" id="q20" style="display: inline-block; width: 150px; margin: 0 5px;"> creative person I know!
+                    My friend Lisa is very creative. She likes to <input type="text" class="answer-input" id="q16" style="display: inline-block; width: 150px; margin: 0 5px;" autocomplete="off"> pictures in her free time. Last week, she <input type="text" class="answer-input" id="q17" style="display: inline-block; width: 150px; margin: 0 5px;" autocomplete="off"> cookies for her mom's birthday. They were delicious! Lisa also likes to make <input type="text" class="answer-input" id="q18" style="display: inline-block; width: 150px; margin: 0 5px;" autocomplete="off">. She made a beautiful necklace with colorful beads. When she grows up, she wants to be an <input type="text" class="answer-input" id="q19" style="display: inline-block; width: 150px; margin: 0 5px;" autocomplete="off">. She wants to paint pictures and design clothes. I think Lisa is the <input type="text" class="answer-input" id="q20" style="display: inline-block; width: 150px; margin: 0 5px;" autocomplete="off"> creative person I know!
                     </p>
                 </div>
             </div>
@@ -716,31 +714,31 @@
                 <div class="question">
                     <span class="question-number">21</span>
                     <strong>Mike is going to the beach.</strong>
-                    <input type="text" class="answer-input" id="q21" placeholder="Type T or F">
+                    <input type="text" class="answer-input" id="q21" placeholder="Type T or F" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">22</span>
                     <strong>They're going to stay in a tent.</strong>
-                    <input type="text" class="answer-input" id="q22" placeholder="Type T or F">
+                    <input type="text" class="answer-input" id="q22" placeholder="Type T or F" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">23</span>
                     <strong>Mike's sister is going to bring a flashlight.</strong>
-                    <input type="text" class="answer-input" id="q23" placeholder="Type T or F">
+                    <input type="text" class="answer-input" id="q23" placeholder="Type T or F" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">24</span>
                     <strong>Mike's dad is good at fishing.</strong>
-                    <input type="text" class="answer-input" id="q24" placeholder="Type T or F">
+                    <input type="text" class="answer-input" id="q24" placeholder="Type T or F" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">25</span>
                     <strong>Mike thinks hotels are more exciting than camping.</strong>
-                    <input type="text" class="answer-input" id="q25" placeholder="Type T or F">
+                    <input type="text" class="answer-input" id="q25" placeholder="Type T or F" autocomplete="off">
                 </div>
             </div>
 
@@ -748,10 +746,6 @@
             <div class="submit-section">
                 <h2>✅ Finished? Submit Your Listening Exam</h2>
                 <p style="margin: 20px 0; color: #666;">Please review your answers before submitting.</p>
-
-                <div class="placeholder-note">
-                    <strong>⚠️ PLACEHOLDER:</strong> Server submission will be implemented later.
-                </div>
 
                 <button class="submit-btn" onclick="submitExam()">📝 SUBMIT LISTENING EXAM</button>
             </div>
@@ -763,10 +757,6 @@
                 <h1>✅ Listening Exam Submitted!</h1>
                 <p style="margin-top: 10px;">Thank you for completing the Listening section</p>
                 <p id="student-info" style="margin-top: 20px; font-size: 1.2em;"></p>
-            </div>
-
-            <div class="placeholder-note">
-                <strong>⚠️ PLACEHOLDER:</strong> This data will be sent to server for teacher grading.
             </div>
 
             <div class="summary-section">
@@ -784,6 +774,8 @@
         let timerInterval;
         let timeRemaining = 25 * 60; // 25 minutes
         let examStartTime = null;
+        let autoSaveInterval;
+        const PROGRESS_KEY = 'level4_listening_progress';
         let audioPlays = {
             l1: 2, l2: 2, l3a: 2, l3b: 2, l3c: 2, l3d: 2, l3e: 2, l4: 2, l5: 2
         };
@@ -795,12 +787,53 @@
                 const session = JSON.parse(examSession);
                 document.getElementById('student-name').value = session.studentName || '';
                 document.getElementById('student-id').value = 'AUTO-' + Date.now();
-
-                // Auto-hide placeholder note
-                const placeholder = document.querySelector('.placeholder-note');
-                if (placeholder) placeholder.style.display = 'none';
             }
         });
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem(PROGRESS_KEY);
+            if (saved) {
+                try {
+                    const progress = JSON.parse(saved);
+                    for (let i = 1; i <= 10; i++) {
+                        const el = document.getElementById(`q${i}`);
+                        if (el && progress[`q${i}`]) el.value = progress[`q${i}`];
+                    }
+                    for (let i = 11; i <= 15; i++) {
+                        if (progress[`q${i}`]) {
+                            const radio = document.querySelector(`input[name="q${i}"][value="${progress[`q${i}`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                    }
+                    for (let i = 16; i <= 25; i++) {
+                        const el = document.getElementById(`q${i}`);
+                        if (el && progress[`q${i}`]) el.value = progress[`q${i}`];
+                    }
+                    console.log('✅ Progress loaded successfully');
+                } catch (e) {
+                    console.error('Error loading progress:', e);
+                }
+            }
+        }
+
+        // Save progress automatically
+        function saveProgress() {
+            const progress = {};
+            for (let i = 1; i <= 10; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (el && el.value) progress[`q${i}`] = el.value;
+            }
+            for (let i = 11; i <= 15; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) progress[`q${i}`] = selected.value;
+            }
+            for (let i = 16; i <= 25; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (el && el.value) progress[`q${i}`] = el.value;
+            }
+            localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+        }
 
         function startExam() {
             const name = document.getElementById('student-name').value;
@@ -818,6 +851,9 @@
             document.getElementById('registration').classList.add('hide');
             document.getElementById('timer').classList.add('active');
             document.getElementById('content').classList.add('active');
+
+            loadProgress();
+            autoSaveInterval = setInterval(saveProgress, 30000);
 
             startTimer();
         }
@@ -876,7 +912,28 @@
         }
 
         async function submitExam() {
+            // Soft validation
+            const unanswered = [];
+            for (let i = 1; i <= 10; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (!el || !el.value.trim()) unanswered.push(i);
+            }
+            for (let i = 11; i <= 15; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) unanswered.push(i);
+            }
+            for (let i = 16; i <= 25; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (!el || !el.value.trim()) unanswered.push(i);
+            }
+
+            if (unanswered.length > 0) {
+                const proceed = confirm(`⚠️ Warning: You have ${unanswered.length} unanswered question(s): ${unanswered.join(', ')}\n\nDo you want to submit anyway?`);
+                if (!proceed) return;
+            }
+
             clearInterval(timerInterval);
+            clearInterval(autoSaveInterval);
 
             const answers = {};
 
@@ -904,6 +961,8 @@
 
             // Submit to database
             await submitToDatabase(answers, timeTaken);
+
+            localStorage.removeItem(PROGRESS_KEY);
 
             displaySummary(answers);
 

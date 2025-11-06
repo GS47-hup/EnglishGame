@@ -311,18 +311,15 @@
         <!-- Registration -->
         <div id="registration" class="registration">
             <h2>📋 Student Information</h2>
-            <div class="placeholder-note">
-                <strong>⚠️ PLACEHOLDER:</strong> Student authentication will be implemented with server integration.
-            </div>
 
             <div class="form-group">
                 <label for="student-name">Student Name:</label>
-                <input type="text" id="student-name" placeholder="Enter your full name" required>
+                <input type="text" id="student-name" placeholder="Enter your full name" required autocomplete="off">
             </div>
 
             <div class="form-group">
                 <label for="student-id">Student ID:</label>
-                <input type="text" id="student-id" placeholder="Enter your student ID" required>
+                <input type="text" id="student-id" placeholder="Enter your student ID" required autocomplete="off">
             </div>
 
             <button class="btn" onclick="startExam()">Start Writing Exam</button>
@@ -351,31 +348,31 @@
                 <div class="question">
                     <span class="question-number">1</span>
                     <strong>She visited Paris last year. (PRESENT PERFECT)</strong>
-                    <input type="text" class="answer-input" id="q1" placeholder="Type your transformed sentence here">
+                    <input type="text" class="answer-input" id="q1" placeholder="Type your transformed sentence here" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">2</span>
                     <strong>I am sure it will rain tomorrow. (GOING TO)</strong>
-                    <input type="text" class="answer-input" id="q2" placeholder="Type your transformed sentence here">
+                    <input type="text" class="answer-input" id="q2" placeholder="Type your transformed sentence here" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">3</span>
                     <strong>Mount Everest is very high. No other mountain is higher. (SUPERLATIVE)</strong>
-                    <input type="text" class="answer-input" id="q3" placeholder="Type your transformed sentence here">
+                    <input type="text" class="answer-input" id="q3" placeholder="Type your transformed sentence here" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">4</span>
                     <strong>It's important to exercise. (SHOULD)</strong>
-                    <input type="text" class="answer-input" id="q4" placeholder="Type your transformed sentence here">
+                    <input type="text" class="answer-input" id="q4" placeholder="Type your transformed sentence here" autocomplete="off">
                 </div>
 
                 <div class="question">
                     <span class="question-number">5</span>
                     <strong>I was reading. My brother was playing video games. (WHILE)</strong>
-                    <input type="text" class="answer-input" id="q5" placeholder="Type your transformed sentence here">
+                    <input type="text" class="answer-input" id="q5" placeholder="Type your transformed sentence here" autocomplete="off">
                 </div>
             </div>
 
@@ -416,9 +413,6 @@ Best wishes,
                 <h2>✅ Finished? Submit Your Writing Exam</h2>
                 <p style="margin: 20px 0; color: #666;">Please review your answers before submitting.</p>
 
-                <div class="placeholder-note">
-                    <strong>⚠️ PLACEHOLDER:</strong> Server submission will be implemented later.
-                </div>
 
                 <button class="submit-btn" onclick="submitExam()">📝 SUBMIT WRITING EXAM</button>
             </div>
@@ -432,9 +426,6 @@ Best wishes,
                 <p id="student-info" style="margin-top: 20px; font-size: 1.2em;"></p>
             </div>
 
-            <div class="placeholder-note">
-                <strong>⚠️ PLACEHOLDER:</strong> This data will be sent to server for teacher grading.
-            </div>
 
             <div class="summary-section">
                 <h3>✍️ Your Writing Answers (6 questions)</h3>
@@ -451,6 +442,8 @@ Best wishes,
         let timerInterval;
         let timeRemaining = 30 * 60; // 30 minutes
         let examStartTime = null;
+        let autoSaveInterval;
+        const PROGRESS_KEY = 'level5_writing_progress';
 
         // Auto-fill student info from session
         window.addEventListener('DOMContentLoaded', function() {
@@ -459,12 +452,30 @@ Best wishes,
                 const session = JSON.parse(examSession);
                 document.getElementById('student-name').value = session.studentName || '';
                 document.getElementById('student-id').value = 'AUTO-' + Date.now();
-
-                // Auto-hide placeholder note
-                const placeholder = document.querySelector('.placeholder-note');
-                if (placeholder) placeholder.style.display = 'none';
             }
         });
+
+        function loadProgress() {
+            const saved = localStorage.getItem(PROGRESS_KEY);
+            if (saved) {
+                try {
+                    const progress = JSON.parse(saved);
+                    for (let i = 1; i <= 6; i++) {
+                        const el = document.getElementById(`q${i}`);
+                        if (el && progress[`q${i}`]) el.value = progress[`q${i}`];
+                    }
+                } catch (e) { console.error('Error loading progress:', e); }
+            }
+        }
+
+        function saveProgress() {
+            const progress = {};
+            for (let i = 1; i <= 6; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (el && el.value) progress[`q${i}`] = el.value;
+            }
+            localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+        }
 
         function startExam() {
             const name = document.getElementById('student-name').value;
@@ -482,6 +493,9 @@ Best wishes,
             document.getElementById('registration').classList.add('hide');
             document.getElementById('timer').classList.add('active');
             document.getElementById('content').classList.add('active');
+
+            loadProgress();
+            autoSaveInterval = setInterval(saveProgress, 30000);
 
             startTimer();
         }
@@ -518,7 +532,19 @@ Best wishes,
         }
 
         async function submitExam() {
+            const unanswered = [];
+            for (let i = 1; i <= 6; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (!el || !el.value.trim()) unanswered.push(i);
+            }
+            if (unanswered.length > 0) {
+                const proceed = confirm(`⚠️ Warning: You have ${unanswered.length} unanswered question(s): ${unanswered.join(", ")}
+
+Do you want to submit anyway?`);
+                if (!proceed) return;
+            }
             clearInterval(timerInterval);
+            clearInterval(autoSaveInterval);
 
             const answers = {};
 
@@ -530,6 +556,7 @@ Best wishes,
 
             // Calculate time taken
             const timeTaken = examStartTime ?
+            localStorage.removeItem(PROGRESS_KEY);
                 Math.floor((new Date() - examStartTime) / 1000 / 60) + ' minutes' : 'N/A';
 
             // Submit to database
