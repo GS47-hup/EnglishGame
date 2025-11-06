@@ -89,26 +89,34 @@ All placeholders are **150×150px or 150×180px gray boxes** with:
 
 ---
 
-## 📦 Next Steps
+## ✅ Images Integrated (Update 2)
 
-### To Complete the Exam:
-1. **Replace placeholders with actual images** from the PDF
-   - Extract images from PDF pages 1-2
-   - Save as PNG or JPG files
-   - Update HTML `<div>` placeholders with `<img>` tags
+### All Images Added Successfully!
+All 15 images (5 questions × 3 options) have been extracted from the PDF and integrated into the online exam.
 
-### Example Image Replacement:
+**Image Directory**: `Level 4 online exam/images/reading/`
+
+**Image Files**:
+- Q1: `1_A.png`, `1_B.png`, `1_C.png` (Rock climbing, Hiking, Jet ski)
+- Q2: `2_A.png`, `2_B.png`, `2_C.png` (Panda, Cheetah, Hippopotamus)
+- Q3: `3_A.png`, `3_B.png`, `3_C.png` (Straight hair, Curly hair, Short hair)
+- Q4: `4_A.png`, `4_B.png`, `4_C.png` (Baseball, Basketball, Volleyball)
+- Q5: `5_A.png`, `5_B.png`, `5_C.png` (Clothes/lunch, Tent/sleeping bag, Money/flashlight)
+
+**HTML Implementation**:
 ```html
-<!-- BEFORE (Placeholder) -->
-<div style="width: 150px; height: 150px; border: 3px solid #3498db; background: #f0f0f0;">
-    <strong>IMAGE A<br>Panda</strong>
-</div>
-
-<!-- AFTER (With Image) -->
-<img src="images/level4_reading_q2_panda.png"
-     alt="Panda"
-     style="width: 150px; height: 150px; border: 3px solid #3498db; border-radius: 8px;">
+<img src="images/reading/1_A.png"
+     alt="Woman rock climbing"
+     style="width: 150px; height: 180px; border: 3px solid #3498db;
+            border-radius: 8px; object-fit: cover;">
 ```
+
+**Features**:
+- Proper aspect ratio maintained with `object-fit: cover`
+- Blue borders matching exam theme
+- Responsive flexbox layout
+- Accessible alt text for each image
+- Cursor pointer on hover
 
 ---
 
