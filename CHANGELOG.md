@@ -7,6 +7,118 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.24.1] - 2025-01-06
+
+### 🔍 **FIX: Level 4 Reading Exam - Match PDF Original**
+
+**Updated Level 4 Reading exam to match the original PDF exactly**
+
+#### **🐛 Bug Fixes**
+
+**Question 3 Text Correction**
+- Fixed Q3 description: Changed "shoulder-length, **wavy** hair" to "shoulder-length, **straight** hair"
+- Now matches the original PDF exam exactly
+
+#### **✨ Features Added**
+
+**Image Placeholders for Part 1 (Questions 1-5)**
+- Added visual image placeholders for all 5 multiple choice picture questions
+- Each placeholder is a gray box (150×150px or 150×180px) with descriptive text
+- Clear blue borders (#3498db) matching the exam theme
+- Responsive flexbox layout that wraps on smaller screens
+- Placeholders include:
+  - **Q1**: Rock climbing woman (A), Hiking person (B), Jet ski (C)
+  - **Q2**: Panda (A), Cheetah (B), Hippopotamus (C)
+  - **Q3**: Girl with straight hair (A), Girl with curly hair (B), Girl with short hair (C)
+  - **Q4**: Baseball celebration (A), Basketball players (B), Volleyball (C)
+  - **Q5**: Clothes/lunch items (A), Tent and sleeping bag (B), Money/flashlight (C)
+
+**Answer Key Comments**
+- Added HTML comments noting correct answers for each question
+- Example: `<!-- Image placeholders for Q2 picture options (CORRECT ANSWER: C - Hippopotamus) -->`
+- Makes it easy for teacher to verify answers match PDF
+
+#### **📁 Files Modified**
+- `Level 4 online exam/Level_4_Reading_Exam_Online.html` - Updated with image placeholders and text fix
+
+#### **📝 Notes**
+- All image placeholders are clearly labeled and ready for actual images
+- Layout maintains exam structure from PDF
+- All other parts (Part 2-5) already matched PDF correctly
+- Exam functionality (timer, auto-save, validation) remains unchanged
+
+---
+
+## [Version 2.24.0] - 2025-01-06
+
+### 🎯 **ENHANCE: Level 4 & 5 Exam UX Improvements**
+
+**Major improvements to all 6 online exams (Reading, Writing, Listening for both levels)**
+
+#### **✨ Features Added**
+
+**Auto-Save Progress**
+- Automatically saves student answers every 30 seconds to localStorage
+- Restores saved progress when student returns to exam
+- Clears saved data after successful submission
+- Unique storage keys for each exam type (e.g., `level4_reading_progress`)
+
+**Soft Answer Validation**
+- Checks for unanswered questions before submission
+- Shows warning dialog with list of unanswered question numbers
+- Allows students to continue submitting if they choose
+- Non-blocking validation improves student experience
+
+**Autocomplete Disabled**
+- Added `autocomplete="off"` to all input and textarea fields
+- Prevents browser suggestions from appearing during exams
+- Ensures fair testing environment without auto-suggestions
+
+#### **🧹 UI Cleanup**
+
+**Removed Placeholder Notes**
+- Deleted all yellow warning boxes with "⚠️ PLACEHOLDER" text
+- Removed "Student authentication will be implemented" notes
+- Removed "Server submission will be implemented later" notes
+- Removed "This data will be sent to server for teacher grading" notes
+- Clean, professional UI for students
+
+**Hidden Audio Transcripts**
+- Audio transcripts in Listening exams now hidden from students
+- Added CSS `display: none` to `.transcript` class
+- Transcripts remain in source code for teacher reference
+- Prevents students from reading answers during audio questions
+
+#### **📁 Files Modified**
+- `Level 4 online exam/Level_4_Reading_Exam_Online.html` (25 questions)
+- `Level 4 online exam/Level_4_Writing_Exam_Online.html` (6 questions)
+- `Level 4 online exam/Level_4_Listening_Exam_Online.html` (25 questions)
+- `Level 5_Online exam/Level_5_Reading_Exam_Online.html` (25 questions)
+- `Level 5_Online exam/Level_5_Writing_Exam_Online.html` (6 questions)
+- `Level 5_Online exam/Level_5_Listening_Exam_Online.html` (25 questions)
+
+#### **🔧 Technical Implementation**
+
+**JavaScript Functions Added:**
+- `loadProgress()` - Restores saved answers on exam start
+- `saveProgress()` - Auto-saves answers every 30 seconds
+- Enhanced `submitExam()` - Includes soft validation logic
+- Progress cleared with `localStorage.removeItem()` after submission
+
+**State Management:**
+- Added `autoSaveInterval` variable for interval tracking
+- Added `PROGRESS_KEY` constant for localStorage key
+- Properly clears intervals on submission
+
+#### **✅ Testing Status**
+- All 6 exam files updated and tested
+- Auto-save functionality verified
+- Soft validation tested with empty and partial answers
+- Autocomplete disabled on all input fields
+- Audio transcripts hidden from student view
+
+---
+
 ## [Version 2.23.1] - 2025-01-06
 
 ### 📊 **ANALYSIS: Month 1 Listening Comprehension Exam (Nov 2025)**

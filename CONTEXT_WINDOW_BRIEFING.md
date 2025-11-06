@@ -1,7 +1,7 @@
 # 🧠 Context Window Briefing - English Review Game
 
 **Last Updated**: January 2025 (Session: Nov 6, 2025)
-**Version**: 2.23.1
+**Version**: 2.24.1
 **Purpose**: Essential briefing for new chat sessions
 
 ---
@@ -165,7 +165,21 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ## 🔧 Development Context
 
-### Recent Major Updates (v2.23.0)
+### Recent Major Updates (v2.24.1)
+1. **Level 4 Reading Exam PDF Match**: Updated to exactly match original PDF
+2. **Image Placeholders Added**: Part 1 questions (1-5) now have visual placeholders for actual images
+3. **Q3 Text Fixed**: Corrected "wavy hair" to "straight hair" to match PDF
+4. **Answer Keys**: Added HTML comments with correct answers for teacher reference
+
+### Previous Updates (v2.24.0)
+1. **Exam UX Improvements**: Removed all placeholder notes from student view
+2. **Autocomplete Disabled**: Added autocomplete="off" to all exam input fields
+3. **Audio Transcript Security**: Hidden audio transcripts from students (teacher-only)
+4. **Soft Validation**: Warns about unanswered questions but allows submission
+5. **Auto-Save Progress**: Saves answers every 30 seconds, restores on page reload
+6. **Clean UI**: Removed all yellow warning boxes and teacher notes from student view
+
+### Previous Major Updates (v2.23.0)
 1. **Level 4 & 5 Online Exam System**: Complete examination platform with 6 exams
 2. **Student Selection Portal**: Beautiful 4-step wizard for exam selection
 3. **Database Integration**: Neon PostgreSQL with Netlify serverless functions
@@ -179,10 +193,13 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 - ✅ Content Bank vocabulary management
 - ✅ Assessment preview system
 - ✅ Teacher guide complete
-- ✅ Level 4 & 5 online exam system (6 exams total)
+- ✅ Level 4 & 5 online exam system (6 exams total) with auto-save and validation
 - ✅ Student exam selection portal
 - ✅ Database integration with Netlify functions
 - ✅ Enhanced teacher dashboard with modal display
+- ✅ Auto-save progress feature (30-second intervals)
+- ✅ Soft answer validation before submission
+- ✅ Clean student UI (no teacher notes visible)
 
 ### Planned Features (Not Yet Implemented)
 - ⏳ **Month 1 Listening Comprehension Online Exam** - Convert 50-question PDF exam to online format
@@ -234,12 +251,16 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ## 🔄 Version Control Notes
 
-- Current version: **2.23.0** (January 2025)
-- Major milestone: Complete Level 4 & 5 online exam system with database integration
-- Latest commits:
-  - `fa45101` - CREATE: Complete Level 4 & 5 Online Exam System with Database Integration
-  - `031d607` - ENHANCE: Replace popup alerts with beautiful card-based exam results display
-- Next priorities: Deploy to Netlify and test with actual students
+- Current version: **2.24.1** (January 2025)
+- Major milestone: Level 4 Reading exam now matches PDF exactly with image placeholders
+- Recent improvements:
+  - Fixed Q3 text error (wavy → straight hair)
+  - Added image placeholders for Part 1 questions (1-5)
+  - Added answer key comments for teacher reference
+  - All content now perfectly matches original PDF format
+- Previous version: **2.24.0** - Exam UX improvements - clean UI, auto-save, and soft validation
+- Previous version: **2.23.0** - Complete Level 4 & 5 online exam system with database integration
+- Next priorities: Add images to placeholders, verify other exam PDFs match online versions
 
 ---
 
