@@ -28,8 +28,8 @@
 
 ## 5. DEPLOYMENT & HANDOVER
 - [/] **Guide Creation**: Write `DEPLOYMENT_GUIDE.md` with "How to upload to Netlify without GitHub."
-- [ ] **GitHub Sync**: Push the new "Hub" code to GitHub (should be < 1MB).
-- [ ] **Live Verification**: Confirm the login screen appears on your Netlify URL.
+- [x] **GitHub Sync**: Push the new "Hub" code to GitHub (should be < 1MB).
+- [/] **Live Verification**: Confirm the login screen appears on your Netlify URL.
 
 ## 6. FINAL VERIFICATION
 - [ ] Login with `Academy2026`.

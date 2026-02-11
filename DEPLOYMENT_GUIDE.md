@@ -55,4 +55,15 @@ Once deployed, check your live URL:
 - [ ] **Check the URL**: It should look like `your-site.netlify.app/Everybody up_Flipbooks_3rd Edition/.../Lvl 0 Teacher Guide.html`
 
 ---
+
+## 🔄 Daily Workflow: The "Double-Tap"
+Whenever you change the code (HTML/CSS) or add/modify books, follow this routine:
+
+1.  **Commit Code (Safety)**:
+    `git add .` -> `git commit -m "your message"` -> `git push`
+2.  **Deploy Site (Live)**:
+    `npx netlify-cli deploy --dir . --prod`
+
+---
 **SAGE Academy Technical Support** 🎓🛡️
+ツ

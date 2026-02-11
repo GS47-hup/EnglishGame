@@ -29,3 +29,5 @@ build/
 #large files
 Everybody up_Flipbooks_3rd Edition/
 final result/
+# Local Netlify folder
+.netlify
