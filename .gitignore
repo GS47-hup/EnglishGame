@@ -24,4 +24,8 @@ build/
 
 # System files
 .env
-.env.local 
+.env.local
+
+#large files
+Everybody up_Flipbooks_3rd Edition/
+final result/
