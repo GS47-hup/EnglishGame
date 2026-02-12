@@ -1,0 +1,12 @@
+// Google Analytics 4 - Official Implementation Pattern
+window.dataLayer = window.dataLayer || [];
+
+function gtag(){
+    dataLayer.push(arguments);
+}
+
+// Make gtag available globally for Nuxt store
+window.gtag = gtag;
+
+// Initialize gtag with current timestamp (required)
+gtag('js', new Date());

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAGE Academy - Content Access</title>
+    <title>YouLearnt - SpokenEnglish Academy</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -51,7 +51,7 @@
         .book-card:hover:not(.disabled) {
             background: rgba(255, 255, 255, 0.08);
             transform: translateY(-5px);
-            border-color: #3b82f6;
+            border-color: #304587;
         }
 
         .book-card.disabled {
@@ -87,9 +87,9 @@
         }
 
         .toggle-btn.active {
-            background: #3b82f6;
+            background: #304587;
             color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 4px 15px rgba(48, 69, 135, 0.4);
         }
 
         .hidden {
@@ -113,11 +113,6 @@
             }
         }
     </style>
-
-
-
-
-
 </head>
 
 <body class="p-4">
@@ -154,8 +149,8 @@
     <!-- SELECTOR MODE: This appears after login -->
     <div id="selectorSection" class="hidden w-full max-w-5xl fade-in">
         <div class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold mb-4 tracking-tight">SAGE Content Hub <span
-                    class="text-blue-500 opacity-80">ツ</span></h1>
+            <h1 class="text-4xl font-extrabold mb-4 tracking-tight">YouLearnt | SpokenEnglish Academy <span
+                    style="color: #EE2C36;" class="opacity-80">ツ</span></h1>
 
             <!-- Triple Toggle Switch -->
             <div class="toggle-container">
@@ -206,23 +201,26 @@
                 const card = document.createElement('div');
                 card.className = `book-card ${book.ready ? '' : 'disabled'}`;
 
-                let link, icon, typeLabel;
+                let link, icon, typeLabel, iconColor;
                 if (currentView === 'SB') {
                     link = book.sb;
                     icon = 'fa-book-open';
                     typeLabel = 'Course Book';
+                    iconColor = '#304587';
                 } else if (currentView === 'WB') {
                     link = book.wb;
                     icon = 'fa-pen-to-square';
                     typeLabel = 'Workbook';
+                    iconColor = '#EE2C36';
                 } else {
                     link = book.tg;
                     icon = 'fa-chalkboard-user';
                     typeLabel = 'Teacher Guide';
+                    iconColor = '#304587';
                 }
 
                 card.innerHTML = `
-                <div class="text-blue-500 mb-2"><i class="fas ${icon} text-2xl"></i></div>
+                <div style="color: ${iconColor};" class="mb-2"><i class="fas ${icon} text-2xl"></i></div>
                 <div class="font-bold text-lg">${book.name}</div>
                 <div class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">
                     ${book.ready ? typeLabel : 'Coming Soon'}
@@ -284,8 +282,8 @@
     </script>
 
     <!-- Personal Signature -->
-    <div
-        class="fixed bottom-6 right-6 text-2xl text-white opacity-20 hover:opacity-100 transition-opacity cursor-default pointer-events-none select-none">
+    <div style="color: #EE2C36;"
+        class="fixed bottom-6 right-6 text-2xl opacity-20 hover:opacity-100 transition-opacity cursor-default pointer-events-none select-none">
         ツ
     </div>
 </body>
