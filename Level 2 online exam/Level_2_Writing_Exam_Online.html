@@ -4,147 +4,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Level 2 Writing Exam - Online | SpokenEnglish Academy</title>
-    <!-- Prioritizing Mobile Performance Guidelines -->
+    <!-- Prioritizing Mobile Performance Guidelines (No Heavy Frameworks, Vanilla CSS) -->
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #16a085 0%, #2ecc71 100%);
-            padding: 10px;
+            padding: 10px; /* Reduced for mobile */
             line-height: 1.6;
+            color: #2c3e50;
         }
+
         .container {
-            max-width: 1000px; margin: 0 auto; background: white;
-            border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
-        .header { background: linear-gradient(135deg, #16a085 0%, #2ecc71 100%); color: white; padding: 20px; text-align: center; }
-        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
 
-        .registration { padding: 20px; background: #ecf0f1; display: block; }
-        .registration.hide { display: none; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #2c3e50; }
-        .form-group input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; min-height: 44px; }
-        .btn { background: #16a085; color: white; border: none; padding: 15px 20px; font-size: 1.1em; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; min-height: 44px; margin-top: 10px; }
+        .header {
+            background: linear-gradient(135deg, #16a085 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .instructions-banner {
+            background: #f39c12;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .part {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
         
-        .timer-bar { background: #2c3e50; color: white; padding: 10px; text-align: center; font-size: 1.2em; font-weight: bold; display: none; position: sticky; top: 0; z-index: 100; }
-        .timer-bar.active { display: block; }
-        .timer-bar.warning { background: #e67e22; }
-        .timer-bar.critical { background: #e74c3c; }
+        .part-header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
 
-        .content { padding: 20px; display: none; }
-        .content.active { display: block; }
-        .part { background: #f8f9fa; padding: 15px; margin-bottom: 25px; border-radius: 8px; border: 1px solid #e0e0e0; }
-        .part-header { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd; }
-        .question { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; }
-        .question-number { background: #16a085; color: white; padding: 4px 10px; border-radius: 50%; display: inline-block; margin-right: 8px; font-weight: bold; font-size: 0.9em; }
+        .word-box {
+            background: white;
+            padding: 15px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: center;
+            color: #2980b9;
+        }
 
-        textarea.answer-input { width: 100%; padding: 12px; margin-top: 8px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; min-height: 80px; resize: vertical; }
-        
-        .submit-section { margin-top: 30px; text-align: center; }
-        .summary { display: none; padding: 20px; text-align: center; }
-        .summary.active { display: block; }
+        .question {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1.2em;
+        }
+
+        .question-number {
+            background: #16a085;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .blank {
+            display: inline-block;
+            width: 150px;
+            border-bottom: 2px solid #333;
+        }
+
+        .bullet-list {
+            list-style-type: none;
+            padding: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .bullet-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1em;
+        }
+        .bullet-list li::before {
+            content: "•";
+            color: #e67e22;
+            font-weight: bold;
+            display: inline-block; 
+            width: 1em; /* Also needed for space */
+            margin-left: -1em;
+        }
+        .bullet-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Submission System */
+        .submit-section {
+            background: #ecf0f1;
+            padding: 25px 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1em;
+            /* 44px min tap target */
+            min-height: 44px;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 18px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            pointer-events: none; /* Disabled by default */
+            opacity: 0.5;
+        }
+        .btn-whatsapp.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        .btn-whatsapp:active {
+            transform: scale(0.98);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>✍️ Level 2 Writing Exam</h1>
-            <p>25 Minutes</p>
+            <p>30 Minutes | 25 Points</p>
         </div>
 
-        <div id="registration" class="registration">
-            <div class="form-group">
-                <label>Student Name:</label>
-                <input type="text" id="student-name" required autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Student ID:</label>
-                <input type="text" id="student-id" required autocomplete="off">
-            </div>
-            <button class="btn" onclick="startExam()">Start Exam</button>
+        <div class="instructions-banner">
+            📝 INSTRUCTIONS: Please write your answers on a physical piece of paper! Show your teacher when you are done.
         </div>
 
-        <div id="timer" class="timer-bar">⏱️ <span id="timer-display">25:00</span></div>
-
+        <!-- Exam Content -->
         <div id="content" class="content">
-            <!-- Part 1: Writing Sentences -->
+            
+            <!-- Part 1: Complete the Sentences -->
             <div class="part">
                 <div class="part-header">
-                    <h3>Writing Scaffold</h3>
-                    <p style="color:#666; font-size:0.9em;">(PASTE PDF WRITING CONTENT HERE)</p>
+                    <h2>Part 1: Complete the Sentences</h2>
+                    <p style="color:#666; margin-top:5px;">Look at the sentence and find the correct word in the box. Write the answers on your paper.</p>
                 </div>
-                <!-- Developer Note: Duplicate this block for each question you extract from the PDF -->
+
+                <div class="word-box">
+                    WORDS: reading • doctor • hungry • T-shirt • bedroom
+                </div>
+
                 <div class="question">
-                    <span class="question-number">1</span> Question Placeholder
-                    <textarea class="answer-input" id="q1" placeholder="Write your answer here..."></textarea>
+                    <span class="question-number">1</span> I'm <span class="blank"></span>. I want some food.
+                </div>
+                <div class="question">
+                    <span class="question-number">2</span> She's a <span class="blank"></span>. She works at the hospital.
+                </div>
+                <div class="question">
+                    <span class="question-number">3</span> He's <span class="blank"></span> a book.
+                </div>
+                <div class="question">
+                    <span class="question-number">4</span> I'm wearing a blue <span class="blank"></span>.
+                </div>
+                <div class="question">
+                    <span class="question-number">5</span> There is a bed in the <span class="blank"></span>.
                 </div>
             </div>
 
-            <div class="submit-section">
-                <button class="btn" style="background:#27ae60;" onclick="submitExam()">✅ SUBMIT EXAM</button>
+            <!-- Part 2: Write About Yourself -->
+            <div class="part">
+                <div class="part-header">
+                    <h2>Part 2: Write About Yourself</h2>
+                    <p style="color:#666; margin-top:5px;">Write a small paragraph (5-7 sentences) about yourself. Use these questions to help you format your writing.</p>
+                </div>
+                
+                <ul class="bullet-list" style="margin-left:20px;">
+                    <li>What's your name?</li>
+                    <li>How do you feel today?</li>
+                    <li>What are you wearing?</li>
+                    <li>What's your favorite subject?</li>
+                    <li>What time do you eat breakfast?</li>
+                    <li>What do you like doing?</li>
+                </ul>
             </div>
-        </div>
 
-        <div id="summary" class="summary">
-            <h1 style="color:#27ae60;">✅ Exam Submitted!</h1>
-            <p>Thank you. Your answers have been recorded.</p>
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <h3 style="margin-bottom:15px; color:#2c3e50;">Done? Submit Your Paper</h3>
+                <p style="margin-bottom:20px; font-size:0.9em; color:#7f8c8d;">Type your name below, then click the button to send a photo of your paper directly to your teacher on WhatsApp.</p>
+                
+                <div class="form-group">
+                    <label for="student-name">Student Name:</label>
+                    <input type="text" id="student-name" placeholder="Enter your full name to proceed" autocomplete="off" oninput="checkName()">
+                </div>
+                
+                <!-- Replace "+1234567890" with the teacher's actual phone number -->
+                <a href="#" id="whatsapp-btn" class="btn-whatsapp" onclick="sendToTeacher(event)">
+                    📱 Send Photo to Teacher
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
-        let timeRemaining = 25 * 60;
-        let timerInterval;
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const sessionData = sessionStorage.getItem('examSession');
-            if(sessionData) {
-                const session = JSON.parse(sessionData);
-                document.getElementById('student-name').value = session.studentName || '';
-                document.getElementById('student-id').value = 'AUTO-' + Date.now();
+        function checkName() {
+            const name = document.getElementById('student-name').value.trim();
+            const btn = document.getElementById('whatsapp-btn');
+            if (name.length > 2) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
             }
-        });
-
-        function startExam() {
-            const name = document.getElementById('student-name').value;
-            if(!name) return alert("Enter name");
-            document.getElementById('registration').classList.add('hide');
-            document.getElementById('content').classList.add('active');
-            document.getElementById('timer').classList.add('active');
-            
-            // Local storage tracking
-            const textareas = document.querySelectorAll('textarea');
-            textareas.forEach(t => t.addEventListener('input', () => {
-                const prog = {};
-                textareas.forEach(ta => prog[ta.id] = ta.value);
-                sessionStorage.setItem('level2_writing_prog', JSON.stringify(prog));
-            }));
-
-            timerInterval = setInterval(() => {
-                timeRemaining--;
-                let m = Math.floor(timeRemaining / 60); let s = timeRemaining % 60;
-                document.getElementById('timer-display').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
-                if(timeRemaining <= 0) submitExam();
-            }, 1000);
         }
 
-        function submitExam() {
-            clearInterval(timerInterval);
-            const studentName = document.getElementById('student-name').value;
-            const answers = [];
-            // Dynamically collect all textareas with "q" ids
-            document.querySelectorAll('textarea[id^="q"]').forEach(t => {
-                answers.push({ number: t.id.replace('q', ''), answer: t.value });
-            });
+        function sendToTeacher(e) {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            if (!name) return;
 
-            document.getElementById('content').classList.remove('active');
-            document.getElementById('timer').classList.remove('active');
-            document.getElementById('summary').classList.add('active');
-
+            // Database Logging (Optional but recommended so dashboard catches "Started")
             fetch('/.netlify/functions/submit-level2-exam', {
                 method: 'POST',
-                body: JSON.stringify({ studentName, examType: 'Level2_Writing', answers })
-            });
+                body: JSON.stringify({
+                    studentName: name,
+                    examType: 'Level2_Writing',
+                    answers: [{ number: 0, answer: 'Submitted via WhatsApp' }]
+                })
+            }).catch(e => console.error("Logging sync error", e));
+
+            // Teacher Phone Number Configuration
+            // Make sure to include country code without '+', e.g., '218921234567' for Libya
+            const teacherPhoneNumber = "218921234567"; // Replace this!
+            
+            const message = encodeURIComponent(`Hello Teacher, here is the Writing exam for ${name}.\n\n[Please attach your photo here]`);
+            const whatsappUrl = `https://wa.me/${teacherPhoneNumber}?text=${message}`;
+
+            // Warn student
+            alert("A WhatsApp chat with your teacher will now open. Please remember to tap the Camera icon and attach the photo of your paper!");
+
+            // Open WhatsApp
+            window.location.href = whatsappUrl;
         }
     </script>
 </body>
