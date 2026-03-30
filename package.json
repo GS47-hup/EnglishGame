@@ -4,12 +4,19 @@
   "description": "Digital Listening Exam with Neon Database Integration",
   "main": "index.js",
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "pg": "^8.11.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["exam", "listening", "education", "netlify", "neon"],
+  "keywords": [
+    "exam",
+    "listening",
+    "education",
+    "netlify",
+    "neon"
+  ],
   "author": "English Review Game Developer",
   "license": "MIT"
 }
