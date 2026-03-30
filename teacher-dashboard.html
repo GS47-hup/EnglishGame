@@ -398,6 +398,24 @@
             </div>
         </div>
 
+        <!-- Level 2 Exam Results -->
+        <div class="dashboard-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-book-open mr-2 text-teal-600"></i>Level 2 Exam Results
+            </h2>
+            <p class="text-gray-600 mb-4">Reading (25Q), Writing, Listening</p>
+
+            <div id="noLevel2Results" class="text-center py-12 text-gray-500" style="display: none;">
+                <i class="fas fa-clipboard text-6xl mb-4 text-teal-400"></i>
+                <h3 class="text-xl font-semibold mb-2">No Level 2 Submissions Yet</h3>
+                <p>Students' Level 2 exam results will appear here once they complete any exam.</p>
+            </div>
+
+            <div id="level2ResultsContainer">
+                <!-- Level 2 results will be generated here -->
+            </div>
+        </div>
+
         <!-- Level 4 Exam Results -->
         <div class="dashboard-card">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">
@@ -447,6 +465,7 @@
         let testSystemSubmissions = [];
         let level4Submissions = [];
         let level5Submissions = [];
+        let level2Submissions = [];
         const TEACHER_PASSWORD = 'teacher123'; // Change this password as needed
 
         // Teacher login functionality
@@ -480,9 +499,10 @@
                 fetch('/.netlify/functions/get-placement-submissions').then(response => response.json()),
                 fetch('/.netlify/functions/get-test-system-submissions').then(response => response.json()),
                 fetch('/.netlify/functions/get-level4-submissions').then(response => response.json()),
-                fetch('/.netlify/functions/get-level5-submissions').then(response => response.json())
+                fetch('/.netlify/functions/get-level5-submissions').then(response => response.json()),
+                fetch('/.netlify/functions/get-level2-submissions').then(response => response.json())
             ])
-            .then(([listeningData, placementData, testSystemData, level4Data, level5Data]) => {
+            .then(([listeningData, placementData, testSystemData, level4Data, level5Data, level2Data]) => {
                 // Handle listening exam results
                 if (listeningData.success) {
                     submissions = listeningData.submissions;
@@ -528,12 +548,22 @@
                     level5Submissions = [];
                 }
 
+                // Handle Level 2 results
+                if (level2Data && level2Data.success) {
+                    level2Submissions = level2Data.submissions;
+                    console.log(`Loaded ${level2Data.count} Level 2 exam submissions from database`);
+                } else {
+                    console.error('Error loading Level 2 submissions:', level2Data?.error);
+                    level2Submissions = [];
+                }
+
                 displayStatistics();
                 displayResults();
                 displayPlacementResults();
                 displayTestSystemResults();
                 displayLevel4Results();
                 displayLevel5Results();
+                displayLevel2Results();
             })
             .catch(error => {
                 console.error('Error fetching submissions:', error);
@@ -542,12 +572,14 @@
                 testSystemSubmissions = [];
                 level4Submissions = [];
                 level5Submissions = [];
+                level2Submissions = [];
                 displayStatistics();
                 displayResults();
                 displayPlacementResults();
                 displayTestSystemResults();
                 displayLevel4Results();
                 displayLevel5Results();
+                displayLevel2Results();
 
                 // Show error messages
                 const resultsContainer = document.getElementById('resultsContainer');
@@ -1346,6 +1378,52 @@
             }).join('');
         }
 
+        // Display Level 2 Exam Results
+        function displayLevel2Results() {
+            const container = document.getElementById('level2ResultsContainer');
+            const noResults = document.getElementById('noLevel2Results');
+
+            if (level2Submissions.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+
+            container.innerHTML = level2Submissions.map(sub => {
+                const data = sub; // level 2 stores directly under sub
+                const examIcon = data.examType === 'Level2_Reading' ? '📖' :
+                                data.examType === 'Level2_Writing' ? '✏️' : '🎧';
+                const examColor = data.examType === 'Level2_Reading' ? 'teal' :
+                                 data.examType === 'Level2_Writing' ? 'blue' : 'orange';
+
+                return `
+                    <div class="student-card">
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${examIcon} ${data.studentName || 'Unknown'}</h3>
+                                <p class="text-gray-600">Score: <span class="font-bold text-lg">${data.score}/${data.maxScore}</span></p>
+                            </div>
+                            <div class="text-right">
+                                <span class="inline-block px-4 py-2 bg-${examColor}-100 text-${examColor}-700 rounded-lg font-bold">
+                                    ${data.examType}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-600 mb-3">
+                            <strong>Submitted:</strong> ${new Date(sub.timestamp).toLocaleString()}
+                        </div>
+                        <div class="mt-3">
+                            <button onclick="viewLevel2Details('${sub.id}')" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600">
+                                View Answers
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         // View Level 4 Details - Beautiful Card Display
         function viewLevel4Details(id) {
             const submission = level4Submissions.find(s => s.id === id);
@@ -1353,6 +1431,15 @@
 
             const data = submission.submissionData || submission;
             showExamDetails(data, submission, 4);
+        }
+
+        // View Level 2 Details - Beautiful Card Display
+        function viewLevel2Details(id) {
+            // Because Neon ID returns as BigInt string, we use == instead of === just in case
+            const submission = level2Submissions.find(s => s.id == id);
+            if (!submission) return;
+
+            showLevel2ExamDetails(submission);
         }
 
         // View Level 5 Details - Beautiful Card Display
@@ -1426,6 +1513,67 @@
                             </div>
                             <div class="answer-card-content ${isNoAnswer ? 'no-answer' : ''}">
                                 ${isNoAnswer ? '(No answer provided)' : answer}
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                answersHTML = '<p class="no-answer">No answers recorded.</p>';
+            }
+
+            answersGrid.innerHTML = answersHTML;
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        // Show Level 2 Exam Details in Beautiful Modal
+        function showLevel2ExamDetails(submission) {
+            const modal = document.getElementById('examDetailsModal');
+            const title = document.getElementById('examDetailsTitle');
+            const subtitle = document.getElementById('examDetailsSubtitle');
+            const infoCard = document.getElementById('examInfoCard');
+            const answersGrid = document.getElementById('answersGrid');
+
+            // Set header
+            const examIcon = submission.examType === 'Level2_Reading' ? '📖' :
+                            submission.examType === 'Level2_Writing' ? '✏️' : '🎧';
+            title.innerHTML = `${examIcon} Level 2 Exam (${submission.examType.split('_')[1] || submission.examType})`;
+            subtitle.textContent = submission.studentName || 'Unknown Student';
+
+            // Build info card
+            infoCard.innerHTML = `
+                <div class="exam-info-item">
+                    <span class="exam-info-label">👤 Student Name:</span>
+                    <span class="exam-info-value">${submission.studentName || 'N/A'}</span>
+                </div>
+                <div class="exam-info-item">
+                    <span class="exam-info-label">📅 Submitted:</span>
+                    <span class="exam-info-value">${new Date(submission.timestamp).toLocaleString()}</span>
+                </div>
+                <div class="exam-info-item">
+                    <span class="exam-info-label">📊 Score:</span>
+                    <span class="exam-info-value">${submission.score}/${submission.maxScore}</span>
+                </div>
+            `;
+
+            // Build answer cards
+            let answersHTML = '';
+            if (submission.answers && submission.answers.length > 0) {
+                // For Level 2, answers format is an array of objects: {number, answer} or similar
+                submission.answers.forEach(q => {
+                    const questionNum = q.number ? `Q${q.number}` : 'Question';
+                    const answerText = q.answer || '';
+                    const isNoAnswer = !answerText || answerText.trim() === '';
+
+                    answersHTML += `
+                        <div class="answer-card">
+                            <div class="answer-card-header">
+                                <span>${questionNum}</span>
+                            </div>
+                            <div class="answer-card-content ${isNoAnswer ? 'no-answer' : ''}">
+                                ${isNoAnswer ? '(No answer provided)' : answerText}
                             </div>
                         </div>
                     `;

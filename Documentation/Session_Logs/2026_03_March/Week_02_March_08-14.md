@@ -1,7 +1,35 @@
 # SESSION SUMMARY
 
 **Project:** English Review Game  
-**Last Updated:** 2025-06-25 08:50:00
+**Last Updated:** 2026-03-12
+
+---
+
+## 🎯 SESSION - 2026-03-12 (MONOREPO ARCHITECTURE TRANSITION)
+
+### Work Completed
+- **✅ Strategic Architecture Review**
+  - Analyzed "Separation of Concerns" vs "Double-Entry Logging".
+  - Shifted from a fragmented, siloed approach to a standardized **Monorepo Structure**.
+- **✅ Execution of Centralization**
+  - Renamed `Project_Management/` to `Documentation/`.
+  - Created `00_Shared_Architecture.md` to map dependencies (NeonDB, Netlify).
+  - Centralized setup instructions into `01_Global_Setup.md`.
+  - Rewrote the root `README.md` to act as a pure directory index.
+- **✅ Micro-App Isolation**
+  - Confirmed `Flipbook_Portal` acts as an isolated micro-app with its own local `task.md` and `changelog.md` to prevent AI context collapse.
+- **✅ Session Log Overhaul**
+  - Adopted the highly scalable Weekly Session Log system.
+
+### Key Decisions
+- **Abandon Double-Entry:** We will not manually duplicate component changelogs into a master changelog.
+- **Component Autonomy:** AI agents should be instructed to focus on specific component folders (like `Flipbook_Portal`) to save context tokens.
+
+### Next Steps (For Next Session)
+- Execute the cleanup plan for the 49+ loose files in the root directory.
+- Move standalone Interactive Lessons into `Standalone_Lessons/`.
+- Move the Dashboard and Exam selection UI into `Exam_Portal/`.
+- Establish a `Dev_Tools/` or `Scripts/` folder for Python/JS utilities.
 
 ---
 

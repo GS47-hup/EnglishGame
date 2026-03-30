@@ -1,0 +1,39 @@
+# Netlify deployment ignore rules
+# This file overrides .gitignore for Netlify CLI
+
+# Development files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# System files
+.env
+.env.local
+
+# We WANT to include 'Everybody up_Flipbooks_3rd Edition/' in the deploy
+# So we do NOT list it here.
+
+# We also WANT to include 'final result/' if needed, but the user said they wanted it deleted.
+# For safety, we only include the actual book folder.
+
+# Local Netlify folder
+.netlify

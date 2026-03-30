@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 Listening Exam - Online | SpokenEnglish Academy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); padding: 10px; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+
+        .registration { padding: 20px; background: #ecf0f1; display: block; }
+        .registration.hide { display: none; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #2c3e50; }
+        .form-group input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; min-height: 44px; }
+        .btn { background: #f39c12; color: white; border: none; padding: 15px 20px; font-size: 1.1em; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; min-height: 44px; margin-top: 10px; }
+        
+        .timer-bar { background: #2c3e50; color: white; padding: 10px; text-align: center; font-size: 1.2em; font-weight: bold; display: none; position: sticky; top: 0; z-index: 100; }
+        .timer-bar.active { display: block; }
+        .timer-bar.warning { background: #e67e22; }
+        .timer-bar.critical { background: #e74c3c; }
+
+        .content { padding: 20px; display: none; }
+        .content.active { display: block; }
+        .part { background: #f8f9fa; padding: 15px; margin-bottom: 25px; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .part-header { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd; }
+        .question { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; }
+        .question-number { background: #f39c12; color: white; padding: 4px 10px; border-radius: 50%; display: inline-block; margin-right: 8px; font-weight: bold; font-size: 0.9em; }
+
+        /* Audio Player Styling */
+        audio { width: 100%; margin: 15px 0; border-radius: 8px; }
+
+        .option { display: block; padding: 12px; margin: 8px 0; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; min-height: 44px; }
+        .option input[type="radio"] { margin-right: 10px; }
+        
+        .submit-section { margin-top: 30px; text-align: center; }
+        .summary { display: none; padding: 20px; text-align: center; }
+        .summary.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎧 Level 2 Listening Exam</h1>
+            <p>25 Minutes</p>
+        </div>
+
+        <div id="registration" class="registration">
+            <div class="form-group">
+                <label>Student Name:</label>
+                <input type="text" id="student-name" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>Student ID:</label>
+                <input type="text" id="student-id" required autocomplete="off">
+            </div>
+            <button class="btn" onclick="startExam()">Start Exam</button>
+        </div>
+
+        <div id="timer" class="timer-bar">⏱️ <span id="timer-display">25:00</span></div>
+
+        <div id="content" class="content">
+            
+            <div class="part">
+                <div class="part-header">
+                    <h3>Listening Audio</h3>
+                    <p style="color:#666; font-size:0.9em;">Listen to the track and answer the questions below.</p>
+                </div>
+                <!-- Developer Note: Place MP3 src here once available (Optimize to compress MP3) -->
+                <audio controls>
+                    <source src="#" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="part">
+                <div class="part-header">
+                    <h3>Questions Scaffold</h3>
+                    <p style="color:#666; font-size:0.9em;">(PASTE PDF LISTENING CONTENT HERE)</p>
+                </div>
+                <!-- Duplicate this block for each question -->
+                <div class="question">
+                    <span class="question-number">1</span> Question Placeholder
+                    <label class="option"><input type="radio" name="q1" value="A"> A) Choice 1</label>
+                    <label class="option"><input type="radio" name="q1" value="B"> B) Choice 2</label>
+                    <label class="option"><input type="radio" name="q1" value="C"> C) Choice 3</label>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button class="btn" style="background:#27ae60;" onclick="submitExam()">✅ SUBMIT EXAM</button>
+            </div>
+        </div>
+
+        <div id="summary" class="summary">
+            <h1 style="color:#27ae60;">✅ Exam Submitted!</h1>
+            <p>Thank you. Your answers have been recorded.</p>
+        </div>
+    </div>
+
+    <script>
+        let timeRemaining = 25 * 60;
+        let timerInterval;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const sessionData = sessionStorage.getItem('examSession');
+            if(sessionData) {
+                const session = JSON.parse(sessionData);
+                document.getElementById('student-name').value = session.studentName || '';
+                document.getElementById('student-id').value = 'AUTO-' + Date.now();
+            }
+        });
+
+        function startExam() {
+            const name = document.getElementById('student-name').value;
+            if(!name) return alert("Enter name");
+            document.getElementById('registration').classList.add('hide');
+            document.getElementById('content').classList.add('active');
+            document.getElementById('timer').classList.add('active');
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                let m = Math.floor(timeRemaining / 60); let s = timeRemaining % 60;
+                document.getElementById('timer-display').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+                if(timeRemaining <= 0) submitExam();
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            const studentName = document.getElementById('student-name').value;
+            const answers = [];
+            // Dynamically collect radio buttons
+            document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
+                answers.push({ number: r.name.replace('q', ''), answer: r.value });
+            });
+
+            document.getElementById('content').classList.remove('active');
+            document.getElementById('timer').classList.remove('active');
+            document.getElementById('summary').classList.add('active');
+
+            fetch('/.netlify/functions/submit-level2-exam', {
+                method: 'POST',
+                body: JSON.stringify({ studentName, examType: 'Level2_Listening', answers })
+            });
+        }
+    </script>
+</body>
+</html>
