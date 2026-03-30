@@ -163,7 +163,34 @@
             gap: 10px;
             margin-bottom: 15px;
         }
-        .match-col { background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        .match-col { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
+        
+        .match-card {
+            background: white;
+            padding: 15px 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.2s;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .match-card:active { transform: scale(0.98); }
+        .match-card.selected {
+            border-color: #3498db;
+            background: #ebf5fb;
+            box-shadow: 0 4px 10px rgba(52,152,219,0.2);
+        }
+        .match-card.matched {
+            border-color: #27ae60;
+            background: #eafaf1;
+        }
         
         .answer-input {
             width: 100%;
@@ -277,38 +304,30 @@
                 </div>
             </div>
 
-            <!-- Part 2: Vocabulary Matching -->
-            <div class="part">
+            <!-- Part 2: Vocabulary Matching (Tap to Match) -->
+            <div class="part" id="part-2-matching">
                 <div class="part-header">
                     <h3>Part 2: Vocabulary Matching</h3>
-                    <p style="color:#666; font-size:0.9em;">Match the job with the place. Type the letter.</p>
+                    <p style="color:#666; font-size:0.9em;">Tap a Job, then tap the matching Place to connect them!</p>
                 </div>
                 
                 <div class="match-grid">
                     <div class="match-col">
-                        <strong>Jobs:</strong><br>
-                        6. doctor<br>7. teacher<br>8. cook<br>9. pilot<br>10. nurse
+                        <strong>Jobs:</strong>
+                        <div class="match-card job-btn" data-job="6">6. doctor</div>
+                        <div class="match-card job-btn" data-job="7">7. teacher</div>
+                        <div class="match-card job-btn" data-job="8">8. cook</div>
+                        <div class="match-card job-btn" data-job="9">9. pilot</div>
+                        <div class="match-card job-btn" data-job="10">10. nurse</div>
                     </div>
                     <div class="match-col">
-                        <strong>Places:</strong><br>
-                        A) school<br>B) hospital<br>C) restaurant<br>D) airplane<br>E) hospital
+                        <strong>Places:</strong>
+                        <div class="match-card place-btn" data-place="A">A) school</div>
+                        <div class="match-card place-btn" data-place="B">B) hospital</div>
+                        <div class="match-card place-btn" data-place="C">C) restaurant</div>
+                        <div class="match-card place-btn" data-place="D">D) airplane</div>
+                        <div class="match-card place-btn" data-place="E">E) hospital</div>
                     </div>
-                </div>
-
-                <div class="question">
-                    <span class="question-number">6</span> doctor: <input type="text" class="answer-input" id="q6" placeholder="A, B, C, D, or E" maxlength="1">
-                </div>
-                <div class="question">
-                    <span class="question-number">7</span> teacher: <input type="text" class="answer-input" id="q7" placeholder="A, B, C, D, or E" maxlength="1">
-                </div>
-                <div class="question">
-                    <span class="question-number">8</span> cook: <input type="text" class="answer-input" id="q8" placeholder="A, B, C, D, or E" maxlength="1">
-                </div>
-                <div class="question">
-                    <span class="question-number">9</span> pilot: <input type="text" class="answer-input" id="q9" placeholder="A, B, C, D, or E" maxlength="1">
-                </div>
-                <div class="question">
-                    <span class="question-number">10</span> nurse: <input type="text" class="answer-input" id="q10" placeholder="A, B, C, D, or E" maxlength="1">
                 </div>
             </div>
 
@@ -490,6 +509,36 @@
             }, 1000);
         }
 
+        // Match Grid Logic
+        let activeJob = null;
+        let jobMatches = {};
+
+        document.querySelectorAll('.job-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.job-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                activeJob = btn.dataset.job;
+            });
+        });
+
+        document.querySelectorAll('.place-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(activeJob) {
+                    const place = btn.dataset.place;
+                    jobMatches[activeJob] = place;
+                    
+                    const jobCard = document.querySelector(`.job-btn[data-job="${activeJob}"]`);
+                    // Reset to base text first
+                    const jobTexts = { "6": "6. doctor", "7": "7. teacher", "8": "8. cook", "9": "9. pilot", "10": "10. nurse" };
+                    jobCard.innerHTML = `${jobTexts[activeJob]} <span style="background:#27ae60; color:white; padding:2px 8px; border-radius:10px; font-size:0.8em; margin-left:8px;">${place}</span>`;
+                    jobCard.classList.add('matched');
+                    jobCard.classList.remove('selected');
+                    activeJob = null;
+                    saveProgressLocally();
+                }
+            });
+        });
+
         // Local Storage safety net
         function saveProgressLocally() {
             const inputs = document.querySelectorAll('input');
@@ -498,8 +547,8 @@
                     const progress = {};
                     inputs.forEach(i => {
                         if(i.type === 'radio' && i.checked) progress[i.name] = i.value;
-                        if(i.type === 'text') progress[i.id] = i.value;
                     });
+                    progress.matches = jobMatches;
                     sessionStorage.setItem('level2_reading_progress', JSON.stringify(progress));
                 });
             });
@@ -508,17 +557,28 @@
         function submitExam() {
             const studentName = document.getElementById('student-name').value;
             const answers = [];
+            let answeredCount = 0;
 
-            // Gather Radio Qs
+            // Gather Radio Qs & Matches
             for(let i=1; i<=25; i++) {
                 if(i>=6 && i<=10) {
-                    // Match Text inputs
-                    const val = document.getElementById(`q${i}`)?.value.trim().toUpperCase() || '';
+                    // Match object
+                    const val = jobMatches[i] || '';
+                    if(val) answeredCount++;
                     answers.push({ number: i, answer: val });
                 } else {
                     const checked = document.querySelector(`input[name="q${i}"]:checked`);
-                    answers.push({ number: i, answer: checked ? checked.value : '' });
+                    const val = checked ? checked.value : '';
+                    if(val) answeredCount++;
+                    answers.push({ number: i, answer: val });
                 }
+            }
+
+            // Unanswered Validation
+            const unanswered = 25 - answeredCount;
+            if (unanswered > 0) {
+                const proceed = confirm(`Wait!\n\nYou have ${unanswered} unanswered questions left.\nAre you completely sure you want to grade your exam and submit now?`);
+                if (!proceed) return;
             }
 
             const payload = {
