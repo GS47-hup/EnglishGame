@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouLearnt - SpokenEnglish Academy</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            color: white;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s ease;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .book-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-card:hover:not(.disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+            border-color: #304587;
+        }
+
+        .book-card.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        .toggle-container {
+            display: inline-flex;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            gap: 4px;
+        }
+
+        .toggle-btn {
+            padding: 10px 20px;
+            border-radius: 11px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .toggle-btn.active {
+            background: #304587;
+            color: white;
+            box-shadow: 0 4px 15px rgba(48, 69, 135, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="p-4">
+    <div class="glass-card w-full max-w-md p-8 md:p-12 text-center text-white">
+        <div class="mb-8">
+            <div class="w-20 h-20 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center mb-6 shadow-lg">
+                <i class="fas fa-lock text-3xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">Academy Portal</h1>
+            <p class="text-slate-400">Please enter your supervisor password to access the content.</p>
+        </div>
+
+        <form id="loginForm" class="space-y-6">
+            <div class="relative">
+                <input type="password" id="password" required
+                    class="input-bubble w-full px-5 py-4 rounded-xl text-center text-xl tracking-widest placeholder-slate-500"
+                    placeholder="••••••••">
+                <div id="errorMsg" class="hidden mt-3 text-red-400 text-sm font-medium">
+                    <i class="fas fa-exclamation-circle mr-1"></i> Invalid password.
+                </div>
+            </div>
+
+            <button type="submit" class="btn-gradient w-full py-4 rounded-xl font-bold text-lg shadow-lg">
+                Enter Portal <i class="fas fa-arrow-right ml-2 text-sm opacity-50"></i>
+            </button>
+        </form>
+
+        <a href="index.html" class="block mt-6 text-slate-400 hover:text-white transition-colors text-sm font-medium">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Root Gateway
+        </a>
+
+        <div class="mt-10 pt-8 border-t border-white/5">
+            <p class="text-xs text-slate-500 uppercase tracking-widest">SpokenEnglish Academy</p>
+        </div>
+    </div>
+
+
+    <!-- SELECTOR MODE: This appears after login -->
+    <div id="selectorSection" class="hidden w-full max-w-5xl fade-in">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold mb-4 tracking-tight">YouLearnt | SpokenEnglish Academy <span
+                    style="color: #EE2C36;" class="opacity-80">ツ</span></h1>
+
+            <!-- Triple Toggle Switch -->
+            <div class="toggle-container">
+                <div id="btnSB" class="toggle-btn active" onclick="switchView('SB')">Student Books</div>
+                <div id="btnWB" class="toggle-btn" onclick="switchView('WB')">Workbooks</div>
+                <div id="btnTG" class="toggle-btn" onclick="switchView('TG')">Teacher Guides</div>
+            </div>
+        </div>
+
+        <div class="book-grid" id="gridContainer">
+            <!-- Cards will be generated here by JavaScript later -->
+        </div>
+
+        <div class="mt-12 text-center">
+            <button onclick="logout()"
+                class="text-slate-500 hover:text-white transition-colors text-sm uppercase tracking-widest font-bold">
+                <i class="fas fa-sign-out-alt mr-2"></i> Log Out
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const VALID_PASSWORD = "Academy2026";
+        let currentView = 'SB'; // Default view: Student Books (Course Books)
+
+        // THE 21-BOOK MATRIX (7 Levels x 3 Types)
+        const BOOKS = [
+            {
+                id: 'starter', name: 'Starter', level: 0,
+                sb: 'Everybody up_Flipbooks_3rd Edition/Level 0/Course Book_/Lvl 0 CourseBook.html',
+                wb: 'Everybody up_Flipbooks_3rd Edition/Level 0/Work Book/Lvl 0 WorkBook.html',
+                tg: 'Everybody up_Flipbooks_3rd Edition/Level 0/Teacher Guide/Lvl 0 Teacher Guide.html',
+                ready: true
+            },
+            { id: 'lvl1', name: 'Level 1', level: 1, ready: false },
+            { id: 'lvl2', name: 'Level 2', level: 2, ready: false },
+            { id: 'lvl3', name: 'Level 3', level: 3, ready: false },
+            { id: 'lvl4', name: 'Level 4', level: 4, ready: false },
+            { id: 'lvl5', name: 'Level 5', level: 5, ready: false },
+            { id: 'lvl6', name: 'Level 6', level: 6, ready: false }
+        ];
+
+        function initPortal() {
+            const grid = document.getElementById('gridContainer');
+            grid.innerHTML = ''; // Clear previous cards
+
+            BOOKS.forEach(book => {
+                const card = document.createElement('div');
+                card.className = `book-card ${book.ready ? '' : 'disabled'}`;
+
+                let link, icon, typeLabel, iconColor;
+                if (currentView === 'SB') {
+                    link = book.sb;
+                    icon = 'fa-book-open';
+                    typeLabel = 'Course Book';
+                    iconColor = '#304587';
+                } else if (currentView === 'WB') {
+                    link = book.wb;
+                    icon = 'fa-pen-to-square';
+                    typeLabel = 'Workbook';
+                    iconColor = '#EE2C36';
+                } else {
+                    link = book.tg;
+                    icon = 'fa-chalkboard-user';
+                    typeLabel = 'Teacher Guide';
+                    iconColor = '#304587';
+                }
+
+                card.innerHTML = `
+                <div style="color: ${iconColor};" class="mb-2"><i class="fas ${icon} text-2xl"></i></div>
+                <div class="font-bold text-lg">${book.name}</div>
+                <div class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">
+                    ${book.ready ? typeLabel : 'Coming Soon'}
+                </div>
+            `;
+
+                if (book.ready) {
+                    card.onclick = () => window.location.href = link;
+                }
+                grid.appendChild(card);
+            });
+        }
+
+        function switchView(type) {
+            currentView = type;
+            document.getElementById('btnSB').classList.toggle('active', type === 'SB');
+            document.getElementById('btnWB').classList.toggle('active', type === 'WB');
+            document.getElementById('btnTG').classList.toggle('active', type === 'TG');
+            initPortal();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('flipbook_access');
+            window.location.reload();
+        }
+
+        // AUTH LOGIC
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const passInput = document.getElementById('password');
+            const errorMsg = document.getElementById('errorMsg');
+            const loginCard = document.querySelector('.glass-card');
+
+            if (passInput.value === VALID_PASSWORD) {
+                sessionStorage.setItem('flipbook_access', 'granted');
+                showPortal();
+            } else {
+                passInput.value = '';
+                errorMsg.classList.remove('hidden');
+                loginCard.classList.add('shake');
+                setTimeout(() => loginCard.classList.remove('shake'), 400);
+            }
+        });
+
+        function showPortal() {
+            const loginCard = document.querySelector('.glass-card');
+            const selectorSection = document.getElementById('selectorSection');
+            if (loginCard) loginCard.classList.add('hidden');
+            if (selectorSection) {
+                selectorSection.classList.remove('hidden');
+                initPortal();
+            }
+        }
+
+        // CHECK LOGIN STATE ON START
+        if (sessionStorage.getItem('flipbook_access') === 'granted') {
+            showPortal();
+        }
+    </script>
+
+    <!-- Personal Signature -->
+    <div style="color: #EE2C36;"
+        class="fixed bottom-6 right-6 text-2xl opacity-20 hover:opacity-100 transition-opacity cursor-default pointer-events-none select-none">
+        ツ
+    </div>
+</body>
+
+</html>
