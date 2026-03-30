@@ -406,11 +406,19 @@
                 </div>
 
                 <div class="exam-type-grid">
-                    <div class="exam-type-card" onclick="selectExamType('reading')">
+                    <div class="exam-type-card" onclick="selectExamType('mock-reading')" style="background: #fdf2e9; border-color: #e67e22;">
+                        <i class="fas fa-play-circle" style="color: #e67e22;"></i>
+                        <div class="exam-type-info">
+                            <h3 style="color: #e67e22;">Mock Reading Exam (Practice)</h3>
+                            <p>Try this first to see how the exam works</p>
+                        </div>
+                    </div>
+                    <div class="exam-type-card disabled" style="opacity: 0.6; cursor: not-allowed; position: relative;" onclick="alert('The Real Reading Exam is currently locked by the teacher.')">
+                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
                         <i class="fas fa-book-open"></i>
                         <div class="exam-type-info">
-                            <h3>Reading Exam</h3>
-                            <p>Reading comprehension and vocabulary</p>
+                            <h3>Real Reading Exam</h3>
+                            <p>Locked Until Exam Day</p>
                         </div>
                     </div>
                     <div class="exam-type-card" onclick="selectExamType('writing')">
@@ -585,6 +593,7 @@
 
             // Construct exam URL
             const examFiles = {
+                '2-mock-reading': 'Level 2 online exam/Level_2_Reading_Mock_Online.html',
                 '2-reading': 'Level 2 online exam/Level_2_Reading_Exam_Online.html',
                 '2-writing': 'Level 2 online exam/Level_2_Writing_Exam_Online.html',
                 '2-listening': 'Level 2 online exam/Level_2_Listening_Exam_Online.html',

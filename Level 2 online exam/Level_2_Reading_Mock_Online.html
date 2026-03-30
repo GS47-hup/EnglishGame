@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Reading Exam - Online | SpokenEnglish Academy</title>
+    <!-- Prioritizing Mobile Performance Guidelines -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); padding: 10px; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 1.8em; margin-bottom: 5px; }
+        
+        /* Banner */
+        .mock-banner { background: #f1c40f; color: #000; text-align: center; padding: 10px; font-weight: bold; }
+
+        .registration { padding: 20px; background: #ecf0f1; display: block; }
+        .registration.hide { display: none; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #2c3e50; }
+        .form-group input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; min-height: 44px; }
+        .btn { background: #e67e22; color: white; border: none; padding: 15px 20px; font-size: 1.1em; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; min-height: 44px; }
+        .timer-bar { background: #2c3e50; color: white; padding: 10px; text-align: center; font-size: 1.2em; font-weight: bold; display: none; position: sticky; top: 0; z-index: 100; }
+        .timer-bar.active { display: block; }
+
+        .content { padding: 20px; display: none; }
+        .content.active { display: block; }
+        .part { background: #f8f9fa; padding: 15px; margin-bottom: 25px; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .part-header { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ddd; }
+        .question { background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; }
+        .question-number { background: #e67e22; color: white; padding: 4px 10px; border-radius: 50%; display: inline-block; margin-right: 8px; font-weight: bold; font-size: 0.9em; }
+        .option { display: block; padding: 12px; margin: 8px 0; background: white; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; min-height: 44px; }
+        .option:active { background: #ecf0f1; }
+        .option input[type="radio"] { margin-right: 10px; }
+
+        /* Match Grid */
+        .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .match-col { background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd; }
+        .match-card { background: white; padding: 15px 10px; border: 2px solid #ddd; border-radius: 8px; margin-top: 10px; cursor: pointer; font-weight: bold; text-align: center; transition: all 0.2s; user-select: none; }
+        .match-card.selected { border-color: #e67e22; background: #fdf2e9; }
+        .match-card.matched { border-color: #27ae60; background: #eafaf1; }
+        
+        .reading-text { background: white; padding: 15px; border-left: 4px solid #e67e22; margin-bottom: 15px; font-size: 1.1em; line-height: 1.8; border-radius: 0 8px 8px 0; }
+        .emoji-pic { font-size: 3em; text-align: center; display: block; margin: 10px 0; }
+        .submit-section { margin-top: 30px; text-align: center; }
+        .summary { display: none; padding: 20px; text-align: center; }
+        .summary.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="mock-banner">⚠️ THIS IS A MOCK EXAM FOR PRACTICE ONLY ⚠️</div>
+    <div class="container">
+        <div class="header">
+            <h1>📖 Level 2 Reading (MOCK)</h1>
+            <p>5 Minutes | 5 Practice Questions</p>
+        </div>
+
+        <div id="registration" class="registration">
+            <div class="form-group">
+                <label for="student-name">Student Name (Mock):</label>
+                <input type="text" id="student-name" placeholder="Enter Mock Name" required autocomplete="off">
+            </div>
+            <button class="btn" onclick="startExam()">Start Practice Exam</button>
+        </div>
+
+        <div id="timer" class="timer-bar">⏱️ <span id="timer-display">5:00</span></div>
+
+        <div id="content" class="content">
+            
+            <!-- Part 1 -->
+            <div class="part">
+                <div class="part-header"><h3>Part 1: Picture Multiple Choice</h3></div>
+                <div class="question">
+                    <span class="question-number">1</span>
+                    <span class="emoji-pic">🐱</span>
+                    <label class="option"><input type="radio" name="q1" value="A"> A) dog</label>
+                    <label class="option"><input type="radio" name="q1" value="B"> B) cat</label>
+                    <label class="option"><input type="radio" name="q1" value="C"> C) bird</label>
+                </div>
+            </div>
+
+            <!-- Part 2 -->
+            <div class="part" id="part-2-matching">
+                <div class="part-header"><h3>Part 2: Tap to Match (Practice)</h3></div>
+                <div class="match-grid">
+                    <div class="match-col">
+                        <strong>Words:</strong>
+                        <div class="match-card job-btn" data-job="2">2. Apple</div>
+                        <div class="match-card job-btn" data-job="3">3. Sun</div>
+                    </div>
+                    <div class="match-col">
+                        <strong>Colors:</strong>
+                        <div class="match-card place-btn" data-place="A">A) Yellow</div>
+                        <div class="match-card place-btn" data-place="B">B) Red</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 3 -->
+            <div class="part">
+                <div class="part-header"><h3>Part 3: True or False</h3></div>
+                <div class="question">
+                    <span class="question-number">4</span> A fish can fly in the sky.
+                    <label class="option"><input type="radio" name="q4" value="T"> True (T)</label>
+                    <label class="option"><input type="radio" name="q4" value="F"> False (F)</label>
+                </div>
+            </div>
+
+            <!-- Part 4/5 Combined -->
+            <div class="part">
+                <div class="part-header"><h3>Part 4: Reading Comprehension</h3></div>
+                <div class="reading-text">This is a practice reading box. The teacher reads this to show you how a paragraph looks on the exam.</div>
+                <div class="question">
+                    <span class="question-number">5</span> Did you understand this practice exam?
+                    <label class="option"><input type="radio" name="q5" value="A"> A) Yes</label>
+                    <label class="option"><input type="radio" name="q5" value="B"> B) No</label>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button class="btn" style="background:#27ae60;" onclick="submitExam()">✅ SUBMIT PRACTICE EXAM</button>
+            </div>
+        </div>
+
+        <div id="summary" class="summary">
+            <h1 style="color:#27ae60;">✅ Practice Complete!</h1>
+            <p>You now know how to use the exam system. Great job!</p>
+            <a href="student-exam-selection.html" class="btn" style="display:inline-block; margin-top:20px; text-decoration:none;">Go Back to Gateway</a>
+        </div>
+    </div>
+
+    <script>
+        let timeRemaining = 5 * 60; 
+        let timerInterval;
+
+        function startExam() {
+            const name = document.getElementById('student-name').value;
+            if(!name) { alert("Please enter a name."); return; }
+            document.getElementById('registration').classList.add('hide');
+            document.getElementById('content').classList.add('active');
+            document.getElementById('timer').classList.add('active');
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                let m = Math.floor(timeRemaining / 60);
+                let s = timeRemaining % 60;
+                document.getElementById('timer-display').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+                if(timeRemaining <= 0) { clearInterval(timerInterval); submitExam(); }
+            }, 1000);
+        }
+
+        let activeJob = null;
+        let jobMatches = {};
+
+        document.querySelectorAll('.job-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.job-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                activeJob = btn.dataset.job;
+            });
+        });
+
+        document.querySelectorAll('.place-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(activeJob) {
+                    const place = btn.dataset.place;
+                    jobMatches[activeJob] = place;
+                    const jobCard = document.querySelector(`.job-btn[data-job="${activeJob}"]`);
+                    const jobTexts = { "2": "2. Apple", "3": "3. Sun" };
+                    jobCard.innerHTML = `${jobTexts[activeJob]} <span style="background:#27ae60; color:white; padding:2px 8px; border-radius:10px; font-size:0.8em; margin-left:8px;">${place}</span>`;
+                    jobCard.classList.add('matched');
+                    jobCard.classList.remove('selected');
+                    activeJob = null;
+                }
+            });
+        });
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            document.getElementById('content').classList.remove('active');
+            document.getElementById('timer').classList.remove('active');
+            document.getElementById('summary').classList.add('active');
+            // Do not send mock exam to database!
+        }
+    </script>
+</body>
+</html>
