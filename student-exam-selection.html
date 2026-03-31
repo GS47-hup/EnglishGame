@@ -372,7 +372,7 @@
                     <div class="selection-card" onclick="selectLevel('2')">
                         <i class="fas fa-child"></i>
                         <h3>Level 2</h3>
-                        <p>Beginner</p>
+                        <p>Available</p>
                     </div>
                     <div class="selection-card disabled" onclick="selectLevel('4')">
                         <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
@@ -406,25 +406,27 @@
                 </div>
 
                 <div class="exam-type-grid">
-                    <div class="exam-type-card" onclick="selectExamType('mock-reading')" style="background: #fdf2e9; border-color: #e67e22;">
-                        <i class="fas fa-play-circle" style="color: #e67e22;"></i>
+                    <div class="exam-type-card disabled" style="opacity: 0.6; cursor: not-allowed; position: relative;" onclick="alert('The Mock Exam is currently closed.')">
+                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
+                        <i class="fas fa-play-circle" style="color: #888;"></i>
                         <div class="exam-type-info">
-                            <h3 style="color: #e67e22;">Mock Reading Exam (Practice)</h3>
-                            <p>Try this first to see how the exam works</p>
+                            <h3>Mock Reading Exam (Practice)</h3>
+                            <p>Locked</p>
                         </div>
                     </div>
-                    <div class="exam-type-card" onclick="selectExamType('reading')">
-                        <i class="fas fa-book-open"></i>
+                    <div class="exam-type-card disabled" style="opacity: 0.6; cursor: not-allowed; position: relative;" onclick="alert('The Reading Exam is currently closed.')">
+                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
+                        <i class="fas fa-book-open" style="color: #888;"></i>
                         <div class="exam-type-info">
                             <h3>Real Reading Exam</h3>
-                            <p>Reading comprehension and vocabulary</p>
+                            <p>Locked</p>
                         </div>
                     </div>
                     <div class="exam-type-card" onclick="selectExamType('writing')">
                         <i class="fas fa-pen"></i>
                         <div class="exam-type-info">
                             <h3>Writing Exam</h3>
-                            <p>Grammar and writing skills</p>
+                            <p>Unlocked</p>
                         </div>
                     </div>
                     <div class="exam-type-card disabled" style="opacity: 0.6; cursor: not-allowed; position: relative;" onclick="alert('The Listening Exam is currently locked by the teacher.')">
@@ -539,7 +541,8 @@
         }
 
         function selectLevel(level) {
-            // Lock out Level 4 and Level 5
+            // Lock out all levels if they are currently marked as disabled in HTML
+            // But we keep the check here for robustness
             if (level === '4' || level === '5') {
                 alert('This level is currently locked until the official exam day.');
                 return;
