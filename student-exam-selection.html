@@ -398,43 +398,17 @@
                 </div>
             </div>
 
-            <!-- Step 3: Select Exam Type -->
+            <!-- Step 3: Select Exam Type — Cards rendered dynamically from DB via get-exam-status API -->
             <div class="step" id="step3">
                 <div class="step-title">
                     <span class="step-number">3</span>
                     <span>Select Exam Type</span>
                 </div>
 
-                <div class="exam-type-grid">
-                    <div class="exam-type-card disabled" style="opacity: 0.6; cursor: not-allowed; position: relative;" onclick="alert('The Mock Exam is currently closed.')">
-                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
-                        <i class="fas fa-play-circle" style="color: #888;"></i>
-                        <div class="exam-type-info">
-                            <h3>Mock Reading Exam (Practice)</h3>
-                            <p>Locked</p>
-                        </div>
-                    </div>
-                    <div class="exam-type-card disabled" style="opacity: 0.6; cursor: not-allowed; position: relative;" onclick="alert('The Reading Exam is currently closed.')">
-                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
-                        <i class="fas fa-book-open" style="color: #888;"></i>
-                        <div class="exam-type-info">
-                            <h3>Real Reading Exam</h3>
-                            <p>Locked</p>
-                        </div>
-                    </div>
-                    <div class="exam-type-card" onclick="selectExamType('writing')">
-                        <i class="fas fa-pen"></i>
-                        <div class="exam-type-info">
-                            <h3>Writing Exam</h3>
-                            <p>Unlocked</p>
-                        </div>
-                    </div>
-                    <div class="exam-type-card" onclick="selectExamType('listening')">
-                        <i class="fas fa-headphones"></i>
-                        <div class="exam-type-info">
-                            <h3>Listening Exam</h3>
-                            <p>Unlocked</p>
-                        </div>
+                <div class="exam-type-grid" id="exam-type-grid">
+                    <!-- Populated by loadExamStatus() on step 2 → 3 transition -->
+                    <div style="text-align:center; padding: 30px; color: #888;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading available exams...
                     </div>
                 </div>
 
@@ -500,6 +474,66 @@
             examType: ''
         };
 
+        // ── EXAM STATUS (from Admin Dashboard DB) ─────────────────────────────
+        let examStatuses = {}; // Populated by loadExamStatus()
+
+        const EXAM_TYPE_CONFIG = {
+            'reading':   { label: 'Reading Exam',             icon: 'fa-book-open' },
+            'writing':   { label: 'Writing Exam',             icon: 'fa-pen'       },
+            'listening': { label: 'Listening Exam',           icon: 'fa-headphones'},
+        };
+
+        async function loadExamStatus() {
+            const grid = document.getElementById('exam-type-grid');
+            grid.innerHTML = '<div style="text-align:center;padding:30px;color:#888;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+
+            try {
+                const res = await fetch('/.netlify/functions/get-exam-status');
+                const data = await res.json();
+                if (data.success) examStatuses = data.statuses;
+            } catch (e) {
+                // Fallback: if API fails, keep all exams open so students are not blocked
+                console.warn('Could not fetch exam status, defaulting to open.');
+                examStatuses = {};
+            }
+
+            renderExamTypeCards();
+        }
+
+        function renderExamTypeCards() {
+            const level = examData.level;
+            const grid = document.getElementById('exam-type-grid');
+            const types = ['reading', 'writing', 'listening'];
+
+            grid.innerHTML = types.map(type => {
+                const key = `${level}-${type}`;
+                const isOpen = examStatuses[key] !== false; // Default open if key missing (fail-safe)
+                const config = EXAM_TYPE_CONFIG[type];
+
+                if (isOpen) {
+                    return `
+                    <div class="exam-type-card" onclick="selectExamType('${type}')">
+                        <i class="fas ${config.icon}"></i>
+                        <div class="exam-type-info">
+                            <h3>${config.label}</h3>
+                            <p>Available</p>
+                        </div>
+                    </div>`;
+                } else {
+                    return `
+                    <div class="exam-type-card disabled" style="opacity:0.55;cursor:not-allowed;position:relative;"
+                         onclick="alert('This exam is currently closed. Please wait for your teacher to open it.')">
+                        <i class="fas fa-lock" style="font-size:1.4em;color:#aaa;position:absolute;top:10px;right:10px;"></i>
+                        <i class="fas ${config.icon}" style="color:#aaa;"></i>
+                        <div class="exam-type-info">
+                            <h3>${config.label}</h3>
+                            <p style="color:#aaa;">Closed by teacher</p>
+                        </div>
+                    </div>`;
+                }
+            }).join('');
+        }
+
         // Enable/disable name input button
         document.getElementById('studentName').addEventListener('input', function() {
             const btn = document.getElementById('nameNextBtn');
@@ -520,6 +554,14 @@
             if (stepNumber === 3 && !examData.level) {
                 alert('Please select your level');
                 return;
+            }
+
+            // When entering step 3, fetch live exam status from DB
+            if (stepNumber === 3) {
+                loadExamStatus();
+                // Reset exam selection
+                examData.examType = '';
+                document.getElementById('examNextBtn').disabled = true;
             }
 
             if (stepNumber === 4) {

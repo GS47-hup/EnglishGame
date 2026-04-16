@@ -7,6 +7,45 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [2026-04-16] — Admin Dashboard V1 & Q11 Fix
+
+---
+
+### [Feature] Admin Exam Control Panel
+
+### 🟢 THE STORY (Beginner-Friendly)
+*   **The Goal:** Give the teacher a way to open and close exams herself — without needing a developer to edit any code.
+*   **The Change:** A new private page (`admin-dashboard.html`) was created. The teacher opens it, types her password, and sees a row of ON/OFF switches — one for each exam (Level 2, 4, and 5 × Reading, Writing, Listening). When she flips a switch, students instantly see that exam as available or locked when they open the selection page. No code was changed — just a switch was flipped.
+*   **Why it Matters:** Previously, locking or unlocking an exam required manually editing the website code. This was slow, risky, and depended completely on a developer being available. Now the teacher is fully in control.
+
+### 🔵 THE IMPLEMENTATION (Technical)
+*   **Task Type:** Feature + Security
+*   **Technical Overview:** Replaced hardcoded `disabled` CSS classes and `alert()` blockers in `student-exam-selection.html` with a DB-driven system. A new `exam_status` PostgreSQL table stores open/closed state per exam key (e.g. `2-listening`). The student portal fetches status on page load via a public `GET` function and renders cards dynamically. The admin panel toggles state via a protected `POST` function gated by `ADMIN_SECRET_KEY` environment variable (verified server-side via `x-admin-token` header — never exposed to client). (See DECISIONS.md — 2026-04-16 entry)
+*   **Key Files Modified/Created:**
+    *   `admin-dashboard.html` [NEW]: Full admin control panel — dark UI, login wall, 9 live toggle cards.
+    *   `_netlify_backup/functions/get-exam-status.js` [NEW]: Public GET — returns exam status map from DB. Auto-creates table on first run.
+    *   `_netlify_backup/functions/set-exam-status.js` [NEW]: Protected POST — upserts a single exam row. Rejects requests without valid `x-admin-token`.
+    *   `student-exam-selection.html` [MODIFY]: Step 3 cards now rendered dynamically from DB. Fallback: all exams default open if API is unreachable.
+    *   `Documentation/KNOWLEDGE.md` [MODIFY]: Added 2 new entries — "Environment Variables" and "DB-Driven UI Pattern".
+    *   `Documentation/02_decisions_log.md` [MODIFY]: ADR logged for the architectural decision.
+
+---
+
+### [Bug Fix] Q11 Listening Exam Options Corrected
+
+### 🟢 THE STORY (Beginner-Friendly)
+*   **The Goal:** Correct the answer choices for Question 11 ("What does the doctor wear?") in the Level 2 Listening Exam.
+*   **The Change:** The three answer options were wrong (`A white coat`, `A red hat`, `Blue shoes`). They were changed to match the actual printed exam: `White shirt`, `White coat`, `White t-shirt`.
+*   **Why it Matters:** Students selecting answers on screen were seeing completely different options from what the exam paper showed. This would have caused confusion and unfair grading.
+
+### 🔵 THE IMPLEMENTATION (Technical)
+*   **Task Type:** Bug Fix
+*   **Technical Overview:** Replaced the hardcoded answer option strings for `name="q11"` radio inputs in the listening exam HTML.
+*   **Key Files Modified:**
+    *   `Level 2 online exam/Level_2_Listening_Exam_Online.html` [MODIFY]: Lines 403–405 updated to match PDF original.
+
+---
+
 ## [Version 2.25.0] - 2026-03-31
 
 ### 🔓 **ENHANCE: Level 2 Writing Exam Opening**
