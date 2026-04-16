@@ -46,6 +46,21 @@ and this project follows semantic versioning principles.
 
 ---
 
+### [Feature] Smart Level Gate (Student Portal)
+
+### 🟢 THE STORY (Beginner-Friendly)
+*   **The Goal:** Prevent students from even attempting to enter a Level if the teacher hasn't opened any exams for that level yet.
+*   **The Change:** Previously, Level 4 and Level 5 were hardcoded to look "Locked" and could never be clicked no matter what the teacher did. Now, the system is smart. When the student opens the page, it instantly checks the teacher's dashboard. If the teacher has turned off Reading, Writing, AND Listening for Level 4, the Level 4 button turns grey, shows a padlock, and cannot be clicked. The second the teacher opens even one exam for Level 4, the padlock vanishes and the student can proceed.
+*   **Why it Matters:** This gives the teacher the visual "Gate" security they wanted without forcing them to manually flip two different sets of switches. If you lock the exams, the system automatically locks the front door.
+
+### 🔵 THE IMPLEMENTATION (Technical)
+*   **Task Type:** Quality of Life Improvement
+*   **Technical Overview:** Refactored `student-exam-selection.html` to pre-fetch `get-exam-status` on DOMContentLoaded instead of waiting for Step 3. Created `renderLevelCards()` to dynamically inject the HTML for Step 2. If the API returns `false` for all three sub-sections of a level, the parent level card inherits the `.disabled` CSS class and an inline `onclick` alert blocker.
+*   **Key Files Modified:**
+    *   `student-exam-selection.html` [MODIFY]: Restructured Step 2 HTML and updated initialization JS.
+
+---
+
 ### [Bug Fix] Q11 Listening Exam Options Corrected
 
 ### 🟢 THE STORY (Beginner-Friendly)
