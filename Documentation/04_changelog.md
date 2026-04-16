@@ -7,7 +7,7 @@ and this project follows semantic versioning principles.
 
 ---
 
-## [2026-04-16] — Admin Dashboard V1 & Q11 Fix
+## [2026-04-16] — Admin Dashboard V1, Confirmation Modal, & Q11 Fix
 
 ---
 
@@ -28,6 +28,21 @@ and this project follows semantic versioning principles.
     *   `student-exam-selection.html` [MODIFY]: Step 3 cards now rendered dynamically from DB. Fallback: all exams default open if API is unreachable.
     *   `Documentation/KNOWLEDGE.md` [MODIFY]: Added 2 new entries — "Environment Variables" and "DB-Driven UI Pattern".
     *   `Documentation/02_decisions_log.md` [MODIFY]: ADR logged for the architectural decision.
+
+---
+
+### [Feature] Toggle Confirmation Modal (Admin Dashboard)
+
+### 🟢 THE STORY (Beginner-Friendly)
+*   **The Goal:** Prevent a teacher from accidentally toggling an exam open or closed by bumping the screen.
+*   **The Change:** Now, when the teacher clicks the switch to open or close an exam, the switch doesn't flip instantly. Instead, a popup asks "Are you sure?" with a clear warning about what will happen. The switch only flips if she clicks "Yes". If she clicks "Cancel", it goes back to exactly how it was.
+*   **Why it Matters:** Exam days are stressful. A mistapped button could accidentally open an exam to the whole classroom before they are ready, or lock out a student midway through. This safety net prevents disaster.
+
+### 🔵 THE IMPLEMENTATION (Technical)
+*   **Task Type:** Feature Enhancement
+*   **Technical Overview:** Intercepted the `onchange` event of the CSS checkbox toggles in `admin-dashboard.html`. Built a custom modal overlay in CSS that dynamically populates icon/text based on the `isOpen` state. The API call to Netlify (`set-exam-status.js`) is deferred until the user clicks the confirm button. Clicking 'cancel' or outside the modal visually reverts the checkbox without hitting the DB. 
+*   **Key Files Modified:**
+    *   `admin-dashboard.html` [MODIFY]: Added modal HTML overlay, CSS styling, and 3 new JS functions (`requestToggle`, `confirmToggle`, `cancelToggle`) to handle the interception pattern.
 
 ---
 
