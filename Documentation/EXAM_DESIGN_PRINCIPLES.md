@@ -25,3 +25,8 @@ These principles prioritize lowering "cognitive load" for junior students so the
 ## 🔒 Fail-Safe Submission Hook
 *   **The Concept**: Students often accidentally submit early or skip questions.
 *   **The Solution**: A JavaScript block that intercepts the "Submit" click, scans for unanswered questions, and triggers a loud visual warning if the submission is incomplete.
+
+## 🎧 The 2-Play Audio Limit (Universal Rule)
+*   **The Concept**: In real-life listening comprehension and standardized exams (like KET/PET), audio is strictly limited. Allowing unlimited replays turns a listening exam into a puzzle.
+*   **The Solution**: A strict, universal cap restricting audio to exactly **2 plays** across **all levels (Level 0 through 6)**. 
+*   **Implementation**: A JavaScript listener disables the play button, changes its UI to indicate exhaustion ("🚫 No Plays Remaining"), and prevents further playback. This forces students to focus on intent and context during the playback phase.

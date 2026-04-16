@@ -1,54 +1,35 @@
-# SpokenEnglish Academy — Task Master
-**Status Flags:** `[ ]` Pending · `[/]` In Progress · `[x]` Completed
-**Last Updated:** 2026-04-16
+# SpokenEnglish Academy: Task List
+
+## 🎯 Active Strategic Goals
+- [ ] Stabilize Level 2 & Level 4 Exam Content
+- [x] Resolve Mobile Audio Interruption (Google Meet Conflict)
+- [ ] Implement Automated Grading (JSON Answer Keys)
 
 ---
 
-## 🔴 Priority 1: Active / Immediate
+## 🛠️ Current Session Task List
 
-### YouLearnt Mobile App (Phase 1 — Foundation)
-- [ ] Initialize React Native (Expo) blank repository
-- [ ] Implement Mobile Environment Config (5-Center B2B Switcher via `app.config.js`)
-- [ ] Prototype Phone OTP Authentication Flow (Firebase or Supabase Auth)
+### 1. Audio Resilience (The Web Audio API Pivot)
+- [x] Implement `ResilientAudioEngine` class (Web Audio Context)
+- [x] Migrate Level 2 to Buffer-based playback
+- [x] Remove legacy `<audio>` tags from Level 2
+- [/] Migrate Level 4 `playSequence` to Buffer-based playback
+- [x] Implement Global "Master Unlock" on first touch
 
-### SpokenEnglish Academy — Level 2 Exams
-- [ ] Finalize digitization of Month 1 Listening Exam (50 questions → HTML)
-- [ ] Fix 3 known Answer Key errors:
-  - [ ] Section 3, Q1: "lions are sea animals" → should be **False**
-  - [ ] Section 3, Q7: "Nine is between seven and eight" → should be **False**
-  - [ ] Section 2, Q19: answer should be **"t-shirt"** not "cake"
-- [ ] Replace remaining emoji fallbacks with PNG images (`words_needing_images.md`)
+### 2. Level 4 Content Finalization
+- [x] Map all missing images (Part 1, 2, 3)
+- [x] Enforce Pure Modality (Ket/Pet standards)
+- [x] Refactor Part 2 Character Matching logic
 
----
-
-## 🟡 Priority 2: Backlog
-
-### SpokenEnglish Academy — Exam System
-- [ ] Add images to Level 4 Reading Exam Part 1 placeholders (Q1–5)
-- [ ] Verify Level 5 exam PDFs match online versions
-- [ ] Test full exam → DB → Teacher Dashboard flow on production (Netlify)
-- [ ] Integrate Month 1 Listening Exam with teacher dashboard
-
-### SpokenEnglish Academy — Core Game
-- [ ] Improve flashcard shuffle algorithm
-- [ ] Replace all remaining emoji words with real PNG images
-- [ ] Cross-browser QA (Chrome, Firefox, Safari, Edge)
+### 3. Level 2 Bug Squashing
+- [ ] Fix Section 3 Q1/Q7 Logic
+- [ ] Fix Section 2 Q19 Error
 
 ---
 
-## 🟢 Priority 3: Future / Research
-
-- [ ] Month 2 vocabulary expansion (only after Month 1 complete)
-- [ ] Plan LMS integration (Learning Management System)
-- [ ] Refactor `app.js` for better modularity (currently 3116 lines)
-- [ ] Migrate to Vite for automated path resolution (deferred — see Knowledge Atlas)
-
----
-
-## ✅ Completed (Recent)
-
-- [x] Level 2 Online Exam MVP — Reading, Writing, Listening portals scaffolded (2026-03-30)
-- [x] Level 4 Reading Exam — Now matched exactly to PDF (v2.24.1)
-- [x] Level 4 & 5 Online Exam System — 6 exams with database integration (v2.23.0)
-- [x] YouLearnt App — Research, board presentation, and full strategic docs complete (2026-04-08)
-- [x] Documentation standardization — Universal Templates applied to all core files (2026-04-07)
+## ✅ Completed Tasks
+- [x] Visual Finalization (Map all images/parts)
+- [x] Pure Modality (Remove text hints)
+- [x] Part 2 Logic Refactor
+- [x] Global Audio Autoplay Fix (Autoplay Unblock)
+- [x] Implement Resilient Audio Engine (Web Audio API) for Level 2

@@ -1,6 +1,6 @@
 # Project Structure: SpokenEnglish Academy — English Review Game
 
-**Last Updated:** 2026-04-15T20:01:00Z
+**Last Updated:** 2026-04-16T21:05:00Z
 
 This document is the single source of truth for this project's file and folder structure. It is maintained automatically by the Antigravity AI agent and serves as a "Table of Contents" for the codebase.
 
@@ -127,6 +127,8 @@ This document is the single source of truth for this project's file and folder s
 - `Documentation/YouLearnt_Strategic_Foundation/`: Complete strategic planning docs for the YouLearnt mobile app (tech stack, board presentation, market analysis).
 - `Documentation/YouLearnt_App_Project_Requirements.md`: Formal requirements document for the YouLearnt mobile app.
 - `Documentation/YouLearnt_App_Analysis_And_Estimation.md`: Time and cost estimation analysis for the YouLearnt app build.
+- `Level 4 online exam/images/listening/`: Directory for listening exam visual assets.
+    - `part_1_parade.png`: [Purpose: Visual prompt for Part 1 Question about a parade.]
 
 ---
 

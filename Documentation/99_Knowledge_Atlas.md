@@ -40,6 +40,10 @@
 | Video SDK | Agora.io | BigBlueButton | Agora handles 10 Mbps Libyan bandwidth; BBB needs a DevOps team |
 | Database | Supabase (Independent) | Shared Global DB | Isolation required for B2B 5-center whitelabeling logic |
 
+### [2026-04-16] Pure Modality Constraints (Visual UX Design)
+- **Decision:** Removed all textual labels/hints (e.g. '___ Going bowling') from Level 4 Listening exam UI, forcing students to rely purely on connecting audio with raw images.
+- **Rationale:** Prevents "Training Wheels" reading comprehension from skewing listening comprehension scores. Replicates KET/PET international standards.
+
 ### [2026-04-07] Documentation Standardization
 - **Decision:** Merged architecture context and AI briefing into a single `00_architecture_overview.md`.
 - **Rationale:** Reduce cognitive load. One file to read per session instead of three.

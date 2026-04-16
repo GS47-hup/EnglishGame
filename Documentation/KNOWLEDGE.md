@@ -4,6 +4,40 @@
 
 ---
 
+### TITLE: Visual UX Design for Digital Assessments (Removing Training Wheels)
+*   **TAGS:** `ux, edtech, cognitive-load, html, forms`
+*   **DATE:** 2026-04-16
+
+#### 🟢 VERSION 1: The Foundation (Simple Analogy)
+*   **The Big Idea:** In language exams, giving students text descriptions next to pictures ruins the test, because they just read the text instead of listening. You must remove the text completely.
+*   **The Analogy:** It's like teaching someone to ride a bike with training wheels. As long as the wheels are there, they never actually learn to balance. Strip away the text (the wheels), and they are forced to use the actual skill (listening to the audio while looking at the picture).
+*   **In Plain English:** We designed the Listening Exam to be "pure." Instead of asking "___ Who is going bowling?", we just show a picture of bowling and a dropdown. The student *has* to listen to the audio to understand what the picture means. It's much harder, but much more accurate to their real skill level.
+
+#### 🔵 VERSION 2: The Tech Spec (Professional Terminology)
+*   **Technical Definition:** Enforcing strict modality constraints in an assessment UI. By decoupling semantic textual prompts from the input structure, we force purely associative cognitive processing (Audio Stream -> Visual Mapping -> Abstract Input Selection).
+*   **How it Works in Code:** Instead of `<label>Going bowling <input/></label>`, we use `<div class="flex"><img src="bowling.png"/> <select><option value="1">1</option></select></div>`. The input form has zero textual crossover with the audio content, preventing reading comprehension from muddying listening comprehension scores.
+*   **Why We Used It Here:** To mimic international benchmarking exams (KET/PET). It transforms the UI from a reading-assisted test back into a pure auditory test without requiring the system to grade free-form writing.
+
+#### 💻 Code Snapshot
+```html
+<!-- The "Training Wheels" Version (Bad for Listening Tests) -->
+<div>
+    <strong>___ Going bowling</strong>
+    <select id="q1"><option value="1">1</option></select>
+</div>
+
+<!-- The "Pure Modality" Version (Good for Listening Tests) -->
+<div style="display: flex; align-items: center; gap: 15px;">
+    <img src="images/bowling.png" alt="Activity 1">
+    <select id="q1">
+         <option value="1">1</option>
+         <option value="2">2</option>
+    </select>
+</div>
+```
+
+---
+
 ### TITLE: Netlify Serverless Functions (API Without a Server)
 *   **TAGS:** `netlify, serverless, api, backend, postgresql, node-js`
 *   **DATE:** 2026-04-15 (retroactively documented)
