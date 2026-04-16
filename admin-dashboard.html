@@ -191,6 +191,27 @@
             letter-spacing: 0;
         }
 
+        .level-controls {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .btn-bulk {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-bulk:hover { background: rgba(255,255,255,0.2); }
+        .btn-bulk.open-all:hover { background: rgba(46,204,113,0.3); border-color: #2ecc71; }
+        .btn-bulk.close-all:hover { background: rgba(233,69,96,0.3); border-color: #e94560; }
+
         .exam-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -666,9 +687,15 @@
                 html += `
                 <div class="level-section">
                     <h2>
-                        <i class="fas fa-layer-group"></i>
-                        <span class="level-badge">${levelLabels[level]}</span>
-                        Exams
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-layer-group"></i>
+                            <span class="level-badge">${levelLabels[level]}</span>
+                            Exams
+                        </div>
+                        <div class="level-controls">
+                            <button class="btn-bulk open-all" onclick="requestBulkToggle('${level}', true)">🔓 Open All</button>
+                            <button class="btn-bulk close-all" onclick="requestBulkToggle('${level}', false)">🔒 Close All</button>
+                        </div>
                     </h2>
                     <div class="exam-grid">
                 `;
@@ -714,7 +741,7 @@
         }
 
         // ── CONFIRMATION MODAL ────────────────────────────────────────────────
-        let pendingToggle = null; // { examKey, isOpen, checkbox }
+        let pendingToggle = null; // { isBulk, level, examKey, isOpen, checkbox }
 
         function requestToggle(examKey, isOpen, checkbox) {
             // Immediately revert the visual toggle — don't commit until confirmed
@@ -724,31 +751,44 @@
             const levelLabel = `Level ${examKey.split('-')[0]}`;
             const examLabel = config.label;
 
-            // Store pending action
-            pendingToggle = { examKey, isOpen, checkbox };
+            pendingToggle = { isBulk: false, examKey, isOpen, checkbox };
 
-            // Build modal content based on action type
-            const icon    = document.getElementById('modal-icon');
-            const title   = document.getElementById('modal-title');
-            const body    = document.getElementById('modal-body');
-            const btn     = document.getElementById('modal-confirm-btn');
+            buildModalContent(isOpen, `Open this exam?`, `Close this exam?`, 
+                `Students will be able to access the <strong>${levelLabel} ${examLabel}</strong> immediately after you confirm.`,
+                `The <strong>${levelLabel} ${examLabel}</strong> will be locked. Students will see it as unavailable.`
+            );
+        }
+
+        function requestBulkToggle(level, isOpen) {
+            pendingToggle = { isBulk: true, level, isOpen };
+            
+            buildModalContent(isOpen, `Open ALL Level ${level} exams?`, `Close ALL Level ${level} exams?`, 
+                `Students will dynamically have access to <strong>all reading, writing, and listening exams for Level ${level}</strong>.`,
+                `<strong>All Level ${level} exams</strong> will be locked. Students will instantly see them as unavailable.`
+            );
+        }
+
+        function buildModalContent(isOpen, titleOpen, titleClose, bodyOpen, bodyClose) {
+            const icon  = document.getElementById('modal-icon');
+            const title = document.getElementById('modal-title');
+            const body  = document.getElementById('modal-body');
+            const btn   = document.getElementById('modal-confirm-btn');
 
             if (isOpen) {
                 icon.textContent  = '🟢';
                 icon.className    = 'modal-icon open';
-                title.textContent = 'Open this exam?';
-                body.innerHTML    = `Students will be able to access the <strong>${levelLabel} ${examLabel}</strong> immediately after you confirm.`;
-                btn.textContent   = 'Yes, Open Exam';
+                title.textContent = titleOpen;
+                body.innerHTML    = bodyOpen;
+                btn.textContent   = 'Yes, Open';
                 btn.className     = 'btn-modal-confirm open-confirm';
             } else {
                 icon.textContent  = '🔴';
                 icon.className    = 'modal-icon close';
-                title.textContent = 'Close this exam?';
-                body.innerHTML    = `The <strong>${levelLabel} ${examLabel}</strong> will be locked. Students will see it as unavailable.`;
-                btn.textContent   = 'Yes, Close Exam';
+                title.textContent = titleClose;
+                body.innerHTML    = bodyClose;
+                btn.textContent   = 'Yes, Close';
                 btn.className     = 'btn-modal-confirm close-confirm';
             }
-
             document.getElementById('confirm-modal').classList.add('show');
         }
 
@@ -761,10 +801,24 @@
             if (!pendingToggle) return;
             document.getElementById('confirm-modal').classList.remove('show');
 
-            const { examKey, isOpen, checkbox } = pendingToggle;
+            const pending = pendingToggle;
             pendingToggle = null;
 
-            await toggleExam(examKey, isOpen, checkbox);
+            if (pending.isBulk) {
+                const types = ['reading', 'writing', 'listening'];
+                document.getElementById('last-updated-text').textContent = 'Processing bulk update...';
+                
+                // Do 3 API calls sequentially to avoid overwhelming
+                for (let type of types) {
+                    const key = `${pending.level}-${type}`;
+                    const checkbox = document.getElementById(`toggle-${key}`);
+                    if (checkbox && checkbox.checked !== pending.isOpen) {
+                        await toggleExam(key, pending.isOpen, checkbox);
+                    }
+                }
+            } else {
+                await toggleExam(pending.examKey, pending.isOpen, pending.checkbox);
+            }
         }
 
         // Close modal on overlay click

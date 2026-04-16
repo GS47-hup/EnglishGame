@@ -374,17 +374,15 @@
                         <h3>Level 2</h3>
                         <p>Available</p>
                     </div>
-                    <div class="selection-card disabled" onclick="selectLevel('4')">
-                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
-                        <i class="fas fa-book-reader" style="color: #888;"></i>
-                        <h3 style="color: #666;">Level 4</h3>
-                        <p>Locked Until Exam</p>
+                    <div class="selection-card" onclick="selectLevel('4')">
+                        <i class="fas fa-book-reader"></i>
+                        <h3>Level 4</h3>
+                        <p>Available</p>
                     </div>
-                    <div class="selection-card disabled" onclick="selectLevel('5')">
-                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
-                        <i class="fas fa-user-graduate" style="color: #888;"></i>
-                        <h3 style="color: #666;">Level 5</h3>
-                        <p>Locked Until Exam</p>
+                    <div class="selection-card" onclick="selectLevel('5')">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Level 5</h3>
+                        <p>Available</p>
                     </div>
                 </div>
 
@@ -582,13 +580,6 @@
         }
 
         function selectLevel(level) {
-            // Lock out all levels if they are currently marked as disabled in HTML
-            // But we keep the check here for robustness
-            if (level === '4' || level === '5') {
-                alert('This level is currently locked until the official exam day.');
-                return;
-            }
-
             examData.level = level;
 
             // Update UI
