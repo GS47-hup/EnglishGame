@@ -1,4 +1,58 @@
-# 🧠 Context Window Briefing - English Review Game
+﻿# 00. Architecture Overview & Context Briefing
+
+# 00. Shared Architecture Map
+
+**Last Updated:** 2026-03-31
+**Monorepo:** English Review Game 
+
+This document maps out how the different sub-components (Micro-Apps) in this Monorepo relate to each other, and documents any resources they share.
+
+---
+
+## ًںڈ›ï¸ڈ The Sub-Components
+
+This repository is structured as a **Monorepo** containing several independent web applications. 
+
+### 1. The Core Game (`index.html` + `app.js` at root)
+*   **Purpose:** The main interactive English language learning game designed for ESL students.
+*   **Features:** Vocabulary practice, question generation, Canvas drawing, Audio Text-to-Speech.
+*   **Data Source:** Uses a local `questions.json` and LocalStorage.
+
+### 2. Level 2, 4 & 5 Online Exams (`Level 2 online exam/`, `Level 4 online exam/`, `Level 5_Online exam/`)
+*   **Purpose:** Testing environments for all student levels.
+*   **Features:** Timed reading, writing, and listening exams.
+*   **Data Source:** **Neon PostgreSQL Database** via Netlify Serverless Functions.
+
+### 3. Teacher Dashboard (`teacher-dashboard.html` at root)
+*   **Purpose:** A portal for teachers to review exam submissions from Level 2, 4 & 5.
+*   **Data Source:** Also connects to the same **Neon PostgreSQL Database** to fetch submissions.
+
+### 4. Flipbook Portal (`Flipbook_Portal/`)
+*   **Purpose:** A secure hub for teachers and students to access digital coursebooks, workbooks, and teacher guides.
+*   **Features:** Password wall (`Academy2026`), Flip PDF Plus integration.
+*   **Data Source:** Entirely local/static HTML linking to the `Everybody up_Flipbooks_3rd Edition/` assets. *No database connection.*
+
+---
+
+## ًں”— Shared Resources Matrix
+
+Before modifying a core resource, check this matrix to see which apps you might break.
+
+| Resource | Used By | Risk Level |
+| :--- | :--- | :--- |
+| **Neon PostgreSQL DB** | Exam Portals, Teacher Dashboard | ًں”´ **HIGH**. Schema changes must be coordinated. |
+| `questions.json` | Core Game only | ًںں¢ **LOW**. Safe to edit within game context. |
+| **Netlify Functions** | Exam Portals, Teacher Dashboard | ًں”´ **HIGH**. Modifying API routes breaks exams. |
+| `start_server.py` | Core Game | ًںں، **MEDIUM**. Needed to bypass CORS for local audio/fetch. |
+| **LocalStorage** | Core Game (Progress), Flipbook Portal (Auth) | ًںں¢ **LOW**. Distinct keys used (`flipbook_access` vs game progress). |
+
+### âڑ ï¸ڈ Critical Rule for AI / Developers
+If you are working inside an isolated folder (e.g., `Flipbook_Portal/`), **do not modify the files of another application or a shared resource** without explicitly communicating the cross-app impact.
+
+
+---
+
+# ًں§  Context Window Briefing - English Review Game
 
 **Last Updated**: January 2025 (Session: Nov 6, 2025)
 **Version**: 2.24.1
@@ -6,11 +60,11 @@
 
 ---
 
-## 📋 Project Overview
+## ًں“‹ Project Overview
 
 This is an **Interactive English Review Game** designed for ESL (English as Second Language) students, specifically targeting month-1 vocabulary and listening comprehension skills.
 
-### 🎯 Core Components
+### ًںژ¯ Core Components
 - **Main Game**: `index.html` - Interactive vocabulary review with 8 question types
 - **Flashcards System**: Integrated vocabulary practice with multiple study modes
 - **Assessment System**: Complete 60-question month-end listening comprehension exam
@@ -23,16 +77,16 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 📁 Critical Files Structure
+## ًں“پ Critical Files Structure
 
-### 🏗️ Core Application Files
+### ًںڈ—ï¸ڈ Core Application Files
 - `index.html` - Main application entry point (redirects to student-exam-selection.html)
 - `student-exam-selection.html` - Student exam selection portal with 4-step wizard (~450 lines)
 - `app.js` - JavaScript functionality (3116 lines)
 - `questions.json` - Vocabulary and question database (797 lines)
 - `teacher-dashboard.html` - Enhanced dashboard with Level 4 & 5 exam result viewing (~1460 lines)
 
-### 📝 Level 4 & 5 Online Exam Files
+### ًں“‌ Level 4 & 5 Online Exam Files
 **Level 4 Exams:**
 - `Level 4 online exam/Level_4_Reading_Exam_Online.html` (832 lines, 25 questions, 25-min timer)
 - `Level 4 online exam/Level_4_Writing_Exam_Online.html` (630 lines, 6 questions, 25-min timer)
@@ -43,18 +97,18 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 - `Level 5_Online exam/Level_5_Writing_Exam_Online.html` (545 lines, 6 questions, 30-min timer)
 - `Level 5_Online exam/Level_5_Listening_Exam_Online.html` (886 lines, 25 questions, 30-min timer)
 
-### ⚙️ Netlify Serverless Functions
+### âڑ™ï¸ڈ Netlify Serverless Functions
 - `netlify/functions/submit-level4-exam.js` - Save Level 4 submissions to PostgreSQL
 - `netlify/functions/submit-level5-exam.js` - Save Level 5 submissions to PostgreSQL
 - `netlify/functions/get-level4-submissions.js` - Retrieve Level 4 exam results
 - `netlify/functions/get-level5-submissions.js` - Retrieve Level 5 exam results
 
-### 📝 Vocabulary & Content
+### ًں“‌ Vocabulary & Content
 - `VOCAB.md` - **AUTHORITATIVE** vocabulary source (58 words only)
 - `All first month vocab and sentecnes.md` - Extended vocabulary reference
 - `comprehensive_question_bank.md` - Question templates and formats
 
-### 📊 Assessment Materials
+### ًں“ٹ Assessment Materials
 - `Month_1_Exam_Teacher_Guide.md` - Complete assessment administration guide
 - `1st month exam format/` - Directory with all 60 exam questions organized by sections
 - **Month 1 Listening Comprehension Exam (Nov 2025)** - 50-question listening exam (PDF format at `/mnt/c/Users/Future Tech/Desktop/`)
@@ -62,27 +116,27 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
   - 4 sections: Prepositions (10Q), Match Descriptions (20Q), True/False (10Q), Complex Descriptions (10Q)
   - Online implementation planned (pending)
 
-### 📖 Documentation
+### ًں“– Documentation
 - `README.md` - User-facing documentation
 - `CHANGELOG.md` - Comprehensive version history (671 lines)
 - `content_bank_guide.md` - Content management instructions
 
 ---
 
-## ⚠️ Critical Constraints & Rules
+## âڑ ï¸ڈ Critical Constraints & Rules
 
-### 🎯 Vocabulary Compliance
+### ًںژ¯ Vocabulary Compliance
 - **ONLY use vocabulary from `VOCAB.md`** (58 words total)
 - **NO unauthorized words** (e.g., "frog" was removed for not being in VOCAB.md)
 - All questions must strictly adhere to taught vocabulary
 
-### 🖨️ Technical Requirements
+### ًں–¨ï¸ڈ Technical Requirements
 - **Black & white compatible** - no color-dependent functionality
 - **Print-friendly** - all materials must work in printed format
 - **Mobile responsive** - works on all device sizes
 - **Offline capable** - no external dependencies for core functionality
 
-### 📚 Educational Standards
+### ًں“ڑ Educational Standards
 - Questions test only **learned sentence patterns**
 - **Pedagogically sound** - follows ESL teaching best practices
 - **Age-appropriate** - designed for elementary ESL students
@@ -90,7 +144,7 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 🎮 Game Architecture
+## ًںژ® Game Architecture
 
 ### 8 Question Types
 1. **Line Matching** - Connect vocabulary with images (4-column system)
@@ -102,14 +156,14 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 7. **Sentence Building** - Construct proper sentences
 8. **Action Matching** - Match subjects with actions
 
-### 🃏 Flashcards System
+### ًںƒڈ Flashcards System
 - **10 Study Modes**: All vocab, Family, Colors, Body Parts, Animals, Food, School, Actions, Transport, Clothing
-- **3 Card Styles**: Emoji→Word, Word→Emoji, Audio→Word
+- **3 Card Styles**: Emojiâ†’Word, Wordâ†’Emoji, Audioâ†’Word
 - **Features**: Auto-flip, navigation, progress tracking, shuffle
 
 ---
 
-## 📊 Assessment System (60 Questions)
+## ًں“ٹ Assessment System (60 Questions)
 
 ### Section Breakdown
 - **Section 1**: 20 vocabulary line-matching (A/B columns with emojis)
@@ -120,17 +174,17 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 🎓 Level 4 & 5 Online Exam System
+## ًںژ“ Level 4 & 5 Online Exam System
 
 ### System Architecture
 **Entry Flow:**
-1. Student opens application → redirected to `student-exam-selection.html`
+1. Student opens application â†’ redirected to `student-exam-selection.html`
 2. **Step 1**: Student enters name
 3. **Step 2**: Selects Level (4 or 5)
 4. **Step 3**: Selects exam type (Reading/Writing/Listening)
-5. **Step 4**: Confirmation → starts exam
-6. Session data stored in sessionStorage → passed to exam page
-7. Student completes exam → submits to database
+5. **Step 4**: Confirmation â†’ starts exam
+6. Session data stored in sessionStorage â†’ passed to exam page
+7. Student completes exam â†’ submits to database
 8. Teacher views results in enhanced dashboard
 
 ### Database Integration
@@ -163,7 +217,7 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 🔧 Development Context
+## ًں”§ Development Context
 
 ### Recent Major Updates (v2.24.1)
 1. **Level 4 Reading Exam PDF Match**: Updated to exactly match original PDF
@@ -188,21 +242,21 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 6. **Timed Exams**: 25-min (Level 4) and 30-min (Level 5) timers with submission tracking
 
 ### Known Working Features
-- ✅ All 8 game question types functional
-- ✅ Flashcards fully implemented
-- ✅ Content Bank vocabulary management
-- ✅ Assessment preview system
-- ✅ Teacher guide complete
-- ✅ Level 4 & 5 online exam system (6 exams total) with auto-save and validation
-- ✅ Student exam selection portal
-- ✅ Database integration with Netlify functions
-- ✅ Enhanced teacher dashboard with modal display
-- ✅ Auto-save progress feature (30-second intervals)
-- ✅ Soft answer validation before submission
-- ✅ Clean student UI (no teacher notes visible)
+- âœ… All 8 game question types functional
+- âœ… Flashcards fully implemented
+- âœ… Content Bank vocabulary management
+- âœ… Assessment preview system
+- âœ… Teacher guide complete
+- âœ… Level 4 & 5 online exam system (6 exams total) with auto-save and validation
+- âœ… Student exam selection portal
+- âœ… Database integration with Netlify functions
+- âœ… Enhanced teacher dashboard with modal display
+- âœ… Auto-save progress feature (30-second intervals)
+- âœ… Soft answer validation before submission
+- âœ… Clean student UI (no teacher notes visible)
 
 ### Planned Features (Not Yet Implemented)
-- ⏳ **Month 1 Listening Comprehension Online Exam** - Convert 50-question PDF exam to online format
+- âڈ³ **Month 1 Listening Comprehension Online Exam** - Convert 50-question PDF exam to online format
   - Requires audio implementation (TTS or pre-recorded)
   - 4 unique section types with different interaction patterns
   - Database integration needed (similar to Level 4/5 structure)
@@ -212,13 +266,13 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 - Check `ISSUE_LOG.md` for any ongoing problems
 - Vocabulary images: Some words still use emojis (see `words_needing_images.md`)
 - **Month 1 Listening Exam Answer Key Errors** (identified but not yet corrected):
-  - Section 3, Q1: "lions are sea animals" → marked True (should be False)
-  - Section 3, Q7: "Nine is between seven and eight" → marked True (should be False)
-  - Section 2, Q19: "clothes we wear in summer" → answer "cake" (should be "t-shirt")
+  - Section 3, Q1: "lions are sea animals" â†’ marked True (should be False)
+  - Section 3, Q7: "Nine is between seven and eight" â†’ marked True (should be False)
+  - Section 2, Q19: "clothes we wear in summer" â†’ answer "cake" (should be "t-shirt")
 
 ---
 
-## 🚀 Quick Start for New Sessions
+## ًںڑ€ Quick Start for New Sessions
 
 ### 1. First Priority Checks
 - Read this briefing completely
@@ -240,7 +294,7 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 📞 Key Contacts & Context
+## ًں“‍ Key Contacts & Context
 
 - **Target Users**: Elementary ESL students (month 1)
 - **Primary Use**: Classroom review and assessment
@@ -249,12 +303,12 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 🔄 Version Control Notes
+## ًں”„ Version Control Notes
 
 - Current version: **2.24.1** (January 2025)
 - Major milestone: Level 4 Reading exam now matches PDF exactly with image placeholders
 - Recent improvements:
-  - Fixed Q3 text error (wavy → straight hair)
+  - Fixed Q3 text error (wavy â†’ straight hair)
   - Added image placeholders for Part 1 questions (1-5)
   - Added answer key comments for teacher reference
   - All content now perfectly matches original PDF format
@@ -264,7 +318,7 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 
 ---
 
-## 🚀 Deployment Requirements
+## ًںڑ€ Deployment Requirements
 
 ### Environment Variables (Netlify)
 - **NETLIFY_DATABASE_URL**: PostgreSQL connection string from Neon database
@@ -276,12 +330,12 @@ This is an **Interactive English Review Game** designed for ESL (English as Seco
 - `level5_exam_submissions` - Stores all Level 5 exam results
 
 ### Deployment Checklist
-1. ✅ Push all code to GitHub repository
-2. ⚠️ Configure NETLIFY_DATABASE_URL in Netlify environment variables
-3. ⚠️ Deploy to Netlify (functions will auto-deploy)
-4. ⚠️ Test exam submission → database → teacher dashboard flow
-5. ⚠️ Verify modal display works correctly for exam results
+1. âœ… Push all code to GitHub repository
+2. âڑ ï¸ڈ Configure NETLIFY_DATABASE_URL in Netlify environment variables
+3. âڑ ï¸ڈ Deploy to Netlify (functions will auto-deploy)
+4. âڑ ï¸ڈ Test exam submission â†’ database â†’ teacher dashboard flow
+5. âڑ ï¸ڈ Verify modal display works correctly for exam results
 
 ---
 
-**📌 Remember**: This project prioritizes educational effectiveness, vocabulary compliance, and print compatibility above all other features. The Level 4 & 5 exam system adds professional online assessment capabilities with full database integration. 
+**ًں“Œ Remember**: This project prioritizes educational effectiveness, vocabulary compliance, and print compatibility above all other features. The Level 4 & 5 exam system adds professional online assessment capabilities with full database integration. 

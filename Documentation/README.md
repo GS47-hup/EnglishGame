@@ -5,13 +5,13 @@ This folder centralizes all management, planning, and tracking documentation for
 ## 📂 Folder Structure
 
 ### 🏗️ Root Management Docs
-- **`CHANGELOG.md`**: Main project history.
-- **`CONTEXT_WINDOW_BRIEFING.md`**: Technical briefing for AI sessions.
+- **`00_architecture_overview.md`**: Combined technical briefing, AI constraints, and architecture map.
+- **`01_setup_guide.md`**: How to run the local server and deploy the app.
+- **`02_decisions_log.md`**: Architectural Decision Records (ADRs).
+- **`04_changelog.md`**: Main project history and updates.
 - **`ISSUE_LOG.md`**: Tracking known bugs and fixes.
-- **`PROJECT_OVERVIEW.md`**: Core goals and project scope.
-- **`PROJECT_STRUCTURE.md`**: Technical architecture and file mapping.
-- **`SESSION_SUMMARY.md`**: Recent work summaries.
 - **`TODO.md`**: General project tasks.
+- **`Session_Logs/`**: Weekly/Daily session progress logs.
 
 ### 📖 [Flipbook_Portal/](./Flipbook_Portal/)
 Specific documentation for the Flipbook Hub:

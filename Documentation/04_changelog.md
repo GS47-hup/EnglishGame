@@ -7,6 +7,65 @@ and this project follows semantic versioning principles.
 
 ---
 
+## [Version 2.25.0] - 2026-03-31
+
+### 🔓 **ENHANCE: Level 2 Writing Exam Opening**
+
+**Unlocked student access to the Level 2 Writing Exam in the selection portal.**
+
+#### **✨ Features Added**
+
+**Level 2 Access**
+- Enabled **Level 2** selection in the student exam portal (`student-exam-selection.html`)
+- Removed hardcoded restrictions that previously alerted students the level was closed
+- Updated UI to show "Level 2" as "Available"
+
+**Specific Exam Opening**
+- Enabled the **Writing Exam** within Level 2
+- Kept Reading and Listening exams locked as per specific administrative request ("ONLY LEVEL 2 WRITING")
+- Updated Writing Exam card to show "Unlocked" and allow navigation
+
+#### **📁 Files Modified**
+- `student-exam-selection.html` - Core selection logic and UI updates
+
+#### **🚀 Deployment**
+- Pushed changes to GitHub (`main` branch)
+- Triggered automated Netlify deployment 
+
+---
+
+## [Version 2.24.2] - 2026-03-30
+
+### 🏆 **MILESTONE: Level 2 MVP Online Exam Suite**
+
+**Complete overhaul of the Level 2 Exam strategy, migrating from physical papers to a mobile-optimized digital experience.**
+
+#### **✨ Features Added**
+
+**Mobile-First Frontend**
+- **Reading Exam**: Implemented "Tap-to-Match" emoji logic for Junior students (Zero-Typing mandate).
+- **Writing Exam**: Integrated hybrid digital-physical workflow with **WhatsApp Deep Linking** for secure photo submissions.
+- **Listening Exam**: Segmented long audio tracks into question-specific MP3 slices to save mobile bandwidth.
+
+**Backend & Data Persistence**
+- Created serverless auto-grader (`submit-level2-exam.js`) for Level 2 Reading.
+- Established `level2_submissions` database table in Neon PostgreSQL.
+- Implemented descriptive answer mapping in the Teacher Dashboard (e.g., "Q1: B (happy 😊)").
+
+**Administration & Proctoring**
+- Formulated the **"One Room, Grid View"** proctoring strategy to optimize device performance.
+- Implemented global selection portal locking for all Level 2 portals.
+
+#### **📁 Files Added/Modified**
+- `Level 2 online exam/Level_2_Reading_Exam_Online.html` [NEW]
+- `Level 2 online exam/Level_2_Writing_Exam_Online.html` [NEW]
+- `Level 2 online exam/Level_2_Listening_Exam_Online.html` [NEW]
+- `_netlify_backup/functions/submit-level2-exam.js` [NEW]
+- `teacher-dashboard.html` [MODIFY]
+- `student-exam-selection.html` [MODIFY]
+
+---
+
 ## [Version 2.24.1] - 2025-01-06
 
 ### 🔍 **FIX: Level 4 Reading Exam - Match PDF Original**

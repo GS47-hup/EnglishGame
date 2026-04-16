@@ -1536,6 +1536,53 @@
             const infoCard = document.getElementById('examInfoCard');
             const answersGrid = document.getElementById('answersGrid');
 
+            // Level 2 Answer Maps
+            const level2ReadingMap = {
+                1: { A: "sad", B: "happy", C: "hungry" },
+                2: { A: "school", B: "hospital", C: "restaurant" },
+                3: { A: "apple", B: "banana", C: "orange" },
+                4: { A: "dress", B: "T-shirt", C: "pants" },
+                5: { A: "singing", B: "writing", C: "reading" },
+                6: { A: "school", B: "hospital", C: "restaurant", D: "airplane", E: "hospital" },
+                7: { A: "school", B: "hospital", C: "restaurant", D: "airplane", E: "hospital" },
+                8: { A: "school", B: "hospital", C: "restaurant", D: "airplane", E: "hospital" },
+                9: { A: "school", B: "hospital", C: "restaurant", D: "airplane", E: "hospital" },
+                10: { A: "school", B: "hospital", C: "restaurant", D: "airplane", E: "hospital" },
+                11: { T: "True", F: "False" },
+                12: { T: "True", F: "False" },
+                13: { T: "True", F: "False" },
+                14: { T: "True", F: "False" },
+                15: { T: "True", F: "False" },
+                16: { A: "am", B: "is", C: "are" },
+                17: { A: "am", B: "is", C: "are" },
+                18: { A: "am", B: "is", C: "are" },
+                19: { A: "am", B: "is", C: "are" },
+                20: { A: "am", B: "is", C: "are" },
+                21: { A: "Next to the door", B: "Next to the window", C: "On the wall" },
+                22: { A: "A clock", B: "A computer", C: "A bookshelf" },
+                23: { A: "Red", B: "Green", C: "Blue" },
+                24: { A: "Blue shorts", B: "Blue T-shirt", C: "Blue shoes" },
+                25: { A: "Sad", B: "Happy", C: "Hungry" }
+            };
+
+            const level2ListeningMap = {
+                1: { A: "🍎 Apple", B: "🍌 Banana", C: "🍊 Orange" },
+                2: { A: "😁 Happy", B: "☹️ Sad", C: "🥶 Cold" },
+                3: { A: "👔 Shirt/Tie", B: "👗 Dress", C: "👕 T-shirt" },
+                4: { A: "✍️ Writing", B: "📖 Reading", C: "🎤 Singing" },
+                5: { A: "🏥 Hospital", B: "🏠 House", C: "🏫 School" },
+                6: { T: "True", F: "False" },
+                7: { T: "True", F: "False" },
+                8: { T: "True", F: "False" },
+                9: { T: "True", F: "False" },
+                10: { T: "True", F: "False" },
+                11: { A: "A white coat", B: "A blue hat", C: "A red shirt" },
+                12: { A: "A bed", B: "A sofa", C: "A stove" },
+                13: { A: "In the morning", B: "In the afternoon", C: "In the evening" },
+                14: { A: "Pizza", B: "An apple", C: "Ice cream" },
+                15: { A: "Art class", B: "Math class", C: "Music class" }
+            };
+
             // Set header
             const examIcon = submission.examType === 'Level2_Reading' ? '📖' :
                             submission.examType === 'Level2_Writing' ? '✏️' : '🎧';
@@ -1566,6 +1613,15 @@
                     const questionNum = q.number ? `Q${q.number}` : 'Question';
                     const answerText = q.answer || '';
                     const isNoAnswer = !answerText || answerText.trim() === '';
+                    
+                    let displayAnswer = answerText;
+                    if (!isNoAnswer) {
+                        if (submission.examType === 'Level2_Reading' && level2ReadingMap[q.number] && level2ReadingMap[q.number][answerText]) {
+                            displayAnswer = `${answerText} (${level2ReadingMap[q.number][answerText]})`;
+                        } else if (submission.examType === 'Level2_Listening' && level2ListeningMap[q.number] && level2ListeningMap[q.number][answerText]) {
+                            displayAnswer = `${answerText} (${level2ListeningMap[q.number][answerText]})`;
+                        }
+                    }
 
                     answersHTML += `
                         <div class="answer-card">
@@ -1573,7 +1629,7 @@
                                 <span>${questionNum}</span>
                             </div>
                             <div class="answer-card-content ${isNoAnswer ? 'no-answer' : ''}">
-                                ${isNoAnswer ? '(No answer provided)' : answerText}
+                                ${isNoAnswer ? '(No answer provided)' : displayAnswer}
                             </div>
                         </div>
                     `;
