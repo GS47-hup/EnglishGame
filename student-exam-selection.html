@@ -368,21 +368,9 @@
                     <span>Select Your Level</span>
                 </div>
 
-                <div class="selection-grid">
-                    <div class="selection-card" onclick="selectLevel('2')">
-                        <i class="fas fa-child"></i>
-                        <h3>Level 2</h3>
-                        <p>Available</p>
-                    </div>
-                    <div class="selection-card" onclick="selectLevel('4')">
-                        <i class="fas fa-book-reader"></i>
-                        <h3>Level 4</h3>
-                        <p>Available</p>
-                    </div>
-                    <div class="selection-card" onclick="selectLevel('5')">
-                        <i class="fas fa-user-graduate"></i>
-                        <h3>Level 5</h3>
-                        <p>Available</p>
+                <div class="selection-grid" id="level-selection-grid">
+                    <div style="text-align:center; padding: 30px; color: #888; width: 100%;">
+                        <i class="fas fa-spinner fa-spin"></i> Checking availability...
                     </div>
                 </div>
 
@@ -482,20 +470,57 @@
         };
 
         async function loadExamStatus() {
-            const grid = document.getElementById('exam-type-grid');
-            grid.innerHTML = '<div style="text-align:center;padding:30px;color:#888;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
-
             try {
                 const res = await fetch('/.netlify/functions/get-exam-status');
                 const data = await res.json();
                 if (data.success) examStatuses = data.statuses;
             } catch (e) {
-                // Fallback: if API fails, keep all exams open so students are not blocked
                 console.warn('Could not fetch exam status, defaulting to open.');
-                examStatuses = {};
+                examStatuses = {}; // Fallback: default open
             }
+        }
 
-            renderExamTypeCards();
+        // Run immediately on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadExamStatus();
+            renderLevelCards();
+        });
+
+        function renderLevelCards() {
+            const grid = document.getElementById('level-selection-grid');
+            
+            const levelsConfig = [
+                { id: '2', title: 'Level 2', icon: 'fa-child' },
+                { id: '4', title: 'Level 4', icon: 'fa-book-reader' },
+                { id: '5', title: 'Level 5', icon: 'fa-user-graduate' }
+            ];
+
+            grid.innerHTML = levelsConfig.map(lvl => {
+                // Check if ALL exams for this level are explicitly closed. If yes, lock the level.
+                const isReadingClosed   = examStatuses[`${lvl.id}-reading`] === false;
+                const isWritingClosed   = examStatuses[`${lvl.id}-writing`] === false;
+                const isListeningClosed = examStatuses[`${lvl.id}-listening`] === false;
+                
+                // Note: if our db is empty, examStatuses is empty. reading/writing/listening will be undefined !== false, so it defaults to OPEN.
+                const isLevelFullyClosed = isReadingClosed && isWritingClosed && isListeningClosed;
+
+                if (isLevelFullyClosed) {
+                    return `
+                    <div class="selection-card disabled" onclick="alert('This level is currently completely closed. Please wait for the teacher to open the exams.')">
+                        <i class="fas fa-lock" style="font-size: 1.5em; color: #888; position: absolute; top: 10px; right: 10px;"></i>
+                        <i class="fas ${lvl.icon}" style="color: #888;"></i>
+                        <h3 style="color: #666;">${lvl.title}</h3>
+                        <p>Locked By Teacher</p>
+                    </div>`;
+                } else {
+                    return `
+                    <div class="selection-card" onclick="selectLevel('${lvl.id}')">
+                        <i class="fas ${lvl.icon}"></i>
+                        <h3>${lvl.title}</h3>
+                        <p>Available</p>
+                    </div>`;
+                }
+            }).join('');
         }
 
         function renderExamTypeCards() {
@@ -554,9 +579,9 @@
                 return;
             }
 
-            // When entering step 3, fetch live exam status from DB
+            // When entering step 3, we already have examStatuses, just re-render cards
             if (stepNumber === 3) {
-                loadExamStatus();
+                renderExamTypeCards();
                 // Reset exam selection
                 examData.examType = '';
                 document.getElementById('examNextBtn').disabled = true;
