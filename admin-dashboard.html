@@ -387,6 +387,112 @@
             .login-card { padding: 35px 25px; }
             body { padding: 15px; }
         }
+
+        /* ── CONFIRMATION MODAL ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            padding: 35px 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transform: scale(0.92);
+            transition: transform 0.25s ease;
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .modal-icon.open  { color: #2ecc71; }
+        .modal-icon.close { color: #e94560; }
+
+        .modal-box h3 {
+            font-size: 1.3em;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .modal-box p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .modal-box p strong {
+            color: white;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            padding: 13px;
+            background: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-modal-cancel:hover { background: rgba(255,255,255,0.12); }
+
+        .btn-modal-confirm {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-modal-confirm.open-confirm {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .btn-modal-confirm.close-confirm {
+            background: linear-gradient(135deg, #e94560, #c0392b);
+            color: white;
+        }
+
+        .btn-modal-confirm:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -442,6 +548,19 @@
     </div>
 
     <div id="toast"></div>
+
+    <!-- ══ CONFIRMATION MODAL ══ -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-box">
+            <span class="modal-icon" id="modal-icon"></span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-body"></p>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="cancelToggle()">Cancel</button>
+                <button class="btn-modal-confirm" id="modal-confirm-btn" onclick="confirmToggle()"></button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ── CONFIG ────────────────────────────────────────────────────────────
@@ -576,7 +695,7 @@
 
                             <label class="toggle-switch" id="switch-${key}">
                                 <input type="checkbox" ${isOpen ? 'checked' : ''}
-                                    onchange="toggleExam('${key}', this.checked)">
+                                    onchange="requestToggle('${key}', this.checked, this)">
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
@@ -594,10 +713,70 @@
             document.getElementById('exam-panels').innerHTML = html;
         }
 
-        // ── TOGGLE ────────────────────────────────────────────────────────────
-        async function toggleExam(examKey, isOpen) {
+        // ── CONFIRMATION MODAL ────────────────────────────────────────────────
+        let pendingToggle = null; // { examKey, isOpen, checkbox }
+
+        function requestToggle(examKey, isOpen, checkbox) {
+            // Immediately revert the visual toggle — don't commit until confirmed
+            checkbox.checked = !isOpen;
+
+            const config = EXAM_CONFIG[examKey];
+            const levelLabel = `Level ${examKey.split('-')[0]}`;
+            const examLabel = config.label;
+
+            // Store pending action
+            pendingToggle = { examKey, isOpen, checkbox };
+
+            // Build modal content based on action type
+            const icon    = document.getElementById('modal-icon');
+            const title   = document.getElementById('modal-title');
+            const body    = document.getElementById('modal-body');
+            const btn     = document.getElementById('modal-confirm-btn');
+
+            if (isOpen) {
+                icon.textContent  = '🟢';
+                icon.className    = 'modal-icon open';
+                title.textContent = 'Open this exam?';
+                body.innerHTML    = `Students will be able to access the <strong>${levelLabel} ${examLabel}</strong> immediately after you confirm.`;
+                btn.textContent   = 'Yes, Open Exam';
+                btn.className     = 'btn-modal-confirm open-confirm';
+            } else {
+                icon.textContent  = '🔴';
+                icon.className    = 'modal-icon close';
+                title.textContent = 'Close this exam?';
+                body.innerHTML    = `The <strong>${levelLabel} ${examLabel}</strong> will be locked. Students will see it as unavailable.`;
+                btn.textContent   = 'Yes, Close Exam';
+                btn.className     = 'btn-modal-confirm close-confirm';
+            }
+
+            document.getElementById('confirm-modal').classList.add('show');
+        }
+
+        function cancelToggle() {
+            document.getElementById('confirm-modal').classList.remove('show');
+            pendingToggle = null;
+        }
+
+        async function confirmToggle() {
+            if (!pendingToggle) return;
+            document.getElementById('confirm-modal').classList.remove('show');
+
+            const { examKey, isOpen, checkbox } = pendingToggle;
+            pendingToggle = null;
+
+            await toggleExam(examKey, isOpen, checkbox);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('confirm-modal').addEventListener('click', function(e) {
+            if (e.target === this) cancelToggle();
+        });
+
+        // ── TOGGLE (called ONLY after confirmation) ───────────────────────────
+        async function toggleExam(examKey, isOpen, checkbox) {
             const switchEl = document.getElementById(`switch-${examKey}`);
             switchEl.classList.add('toggle-updating');
+            checkbox.disabled = true;
 
             try {
                 const res = await fetch('/.netlify/functions/set-exam-status', {
@@ -612,32 +791,28 @@
                 const data = await res.json();
 
                 if (!data.success) {
-                    // Revert the toggle on failure
-                    const checkbox = switchEl.querySelector('input');
-                    checkbox.checked = !isOpen;
                     showToast('Failed to update. ' + (data.error || ''), 'error');
-                    return;
+                    return; // Leave toggle in reverted state
                 }
 
-                // Update card visually
-                const card = document.getElementById(`card-${examKey}`);
+                // Commit visual state
+                checkbox.checked = isOpen;
+                const card  = document.getElementById(`card-${examKey}`);
                 const label = document.getElementById(`label-${examKey}`);
-                const pill = document.getElementById(`pill-${examKey}`);
+                const pill  = document.getElementById(`pill-${examKey}`);
 
                 card.classList.toggle('is-open', isOpen);
                 label.textContent = isOpen ? '🟢 Open' : '🔴 Closed';
-                pill.textContent = isOpen ? '✅ Students can access this exam' : '🔒 Students cannot access this exam';
+                pill.textContent  = isOpen ? '✅ Students can access this exam' : '🔒 Students cannot access this exam';
 
                 showToast(data.message, 'success');
 
             } catch (err) {
                 console.error('Toggle error:', err);
                 showToast('Network error. Check connection.', 'error');
-                // Revert
-                const checkbox = switchEl.querySelector('input');
-                checkbox.checked = !isOpen;
             } finally {
                 switchEl.classList.remove('toggle-updating');
+                checkbox.disabled = false;
                 document.getElementById('last-updated-text').textContent =
                     'Last updated: ' + new Date().toLocaleTimeString();
             }

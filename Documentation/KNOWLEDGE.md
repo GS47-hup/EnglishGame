@@ -1,6 +1,6 @@
 # 📚 Knowledge Atlas — SpokenEnglish Academy (Local)
 **Purpose:** Every significant technical learning moment from this project, written at two levels: total beginner and professional developer.
-**Last Updated:** 2026-04-15
+**Last Updated:** 2026-04-16
 
 ---
 
@@ -265,3 +265,90 @@ await client.query(
 
 #### ⚠️ Critical Rule for This Monorepo
 Modifying a shared resource (Netlify functions, DB schema) can silently break OTHER apps. Always check the **Shared Resources Matrix** in `Documentation/00_architecture_overview.md` before touching shared files.
+
+---
+
+### TITLE: Environment Variables — Storing Secrets Outside the Code
+*   **TAGS:** `security, netlify, environment-variables, api, authentication`
+*   **DATE:** 2026-04-16
+
+#### 🟢 VERSION 1: The Foundation (Simple Analogy)
+*   **The Big Idea:** Never write a password or secret key directly inside your code. Store it in a secure outside location and have the code fetch it at runtime.
+*   **The Analogy:** Think of a safe-deposit box at a bank. Your business (the code) needs a key (the password) to open a vault (the database). You never carry the key around in your wallet (the HTML file) where anyone can see it. Instead, the bank (Netlify) keeps the key in a private box. Only your business, when it shows up at the bank, gets access to it.
+*   **In Plain English:** If you put your admin password in your HTML file, anyone who clicks "View Source" in their browser sees it instantly. Instead, the password is stored only in Netlify's secure server settings. When the page needs to check the password, it asks the Netlify function, which checks the stored secret — without ever revealing it to the browser.
+
+#### 🔵 VERSION 2: The Tech Spec (Professional Terminology)
+*   **Technical Definition:** Environment Variables are key-value pairs stored at the infrastructure level (Netlify Dashboard → Environment Variables). They are injected into the Node.js process at function execution time via `process.env.VARIABLE_NAME`. They are never sent to the client/browser.
+*   **How it Works in Code:** The admin password is stored as `ADMIN_SECRET_KEY` in Netlify's dashboard. The frontend sends the password as an `x-admin-token` HTTP header. The Netlify function compares `event.headers['x-admin-token']` to `process.env.ADMIN_SECRET_KEY`. If they match, access is granted.
+*   **Why We Used It Here:** The Admin Dashboard needs to be password-protected but the password cannot live in client-side code. Using an env variable means: (1) the password never appears in GitHub, (2) it can be changed without touching code, (3) it cannot be found through browser DevTools.
+*   **Netlify Tip:** Enable **"Secret Value"** when setting sensitive variables. This makes the value write-only — even Netlify's own UI can't display it after it's set. Only server-side functions can use it.
+
+#### 💻 Code Snapshot
+```javascript
+// ✅ SERVER SIDE (Netlify Function) — Secret is safe here
+const providedToken = event.headers['x-admin-token'];
+const secretKey = process.env.ADMIN_SECRET_KEY;
+if (providedToken !== secretKey) {
+  return { statusCode: 401, body: JSON.stringify({ error: 'Unauthorized' }) };
+}
+
+// ❌ NEVER DO THIS in any HTML or client-side file
+// const PASSWORD = "MySecretPassword123"; // Visible to anyone via DevTools
+```
+
+---
+
+### TITLE: DB-Driven UI — Dynamic Lock/Unlock Without Touching Code
+*   **TAGS:** `architecture, database, admin-pattern, ui, real-time, postgresql`
+*   **DATE:** 2026-04-16
+
+#### 🟢 VERSION 1: The Foundation (Simple Analogy)
+*   **The Big Idea:** Instead of editing code every time you want to open or close an exam, you flip a switch in a dashboard. The switch saves to a database. The student page reads from the database. No one touches code.
+*   **The Analogy:** Think of a store with a physical "Open/Closed" sign on the door. The old way (hardcoded HTML) was like painting "OPEN" directly onto the door — to change it, you'd need a painter. The new way (DB-driven) is like a hanging sign — anyone with the key (admin password) can flip it instantly.
+*   **In Plain English:** There is a tiny table in the database with one row per exam. The teacher flips a switch in the admin panel → that saves the new state to the table → when a student opens the portal, it checks the table and shows each exam as available or locked automatically.
+
+#### 🔵 VERSION 2: The Tech Spec (Professional Terminology)
+*   **Technical Definition:** A database-controlled feature flag system. An `exam_status` table acts as a real-time config store. Admin panel writes to it via a protected POST function. Student portal reads from it via a public GET function and renders the UI accordingly.
+*   **How it Works in Code:** `exam_status(exam_key TEXT PRIMARY KEY, is_open BOOLEAN)`. `get-exam-status.js` returns a JSON map of all statuses. `set-exam-status.js` upserts a single row. `student-exam-selection.html` fetches the map on step 3 and renders open exams as clickable cards and closed exams as locked cards.
+*   **Why We Used It Here:** The old system had `disabled` classes and `alert()` messages hardcoded in HTML. The teacher had to ask a developer to unlock exams. Now the teacher does it herself in seconds from any device.
+
+#### 💻 Code Snapshot
+```sql
+CREATE TABLE IF NOT EXISTS exam_status (
+  exam_key   TEXT PRIMARY KEY,  -- e.g. '2-listening'
+  is_open    BOOLEAN DEFAULT FALSE,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+```javascript
+// Student portal reads DB on step 3
+const { statuses } = await (await fetch('/.netlify/functions/get-exam-status')).json();
+const isOpen = statuses['2-listening']; // true → clickable, false → locked card
+```
+
+---
+
+### TITLE: PowerShell Does NOT Support `&&` Command Chaining
+*   **TAGS:** `powershell, windows, cli, terminal, gotcha, deployment`
+*   **DATE:** 2026-04-16
+
+#### 🟢 VERSION 1: The Foundation (Simple Analogy)
+*   **The Big Idea:** The `&&` shortcut for chaining commands in one line only works in Unix/Linux/Mac terminals. Windows PowerShell doesn't understand it and will throw an error.
+*   **The Analogy:** It's like trying to order food in French at a restaurant that only speaks Arabic. The waiter (PowerShell) isn't being difficult — it just genuinely doesn't speak that language (`&&`). You have to place two separate orders.
+*   **In Plain English:** On Mac or Linux, you can write `git add -A && git commit -m "message"` to run two commands back to back. On Windows PowerShell, this throws a syntax error. The fix is simple: run each command on its own separate line.
+
+#### 🔵 VERSION 2: The Tech Spec (Professional Terminology)
+*   **Technical Definition:** `&&` is a bash/zsh conditional sequential operator. PowerShell uses `;` for unconditional sequential execution, or requires explicit `if ($LASTEXITCODE -eq 0)` checks for conditional chaining. `&&` was only added experimentally in PowerShell 7+ and is not reliably available.
+*   **How it Works in Code:** Split every chained command into separate `run_command` tool calls when operating on Windows.
+*   **Why We Documented It:** This caused a failed deployment step during the Admin Dashboard V1 deploy session (2026-04-16) and will happen on every future session if not remembered.
+
+#### 💻 Code Snapshot
+```powershell
+# ❌ FAILS in PowerShell
+git add -A && git commit -m "message"
+
+# ✅ CORRECT — run as separate commands
+git add -A
+git commit -m "message"
+git push origin main
+```
